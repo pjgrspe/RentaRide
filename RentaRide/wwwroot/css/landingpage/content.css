@@ -1,0 +1,16 @@
+﻿.carousel-caption {
+    position: absolute;
+    bottom: -40px; /* Adjust spacing from the bottom */
+    left: 0;
+    right: 0; /* Stretch across the image */
+    z-index: 10; /* Ensure it's on top */
+    text-align: center; /* Optional: Center the text */
+}
+
+.carousel-indicators {
+    bottom: -50px; /* Adjust spacing as needed */
+}
+
+.carousel {
+    bottom: 50px; /* Adjust spacing from the bottom */
+}

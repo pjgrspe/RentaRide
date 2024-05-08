@@ -8,6 +8,25 @@ html {
   }
 }
 
+/* General scrollbar area */
+::-webkit-scrollbar {
+    width: 5px; /* Adjust the width as needed */
+}
+
+::-webkit-scrollbar-track {
+    background: #15161b;
+}
+
+/* The scrollbar handle (thumb) */
+::-webkit-scrollbar-thumb {
+    background: #808080;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #15161b; /* Slightly darker on hover */
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -18,5 +37,75 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #15161b;
+    margin: 0px;
+    font-family: "Outfit", monospace;
 }
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav, footer {
+    background-color: #15161b;
+}
+
+#hero_page {
+    height: calc(100vh - 56px);
+    background-color: #15161b;
+}
+
+a {
+    color: #309eb8; /* Change the link color */
+    text-decoration: none; /* Remove the underline */
+}
+
+a:hover {
+    color: #309eb8; /* Change the link color on hover */
+    text-decoration: underline; /* Add an underline on hover */
+}
+
+.btn-primary, .btn-primary::after {
+    background-color: #3565af; /* Set the background color of the button */
+    color: #ffffff; /* Set the text color of the button to white */
+}
+
+.btn-primary:hover {
+    background-color: #2a4b8c; /* Change the background color on hover */
+}
+
+
+
+
+.btn-success, .btn-success::after, .form-check-input:checked {
+    background-color: #309eb8; /* Set the background color of the button */
+    color: #ffffff; /* Set the text color of the button to white */
+}
+
+.btn-success:hover, .form-check-input:active {
+    background-color: #288399; /* Change the background color on hover */
+}
+
+
+.subtext {
+    color: darkgray
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.btn:focus, .btn:active {
+    outline: 10px #3565af !important;
+    box-shadow: none !important;
+}
+
+.form-control:focus, .form-check-input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+
