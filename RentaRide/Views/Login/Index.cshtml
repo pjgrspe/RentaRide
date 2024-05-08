@@ -2,12 +2,17 @@
     Layout = "_Layout";
 }
 <section class="d-flex justify-content-center" id="hero_page">
-    <div class="row text-center h-100 align-items-center text-light col-12">
-        <div class="col-lg-4 d-flex align-items-center justify-content-center">
-            @await Html.PartialAsync("~/Views/Login/Components/_LoginForm.cshtml"/*, yourViewModel */)
-        </div>
-        <div class="col-lg-8 d-none d-lg-block">
-            @await Html.PartialAsync("~/Views/Shared/_LandingPageContent.cshtml"/*, yourViewModel */)
+    <div id="loadingSpinner">
+        @await Html.PartialAsync("~/Views/Shared/_LoadingSpinner.cshtml")
+    </div>
+    <div class="load-content">
+        <div class="row text-center h-100 align-items-center text-light col-12">
+            <div class="col-lg-4 d-flex align-items-center justify-content-center">
+                @await Html.PartialAsync("~/Views/Login/Components/_LoginForm.cshtml"/*, yourViewModel */)
+            </div>
+            <div class="col-lg-8 d-none d-lg-block">
+                @await Html.PartialAsync("~/Views/Shared/_LandingPageContent.cshtml"/*, yourViewModel */)
+            </div>
         </div>
     </div>
 </section>

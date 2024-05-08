@@ -8,6 +8,10 @@ html {
   }
 }
 
+.load-content {
+    display: none;
+}
+
 /* General scrollbar area */
 ::-webkit-scrollbar {
     width: 5px; /* Adjust the width as needed */
@@ -68,24 +72,21 @@ a:hover {
     text-decoration: underline; /* Add an underline on hover */
 }
 
-.btn-primary, .btn-primary::after {
+.btn-primary {
     background-color: #3565af; /* Set the background color of the button */
     color: #ffffff; /* Set the text color of the button to white */
 }
 
-.btn-primary:hover {
+.btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active:focus {
     background-color: #2a4b8c; /* Change the background color on hover */
 }
 
-
-
-
-.btn-success, .btn-success::after, .form-check-input:checked {
+.btn-success,.form-check-input:checked {
     background-color: #309eb8; /* Set the background color of the button */
     color: #ffffff; /* Set the text color of the button to white */
 }
 
-.btn-success:hover, .form-check-input:active {
+.btn-success:hover, .btn-success:focus, .btn-success.focus, .btn-success:active:focus, .form-check-input:active {
     background-color: #288399; /* Change the background color on hover */
 }
 
@@ -107,5 +108,6 @@ a:hover {
     outline: none !important;
     box-shadow: none !important;
 }
+
 
 

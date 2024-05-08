@@ -14,3 +14,7 @@
 .carousel {
     bottom: 50px; /* Adjust spacing from the bottom */
 }
+
+.content-hidden {
+    display: none;
+}
