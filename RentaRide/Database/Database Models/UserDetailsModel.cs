@@ -9,26 +9,32 @@ namespace RentaRide.Database.Database_Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int userDetailID { get; set; }
+        [Required]
+        public DateTime userDateCreated { get; set; }
+        public DateTime? userDateLastModified { get; set; }
+        public DateTime? userDateModified { get; set; }
         [ForeignKey("UserID")]
         public RentaRideAppUsers RentaRideAppUsers { get; set; }
         [Required]
-        public DateTime DOB { get; set; }
+        public DateTime userDOB { get; set; }
         [Required]
-        public string? StreetAdd { get; set; }
+        public string? userStreetAdd { get; set; }
         [Required]
-        public string? CityAdd { get; set; }
+        public string? userCityAdd { get; set; }
         [Required]
-        public string? ProvinceAdd { get; set; }
+        public string? userProvinceAdd { get; set; }
         [Required]
-        public string? Contact { get; set; }
+        public string? userContact { get; set; }
         //[Required]
-        //public string? License { get; set; }
+        //public string? userLicense { get; set; }
         //[Required]
-        //public string? 2ndValidID { get; set; }
+        //public string? user2ndValidID { get; set; }
         //[Required]
-        //public string? PlaceOfBirth { get; set; }
+        //public string? user2ndValidIDType { get; set; }
         //[Required]
-        //public string? SelfieProof { get; set; }
+        //public string? userPlaceOfBirth { get; set; }
+        //[Required]
+        //public string? userSelfieProof { get; set; }
     }
 }

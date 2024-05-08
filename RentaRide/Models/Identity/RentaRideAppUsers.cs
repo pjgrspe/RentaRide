@@ -6,9 +6,11 @@ namespace RentaRide.Models.Identity
     public class RentaRideAppUsers : IdentityUser
     {
         [Required]
-        public string? FirstName { get; set; }
-        public string? MiddleName { get; set; }
+        public string? userFirstName { get; set; }
+        public string? userMiddleName { get; set; }
         [Required]
-        public string? LastName { get; set; }
+        public string? userLastName { get; set; }
+        [Required]
+        public bool userisApproved { get; set; }
     }
 }
