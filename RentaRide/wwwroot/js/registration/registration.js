@@ -19,7 +19,7 @@ $(document).ready(function () {
             );
             currentStep++;
             setTimeout(function () {
-                $(".step").removeClass("animate__animated animate__fadeOutLeft").hide();
+                $(".step").removeClass("animate__animated animate__fadeOutLeft animate__fadeInLeft").hide();
                 $(".step-" + currentStep)
                     .show()
                     .addClass("animate__animated animate__fadeInRight");
@@ -28,14 +28,14 @@ $(document).ready(function () {
     });
 
     $(".prev-step").click(function () {
-        if (currentStep > 1) {
+        if (currentStep >= 1) {
             $(".step-" + currentStep).addClass(
                 "animate__animated animate__fadeOutRight"
             );
             currentStep--;
             setTimeout(function () {
                 $(".step")
-                    .removeClass("animate__animated animate__fadeOutRight")
+                    .removeClass("animate__animated animate__fadeOutRight animate__fadeInRight")
                     .hide();
                 $(".step-" + currentStep)
                     .show()
