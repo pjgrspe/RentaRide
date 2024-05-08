@@ -4,8 +4,7 @@
             @* TITLE AND SUBTEXT *@
             <h1 id="maintext">Register</h1>
             <p class="subtext mb-5">Please provide accurate and complete information.</p>
-            @* START *@
-
+            @* REGISTRATION FORM *@
             <form id="multi-step-form">
                 <div class="step step-1">
                     <!-- Step 1 form fields here -->
@@ -32,6 +31,7 @@
                         <label for="inputRegistrationRePassword" class="form-label text-start">Repeat Password</label>
                         <input type="password" id="inputRegistrationRePassword" class="form-control" placeholder="Repeat Password" aria-describedby="passwordHelpBlock">
                     </div>
+                    @* CONTINUE BUTTON *@
                     <button type="button" class="btn btn-primary btn-lg mt-4 mb-5 w-100 next-step">CONTINUE</button>
                 </div>
 
@@ -64,6 +64,7 @@
                         <label for="inputRegistrationDOB" class="form-label">Date of Birth</label>
                         <input type="date" class="form-control" id="inputRegistrationDOB" placeholder="Date of Birth">
                     </div>
+                    @* CONTINUE BUTTON *@
                     <button type="button" class="btn btn-primary btn-lg mt-4 mb-5 w-100 next-step">CONTINUE</button>
                 </div>
 
@@ -96,6 +97,7 @@
                         <label for="inputRegistrationContact" class="form-label">Contact</label>
                         <input type="text" class="form-control" id="inputRegistrationContact" placeholder="Contact">
                     </div>
+                    @* CONTINUE BUTTON *@
                     <button type="button" class="btn btn-primary btn-lg mt-4 mb-5 w-100 next-step">CONTINUE</button>
                 </div>
                 <div class="step step-4">
@@ -126,10 +128,11 @@
                         <label for="inputRegistrationSelfieID" class="form-label">Selfie with ID</label>
                         <input type="file" class="form-control" id="inputRegistrationSelfieID" placeholder="Selfie with ID">
                     </div>
+                    @* SUBMIT BUTTON *@
                     <button type="submit" class="btn btn-success btn-lg mt-4 mb-5 w-100">SUBMIT</button>
                 </div>
             </form>
-
+            @* SUBTEXTS *@
             <p class="subtext">
                 By creating an account you agree to our
                 <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
