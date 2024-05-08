@@ -6,6 +6,8 @@
         <div class="col-lg-4 d-flex align-items-center justify-content-center">
             @await Html.PartialAsync("~/Views/Registration/Components/_RegistrationForm.cshtml"/*, yourViewModel */)
         </div>
-        <div class="col-lg-8 d-none d-lg-block">col-8</div>
+        <div class="col-lg-8 d-none d-lg-block">
+            @await Html.PartialAsync("~/Views/Shared/_LandingPageContent.cshtml"/*, yourViewModel */)
+        </div>
     </div>
 </section>
