@@ -3,117 +3,140 @@
         <div class="d-flex flex-column col-10">
             @* TITLE AND SUBTEXT *@
             <h1 id="maintext">Register</h1>
-            <p class="subtext mb-5">Register by completing the information below.</p>
-            @* FORM1 *@
-            <div id="Form1" class="d-flex flex-column form-container">
-                @* EMAIL INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationEmail" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="inputRegistrationEmail" placeholder="Email">
+            <p class="subtext mb-5">Please provide accurate and complete information.</p>
+            @* START *@
+
+            <form id="multi-step-form">
+                <div class="step step-1">
+                    <!-- Step 1 form fields here -->
+                    <div class="step-1-container d-flex">
+                        <h4>Account Details</h4>
+                    </div>
+                    @* EMAIL INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="inputRegistrationEmail" placeholder="Email">
+                    </div>
+                    @* USERNAME INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="inputRegistrationUsername" placeholder="Username">
+                    </div>
+                    @* PASSWORD INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationPassword" class="form-label text-start">Password</label>
+                        <input type="password" id="inputRegistrationPassword" class="form-control" placeholder="Password" aria-describedby="passwordHelpBlock">
+                    </div>
+                    @* REPEAT PASSWORD INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationRePassword" class="form-label text-start">Repeat Password</label>
+                        <input type="password" id="inputRegistrationRePassword" class="form-control" placeholder="Repeat Password" aria-describedby="passwordHelpBlock">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg mt-4 mb-5 w-100 next-step">CONTINUE</button>
                 </div>
-                @* USERNAME INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationUsername" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="inputRegistrationUsername" placeholder="Username">
+
+                <div class="step step-2">
+                    <!-- Step 2 form fields here -->
+                    <div class="step-2-container d-flex align-content-center">
+                        <button type="button" class="btn btn-md mb-2 me-1 prev-step">
+                            <i class="fa-solid fa-arrow-left text-white"></i>
+                        </button>
+                        <h4 class="mt-1">Basic Info</h4>
+                    </div>
+                    
+                    @* FIRSTNAME INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationFName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="inputRegistrationFName" placeholder="First Name">
+                    </div>
+                    @* MIDDLENAME INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationMName" class="form-label">Middle Name</label>
+                        <input type="text" class="form-control" id="inputRegistrationMName" placeholder="Middle Name">
+                    </div>
+                    @* LASTNAME INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationLName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="inputRegistrationLName" placeholder="Last Name">
+                    </div>
+                    @* LASTNAME INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationDOB" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="inputRegistrationDOB" placeholder="Date of Birth">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg mt-4 mb-5 w-100 next-step">CONTINUE</button>
                 </div>
-                @* PASSWORD INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationPassword" class="form-label text-start">Password</label>
-                    <input type="password" id="inputRegistrationPassword" class="form-control" placeholder="Password" aria-describedby="passwordHelpBlock">
+
+                <div class="step step-3">
+                    <!-- Step 3 form fields here -->
+                    <div class="step-3-container d-flex">
+                        <button type="button" class="btn btn-md mb-2 me-1 prev-step">
+                            <i class="fa-solid fa-arrow-left text-white"></i>
+                        </button>
+                        <h4 class="mt-1">Address Info</h4>
+                    </div>
+
+                    @* STREET ADDRESS INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationStreet" class="form-label">Street Address</label>
+                        <input type="text" class="form-control" id="inputRegistrationStreet" placeholder="Street Address">
+                    </div>
+                    @* CITY INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationCity" class="form-label">Municipality/City</label>
+                        <input type="text" class="form-control" id="inputRegistrationCity" placeholder="Municipality/City">
+                    </div>
+                    @* PROVINCE INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationProvince" class="form-label">Province</label>
+                        <input type="" class="form-control" id="inputRegistrationProvince" placeholder="Province">
+                    </div>
+                    @* CONTACT INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationContact" class="form-label">Contact</label>
+                        <input type="text" class="form-control" id="inputRegistrationContact" placeholder="Contact">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg mt-4 mb-5 w-100 next-step">CONTINUE</button>
                 </div>
-                @* REPEAT PASSWORD INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationRePassword" class="form-label text-start">Repeat Password</label>
-                    <input type="password" id="inputRegistrationRePassword" class="form-control" placeholder="Repeat Password" aria-describedby="passwordHelpBlock">
+                <div class="step step-4">
+                    <!-- Step 4 form fields here -->
+                    <div class="step-4-container d-flex">
+                        <button type="button" class="btn btn-md mb-2 me-1 prev-step">
+                            <i class="fa-solid fa-arrow-left text-white"></i>
+                        </button>
+                        <h4 class="mt-1">Documents</h4>
+                    </div>
+                    @* LICENSE INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationLicense" class="form-label">Driver's License</label>
+                        <input type="file" class="form-control" id="inputRegistrationLicense" placeholder="Upload Image">
+                    </div>
+                    @* SECONDARY VALID ID INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationSecondID" class="form-label">Secondary Valid ID</label>
+                        <input type="file" class="form-control" id="inputRegistrationSecondID" placeholder="Secondary Valid ID">
+                    </div>
+                    @* POB INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationPOB" class="form-label">Proof of Billing</label>
+                        <input type="file" class="form-control" id="inputRegistrationPOB" placeholder="Proof of Billing">
+                    </div>
+                    @* SELFIE INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputRegistrationSelfieID" class="form-label">Selfie with ID</label>
+                        <input type="file" class="form-control" id="inputRegistrationSelfieID" placeholder="Selfie with ID">
+                    </div>
+                    <button type="submit" class="btn btn-success btn-lg mt-4 mb-5 w-100">SUBMIT</button>
                 </div>
-                @* BUTTON *@
-                <button type="button" id="btnForm1" class="btn btn-primary btn-lg mt-4 mb-5 d-flex justify-content-center">
-                    CONTINUE
-                </button>
-            </div>
-            @* FORM2 *@
-            <div id="Form2" class="d-flex flex-column form-container">
-                @* FIRSTNAME INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationFName" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="inputRegistrationFName" placeholder="First Name">
-                </div>
-                @* MIDDLENAME INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationMName" class="form-label">Middle Name</label>
-                    <input type="text" class="form-control" id="inputRegistrationMName" placeholder="Middle Name">
-                </div>
-                @* LASTNAME INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationLName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="inputRegistrationLName" placeholder="Last Name">
-                </div>
-                @* BUTTON *@
-                <button type="button" id="btnForm2" class="btn btn-primary btn-lg mt-4 mb-5 d-flex justify-content-center">
-                    CONTINUE
-                </button>
-            </div>
-            @* FORM3 *@
-            <div id="Form3" class="d-flex flex-column form-container">
-                @* STREET ADDRESS INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationStreet" class="form-label">Street Address</label>
-                    <input type="text" class="form-control" id="inputRegistrationStreet" placeholder="Street Address">
-                </div>
-                @* CITY INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationCity" class="form-label">Municipality/City</label>
-                    <input type="text" class="form-control" id="inputRegistrationCity" placeholder="Municipality/City">
-                </div>
-                @* PROVINCE INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationProvince" class="form-label">Province</label>
-                    <input type="text" class="form-control" id="inputRegistrationProvince" placeholder="Province">
-                </div>
-                @* CONTACT INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationContact" class="form-label">Contact</label>
-                    <input type="text" class="form-control" id="inputRegistrationContact" placeholder="Contact">
-                </div>
-                @* BUTTON *@
-                <button type="button" id="btnForm3" class="btn btn-primary btn-lg mt-4 mb-5 d-flex justify-content-center">
-                    CONTINUE
-                </button>
-            </div>
-            @* FORM4 *@
-            <div id="Form4" class="d-flex flex-column form-container">
-                @* LICENSE INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationLicense" class="form-label">Driver's License</label>
-                    <input type="text" class="form-control" id="inputRegistrationLicense" placeholder="Upload Image">
-                </div>
-                @* SECONDARY VALID ID INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationSecondID" class="form-label">Secondary Valid ID</label>
-                    <input type="text" class="form-control" id="inputRegistrationSecondID" placeholder="Secondary Valid ID">
-                </div>
-                @* POB INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationPOB" class="form-label">Proof of Billing</label>
-                    <input type="text" class="form-control" id="inputRegistrationPOB" placeholder="Proof of Billing">
-                </div>
-                @* SELFIE INPUT *@
-                <div class="mb-3 text-start">
-                    <label for="inputRegistrationSelfieID" class="form-label">Selfie with ID</label>
-                    <input type="number" class="form-control" id="inputRegistrationSelfieID" placeholder="Selfie with ID">
-                </div>
-                @* BUTTON *@
-                <button type="submit" id="btnForm4" class="btn btn-primary btn-lg mt-4 mb-5 d-flex justify-content-center">
-                    SUBMIT
-                </button>
-            </div>
+            </form>
 
             <p class="subtext">
-                By creating account you agree to our
+                By creating an account you agree to our
                 <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
             </p>
-            <p class="subtext mb-5">Already have an account? <a href="#">Sign in</a></p>
-            
+            <p class="subtext mb-5">Already have an account? 
+                <a asp-area="" asp-controller="Login" asp-action="Index">Sign in</a>
+            </p>
         </div>
     </div>
 </div>

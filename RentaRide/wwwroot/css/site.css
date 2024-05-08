@@ -10,11 +10,11 @@ html {
 
 /* General scrollbar area */
 ::-webkit-scrollbar {
-    width: 10px; /* Adjust the width as needed */
+    width: 5px; /* Adjust the width as needed */
 }
 
 ::-webkit-scrollbar-track {
-    background: #1a1a1a;
+    background: #15161b;
 }
 
 /* The scrollbar handle (thumb) */
@@ -75,6 +75,19 @@ a:hover {
 
 .btn-primary:hover {
     background-color: #2a4b8c; /* Change the background color on hover */
+}
+
+.btn-success {
+    background-color: #309eb8; /* Set the background color of the button */
+    color: #ffffff; /* Set the text color of the button to white */
+}
+
+.btn-success:hover {
+    background-color: #288399; /* Change the background color on hover */
+}
+
+.subtext {
+    color: darkgray
 }
 
 

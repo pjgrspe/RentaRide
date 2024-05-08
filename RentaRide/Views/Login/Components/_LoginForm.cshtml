@@ -3,34 +3,39 @@
         <div class="d-flex flex-column col-10">
             @* TITLE AND SUBTEXT *@
             <h1 id="maintext">Login</h1>
-            <p class="subtext mb-5">Enter your information and login</p>
+            <p class="subtext mb-5">Please provide accurate and complete information.</p>
+            @* START *@
 
-            @* EMAIL/USERNAME INPUT *@
-            <div class="mb-3 text-start">
-                <label for="inputLoginEmailUser" class="form-label">Email/Username</label>
-                <input type="text" class="form-control" id="inputLoginEmailUser" placeholder="Email/Username">
-            </div>
-            @* PASSWORD INPUT *@
-            <div class="mb-3 text-start">
-                <label for="inputLoginPassword" class="form-label text-start">Password</label>
-                <input type="password" id="inputLoginPassword" class="form-control" placeholder="Password" aria-describedby="passwordHelpBlock">
-            </div>
-            @* REMEMBER ME CHECKBOX *@
-            <div class="form-check mb-3 text-start">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                    Remember Me
-                </label>
-            </div>
-
-            <button id="btnLogin" class="btn btn-primary btn-lg mt-3 mb-5 d-flex justify-content-center">
-                LOGIN
-            </button>
-            <p class="subtext mb-5">Don't have an account yet? <a href="#">Sign up</a></p>
-            @* <p class="subtextSignUp">
-            By creating account you agree to our
-            <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
-            </p> *@
+            <form id="multi-step-form">
+                <div class="step step-1">
+                    @* EMAIL/USERNAME INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputLoginEmailUser" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="inputLoginEmailUser" placeholder="Email/Username">
+                    </div>
+                    @* PASSWORD INPUT *@
+                    <div class="mb-3 text-start">
+                        <label for="inputLoginPassword" class="form-label text-start">Password</label>
+                        <input type="password" id="inputLoginPassword" class="form-control" placeholder="Password" aria-describedby="passwordHelpBlock">
+                    </div>
+                    <div class="form-check text-start">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Remember Me
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-lg mt-4 mb-5 w-100">LOGIN</button>
+                </div>  
+            </form>
+            <p class="subtext">
+                Don't have an account yet?  
+                <a asp-area="" asp-controller="Registration" asp-action="Index">Sign up</a>
+            </p>
+            <p class="subtext mb-5">
+                By creating an account you agree to our
+                <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+            </p>
+            
         </div>
     </div>
 </div>

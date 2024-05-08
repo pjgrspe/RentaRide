@@ -1,16 +1,48 @@
-﻿//document.addEventListener("DOMContentLoaded", function () {
-//    const forms = document.querySelectorAll("#moduleRegistration .form-container");
-//    let currentFormIndex = 0;
+﻿/*THIS IS FOR THE MULTI-STEP FORM*/
+var currentStep = 1;
+var updateProgressBar;
 
-//    // Function to handle form switching
-//    function showNextForm() {
-//        forms[currentFormIndex].style.display = "none";
-//        currentFormIndex++;
-//        forms[currentFormIndex].style.display = "block";
-//    }
+function displayStep(stepNumber) {
+    if (stepNumber >= 1 && stepNumber <= 4) {
+        $(".step-" + currentStep).hide();
+        $(".step-" + stepNumber).show();
+    }
+}
 
-//    // Add event listeners to the continue buttons
-//    document.querySelectorAll("#moduleRegistration .btn-primary").forEach(button => {
-//        button.addEventListener("click", showNextForm);
-//    });
-//});
+$(document).ready(function () {
+    $("#multi-step-form").find(".step").slice(1).hide();
+
+    $(".next-step").click(function () {
+        if (currentStep < 4) {
+            $(".step-" + currentStep).addClass(
+                "animate__animated animate__fadeOutLeft"
+            );
+            currentStep++;
+            setTimeout(function () {
+                $(".step").removeClass("animate__animated animate__fadeOutLeft").hide();
+                $(".step-" + currentStep)
+                    .show()
+                    .addClass("animate__animated animate__fadeInRight");
+            }, 500);
+        }
+    });
+
+    $(".prev-step").click(function () {
+        if (currentStep > 1) {
+            $(".step-" + currentStep).addClass(
+                "animate__animated animate__fadeOutRight"
+            );
+            currentStep--;
+            setTimeout(function () {
+                $(".step")
+                    .removeClass("animate__animated animate__fadeOutRight")
+                    .hide();
+                $(".step-" + currentStep)
+                    .show()
+                    .addClass("animate__animated animate__fadeInLeft");
+            }, 500);
+        }
+    });
+});
+
+/*ADD SCRIPTS BELOW*/
