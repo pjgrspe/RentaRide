@@ -1,4 +1,10 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿// Show the spinner initially
+document.getElementById('loadingSpinner').style.display = 'block';
 
-// Write your JavaScript code.
+$(document).ready(function () {
+    // Delay hiding the spinner for a more visible effect
+    setTimeout(function () {
+        $('#loadingSpinner').hide();
+        $('.load-content').show(); // Show the content
+    }, 1500); // Adjust the delay (in milliseconds) as needed
+});
