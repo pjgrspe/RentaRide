@@ -1,4 +1,7 @@
-﻿<div id="moduleLogin">
+﻿@using RentaRide.Models.Accounts
+@model LoginModel
+
+<div id="moduleLogin">
     <div class="d-flex align-items-center justify-content-center">
         <div class="d-flex flex-column col-10">
             @* TITLE AND SUBTEXT *@
@@ -6,29 +9,39 @@
             <p class="subtext mb-5">Enter your information and login.</p>
 
             @* LOGIN FORM *@
-            <form id="login-form">
+            @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { id = "login-form" }))
+            {
+                @Html.AntiForgeryToken();
                 <div>
                     @* EMAIL/USERNAME INPUT *@
                     <div class="mb-3 text-start">
-                        <label for="inputLoginEmailUser" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="inputLoginEmailUser" placeholder="Email/Username">
+                        @* <label for="inputLoginEmailUser" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="inputLoginEmailUser" placeholder="Email/Username"> *@
+                        @Html.LabelFor(m => m.loginmodelUsername , new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.loginmodelUsername, new { @class = "form-control", placeholder = "Email/Username", type = "text", id = "inputLoginEmailUser" })
+                        @Html.ValidationMessageFor(m => m.loginmodelUsername, "", new { @class = "text-danger" })
                     </div>
                     @* PASSWORD INPUT *@
                     <div class="mb-3 text-start">
-                        <label for="inputLoginPassword" class="form-label text-start">Password</label>
-                        <input type="password" id="inputLoginPassword" class="form-control" placeholder="Password" aria-describedby="passwordHelpBlock">
+                        @* <label for="inputLoginPassword" class="form-label text-start">Password</label>
+                    <input type="password" id="inputLoginPassword" class="form-control" placeholder="Password" aria-describedby="passwordHelpBlock"> *@
+                        @Html.LabelFor(m => m.loginmodelPassword, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.loginmodelPassword, new { @class = "form-control", placeholder = "Password", type = "password", id = "inputLoginPassword", aria_describedby = "passwordHelpBlock" })
+                        @Html.ValidationMessageFor(m => m.loginmodelPassword, "", new { @class = "text-danger" })
                     </div>
                     @* REMEMBER ME INPUT *@
                     <div class="form-check text-start">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        @* <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
                             Remember Me
-                        </label>
+                        </label> *@
+                        @Html.CheckBoxFor(m => m.loginmodelRememberMe, new { @class = "form-check-input", value = "", type = "checkbox", id = "flexCheckDefault" })
+                        @Html.LabelFor(m => m.loginmodelRememberMe, new { @class = "form-check-label" })
                     </div>
                     @* SUBMIT BUTTON *@
                     <button type="submit" class="btn btn-success btn-lg mt-4 mb-5 w-100">LOGIN</button>
-                </div>  
-            </form>
+                </div>
+            }
             @* SUBTEXTS *@
             <p class="subtext">
                 Don't have an account yet?  
