@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RentaRide.Models;
+using RentaRide.Models.Accounts;
 using RentaRide.Models.Identity;
 using RentaRide.Utilities;
 
@@ -47,7 +47,6 @@ namespace RentaRide.Controllers
                 userReg.userMiddleName = model.regmodelMiddleName;
                 userReg.userLastName = model.regmodelLastName;
                 userReg.userisApproved = false;
-                userReg.userisActive = true;
 
                 var userResult = _userManager.CreateAsync(userReg, model.regmodelPassword).GetAwaiter().GetResult();
                 if (userResult.Succeeded)
@@ -55,8 +54,6 @@ namespace RentaRide.Controllers
                     _userManager.AddToRoleAsync(userReg, RoleUtilities.RoleUser).GetAwaiter().GetResult();
                     ViewBag.SuccessMessage = "User registered";
                     return RedirectToAction("Index", "Login");
-
-
                 }
                 else
                 {

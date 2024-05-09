@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace RentaRide.Models
+namespace RentaRide.Models.Accounts
 {
     public class RegistrationModel
     {

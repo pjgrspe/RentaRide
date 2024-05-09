@@ -7,10 +7,6 @@ namespace RentaRide.Database
 {
     public class RARdbContext : IdentityDbContext
     {
-        public RARdbContext()
-        {
-
-        }
 
         public RARdbContext(DbContextOptions<RARdbContext> options) : base(options)
         {
