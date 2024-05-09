@@ -1,6 +1,23 @@
 ﻿@{
     Layout = "_Layout";
 }
+
+@{
+    if (ViewBag.SuccessMessage != null)
+    {
+        <div class="alert alert-dismissible alert-success fade show" role="alert">
+            <strong>Success!</strong> @ViewBag.SuccessMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alter" aria-label="Close"></button>
+        </div>
+    }
+    if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-dismissible alert-danger fade show" role="alert">
+            <strong>Error!</strong> @ViewBag.ErrorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alter" aria-label="Close"></button>
+        </div>
+    }
+}
 <section class="d-flex justify-content-center" id="hero_page">
     <div id="loadingSpinner">
         @await Html.PartialAsync("~/Views/Shared/_LoadingSpinner.cshtml")
