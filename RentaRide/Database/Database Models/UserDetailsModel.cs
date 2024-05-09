@@ -19,13 +19,13 @@ namespace RentaRide.Database.Database_Models
         [Required]
         public DateTime userDOB { get; set; }
         [Required]
-        public string? userStreetAdd { get; set; }
+        public string userStreetAdd { get; set; }
         [Required]
-        public string? userCityAdd { get; set; }
+        public string userCityAdd { get; set; }
         [Required]
-        public string? userProvinceAdd { get; set; }
+        public string userProvinceAdd { get; set; }
         [Required]
-        public string? userContact { get; set; }
+        public string userContact { get; set; }
         //[Required]
         //public string? userLicense { get; set; }
         //[Required]

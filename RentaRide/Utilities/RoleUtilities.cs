@@ -6,6 +6,7 @@
     public const string RoleAdmin = "Admin";
     public const string RoleFrontDesk = "FrontDesk";
     public const string RoleUser = "User";
+    public const string RoleUnapprovedUser = "UnapprovedUser";
 
     }
 }

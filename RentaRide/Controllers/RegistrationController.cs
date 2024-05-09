@@ -30,6 +30,7 @@ namespace RentaRide.Controllers
                 _roleManager.CreateAsync(new IdentityRole(RoleUtilities.RoleAdmin)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(RoleUtilities.RoleFrontDesk)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(RoleUtilities.RoleUser)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(RoleUtilities.RoleUnapprovedUser)).GetAwaiter().GetResult();
             }
 
             return View();
@@ -46,6 +47,7 @@ namespace RentaRide.Controllers
                 userReg.userMiddleName = model.regmodelMiddleName;
                 userReg.userLastName = model.regmodelLastName;
                 userReg.userisApproved = false;
+                userReg.userisActive = true;
 
                 var userResult = _userManager.CreateAsync(userReg, model.regmodelPassword).GetAwaiter().GetResult();
                 if (userResult.Succeeded)
@@ -53,6 +55,8 @@ namespace RentaRide.Controllers
                     _userManager.AddToRoleAsync(userReg, RoleUtilities.RoleUser).GetAwaiter().GetResult();
                     ViewBag.SuccessMessage = "User registered";
                     return RedirectToAction("Index", "Login");
+
+
                 }
                 else
                 {
