@@ -4,8 +4,15 @@ var updateProgressBar;
 
 function displayStep(stepNumber) {
     if (stepNumber >= 1 && stepNumber <= 4) {
+        if (!$("#multi-step-form").valid()) {
+            // If the form is invalid, don't proceed to the next step
+            return;
+        }
+
         $(".step-" + currentStep).hide();
         $(".step-" + stepNumber).show();
+        currentStep = stepNumber;
+        updateProgressBar();
     }
 }
 
@@ -41,6 +48,7 @@ $(document).ready(function () {
                 $(".step-" + currentStep)
                     .show()
                     .addClass("animate__animated animate__fadeInRight");
+                    updateProgressBar();
             }, 500);
         }
     });
@@ -58,9 +66,14 @@ $(document).ready(function () {
                 $(".step-" + currentStep)
                     .show()
                     .addClass("animate__animated animate__fadeInLeft");
+                    updateProgressBar();
             }, 500);
         }
     });
+    updateProgressBar = function () {
+        var progressPercentage = ((currentStep - 1) / 3) * 100;
+        $(".progress-bar").css("width", progressPercentage + "%");
+    };
 });
 
 /*ADD SCRIPTS BELOW*/
