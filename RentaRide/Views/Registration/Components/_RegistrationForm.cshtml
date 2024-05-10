@@ -36,7 +36,7 @@
                     @* PASSWORD INPUT *@
                     <div class="mb-3 text-start">
                         @* <label for="inputRegistrationPassword" class="form-label text-start">Password</label>
-                    <input type="password" id="inputRegistrationPassword" class="form-control" placeholder="Password" aria-describedby="passwordHelpBlock"> *@
+                        <input type="password" id="inputRegistrationPassword" class="form-control" placeholder="Password" aria-describedby="passwordHelpBlock"> *@
                         @Html.LabelFor(m => m.regmodelPassword, new { @class = "form-label text-start" })
                         @Html.TextBoxFor(m => m.regmodelPassword, new { @class = "form-control", type = "password", id = "inputRegistrationPassword", placeholder = "Password", aria_describedby = "passwordHelpBlock" })
                         @Html.ValidationMessageFor(m => m.regmodelPassword, "", new { @class = "text-danger" })
@@ -44,7 +44,7 @@
                     @* REPEAT PASSWORD INPUT *@
                     <div class="mb-3 text-start">
                         @* <label for="inputRegistrationRePassword" class="form-label text-start">Repeat Password</label>
-                    <input type="password" id="inputRegistrationRePassword" class="form-control" placeholder="Repeat Password" aria-describedby="passwordHelpBlock"> *@
+                        s<input type="password" id="inputRegistrationRePassword" class="form-control" placeholder="Repeat Password" aria-describedby="passwordHelpBlock"> *@
                         @Html.LabelFor(m => m.regmodelConfirmPassword, new { @class = "form-label text-start" })
                         @Html.TextBoxFor(m => m.regmodelConfirmPassword, new { @class = "form-control", type = "password", id = "inputRegistrationRePassword", placeholder = "Repeat Password", aria_describedby = "passwordHelpBlock" })
                         @Html.ValidationMessageFor(m => m.regmodelConfirmPassword, "", new { @class = "text-danger" })

@@ -12,11 +12,29 @@ function displayStep(stepNumber) {
 $(document).ready(function () {
     $("#multi-step-form").find(".step").slice(1).hide();
 
+    //$(".next-step").click(function () {
+    //    if (currentStep < 4) {
+    //        $(".step-" + currentStep).addClass(
+    //            "animate__animated animate__fadeOutLeft"
+    //        );
+    //        currentStep++;
+    //        setTimeout(function () {
+    //            $(".step").removeClass("animate__animated animate__fadeOutLeft animate__fadeInLeft").hide();
+    //            $(".step-" + currentStep)
+    //                .show()
+    //                .addClass("animate__animated animate__fadeInRight");
+    //        }, 500);
+    //    }
+    //});
     $(".next-step").click(function () {
         if (currentStep < 4) {
-            $(".step-" + currentStep).addClass(
-                "animate__animated animate__fadeOutLeft"
-            );
+            // Check if the current step's form inputs are valid
+            if (!$("#multi-step-form").valid()) {
+                // If the form is invalid, don't proceed to the next step
+                return;
+            }
+
+            $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
             currentStep++;
             setTimeout(function () {
                 $(".step").removeClass("animate__animated animate__fadeOutLeft animate__fadeInLeft").hide();
