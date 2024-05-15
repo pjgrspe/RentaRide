@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "_HomeLayout";
+}
+
+<section class="d-flex" id="hero_page">
+    <div id="loadingSpinner" class="m-auto">
+        @await Html.PartialAsync("~/Views/Shared/_LoadingSpinner.cshtml")
+    </div>
+    <div class="load-content w-100">
+        <div class="container-fluid">
+            <div class="row flex-nowrap">
+                <partial name="_AdminSidebar"/>
+                @* CONTENT *@
+                <div class="col main-content bg-light py-3">
+                    <!-- Content will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

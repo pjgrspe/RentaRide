@@ -6,10 +6,7 @@
     <title>@ViewData["Title"] - RentaRide</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/landingpage/login.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/landingpage/registration.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/accountstatus/status.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/landingpage/content.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home/home.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/loader/loader.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RentaRide.styles.css" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +17,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index">
                     <img src="~/img/logo/mainandtextlogo.svg" alt="RentaRide Logo" width="200" height="50" class="me-2">
@@ -29,21 +26,30 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                    <ul class="navbar-nav align-items-center">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light d-flex align-items-center" href="/Contact">
+                                <i class="fas fa-phone me-2"></i> Contact
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user me-2"></i> Profile
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end profile-menu" aria-labelledby="profileDropdown">
+                                <li><a class="dropdown-item" href="/Admin/LoadPartial?menuName=Company">View Profile</a></li>
+                                <li><a class="dropdown-item" href="/Admin/LoadPartial?menuName=Settings">Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/Logout">Logout</a></li>
+                            </ul>
                         </li>
                     </ul>
-                    @* <partial name="_LoginPartial"/> *@
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container" style="max-width: 1920px;">
+    <div class="container-fluid p-0">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -52,7 +58,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/registration/registration.js" asp-append-version="true"></script>
+    <script src="~/js/home/home.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="//code.iconify.design/1/1.0.6/iconify.min.js"></script>

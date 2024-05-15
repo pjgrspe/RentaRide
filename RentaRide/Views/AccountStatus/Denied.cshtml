@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "_LandingPageLayout";
+    Layout = "_Layout";
 }
 
 @{
@@ -24,11 +24,14 @@
     </div>
     <div class="load-content">
         <div class="row m-auto text-center h-100 align-items-center text-light col-12">
-            <div class="col-lg-4 d-flex align-items-center justify-content-center mt-3">
-                @await Html.PartialAsync("~/Views/Login/Components/_LoginForm.cshtml"/*, yourViewModel */)
-            </div>
-            <div class="col-lg-8 d-none d-lg-block">
-                @await Html.PartialAsync("~/Views/Shared/_LandingPageContent.cshtml"/*, yourViewModel */)
+            <div class="col-12 d-flex align-items-center justify-content-center mt-4">
+                <div id="moduleDeniedStatus">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="d-flex flex-column col-10">
+                            @await Html.PartialAsync("~/Views/AccountStatus/Components/_DeniedMessage.cshtml")
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

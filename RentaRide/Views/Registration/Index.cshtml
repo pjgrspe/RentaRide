@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "_Layout";
+    Layout = "_LandingPageLayout";
 }
 
 @{
@@ -19,16 +19,17 @@
     }
 }
 <section class="d-flex justify-content-center" id="hero_page">
-    <div id="loadingSpinner">
+    <div id="loadingSpinner" class="m-auto">
     @await Html.PartialAsync("~/Views/Shared/_LoadingSpinner.cshtml") 
     </div>
     <div class="load-content">
-        <div class=" row text-center h-100 align-items-center text-light col-12">
-            <div class="col-lg-4 d-flex align-items-center justify-content-center">
+        <div class="row m-auto text-center h-100 align-items-center text-light col-12">
+            <div class="col-lg-4 d-flex align-items-center justify-content-center mt-3">
                 @await Html.PartialAsync("~/Views/Registration/Components/_RegistrationForm.cshtml"/*, yourViewModel */)
             </div>
-            <div class="col-lg-8 d-none d-lg-block">
+            <div class="col-lg-8 d-none d-lg-block mb-5">
                 @await Html.PartialAsync("~/Views/Shared/_LandingPageContent.cshtml"/*, yourViewModel */)
+                @* <partial name="_LoginPartial"/> *@
             </div>
         </div>
     </div>

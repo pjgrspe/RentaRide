@@ -4,25 +4,51 @@ var updateProgressBar;
 
 function displayStep(stepNumber) {
     if (stepNumber >= 1 && stepNumber <= 4) {
+        if (!$("#multi-step-form").valid()) {
+            // If the form is invalid, don't proceed to the next step
+            return;
+        }
+
         $(".step-" + currentStep).hide();
         $(".step-" + stepNumber).show();
+        currentStep = stepNumber;
+        updateProgressBar();
     }
 }
 
 $(document).ready(function () {
     $("#multi-step-form").find(".step").slice(1).hide();
 
+    //$(".next-step").click(function () {
+    //    if (currentStep < 4) {
+    //        $(".step-" + currentStep).addClass(
+    //            "animate__animated animate__fadeOutLeft"
+    //        );
+    //        currentStep++;
+    //        setTimeout(function () {
+    //            $(".step").removeClass("animate__animated animate__fadeOutLeft animate__fadeInLeft").hide();
+    //            $(".step-" + currentStep)
+    //                .show()
+    //                .addClass("animate__animated animate__fadeInRight");
+    //        }, 500);
+    //    }
+    //});
     $(".next-step").click(function () {
         if (currentStep < 4) {
-            $(".step-" + currentStep).addClass(
-                "animate__animated animate__fadeOutLeft"
-            );
+            // Check if the current step's form inputs are valid
+            if (!$("#multi-step-form").valid()) {
+                // If the form is invalid, don't proceed to the next step
+                return;
+            }
+
+            $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
             currentStep++;
             setTimeout(function () {
                 $(".step").removeClass("animate__animated animate__fadeOutLeft animate__fadeInLeft").hide();
                 $(".step-" + currentStep)
                     .show()
                     .addClass("animate__animated animate__fadeInRight");
+                    updateProgressBar();
             }, 500);
         }
     });
@@ -40,9 +66,14 @@ $(document).ready(function () {
                 $(".step-" + currentStep)
                     .show()
                     .addClass("animate__animated animate__fadeInLeft");
+                    updateProgressBar();
             }, 500);
         }
     });
+    updateProgressBar = function () {
+        var progressPercentage = ((currentStep - 1) / 3) * 100;
+        $(".progress-bar").css("width", progressPercentage + "%");
+    };
 });
 
 /*ADD SCRIPTS BELOW*/

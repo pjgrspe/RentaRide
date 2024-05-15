@@ -8,6 +8,15 @@
             <h1 id="maintext">Register</h1>
             <p class="subtext mb-5">Please provide accurate and complete information.</p>
             @* REGISTRATION FORM *@
+            <div class="progress px-1" style="height: 3px;">
+                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="step-container d-flex justify-content-between">
+                <div class="step-circle text-light" onclick="displayStep(1)">1</div>
+                <div class="step-circle text-light" onclick="displayStep(2)">2</div>
+                <div class="step-circle text-light" onclick="displayStep(3)">3</div>
+                <div class="step-circle text-light" onclick="displayStep(4)">4</div>
+            </div>
             @* <form id="multi-step-form"> *@
             @using (Html.BeginForm("Index", "Registration", FormMethod.Post, new { id = "multi-step-form" }))
             {
@@ -19,32 +28,24 @@
                     </div>
                     @* EMAIL INPUT *@
                     <div class="mb-3 text-start">
-                        @* <label for="inputRegistrationEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="inputRegistrationEmail" placeholder="Email"> *@
                         @Html.LabelFor(m => m.regmodelEmail, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.regmodelEmail, new { @class = "form-control", placeholder = "Email", type = "email", id = "inputRegistrationEmail" })
                         @Html.ValidationMessageFor(m => m.regmodelEmail, "", new { @class = "text-danger" })
                     </div>
                     @* USERNAME INPUT *@
                     <div class="mb-3 text-start">
-                        @* <label for="inputRegistrationUsername" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="inputRegistrationUsername" placeholder="Username"> *@
                         @Html.LabelFor(m => m.regmodelUsername, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.regmodelUsername, new { @class = "form-control", type = "text", id = "inputRegistrationUsername", placeholder = "Username" })
                         @Html.ValidationMessageFor(m => m.regmodelUsername, "", new { @class = "text-danger" })
                     </div>
                     @* PASSWORD INPUT *@
                     <div class="mb-3 text-start">
-                        @* <label for="inputRegistrationPassword" class="form-label text-start">Password</label>
-                    <input type="password" id="inputRegistrationPassword" class="form-control" placeholder="Password" aria-describedby="passwordHelpBlock"> *@
                         @Html.LabelFor(m => m.regmodelPassword, new { @class = "form-label text-start" })
                         @Html.TextBoxFor(m => m.regmodelPassword, new { @class = "form-control", type = "password", id = "inputRegistrationPassword", placeholder = "Password", aria_describedby = "passwordHelpBlock" })
                         @Html.ValidationMessageFor(m => m.regmodelPassword, "", new { @class = "text-danger" })
                     </div>
                     @* REPEAT PASSWORD INPUT *@
                     <div class="mb-3 text-start">
-                        @* <label for="inputRegistrationRePassword" class="form-label text-start">Repeat Password</label>
-                    <input type="password" id="inputRegistrationRePassword" class="form-control" placeholder="Repeat Password" aria-describedby="passwordHelpBlock"> *@
                         @Html.LabelFor(m => m.regmodelConfirmPassword, new { @class = "form-label text-start" })
                         @Html.TextBoxFor(m => m.regmodelConfirmPassword, new { @class = "form-control", type = "password", id = "inputRegistrationRePassword", placeholder = "Repeat Password", aria_describedby = "passwordHelpBlock" })
                         @Html.ValidationMessageFor(m => m.regmodelConfirmPassword, "", new { @class = "text-danger" })
@@ -63,34 +64,26 @@
 
                     @* FIRSTNAME INPUT *@
                     <div class="mb-3 text-start">
-                        @* <label for="inputRegistrationFName" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="inputRegistrationFName" placeholder="First Name"> *@
                         @Html.LabelFor(m => m.regmodelFirstName, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.regmodelFirstName, new { @class = "form-control", type = "text", id = "inputRegistrationFName", placeholder = "First Name" })
                         @Html.ValidationMessageFor(m => m.regmodelFirstName, "", new { @class = "text-danger" })
                     </div>
                     @* MIDDLENAME INPUT *@
                     <div class="mb-3 text-start">
-                        @* <label for="inputRegistrationMName" class="form-label">Middle Name</label>
-                    <input type="text" class="form-control" id="inputRegistrationMName" placeholder="Middle Name"> *@
                         @Html.LabelFor(m => m.regmodelMiddleName, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.regmodelMiddleName, new { @class = "form-control", type = "text", id = "inputRegistrationMName", placeholder = "Middle Name" })
                         @Html.ValidationMessageFor(m => m.regmodelMiddleName, "", new { @class = "text-danger" })
                     </div>
                     @* LASTNAME INPUT *@
                     <div class="mb-3 text-start">
-                        @* <label for="inputRegistrationLName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="inputRegistrationLName" placeholder="Last Name"> *@
                         @Html.LabelFor(m => m.regmodelLastName, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.regmodelLastName, new { @class = "form-control", type = "text", id = "inputRegistrationLName", placeholder = "Last Name" })
                         @Html.ValidationMessageFor(m => m.regmodelLastName, "", new { @class = "text-danger" })
                     </div>
-                    @* LASTNAME INPUT *@
+                    @* DOB INPUT *@
                     <div class="mb-3 text-start">
-                        @* <label for="inputRegistrationDOB" class="form-label">Date of Birth</label>
-                    <input type="date" class="form-control" id="inputRegistrationDOB" placeholder="Date of Birth"> *@
                         @Html.LabelFor(m => m.regmodelDOB, new { @class = "form-label" })
-                        @Html.TextBoxFor(m => m.regmodelDOB, new { @class = "form-control", type = "date", id = "inputRegistrationDOB", placeholder = "Date of Birth" })
+                        @Html.TextBoxFor(m => m.regmodelDOB, new { @class = "form-control", type = "date", id = "inputRegistrationDOB", placeholder = "Date of Birth", max = @DateTime.Now.AddYears(-18).ToString("yyyy - MM - dd") })
                         @Html.ValidationMessageFor(m => m.regmodelDOB, "", new { @class = "text-danger" })
                     </div>
                     @* CONTINUE BUTTON *@
@@ -108,32 +101,24 @@
 
                     @* STREET ADDRESS INPUT *@
                     <div class="mb-3 text-start">
-                        @* <label for="inputRegistrationStreet" class="form-label">Street Address</label>
-                    <input type="text" class="form-control" id="inputRegistrationStreet" placeholder="Street Address"> *@
                         @Html.LabelFor(m => m.regmodelStreetAdd, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.regmodelStreetAdd, new { @class = "form-control", type = "text", id = "inputRegistrationStreet", placeholder = "Street Address" })
                         @Html.ValidationMessageFor(m => m.regmodelStreetAdd, "", new { @class = "text-danger" })
                     </div>
                     @* CITY INPUT *@
                     <div class="mb-3 text-start">
-                        @* <label for="inputRegistrationCity" class="form-label">Municipality/City</label>
-                    <input type="text" class="form-control" id="inputRegistrationCity" placeholder="Municipality/City"> *@
                         @Html.LabelFor(m => m.regmodelCityAdd, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.regmodelCityAdd, new { @class = "form-control", type = "text", id = "inputRegistrationCity", placeholder = "Municipality/City" })
                         @Html.ValidationMessageFor(m => m.regmodelCityAdd, "", new { @class = "text-danger" })
                     </div>
                     @* PROVINCE INPUT *@
                     <div class="mb-3 text-start">
-                        @* <label for="inputRegistrationProvince" class="form-label">Province</label>
-                    <input type="" class="form-control" id="inputRegistrationProvince" placeholder="Province"> *@
                         @Html.LabelFor(m => m.regmodelProvinceAdd, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.regmodelProvinceAdd, new { @class = "form-control", type = "text", id = "inputRegistrationProvince", placeholder = "Province" })
                         @Html.ValidationMessageFor(m => m.regmodelProvinceAdd, "", new { @class = "text-danger" })
                     </div>
                     @* CONTACT INPUT *@
                     <div class="mb-3 text-start">
-                        @* <label for="inputRegistrationContact" class="form-label">Contact</label>
-                    <input type="text" class="form-control" id="inputRegistrationContact" placeholder="Contact"> *@
                         @Html.LabelFor(m => m.regmodelContact, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.regmodelContact, new { @class = "form-control", type = "text", id = "inputRegistrationContact", placeholder = "Contact" })
                         @Html.ValidationMessageFor(m => m.regmodelContact, "", new { @class = "text-danger" })

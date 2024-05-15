@@ -7,9 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\css\login\**" />
+    <Compile Remove="wwwroot\css\registration\**" />
+    <Content Remove="wwwroot\css\login\**" />
+    <Content Remove="wwwroot\css\registration\**" />
+    <EmbeddedResource Remove="wwwroot\css\login\**" />
+    <EmbeddedResource Remove="wwwroot\css\registration\**" />
+    <None Remove="wwwroot\css\login\**" />
+    <None Remove="wwwroot\css\registration\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Database\Backup\" />
-    <Folder Include="wwwroot\css\login\" />
-    <Folder Include="wwwroot\css\registration\" />
     <Folder Include="wwwroot\img\logo\" />
     <Folder Include="wwwroot\img\ui\" />
   </ItemGroup>
