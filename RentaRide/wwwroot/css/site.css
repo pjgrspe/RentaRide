@@ -1,47 +1,15 @@
+/*IN GENERAL*/
+
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
-}
-
-.load-content {
-    display: none;
-}
-
-.bg-dark {
-    background-color: #15161b !important;
-}
-
-/* General scrollbar area */
-::-webkit-scrollbar {
-    width: 8px; /* Adjust the width as needed */
-}
-
-::-webkit-scrollbar-track {
-    background: #15161b;
-}
-
-/* The scrollbar handle (thumb) */
-::-webkit-scrollbar-thumb {
-    background: #808080;
-    border-radius: 8px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #505050; /* Slightly darker on hover */
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
 }
 
 body {
@@ -71,6 +39,48 @@ a:hover {
     text-decoration: underline; /* Add an underline on hover */
 }
 
+.subtext {
+    color: darkgray
+}
+
+/*LOADER*/
+
+.load-content {
+    display: none;
+}
+
+
+/*BACKGROUNDS*/
+.bg-dark {
+    background-color: #15161b !important;
+}
+
+/*SCROLLBAR*/
+/* General scrollbar area */
+::-webkit-scrollbar {
+    width: 8px; /* Adjust the width as needed */
+}
+
+::-webkit-scrollbar-track {
+    background: #15161b;
+}
+
+/* The scrollbar handle (thumb) */
+::-webkit-scrollbar-thumb {
+    background: #808080;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #505050; /* Slightly darker on hover */
+}
+
+
+/*BTNS*/
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
 .btn-primary {
     background-color: #3565af; /* Set the background color of the button */
     color: #ffffff; /* Set the text color of the button to white */
@@ -89,11 +99,6 @@ a:hover {
     background-color: #288399; /* Change the background color on hover */
 }
 
-
-.subtext {
-    color: darkgray
-}
-
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -102,6 +107,8 @@ a:hover {
     outline: 10px #3565af !important;
     box-shadow: none !important;
 }
+
+/*FORMS*/
 
 .form-control:focus, .form-check-input:focus {
     outline: none !important;

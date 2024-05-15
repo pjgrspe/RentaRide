@@ -1,0 +1,63 @@
+﻿/* Custom styles for sidebar*/
+.nav-link {
+    color: #b9bbbe; /* Default icon color */
+    transition: color 0.3s ease, background-color 0.3s ease;
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center; /* Center icons vertically */
+}
+
+.nav-item {
+    width: 100%;
+}
+
+.nav-item-link {
+    color: white;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.nav-item-link.active {
+    color: white !important; /*text color when active*/
+    background-color: #3565af !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: white!important;
+    background-color: #33353d !important; /* Hover and active background color */
+}
+
+.nav-link .fas {
+    transition: color 0.3s ease;
+    color: #909090!important;
+}
+
+.nav-link:hover .fas {
+    color: #3766af !important;
+}
+
+.nav-link.active .fas {
+    color: #309eb8 !important;
+}
+
+
+/* Main content styling */
+.main-content {
+    padding: 20px;
+    background-color: #f5f6fa;
+    border-radius: 15px;
+    margin: 10px 20px 20px 0;
+    flex-grow: 1;
+}
+
+/* Icon square border */
+.icon-border {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 4px;
+}

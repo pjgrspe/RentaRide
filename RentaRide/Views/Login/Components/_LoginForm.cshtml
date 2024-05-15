@@ -13,7 +13,6 @@
             {
                 @Html.AntiForgeryToken();
                 <div>
-                    <span class="iconify" data-icon="mdi-account"></span>
                     @* EMAIL/USERNAME INPUT *@
                     <div class="mb-3 text-start">
                         @Html.LabelFor(m => m.loginmodelUsername , new { @class = "form-label" })
@@ -40,7 +39,7 @@
                 Don't have an account yet?  
                 <a asp-area="" asp-controller="Registration" asp-action="Index">Sign up</a>
             </p>
-            <p class="subtext">
+            <p class="subtext mb-5">
                 By creating an account you agree to our
                 <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
             </p>
