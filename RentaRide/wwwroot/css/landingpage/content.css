@@ -18,3 +18,8 @@
 .content-hidden {
     display: none;
 }
+
+#hero_page {
+    height: calc(100vh - 100px);
+    background-color: #15161b;
+}
