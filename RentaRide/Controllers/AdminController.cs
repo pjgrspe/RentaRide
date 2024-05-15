@@ -2,7 +2,7 @@
 
 namespace RentaRide.Controllers
 {
-    public class CustomerHome : Controller
+    public class AdminController : Controller
     {
         public IActionResult Index()
         {
