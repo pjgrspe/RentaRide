@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/RentaRide/Program.cs
+/RentaRide/appsettings.json

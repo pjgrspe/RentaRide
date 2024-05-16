@@ -120,7 +120,7 @@
                     @* CONTACT INPUT *@
                     <div class="mb-3 text-start">
                         @Html.LabelFor(m => m.regmodelContact, new { @class = "form-label" })
-                        @Html.TextBoxFor(m => m.regmodelContact, new { @class = "form-control", type = "text", id = "inputRegistrationContact", placeholder = "Contact" })
+                        @Html.TextBoxFor(m => m.regmodelContact, new { @class = "form-control", type = "tel", id = "inputRegistrationContact", placeholder = "Contact" })
                         @Html.ValidationMessageFor(m => m.regmodelContact, "", new { @class = "text-danger" })
                     </div>
                     @* CONTINUE BUTTON *@

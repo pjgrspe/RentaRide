@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RentaRide.Database;
 using RentaRide.Models.Accounts;
 using RentaRide.Models.Identity;
+using RentaRide.Utilities;
 using System.Net.Mail;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -49,7 +50,15 @@ namespace RentaRide.Controllers
 
                 if (res.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    var roleClaim = User.Claims.FirstOrDefault(x => x.Type == System.Security.Claims.ClaimTypes.Role);
+                    if (roleClaim!.Value == RoleUtilities.RoleUser)
+                    {
+                        return RedirectToAction("Index", "Customer");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
                 }
                 else
                 {

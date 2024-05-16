@@ -91,7 +91,17 @@ namespace RentaRide.Controllers
                     _rardbContext.TBL_UserDetails.Add(userDetailsReg);
                     _rardbContext.SaveChangesAsync().GetAwaiter().GetResult();
                     ViewBag.SuccessMessage = "User registered";
-                    return RedirectToAction("Index", "Login");
+
+                   
+                    var roleClaim = User.Claims.FirstOrDefault(x => x.Type == System.Security.Claims.ClaimTypes.Role);
+                    if (roleClaim!.Value == RoleUtilities.RoleUser)
+                    {
+                        return RedirectToAction("Index", "Customer");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
                 }
                 else
                 {
