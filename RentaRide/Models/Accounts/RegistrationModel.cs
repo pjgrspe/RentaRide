@@ -46,17 +46,13 @@ namespace RentaRide.Models.Accounts
         [Required]
         [DisplayName("Contact")]
         public string regmodelContact { get; set; }
-        //[Required]
-        //[DisplayName("Driver's License")]
-        //public string? regmodelLicense { get; set; }
-        //[Required]
-        //[DisplayName("Secondary Valid ID")]
-        //public string? regmodel2ndValidID { get; set; }
-        //[Required]
-        //[DisplayName("Proof of Billing")]
-        //public string? regmodelPOB { get; set; }
-        //[Required]
-        //[DisplayName("Selfie with ID")]
-        //public string? regmodelSelfieProof { get; set; }
+        [DisplayName("Driver's License")]
+        public IFormFile? regmodelLicense { get; set; }
+        [DisplayName("Secondary Valid ID")]
+        public IFormFile? regmodel2ndValidID { get; set; }
+        [DisplayName("Proof of Billing")]
+        public IFormFile? regmodelPOB { get; set; }
+        [DisplayName("Selfie with ID")]
+        public IFormFile? regmodelSelfieProof { get; set; }
     }
 }

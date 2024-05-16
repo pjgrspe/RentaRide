@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentaRide.Database;
 
@@ -11,9 +12,11 @@ using RentaRide.Database;
 namespace RentaRide.Migrations
 {
     [DbContext(typeof(RARdbContext))]
-    partial class RARdbContextModelSnapshot : ModelSnapshot
+    [Migration("20240515235524_UserTableIsActive")]
+    partial class UserTableIsActive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,12 +170,6 @@ namespace RentaRide.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("user2ndValidID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("user2ndValidIDFileExt")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("userCityAdd")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -193,26 +190,8 @@ namespace RentaRide.Migrations
                     b.Property<DateTime?>("userDateModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("userLicense")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userLicenseFileExt")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userProofofBilling")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userProofofBillingFileExt")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("userProvinceAdd")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userSelfieProof")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userSelfieProofFileExt")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userStreetAdd")

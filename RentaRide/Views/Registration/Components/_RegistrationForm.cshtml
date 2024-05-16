@@ -18,7 +18,7 @@
                 <div class="step-circle text-light" onclick="displayStep(4)">4</div>
             </div>
             @* <form id="multi-step-form"> *@
-            @using (Html.BeginForm("Index", "Registration", FormMethod.Post, new { id = "multi-step-form" }))
+            @using (Html.BeginForm("Index", "Registration", FormMethod.Post, new { id = "multi-step-form", enctype = "multipart/form-data" }))
             {
                 <div class="step step-1">
                     <!-- Step 1 form fields here -->
@@ -136,23 +136,35 @@
                     </div>
                     @* LICENSE INPUT *@
                     <div class="mb-3 text-start">
-                        <label for="inputRegistrationLicense" class="form-label">Driver's License</label>
-                        <input type="file" class="form-control" id="inputRegistrationLicense" placeholder="Upload Image">
+                        @* <label for="inputRegistrationLicense" class="form-label">Driver's License</label>
+                        <input type="file" class="form-control" id="inputRegistrationLicense" placeholder="Upload Image"> *@
+                        @Html.LabelFor(m => m.regmodelLicense, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.regmodelLicense, new { @class = "form-control", type = "file", id = "inputRegistrationLicense", placeholder = "Upload Image" })
+                        @Html.ValidationMessageFor(m => m.regmodelLicense, "", new { @class = "text-danger" })
                     </div>
                     @* SECONDARY VALID ID INPUT *@
                     <div class="mb-3 text-start">
-                        <label for="inputRegistrationSecondID" class="form-label">Secondary Valid ID</label>
-                        <input type="file" class="form-control" id="inputRegistrationSecondID" placeholder="Secondary Valid ID">
+                        @* <label for="inputRegistrationSecondID" class="form-label">Secondary Valid ID</label>
+                        <input type="file" class="form-control" id="inputRegistrationSecondID" placeholder="Secondary Valid ID"> *@
+                        @Html.LabelFor(m => m.regmodel2ndValidID, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.regmodel2ndValidID, new { @class = "form-control", type = "file", id = "inputRegistrationSecondID", placeholder = "Secondary Valid ID" })
+                        @Html.ValidationMessageFor(m => m.regmodel2ndValidID, "", new { @class = "text-danger" })
                     </div>
                     @* POB INPUT *@
                     <div class="mb-3 text-start">
-                        <label for="inputRegistrationPOB" class="form-label">Proof of Billing</label>
-                        <input type="file" class="form-control" id="inputRegistrationPOB" placeholder="Proof of Billing">
+                        @* <label for="inputRegistrationPOB" class="form-label">Proof of Billing</label>
+                        <input type="file" class="form-control" id="inputRegistrationPOB" placeholder="Proof of Billing"> *@
+                        @Html.LabelFor(m => m.regmodelPOB, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.regmodelPOB, new { @class = "form-control", type = "file", id = "inputRegistrationPOB", placeholder = "Proof of Billing" })
+                        @Html.ValidationMessageFor(m => m.regmodelPOB, "", new { @class = "text-danger" })
                     </div>
                     @* SELFIE INPUT *@
                     <div class="mb-3 text-start">
-                        <label for="inputRegistrationSelfieID" class="form-label">Selfie with ID</label>
-                        <input type="file" class="form-control" id="inputRegistrationSelfieID" placeholder="Selfie with ID">
+                        @* <label for="inputRegistrationSelfieID" class="form-label">Selfie with ID</label>
+                        <input type="file" class="form-control" id="inputRegistrationSelfieID" placeholder="Selfie with ID"> *@
+                        @Html.LabelFor(m => m.regmodelSelfieProof, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.regmodelSelfieProof, new { @class = "form-control", type = "file", id = "inputRegistrationSelfieID", placeholder = "Selfie with ID" })
+                        @Html.ValidationMessageFor(m => m.regmodelSelfieProof, "", new { @class = "text-danger" })
                     </div>
                     @* SUBMIT BUTTON *@
                     <button type="submit" class="btn btn-success btn-lg mt-4 mb-5 w-100">SUBMIT</button>
