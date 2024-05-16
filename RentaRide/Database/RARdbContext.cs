@@ -5,7 +5,7 @@ using RentaRide.Models.Identity;
 
 namespace RentaRide.Database
 {
-    public class RARdbContext : IdentityDbContext
+    public class RARdbContext : IdentityDbContext<RentaRideAppUsers>
     {
 
         public RARdbContext(DbContextOptions<RARdbContext> options) : base(options)
@@ -13,7 +13,16 @@ namespace RentaRide.Database
 
         }
 
-        public DbSet<RentaRideAppUsers> TBL_RentaRideAppUsers { get; set; }
+        //public DbSet<RentaRideAppUsers> TBL_RentaRideAppUsers { get; set; }
         public DbSet<UserDetailsModel> TBL_UserDetails { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<UserDetailsModel>()
+                .HasOne(ud => ud.RentaRideAppUsers)
+                .WithOne()
+                .HasForeignKey<UserDetailsModel>(ud => ud.UserID)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }

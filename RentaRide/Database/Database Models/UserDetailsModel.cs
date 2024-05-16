@@ -14,6 +14,7 @@ namespace RentaRide.Database.Database_Models
         public DateTime userDateCreated { get; set; }
         public DateTime? userDateLastModified { get; set; }
         public DateTime? userDateModified { get; set; }
+        public string UserID { get; set; }
         [ForeignKey("UserID")]
         public RentaRideAppUsers RentaRideAppUsers { get; set; }
         [Required]
@@ -26,15 +27,13 @@ namespace RentaRide.Database.Database_Models
         public string userProvinceAdd { get; set; }
         [Required]
         public string userContact { get; set; }
-        //[Required]
-        //public string? userLicense { get; set; }
-        //[Required]
-        //public string? user2ndValidID { get; set; }
-        //[Required]
-        //public string? user2ndValidIDType { get; set; }
-        //[Required]
-        //public string? userPlaceOfBirth { get; set; }
-        //[Required]
-        //public string? userSelfieProof { get; set; }
+        public string? userLicense { get; set; }
+        public string? userLicenseFileExt { get; set; }
+        public string? user2ndValidID { get; set; }
+        public string? user2ndValidIDFileExt { get; set; }
+        public string? userProofofBilling { get; set; }
+        public string? userProofofBillingFileExt { get; set; }
+        public string? userSelfieProof { get; set; }
+        public string? userSelfieProofFileExt { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace RentaRide.Models.Identity
         public string userLastName { get; set; }
         [Required]
         public bool userisApproved { get; set; }
-        //[Required]
-        //public bool userisActive { get; set; } = false;
+        [Required]
+        public bool userisActive { get; set; } = false;
     }
 }
