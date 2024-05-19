@@ -2,19 +2,42 @@
     Layout = "_HomeLayout";
 }
 
-<section class="d-flex" id="hero_page">
+<section class="" id="hero_page">
     <div id="loadingSpinner" class="m-auto">
         @await Html.PartialAsync("~/Views/Shared/_LoadingSpinner.cshtml")
     </div>
-    <div class="load-content w-100">
-        <div class="container-fluid">
-            <div class="row flex-nowrap">
-                <partial name="_AdminSidebar"/>
+    <div class="load-content">
+        <div class="wrapper w-100">
+            <!-- Sidebar Holder -->
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index">
+                        <img src="~/img/logo/mainandtextlogo.svg" alt="RentaRide Logo" width="200" height="50" class="me-2">
+                    </a>
+                </div>
+                @await Html.PartialAsync("~/Views/Shared/_AdminSidebar.cshtml")
+            </nav>
+
+            <!-- Page Content Holder -->
+            <div id="content" class="w-100">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                        </li>
+                        </div>                        
+                    </div>                 
+                </nav>
                 @* CONTENT *@
-                <div class="col main-content bg-light py-3">
+                <div class="container-fluid">
+                    <div class="col main-content py-3">
                     <!-- Content will be dynamically loaded here -->
+                    </div>
                 </div>
             </div>
         </div>
+       
     </div>
 </section>

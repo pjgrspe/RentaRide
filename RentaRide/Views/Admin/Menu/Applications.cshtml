@@ -1,7 +1,139 @@
-﻿<h3>Application</h3>
-<p class="lead">
-    Application details
-</p>
-<ul class="list-unstyled">
-    <li><h5>Responsive</h5> shrinks in width, hides text labels and collapses to icons only on mobile</li>
-</ul>
+﻿
+<div class="w-100 d-flex justify-content-center">
+    <div class="row table-responsive bg-dark-secondary text-white">
+        <div class="mt-2 d-flex justify-content-between align-items-center">
+            <h3 class="text-light mt-3 ms-2">Users</h3>
+            <form class="d-flex mt-3 me-2" onsubmit="return false;">
+                <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <select id="statusFilter" class="form-select me-2">
+                    <option value="" selected>All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="active">Active</option>
+                    <option value="denied">Denied</option>
+                    <option value="delay">Inactive</option>
+                </select>
+                <button class="btn btn-outline-light" type="button" onclick="filterTable()">Search</button>
+            </form>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="table-container">
+                <table class="table mt-1">
+                    <thead class="text-light">
+                        <tr>
+                            <th class="text-center sortable" onclick="sortTable(0)">ID <i class="fas fa-sort ms-1"></i></th>
+                            <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
+                            <th class="sortable" onclick="sortTable(2)">Date Created <i class="fas fa-sort ms-1"></i></th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Contact</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="applicationsTable" class="text-light">
+                        <tr class="table-row">
+                            <td class="text-center">1</td>
+                            <td>Patrick Jason Gorospe</td>
+                            <td>@DateTime.Now.ToString("MMMM dd, yyyy")</td>
+                            <td class="text-center overflow-hidden">gorospe.patrickjason@auf.edu.ph</td>
+                            <td class="text-center">09412412424</td>
+                            <td class="text-center status status-pending"><span class="status-label text-dark">Pending</span></td>
+                            <td class="text-center">
+                                <button class="btn btn-primary btn-sm" onclick="openModal('1', 'Patrick Jason Gorospe', 'gorospe.patrickjason@auf.edu.ph', '09412412424', 'Pending')">Review</button>
+                            </td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="text-center">2</td>
+                            <td>Japeth Lee Ong</td>
+                            <td>May 1, 2024</td>
+                            <td class="text-center">gorospe.patrickjason@auf.edu.ph</td>
+                            <td class="text-center">09412412424</td>
+                            <td class="text-center status status-active"><span class="status-label text-dark">Active</span></td>
+                            <td class="text-center">
+                                <button class="btn btn-primary btn-sm">Review</button>
+                            </td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="text-center">3</td>
+                            <td>Luis Alfonso Rimando</td>
+                            <td>May 5, 2024</td>
+                            <td class="text-center">gorospe.patrickjason@auf.edu.ph</td>
+                            <td class="text-center">09412412424</td>
+                            <td class="text-center status status-denied"><span class="status-label text-dark">Denied</span></td>
+                            <td class="text-center">
+                                <button class="btn btn-primary btn-sm">Review</button>
+                            </td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="text-center">4</td>
+                            <td>Luis Alfonso Rimando</td>
+                            <td>@DateTime.Now.ToString("MMMM dd, yyyy")</td>
+                            <td class="text-center">gorospe.patrickjason@auf.edu.ph</td>
+                            <td class="text-center">09412412424</td>
+                            <td class="text-center status status-delay"><span class="status-label text-dark">Inactive</span></td>
+                            <td class="text-center">
+                                <button class="btn btn-primary btn-sm">Review</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<!-- Modal Structure -->
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-dark-secondary text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userModalLabel">User Details</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>ID:</strong> <span id="modalUserId"></span></p>
+                            <p><strong>Name:</strong> <span id="modalUserName"></span></p>
+                            <p><strong>Email:</strong> <span id="modalUserEmail"></span></p>
+                            <p><strong>Contact:</strong> <span id="modalUserContact"></span></p>
+                            <p><strong>Status:</strong> <span id="modalUserStatus"></span></p>
+                            <p><strong>Date Created:</strong> <span id="modalDateCreated"></span></p>
+                            <p><strong>Date Modified:</strong> <span id="modalDateModified"></span></p>
+                            <p><strong>Date of Birth:</strong> <span id="modalDateOfBirth"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Street Address:</strong> <span id="modalStreetAddress"></span></p>
+                            <p><strong>City:</strong> <span id="modalCity"></span></p>
+                            <p><strong>Province:</strong> <span id="modalProvince"></span></p>
+                            <div class="mb-3">
+                                <label><strong>Driver's License:</strong></label>
+                                <div id="modalDriversLicense" class="border p-2">DL Placeholder</div>
+                            </div>
+                            <div class="mb-3">
+                                <label><strong>Secondary ID:</strong></label>
+                                <div id="modalSecondaryID" class="border p-2">ID Placeholder</div>
+                            </div>
+                            <div class="mb-3">
+                                <label><strong>Proof of Billing:</strong></label>
+                                <div id="modalProofOfBilling" class="border p-2">Billing Placeholder</div>
+                            </div>
+                            <div class="mb-3">
+                                <label><strong>Selfie with ID:</strong></label>
+                                <div id="modalSelfieWithID" class="border p-2">Selfie Placeholder</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="approveUser()">Approve</button>
+                <button type="button" class="btn btn-danger" onclick="denyUser()">Deny</button>
+            </div>
+        </div>
+    </div>
+</div>
