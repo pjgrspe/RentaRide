@@ -9,6 +9,10 @@
                     <div class="d-flex align-items-center justify-content-center">
                         <div class="d-flex flex-column col-10">
                             <h1>CUSTOMER HOME</h1>
+                            @using (Html.BeginForm("Logout", "Login", FormMethod.Post))
+                            {
+                                <li><button class="text-decoration-none dropdown-item" type="submit">Logout</button></li>
+                            }
                         </div>
                     </div>
                 </div>

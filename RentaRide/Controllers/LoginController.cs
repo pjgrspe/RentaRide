@@ -21,7 +21,7 @@ namespace RentaRide.Controllers
         {
             try 
             {
-                MailAddress m = new MailAddress(emailadd);
+                MailAddress m = new (emailadd);
                 return true;
             }
             catch (FormatException) 
@@ -80,7 +80,7 @@ namespace RentaRide.Controllers
             }
             catch(Exception ex)
             {
-
+                ViewBag.ErrorMessage = ex;
                 return RedirectToAction("Index", "Login");
             }
         }

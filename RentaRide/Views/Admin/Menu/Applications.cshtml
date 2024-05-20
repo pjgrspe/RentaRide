@@ -1,4 +1,6 @@
-﻿
+﻿@model IEnumerable<RentaRide.Models.ViewModels.UsersViewModel>
+@using RentaRide.Utilities;
+
 <div class="w-100 d-flex justify-content-center">
     <div class="row table-responsive bg-dark-secondary text-white">
         <div class="row justify-content-between mt-2">
@@ -34,7 +36,21 @@
                         </tr>
                     </thead>
                     <tbody id="applicationsTable" class="text-light">
-                        <tr class="table-row">
+                        @foreach (var user in Model)
+                        {
+                            <tr class="table-row">
+                                <td class="text-center">1</td>
+                                <td>@user.userVMFirstName @user.userVMMiddleName @user.userVMLastName</td>
+                                <td>@user.userVMDateCreated</td>
+                                <td class="text-center overflow-hidden">@user.userVMEmail</td>
+                                <td class="text-center">@user.userVMContact</td>
+                                <td class="text-center status status-pending"><span class="status-label text-dark">Pending</span></td>
+                                <td class="text-center">
+                                    <button class="btn btn-primary btn-sm" onclick="openModal('@user.userVMID', '@user.userVMFirstName @user.userVMMiddleName @user.userVMLastName', '@user.userVMEmail', '@user.userVMContact', 'Pending' , '@user.userVMDateCreated','@user.userVMDateLastModified','@user.userVMDateModified', '@user.userVMstreetAdd', '@user.userVMCityAdd', '@user.userVMProvinceAdd','FileUploads/@ImageCategories.imgLicense/@user.userVMLicense','FileUploads/@ImageCategories.img2ndID/@user.userVM2ndValidID','FileUploads/@ImageCategories.imgPOB/@user.userVMProofofBilling','FileUploads/@ImageCategories.imgSelfie/@user.userVMSelfieProof')">Review</button>
+                                </td>
+                            </tr>
+                        }
+                        @* <tr class="table-row">
                             <td class="text-center">1</td>
                             <td>Patrick Jason Gorospe</td>
                             <td>@DateTime.Now.ToString("MMMM dd, yyyy")</td>
@@ -42,11 +58,10 @@
                             <td class="text-center">09412412424</td>
                             <td class="text-center status status-pending"><span class="status-label text-dark">Pending</span></td>
                             <td class="text-center">
-                                @* PASS ALL DATA ON openModal() *@
                                 <button class="btn btn-primary btn-sm"  onclick="openModal('1', 'Patrick Jason Gorospe', 'gorospe.patrickjason@auf.edu.ph', '09412412424', 'Pending','@DateTime.Now.ToString("MMMM dd, yyyy")','@DateTime.Now.ToString("MMMM dd, yyyy")','@DateTime.Now.ToString("MMMM dd, yyyy")', 'Address 1', 'City 1', 'Province 1','img/examples/1.webp','img/examples/2.webp','img/examples/3.webp','img/examples/4.webp')">Review</button>
                             </td>
-                        </tr>
-                        <tr class="table-row">
+                        </tr> *@
+                        @* <tr class="table-row">
                             <td class="text-center">2</td>
                             <td>Japeth Lee Ong</td>
                             <td>May 1, 2024</td>
@@ -78,7 +93,7 @@
                             <td class="text-center">
                                 <button class="btn btn-primary btn-sm">Review</button>
                             </td>
-                        </tr>
+                        </tr> *@
                     </tbody>
                 </table>
             </div>

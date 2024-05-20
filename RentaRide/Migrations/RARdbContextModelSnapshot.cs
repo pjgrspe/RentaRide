@@ -224,7 +224,7 @@ namespace RentaRide.Migrations
                     b.HasIndex("UserID")
                         .IsUnique();
 
-                    b.ToTable("TBL_UserDetails");
+                    b.ToTable("TBL_UserDetails", (string)null);
                 });
 
             modelBuilder.Entity("RentaRide.Models.Identity.RentaRideAppUsers", b =>

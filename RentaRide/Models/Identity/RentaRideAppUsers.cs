@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RentaRide.Database.Database_Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace RentaRide.Models.Identity
