@@ -8,3 +8,10 @@ $(document).ready(function () {
         $('.load-content').show(); // Show the content
     }, 1000); // Adjust the delay (in milliseconds) as needed
 });
+
+$(document).ready(function () {
+    $("#sidebarCollapse").on("click", function () {
+        $("#sidebar").toggleClass("active");
+        $(this).toggleClass("active");
+    });
+});

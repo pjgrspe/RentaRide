@@ -57,3 +57,121 @@
         link.addEventListener('click', handleProfileLinkClick);
     });
 });
+
+
+/*TABLE SCRIPTS*/
+function filterTable() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const statusFilter = document.getElementById('statusFilter').value;
+    const tableRows = document.querySelectorAll('#applicationsTable .table-row');
+
+    tableRows.forEach(row => {
+        const name = row.children[1].innerText.toLowerCase();
+        const statusClass = row.children[5].classList;
+        let status = '';
+
+        statusClass.forEach(className => {
+            if (className.startsWith('status-')) {
+                status = className.split('-')[1];
+            }
+        });
+
+        const matchesSearch = name.includes(searchInput);
+        const matchesStatus = !statusFilter || status === statusFilter;
+
+        if (matchesSearch && matchesStatus) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+let sortOrder = {};
+
+function sortTable(columnIndex) {
+    const table = document.getElementById("applicationsTable");
+    const rows = Array.from(table.getElementsByClassName("table-row"));
+    const ths = table.getElementsByTagName("th");
+
+    let order = sortOrder[columnIndex] || 'asc';
+    sortOrder[columnIndex] = order === 'asc' ? 'desc' : 'asc';
+
+    rows.sort((a, b) => {
+        let cellA = a.cells[columnIndex].innerText;
+        let cellB = b.cells[columnIndex].innerText;
+
+        if (columnIndex === 2) { // Date column
+            cellA = new Date(cellA);
+            cellB = new Date(cellB);
+        } else if (columnIndex === 0) { // ID column
+            cellA = parseInt(cellA);
+            cellB = parseInt(cellB);
+        }
+
+        if (order === 'asc') {
+            return cellA > cellB ? 1 : -1;
+        } else {
+            return cellA < cellB ? 1 : -1;
+        }
+    });
+
+    table.innerHTML = '';
+    rows.forEach(row => table.appendChild(row));
+
+    updateIcons(columnIndex);
+}
+
+function updateIcons(columnIndex) {
+    const headers = document.querySelectorAll(".sortable");
+    headers.forEach((header, index) => {
+        header.querySelector("i").className = "fas fa-sort ms-1";
+        if (index === columnIndex) {
+            header.querySelector("i").className = sortOrder[columnIndex] === 'asc' ? "fas fa-sort-up ms-1" : "fas fa-sort-down ms-1";
+        }
+    });
+}
+
+function openModal(id, name, email, contact, status, dateCreated, dateModified, dateOfBirth, streetAddress, city, province, driversLicenseSrc, secondaryIDSrc, proofOfBillingSrc, selfieWithIDSrc) {
+    $('#modalUserId').text(id);
+    $('#modalUserName').text(name);
+    $('#modalUserEmail').text(email);
+    $('#modalUserContact').text(contact);
+    $('#modalUserStatus').text(status);
+
+    // Set additional modal data
+    $('#modalDateCreated').text(dateCreated);
+    $('#modalDateModified').text(dateModified);
+    $('#modalDateOfBirth').text(dateOfBirth);
+    $('#modalStreetAddress').text(streetAddress);
+    $('#modalCity').text(city);
+    $('#modalProvince').text(province);
+
+    // Set the src attribute for the images
+    $('#modalDriversLicense img').attr('src', driversLicenseSrc);
+    $('#driversLicenseModal img').attr('src', driversLicenseSrc);
+    $('#modalSecondaryID img').attr('src', secondaryIDSrc);
+    $('#secondaryIDModal img').attr('src', secondaryIDSrc);
+    $('#modalProofOfBilling img').attr('src', proofOfBillingSrc);
+    $('#proofOfBillingModal img').attr('src', proofOfBillingSrc);
+    $('#modalSelfieWithID img').attr('src', selfieWithIDSrc);
+    $('#selfieWithIDModal img').attr('src', selfieWithIDSrc);
+
+    $('#userModal').modal('show');
+}
+
+function closeModal() {
+    $('#userModal').modal('hide');
+}
+
+function approveUser() {
+    // Implement approval logic here
+    alert("User approved.");
+    $('#userModal').modal('hide');
+}
+
+function denyUser() {
+    // Implement denial logic here
+    alert("User denied.");
+    $('#userModal').modal('hide');
+}
