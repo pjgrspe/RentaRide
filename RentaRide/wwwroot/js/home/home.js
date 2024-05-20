@@ -154,6 +154,10 @@ function openModal(id, name, email, contact, status) {
     $('#userModal').modal('show');
 }
 
+function closeModal() {
+    $('#userModal').modal('hide');
+}
+
 function approveUser() {
     // Implement approval logic here
     alert("User approved.");
