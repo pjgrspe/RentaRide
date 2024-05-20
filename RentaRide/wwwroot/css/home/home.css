@@ -1,4 +1,12 @@
-﻿/* Custom styles for sidebar*/
+﻿
+.navbar-header{
+    margin-left:10px;
+}
+
+.fa-bars {
+    color: #f6f6f6;
+}
+/* Custom styles for sidebar*/
 .nav-link {
     color: #b9bbbe; /* Default icon color */
     transition: color 0.3s ease, background-color 0.3s ease;
@@ -50,9 +58,7 @@
     flex-grow: 1;
     width: 100%;
     overflow: hidden;
-}
-.bg-light {
-    background-color: #f5f5f5!important;
+    min-width: 400px;
 }
 
 .main-content > div {
@@ -72,8 +78,18 @@
     border-radius: 4px;
 }
 
+#statusFilter{
+    max-width:140px;
+    width:140px;
+}
+
+#searchInput {
+    min-width: 150px;
+    width: 250px;
+}
+
 .status span {
-    width: 60px;
+    min-width: 75px;
     height: 20px;
     border-radius: 5px;
     display: inline-block;
@@ -96,13 +112,18 @@
     background-color: darkgray;
 }
 
+.status-label {
+    color: black;
+    font-weight:500 !important;
+}
+
 .sortable:hover {
     cursor: pointer;
 }
 
 .table-container {
-    height: 400px;
-    max-height: 400px; /* Adjust the height as needed */
+    min-height:500px;
+    max-height: 500px; /* Adjust the height as needed */
     overflow-y: auto;
 }
 
@@ -113,26 +134,21 @@
 
 th {
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     position: sticky;
     top: 0;
     background-color: gray;
 }
 
 
-td {
+td{
+    white-space:nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .table {
-    margin-bottom: 16px;
+    margin-bottom: 0px;
     overflow-y: auto;
-}
-
-.pagination {
-    cursor: pointer;
 }
 
 .table-responsive {
@@ -273,6 +289,24 @@ a.article:hover {
     color: #fff !important;
 }
 
+@media (max-width: 992px) {
+    .table thead th:nth-child(1), /* Id column */
+    .table tbody td:nth-child(1), /* Id column */
+    .table thead th:nth-child(4), /* Email column */
+    .table tbody td:nth-child(4), /* Email column */
+    .table thead th:nth-child(5), /* Contact column */
+    .table tbody td:nth-child(5) { /* Contact column */
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .table thead th:nth-child(3), /* Date column */
+    .table tbody td:nth-child(3) { /* Date column */
+        display: none;
+    }
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -281,4 +315,33 @@ a.article:hover {
     padding: 20px;
     min-height: 100vh;
     transition: all 0.3s;
+}
+.blurred {
+    filter: blur(10px);
+}
+
+.clear {
+    filter: blur(0);
+}
+
+.position-relative {
+    position: relative;
+}
+
+.overlay {
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 100;
+    transition: opacity 0.3s ease;
+
+}
+
+.position-relative:hover .overlay {
+    opacity: 1;
 }

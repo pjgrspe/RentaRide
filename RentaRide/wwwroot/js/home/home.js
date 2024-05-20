@@ -132,24 +132,30 @@ function updateIcons(columnIndex) {
     });
 }
 
-function openModal(id, name, email, contact, status) {
+function openModal(id, name, email, contact, status, dateCreated, dateModified, dateOfBirth, streetAddress, city, province, driversLicenseSrc, secondaryIDSrc, proofOfBillingSrc, selfieWithIDSrc) {
     $('#modalUserId').text(id);
     $('#modalUserName').text(name);
     $('#modalUserEmail').text(email);
     $('#modalUserContact').text(contact);
     $('#modalUserStatus').text(status);
 
-    // Additional placeholders for demo purposes
-    $('#modalDateCreated').text("May 20, 2024");
-    $('#modalDateModified').text("May 21, 2024");
-    $('#modalDateOfBirth').text("January 01, 1990");
-    $('#modalStreetAddress').text("123 Main St");
-    $('#modalCity').text("Sample City");
-    $('#modalProvince').text("Sample Province");
-    $('#modalDriversLicense').text("DL Placeholder");
-    $('#modalSecondaryID').text("ID Placeholder");
-    $('#modalProofOfBilling').text("Billing Placeholder");
-    $('#modalSelfieWithID').text("Selfie Placeholder");
+    // Set additional modal data
+    $('#modalDateCreated').text(dateCreated);
+    $('#modalDateModified').text(dateModified);
+    $('#modalDateOfBirth').text(dateOfBirth);
+    $('#modalStreetAddress').text(streetAddress);
+    $('#modalCity').text(city);
+    $('#modalProvince').text(province);
+
+    // Set the src attribute for the images
+    $('#modalDriversLicense img').attr('src', driversLicenseSrc);
+    $('#driversLicenseModal img').attr('src', driversLicenseSrc);
+    $('#modalSecondaryID img').attr('src', secondaryIDSrc);
+    $('#secondaryIDModal img').attr('src', secondaryIDSrc);
+    $('#modalProofOfBilling img').attr('src', proofOfBillingSrc);
+    $('#proofOfBillingModal img').attr('src', proofOfBillingSrc);
+    $('#modalSelfieWithID img').attr('src', selfieWithIDSrc);
+    $('#selfieWithIDModal img').attr('src', selfieWithIDSrc);
 
     $('#userModal').modal('show');
 }
