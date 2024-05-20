@@ -39,6 +39,10 @@ a:hover {
     color: darkgray
 }
 
+.text-primary {
+    color: #3565af;
+}
+
 /*LOADER*/
 
 .load-content {
