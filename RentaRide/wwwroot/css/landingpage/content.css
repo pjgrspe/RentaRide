@@ -20,6 +20,6 @@
 }
 
 #hero_page {
-    height: calc(100vh - 100px);
+    height: auto;
     background-color: #15161b;
 }

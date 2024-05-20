@@ -3,7 +3,7 @@
 html {
     font-size: 14px;
     position: relative;
-    min-height: 100%;
+    min-height: 100vh;
 }
 
 @media (min-width: 768px) {
@@ -14,7 +14,7 @@ html {
 
 body {
     margin-bottom: 60px;
-    background-color: #15161b;
+    background-color: #222428;
     margin: 0px;
     font-family: "Outfit", monospace;
 }
@@ -23,10 +23,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-nav, footer {
-    background-color: #15161b;
 }
 
 a {
@@ -43,6 +39,10 @@ a:hover {
     color: darkgray
 }
 
+.text-primary {
+    color: #3565af;
+}
+
 /*LOADER*/
 
 .load-content {
@@ -51,10 +51,28 @@ a:hover {
 
 
 /*BACKGROUNDS*/
-.bg-dark {
-    background-color: #15161b !important;
+.bg-light {
+    background-color: #f5f5f5 !important;
 }
 
+.bg-dark {
+    background-color: #222428 !important;
+}
+
+.bg-dark-secondary {
+    background-color: #33353D !important;
+}
+
+.bg-glass {
+    background: rgba(55, 55, 63, 0.4); /* Semi-transparent background color */
+    backdrop-filter: blur(10px); /* Blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
+    color: white; /* Text color for readability */
+    padding: 20px; /* Padding inside the element */
+}
 /*SCROLLBAR*/
 /* General scrollbar area */
 ::-webkit-scrollbar {
@@ -62,7 +80,7 @@ a:hover {
 }
 
 ::-webkit-scrollbar-track {
-    background: #15161b;
+    background: #222428;
 }
 
 /* The scrollbar handle (thumb) */
@@ -115,5 +133,6 @@ a:hover {
     box-shadow: none !important;
 }
 
-
-
+.clickable{
+    cursor:pointer;
+}

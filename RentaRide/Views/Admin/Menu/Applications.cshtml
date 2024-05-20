@@ -1,7 +1,212 @@
-﻿<h3>Application</h3>
-<p class="lead">
-    Application details
-</p>
-<ul class="list-unstyled">
-    <li><h5>Responsive</h5> shrinks in width, hides text labels and collapses to icons only on mobile</li>
-</ul>
+﻿
+<div class="w-100 d-flex justify-content-center">
+    <div class="row table-responsive bg-dark-secondary text-white">
+        <div class="row justify-content-between mt-2">
+            <div class="col-md-3 d-flex align-items-center">
+                <h3 class="text-light mt-3 ms-2">Users</h3>
+            </div>
+            <div class="col-md-9">
+                <form class="d-flex justify-content-end align-items-center mt-3" onsubmit="return false;">
+                    <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <select id="statusFilter" class="form-select me-2">
+                        <option value="" selected>All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="active">Approved</option>
+                        <option value="denied">Denied</option>
+                        <option value="delay">Inactive</option>
+                    </select>
+                    <button class="btn btn-outline-light" type="button" onclick="filterTable()">Search</button>
+                </form>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="table-container">
+                <table class="table mt-1">
+                    <thead class="text-light">
+                        <tr>
+                            <th class="text-center sortable" onclick="sortTable(0)">ID <i class="fas fa-sort ms-1"></i></th>
+                            <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
+                            <th class="sortable" onclick="sortTable(2)">Date Created <i class="fas fa-sort ms-1"></i></th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Contact</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="applicationsTable" class="text-light">
+                        <tr class="table-row">
+                            <td class="text-center">1</td>
+                            <td>Patrick Jason Gorospe</td>
+                            <td>@DateTime.Now.ToString("MMMM dd, yyyy")</td>
+                            <td class="text-center overflow-hidden">gorospe.patrickjason@auf.edu.ph</td>
+                            <td class="text-center">09412412424</td>
+                            <td class="text-center status status-pending"><span class="status-label text-dark">Pending</span></td>
+                            <td class="text-center">
+                                @* PASS ALL DATA ON openModal() *@
+                                <button class="btn btn-primary btn-sm"  onclick="openModal('1', 'Patrick Jason Gorospe', 'gorospe.patrickjason@auf.edu.ph', '09412412424', 'Pending','@DateTime.Now.ToString("MMMM dd, yyyy")','@DateTime.Now.ToString("MMMM dd, yyyy")','@DateTime.Now.ToString("MMMM dd, yyyy")', 'Address 1', 'City 1', 'Province 1','img/examples/1.webp','img/examples/2.webp','img/examples/3.webp','img/examples/4.webp')">Review</button>
+                            </td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="text-center">2</td>
+                            <td>Japeth Lee Ong</td>
+                            <td>May 1, 2024</td>
+                            <td class="text-center">gorospe.patrickjason@auf.edu.ph</td>
+                            <td class="text-center">09412412424</td>
+                            <td class="text-center status status-active"><span class="status-label text-dark">Approved</span></td>
+                            <td class="text-center">
+                                <button class="btn btn-primary btn-sm">Review</button>
+                            </td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="text-center">3</td>
+                            <td>Luis Alfonso Rimando</td>
+                            <td>May 5, 2024</td>
+                            <td class="text-center">gorospe.patrickjason@auf.edu.ph</td>
+                            <td class="text-center">09412412424</td>
+                            <td class="text-center status status-denied"><span class="status-label text-dark">Denied</span></td>
+                            <td class="text-center">
+                                <button class="btn btn-primary btn-sm">Review</button>
+                            </td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="text-center">4</td>
+                            <td>Luis Alfonso Rimando</td>
+                            <td>@DateTime.Now.ToString("MMMM dd, yyyy")</td>
+                            <td class="text-center">gorospe.patrickjason@auf.edu.ph</td>
+                            <td class="text-center">09412412424</td>
+                            <td class="text-center status status-delay"><span class="status-label text-dark">Inactive</span></td>
+                            <td class="text-center">
+                                <button class="btn btn-primary btn-sm">Review</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- User Modal Structure -->
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-dark-secondary text-white">
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title" id="userModalLabel">User Details</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closeModal()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>ID:</strong> <span id="modalUserId" class="mb-3"></span></p>
+                            <p><strong>Name:</strong> <span id="modalUserName" class="mb-3"></span></p>
+                            <p><strong>Email:</strong> <span id="modalUserEmail" class="mb-3"></span></p>
+                            <p><strong>Contact:</strong> <span id="modalUserContact" class="mb-3"></span></p>
+                            <p><strong>Status:</strong> <span id="modalUserStatus" class="mb-3"></span></p>
+                            <p><strong>Date Created:</strong> <span id="modalDateCreated" class="mb-3"></span></p>
+                            <p><strong>Date Modified:</strong> <span id="modalDateModified" class="mb-3"></span></p>
+                            <p><strong>Date of Birth:</strong> <span id="modalDateOfBirth" class="mb-3"></span></p>
+                            <p><strong>Street Address:</strong> <span id="modalStreetAddress" class="mb-3"></span></p>
+                            <p><strong>City:</strong> <span id="modalCity" class="mb-3"></span></p>
+                            <p><strong>Province:</strong> <span id="modalProvince" class="mb-3"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="mb-2"><strong>Driver's License:</strong></label>
+                                <div id="modalDriversLicense" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 60px; margin: auto;" data-bs-toggle="modal" data-bs-target="#driversLicenseModal">
+                                    <div class=" text-light position-absolute top-50 start-50 translate-middle" style="z-index: 10; padding: 5px;">SHOW</div>
+                                    <img src="" alt="Driver's License" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="mb-2"><strong>Secondary ID:</strong></label>
+                                <div id="modalSecondaryID" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 60px; margin: auto;" data-bs-toggle="modal" data-bs-target="#secondaryIDModal">
+                                    <div class=" text-light position-absolute top-50 start-50 translate-middle" style="z-index: 10; padding: 5px;">SHOW</div>
+                                    <img src="" alt="Secondary ID" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="mb-2"><strong>Proof of Billing:</strong></label>
+                                <div id="modalProofOfBilling" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 60px; margin: auto;" data-bs-toggle="modal" data-bs-target="#proofOfBillingModal">
+                                    <div class=" text-light position-absolute top-50 start-50 translate-middle" style="z-index: 10; padding: 5px;">SHOW</div>
+                                    <img src="" alt="Proof of Billing" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="mb-2"><strong>Selfie with ID:</strong></label>
+                                <div id="modalSelfieWithID" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 60px; margin: auto;" data-bs-toggle="modal" data-bs-target="#selfieWithIDModal">
+                                    <div class=" text-light position-absolute top-50 start-50 translate-middle" style="z-index: 10; padding: 5px;">SHOW</div>
+                                    <img src="" alt="Selfie with ID" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer mb-3 border-top-0 d-flex justify-content-center align-content-center">
+                <button style="min-width:100px;" type="button" class="btn btn-danger btn-lg rounded-2" onclick="denyUser()">Deny</button>
+                <button style="min-width:100px;" type="button" class="btn btn-success btn-lg rounded-2" onclick="approveUser()">Approve</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Drivers License Modal -->
+<div class="modal fade" id="driversLicenseModal" tabindex="-1" aria-labelledby="driversLicenseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom">
+        <div class="modal-content bg-glass">
+            <div class="modal-header text-light border-bottom-0">
+                <h5 class="modal-title" id="driversLicenseModalLabel">Driver's License</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center align-items-center">
+                <img id="driversLicenseImage" src="" alt="Driver's License" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Secondary ID Modal -->
+<div class="modal fade" id="secondaryIDModal" tabindex="-1" aria-labelledby="secondaryIDModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom">
+        <div class="modal-content bg-glass">
+            <div class="modal-header text-light border-bottom-0">
+                <h5 class="modal-title" id="secondaryIDModalLabel">Secondary ID</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center align-items-center">
+                <img id="secondaryIDImage" src="" alt="Secondary ID" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Proof of Billing Modal -->
+<div class="modal fade" id="proofOfBillingModal" tabindex="-1" aria-labelledby="proofOfBillingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom">
+        <div class="modal-content bg-glass">
+            <div class="modal-header text-light border-bottom-0">
+                <h5 class="modal-title" id="proofOfBillingModalLabel">Proof of Billing</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center align-items-center">
+                <img id="proofOfBillingImage" src="" alt="Proof of Billing" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Selfie with ID Modal -->
+<div class="modal fade" id="selfieWithIDModal" tabindex="-1" aria-labelledby="selfieWithIDModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom">
+        <div class="modal-content bg-glass">
+            <div class="modal-header text-light border-bottom-0">
+                <h5 class="modal-title" id="selfieWithIDModalLabel">Selfie with ID</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center align-items-center">
+                <img id="selfieWithIDImage" src="" alt="Selfie with ID" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
