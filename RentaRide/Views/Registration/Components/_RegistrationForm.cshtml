@@ -134,7 +134,15 @@
                         </button>
                         <h4 class="mt-1">Documents</h4>
                     </div>
-                    @* LICENSE INPUT *@
+                    @*FRONT LICENSE INPUT *@
+                    <div class="mb-3 text-start">
+                        @* <label for="inputRegistrationLicense" class="form-label">Driver's License</label>
+                        <input type="file" class="form-control" id="inputRegistrationLicense" placeholder="Upload Image"> *@
+                        @Html.LabelFor(m => m.regmodelLicense, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.regmodelLicense, new { @class = "form-control", type = "file", id = "inputRegistrationLicense", placeholder = "Upload Image" })
+                        @Html.ValidationMessageFor(m => m.regmodelLicense, "", new { @class = "text-danger" })
+                    </div>
+                    @*BACK OF LICENSE INPUT *@
                     <div class="mb-3 text-start">
                         @* <label for="inputRegistrationLicense" class="form-label">Driver's License</label>
                         <input type="file" class="form-control" id="inputRegistrationLicense" placeholder="Upload Image"> *@
