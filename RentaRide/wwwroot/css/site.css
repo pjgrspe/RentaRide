@@ -126,6 +126,9 @@ a:hover {
     box-shadow: none !important;
 }
 
+.btn-info, .btn-info.active, .btn-info:active {
+    background-color: #309eb8; /* Set the background color of the button */
+}
 /*FORMS*/
 
 .form-control:focus, .form-check-input:focus {
