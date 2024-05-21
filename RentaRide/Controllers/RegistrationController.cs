@@ -10,8 +10,9 @@ using System.IO;
 
 namespace RentaRide.Controllers
 {
-    public class RegistrationController(UserManager<RentaRideAppUsers> RentaRideAppUsers, RoleManager<IdentityRole> roleManager, RARdbContext rardbContext, IWebHostEnvironment environment) : Controller
+    public class RegistrationController(UserManager<RentaRideAppUsers> RentaRideAppUsers, RoleManager<IdentityRole> roleManager, SignInManager<RentaRideAppUsers> signinManager, RARdbContext rardbContext, IWebHostEnvironment environment) : Controller
     {
+        private readonly SignInManager<RentaRideAppUsers> _signInManager = signinManager;
         private readonly RoleManager<IdentityRole> _roleManager = roleManager;
         private readonly UserManager<RentaRideAppUsers> _userManager = RentaRideAppUsers;
         private readonly RARdbContext _rardbContext = rardbContext;
@@ -92,15 +93,24 @@ namespace RentaRide.Controllers
                     _rardbContext.SaveChangesAsync().GetAwaiter().GetResult();
                     ViewBag.SuccessMessage = "User registered";
 
-                   
-                    var roleClaim = User.Claims.FirstOrDefault(x => x.Type == System.Security.Claims.ClaimTypes.Role);
-                    if (roleClaim!.Value == RoleUtilities.RoleUser)
+
+                    var res = _signInManager.PasswordSignInAsync(userReg.UserName, model.regmodelPassword, false, false).GetAwaiter().GetResult();
+
+                    if (res.Succeeded)
                     {
-                        return RedirectToAction("Index", "Customer");
+                        var roleClaim = User.Claims.FirstOrDefault(x => x.Type == System.Security.Claims.ClaimTypes.Role);
+                        if (roleClaim!.Value == RoleUtilities.RoleUser)
+                        {
+                            return RedirectToAction("Index", "Customer");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Admin");
+                        }
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Admin");
+                        ViewBag.ErrorMessage = "An error occureed. Please log-in again.";
                     }
                 }
                 else
@@ -115,9 +125,9 @@ namespace RentaRide.Controllers
         }
 
         [NonAction]
-        private string ProcessUploadedFile(IFormFile img, string imgCategory, string UID)
+        private string? ProcessUploadedFile(IFormFile? img, string imgCategory, string UID)
         {
-            string uniqueFileName = null;
+            string? uniqueFileName = null;
             string UploadFolder = Path.Combine(FileLoc.FileUploadFolder, imgCategory);
             string path = Path.Combine(_environment.WebRootPath, UploadFolder);
             if (!Directory.Exists(path))
@@ -129,19 +139,17 @@ namespace RentaRide.Controllers
             {
                 uniqueFileName = UID;
                 string filePath = Path.Combine(path, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    img.CopyTo(fileStream);
-                }
+                using FileStream fileStream = new(filePath, FileMode.Create);
+                img.CopyTo(fileStream);
             }
 
             return uniqueFileName;
         }
 
         [NonAction]
-        private string GetFileExtension(IFormFile img)
+        private static string? GetFileExtension(IFormFile? img)
         {
-            string fileExtension = null;
+            string? fileExtension = null;
             if (img != null)
             {
                 fileExtension = Path.GetExtension(img.FileName);

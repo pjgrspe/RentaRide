@@ -33,7 +33,11 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseStaticFiles(new StaticFileOptions
+{
+    ServeUnknownFileTypes = true, // Allow serving files without extensions
+    DefaultContentType = "image/jpeg" // Default content type for unknown files
+});
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

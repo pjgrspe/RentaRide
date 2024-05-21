@@ -27,7 +27,7 @@ namespace RentaRide.Models.Accounts
         [DisplayName("First Name")]
         public string regmodelFirstName { get; set; }
         [DisplayName("Middle Name")]
-        public string regmodelMiddleName { get; set; }
+        public string? regmodelMiddleName { get; set; }
         [Required]
         [DisplayName("Last Name")]
         public string regmodelLastName { get; set; }
