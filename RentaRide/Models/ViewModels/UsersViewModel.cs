@@ -1,4 +1,6 @@
-﻿namespace RentaRide.Models.ViewModels
+﻿using System.Globalization;
+
+namespace RentaRide.Models.ViewModels
 {
     public class UsersViewModel
     {
@@ -22,5 +24,15 @@
         public string? userVM2ndValidID { get; set; }
         public string? userVMProofofBilling { get; set; }
         public string? userVMSelfieProof { get; set; }
+
+        public string? GetFormattedDate(DateTime? date)
+        {
+            return date?.ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture);
+        }
+
+        public string? FormattedDateCreated => GetFormattedDate(userVMDateCreated);
+        public string? FormattedDateLastModified => GetFormattedDate(userVMDateLastModified);
+        public string? FormattedDateModified => GetFormattedDate(userVMDateModified);
+        public string? FormattedDOB => GetFormattedDate(userVMDOB);
     }
 }
