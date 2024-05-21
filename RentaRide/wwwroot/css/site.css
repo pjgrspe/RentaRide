@@ -80,7 +80,7 @@ a:hover {
 }
 
 ::-webkit-scrollbar-track {
-    background: #222428;
+    background: transparent;
 }
 
 /* The scrollbar handle (thumb) */
