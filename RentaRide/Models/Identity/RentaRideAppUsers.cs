@@ -11,8 +11,7 @@ namespace RentaRide.Models.Identity
         public string? userMiddleName { get; set; }
         [Required]
         public string userLastName { get; set; }
-        [Required]
-        public bool userisApproved { get; set; }
+        public bool? userisApproved { get; set; }
         [Required]
         public bool userisActive { get; set; } = false;
     }

@@ -34,5 +34,57 @@ namespace RentaRide.Models.ViewModels
         public string? FormattedDateLastModified => GetFormattedDate(userVMDateLastModified);
         public string? FormattedDateModified => GetFormattedDate(userVMDateModified);
         public string? FormattedDOB => GetFormattedDate(userVMDOB);
+
+        public string userVMStatus
+        {
+            get
+            {
+                if (userVMisActive == true)
+                {
+                    
+                    if (userVMisApproved == null)
+                    {
+                        return "Pending";
+                    }
+                    else if (userVMisApproved == true)
+                    {
+                        return "Approved";
+                    }
+                    else
+                    {
+                        return "Denied";
+                    }
+                }
+                else
+                {
+                    return "Inactive";
+                }
+            }
+
+        }
+
+        public string userVMfilterStatus
+        {
+            get
+            {
+                if (userVMStatus == "Pending")
+                {
+                    return "pending";
+                }else if (userVMStatus == "Approved")
+                {
+                    return "active";
+                }
+                else if (userVMStatus == "Denied")
+                {
+                    return "denied";
+                }
+                else
+                {
+                    return "delay";
+                }
+                
+            }
+
+        }
     }
 }
