@@ -156,6 +156,8 @@ function openModal(id, name, email, contact, status, dateCreated, dateModified, 
     $('#proofOfBillingModal img').attr('src', proofOfBillingSrc);
     $('#modalSelfieWithID img').attr('src', selfieWithIDSrc);
     $('#selfieWithIDModal img').attr('src', selfieWithIDSrc);
+    document.getElementById('approveUserId').value = id;
+    document.getElementById('denyUserId').value = id;
 
     $('#userModal').modal('show');
 }

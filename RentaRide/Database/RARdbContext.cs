@@ -14,15 +14,35 @@ namespace RentaRide.Database
         }
 
         //public DbSet<RentaRideAppUsers> TBL_RentaRideAppUsers { get; set; }
-        public DbSet<UserDetailsModel> TBL_UserDetails { get; set; }
+        public DbSet<UserDetailsDBModel> TBL_UserDetails { get; set; }
+        public DbSet<DriversDBModel> TBL_Drivers { get; set; }
+        public DbSet<CarsDBModel> TBL_Cars { get; set; }
+        public DbSet<CarTypesDBModel> TBL_CarTypes { get; set; }
+        public DbSet<ListingsDBModel> TBL_Listings { get; set; }
+        public DbSet<RatesDBModel> TBL_Rates { get; set; }
+        public DbSet<OrdersDBModel> TBL_Orders { get; set; }
+        public DbSet<PayTypesDBModel> TBL_PayTypes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<UserDetailsModel>()
+            builder.Entity<UserDetailsDBModel>()
                 .HasOne(ud => ud.RentaRideAppUsers)
                 .WithOne()
-                .HasForeignKey<UserDetailsModel>(ud => ud.UserID)
+                .HasForeignKey<UserDetailsDBModel>(ud => ud.UserID)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ListingsDBModel>()
+                .Property(l => l.listingPrice)
+                .HasPrecision(9, 2);
+
+            builder.Entity<OrdersDBModel>()
+                .Property(o => o.orderTotalCost)
+                .HasPrecision(9, 2);
+
+            builder.Entity<OrdersDBModel>()
+                .Property(o => o.orderExtraFees)
+                .HasPrecision(9, 2);
         }
     }
 }

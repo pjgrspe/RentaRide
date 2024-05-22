@@ -17,7 +17,7 @@ namespace RentaRide.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -155,7 +155,301 @@ namespace RentaRide.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RentaRide.Database.Database_Models.UserDetailsModel", b =>
+            modelBuilder.Entity("RentaRide.Database.Database_Models.CarTypesDBModel", b =>
+                {
+                    b.Property<int>("cartypeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("cartypeID"));
+
+                    b.Property<string>("cartypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("cartypeID");
+
+                    b.ToTable("TBL_CarTypes");
+                });
+
+            modelBuilder.Entity("RentaRide.Database.Database_Models.CarsDBModel", b =>
+                {
+                    b.Property<int>("carID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("carID"));
+
+                    b.Property<string>("carColor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("carDocuments")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("carFuelType")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("carInactiveInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("carIsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("carLastMaintenance")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("carLicensePlate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("carMake")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("carMileage")
+                        .HasColumnType("int");
+
+                    b.Property<string>("carModel")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("carNextMaintenance")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("carPicture")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("carStatus")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("carTransmission")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("carType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("carYear")
+                        .HasColumnType("int");
+
+                    b.HasKey("carID");
+
+                    b.HasIndex("carType");
+
+                    b.ToTable("TBL_Cars");
+                });
+
+            modelBuilder.Entity("RentaRide.Database.Database_Models.DriversDBModel", b =>
+                {
+                    b.Property<int>("driverID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("driverID"));
+
+                    b.Property<string>("driverContact")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("driverEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("driverFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("driverIsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("driverLastDutyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("driverLastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("driverLicense")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("driverMiddleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("driverOnDuty")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("driverPicture")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("driverRegisteredDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("driverID");
+
+                    b.ToTable("TBL_Drivers");
+                });
+
+            modelBuilder.Entity("RentaRide.Database.Database_Models.ListingsDBModel", b =>
+                {
+                    b.Property<int>("listingID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("listingID"));
+
+                    b.Property<int>("carID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("listingAvailabilityEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("listingAvailabilityStart")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("listingDetails")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("listingIsRented")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("listingPrice")
+                        .HasPrecision(9, 2)
+                        .HasColumnType("decimal(9,2)");
+
+                    b.Property<int>("listingRate")
+                        .HasColumnType("int");
+
+                    b.HasKey("listingID");
+
+                    b.HasIndex("carID");
+
+                    b.HasIndex("listingRate");
+
+                    b.ToTable("TBL_Listings");
+                });
+
+            modelBuilder.Entity("RentaRide.Database.Database_Models.OrdersDBModel", b =>
+                {
+                    b.Property<int>("orderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("orderID"));
+
+                    b.Property<int>("carID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("driverID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("orderBookDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("orderExtraFees")
+                        .HasPrecision(9, 2)
+                        .HasColumnType("decimal(9,2)");
+
+                    b.Property<string>("orderLocationLimit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("orderNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("orderPaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("orderPaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("orderPickupDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("orderPickupLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("orderRating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("orderReservationID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("orderReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("orderReturnLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("orderReview")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("orderStatus")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("orderTotalCost")
+                        .HasPrecision(9, 2)
+                        .HasColumnType("decimal(9,2)");
+
+                    b.Property<string>("userID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("orderID");
+
+                    b.HasIndex("carID");
+
+                    b.HasIndex("driverID");
+
+                    b.HasIndex("orderPaymentMethod");
+
+                    b.HasIndex("orderRating");
+
+                    b.HasIndex("userID");
+
+                    b.ToTable("TBL_Orders");
+                });
+
+            modelBuilder.Entity("RentaRide.Database.Database_Models.PayTypesDBModel", b =>
+                {
+                    b.Property<int>("paytypeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("paytypeID"));
+
+                    b.Property<string>("paytypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("paytypeID");
+
+                    b.ToTable("TBL_PayTypes");
+                });
+
+            modelBuilder.Entity("RentaRide.Database.Database_Models.RatesDBModel", b =>
+                {
+                    b.Property<int>("listingRateID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("listingRateID"));
+
+                    b.Property<string>("listingRateName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("listingRateID");
+
+                    b.ToTable("TBL_Rates");
+                });
+
+            modelBuilder.Entity("RentaRide.Database.Database_Models.UserDetailsDBModel", b =>
                 {
                     b.Property<int>("userDetailID")
                         .ValueGeneratedOnAdd()
@@ -224,7 +518,7 @@ namespace RentaRide.Migrations
                     b.HasIndex("UserID")
                         .IsUnique();
 
-                    b.ToTable("TBL_UserDetails", (string)null);
+                    b.ToTable("TBL_UserDetails");
                 });
 
             modelBuilder.Entity("RentaRide.Models.Identity.RentaRideAppUsers", b =>
@@ -293,7 +587,7 @@ namespace RentaRide.Migrations
                     b.Property<bool>("userisActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("userisApproved")
+                    b.Property<bool?>("userisApproved")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
@@ -360,11 +654,82 @@ namespace RentaRide.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RentaRide.Database.Database_Models.UserDetailsModel", b =>
+            modelBuilder.Entity("RentaRide.Database.Database_Models.CarsDBModel", b =>
+                {
+                    b.HasOne("RentaRide.Database.Database_Models.CarTypesDBModel", "carTypesDBModel")
+                        .WithMany()
+                        .HasForeignKey("carType")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("carTypesDBModel");
+                });
+
+            modelBuilder.Entity("RentaRide.Database.Database_Models.ListingsDBModel", b =>
+                {
+                    b.HasOne("RentaRide.Database.Database_Models.CarsDBModel", "CarsDBModel")
+                        .WithMany()
+                        .HasForeignKey("carID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RentaRide.Database.Database_Models.RatesDBModel", "listingRatesDBModel")
+                        .WithMany()
+                        .HasForeignKey("listingRate")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CarsDBModel");
+
+                    b.Navigation("listingRatesDBModel");
+                });
+
+            modelBuilder.Entity("RentaRide.Database.Database_Models.OrdersDBModel", b =>
+                {
+                    b.HasOne("RentaRide.Database.Database_Models.CarsDBModel", "CarsDBModel")
+                        .WithMany()
+                        .HasForeignKey("carID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RentaRide.Database.Database_Models.DriversDBModel", "DriversDBModel")
+                        .WithMany()
+                        .HasForeignKey("driverID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RentaRide.Database.Database_Models.PayTypesDBModel", "PayTypesDBModel")
+                        .WithMany()
+                        .HasForeignKey("orderPaymentMethod")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RentaRide.Database.Database_Models.RatesDBModel", "RatesDBModel")
+                        .WithMany()
+                        .HasForeignKey("orderRating");
+
+                    b.HasOne("RentaRide.Models.Identity.RentaRideAppUsers", "RentaRideAppUsers")
+                        .WithMany()
+                        .HasForeignKey("userID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CarsDBModel");
+
+                    b.Navigation("DriversDBModel");
+
+                    b.Navigation("PayTypesDBModel");
+
+                    b.Navigation("RatesDBModel");
+
+                    b.Navigation("RentaRideAppUsers");
+                });
+
+            modelBuilder.Entity("RentaRide.Database.Database_Models.UserDetailsDBModel", b =>
                 {
                     b.HasOne("RentaRide.Models.Identity.RentaRideAppUsers", "RentaRideAppUsers")
                         .WithOne()
-                        .HasForeignKey("RentaRide.Database.Database_Models.UserDetailsModel", "UserID")
+                        .HasForeignKey("RentaRide.Database.Database_Models.UserDetailsDBModel", "UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
