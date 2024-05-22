@@ -71,11 +71,13 @@ namespace RentaRide.Controllers
                     _userManager.AddToRoleAsync(userReg, RoleUtilities.RoleUser).GetAwaiter().GetResult();
 
                     var licenseImgUpload = ProcessUploadedFile(model.regmodelLicense, ImageCategories.imgLicense,userReg.Id);
+                    var licenseBackImgUpload = ProcessUploadedFile(model.regmodelLicenseBack, ImageCategories.imgLicenseBack,userReg.Id);
                     var secValidIDImgUpload = ProcessUploadedFile(model.regmodel2ndValidID, ImageCategories.img2ndID, userReg.Id);
                     var POBImgUpload = ProcessUploadedFile(model.regmodelPOB, ImageCategories.imgPOB, userReg.Id);
                     var SelfieImgUpload = ProcessUploadedFile(model.regmodelSelfieProof, ImageCategories.imgSelfie, userReg.Id);
 
                     var licenseFileExt = GetFileExtension(model.regmodelLicense);
+                    var licenseBackFileExt = GetFileExtension(model.regmodelLicenseBack);
                     var secValidIDFileExt = GetFileExtension(model.regmodel2ndValidID);
                     var POBFileExt = GetFileExtension(model.regmodelPOB);
                     var SelfieFileExt = GetFileExtension(model.regmodelSelfieProof);
@@ -92,6 +94,8 @@ namespace RentaRide.Controllers
                         userContact = model.regmodelContact,
                         userLicense = licenseImgUpload,
                         userLicenseFileExt = licenseFileExt,
+                        userLicenseBack = licenseBackImgUpload,
+                        userLicenseBackFileExt = licenseBackFileExt,
                         user2ndValidID = secValidIDImgUpload,
                         user2ndValidIDFileExt = secValidIDFileExt,
                         userProofofBilling = POBImgUpload,

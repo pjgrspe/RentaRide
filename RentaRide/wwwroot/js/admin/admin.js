@@ -147,7 +147,7 @@ function updateIcons(columnIndex) {
 /* ---------------------------------------------------
     USER TABLE SCRIPTS
 ----------------------------------------------------- */
-function openModalUserDetails(id, name, email, contact, status, dateCreated, dateModified, dateOfBirth, streetAddress, city, province, driversLicenseSrc, secondaryIDSrc, proofOfBillingSrc, selfiePicSrc) {
+function openModalUserDetails(id, name, email, contact, status, dateCreated, dateModified, dateOfBirth, streetAddress, city, province, driversLicenseSrc, driversLicenseBackSrc, secondaryIDSrc, proofOfBillingSrc, selfiePicSrc) {
     $('#modalUserId').text(id);
     $('#modalUserName').text(name);
     $('#modalUserEmail').text(email);
@@ -165,13 +165,13 @@ function openModalUserDetails(id, name, email, contact, status, dateCreated, dat
     // Set the src attribute for the images
     $('#modalDriversLicense img').attr('src', driversLicenseSrc);
     $('#driversLicenseFrontImage').attr('src', driversLicenseSrc);
-    $('#driversLicenseBackImage').attr('src', driversLicenseSrc);
+    $('#driversLicenseBackImage').attr('src', driversLicenseBackSrc);
     $('#modalSecondaryID img').attr('src', secondaryIDSrc);
     $('#secondaryIDModal img').attr('src', secondaryIDSrc);
     $('#modalProofOfBilling img').attr('src', proofOfBillingSrc);
     $('#proofOfBillingModal img').attr('src', proofOfBillingSrc);
-    $('#modalSelfieWithID img').attr('src', selfieWithIDSrc);
-    $('#selfieWithIDModal img').attr('src', selfieWithIDSrc);
+    $('#modalSelfieWithID img').attr('src', selfiePicSrc);
+    $('#selfieWithIDModal img').attr('src', selfiePicSrc);
     document.getElementById('approveUserId').value = id;
     document.getElementById('denyUserId').value = id;
 

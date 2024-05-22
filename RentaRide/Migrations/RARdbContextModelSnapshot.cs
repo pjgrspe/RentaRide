@@ -490,6 +490,12 @@ namespace RentaRide.Migrations
                     b.Property<string>("userLicense")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("userLicenseBack")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userLicenseBackFileExt")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("userLicenseFileExt")
                         .HasColumnType("nvarchar(max)");
 

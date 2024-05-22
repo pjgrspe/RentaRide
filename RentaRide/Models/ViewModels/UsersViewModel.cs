@@ -21,6 +21,7 @@ namespace RentaRide.Models.ViewModels
         public string? userVMProvinceAdd { get; set; }
         public string? userVMContact { get; set; }
         public string? userVMLicense { get; set; }
+        public string? userVMLicenseBack { get; set; }
         public string? userVM2ndValidID { get; set; }
         public string? userVMProofofBilling { get; set; }
         public string? userVMSelfieProof { get; set; }
@@ -85,6 +86,20 @@ namespace RentaRide.Models.ViewModels
                 
             }
 
+        }
+        public string userVMFullName
+        {
+            get
+            {
+                if (userVMMiddleName == null)
+                {
+                    return userVMFirstName + " " + userVMLastName;
+                }
+                else
+                {
+                    return userVMFirstName + " " + userVMMiddleName + " " + userVMLastName;
+                }
+            }
         }
     }
 }
