@@ -170,8 +170,8 @@ function openModalUserDetails(id, name, email, contact, status, dateCreated, dat
     $('#secondaryIDModal img').attr('src', secondaryIDSrc);
     $('#modalProofOfBilling img').attr('src', proofOfBillingSrc);
     $('#proofOfBillingModal img').attr('src', proofOfBillingSrc);
-    $('#modaldriverPic img').attr('src', selfiePicSrc);
-    $('#driverPicModal img').attr('src', selfiePicSrc);
+    $('#modalSelfieWithID img').attr('src', selfieWithIDSrc);
+    $('#selfieWithIDModal img').attr('src', selfieWithIDSrc);
     document.getElementById('approveUserId').value = id;
     document.getElementById('denyUserId').value = id;
 

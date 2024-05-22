@@ -2,6 +2,7 @@ using RentaRide.Database;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RentaRide.Models.Identity;
+using RentaRide.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ builder.Services.AddIdentity<RentaRideAppUsers, IdentityRole>(options =>
     options.User.RequireUniqueEmail = true;
 }
 ).AddEntityFrameworkStores<RARdbContext>();
+
+builder.Services.AddScoped<IUserServices, UserServices>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

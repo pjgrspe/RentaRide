@@ -10,13 +10,23 @@ using System.IO;
 
 namespace RentaRide.Controllers
 {
-    public class RegistrationController(UserManager<RentaRideAppUsers> RentaRideAppUsers, RoleManager<IdentityRole> roleManager, SignInManager<RentaRideAppUsers> signinManager, RARdbContext rardbContext, IWebHostEnvironment environment) : Controller
+    public class RegistrationController : Controller
     {
-        private readonly SignInManager<RentaRideAppUsers> _signInManager = signinManager;
-        private readonly RoleManager<IdentityRole> _roleManager = roleManager;
-        private readonly UserManager<RentaRideAppUsers> _userManager = RentaRideAppUsers;
-        private readonly RARdbContext _rardbContext = rardbContext;
-        private readonly IWebHostEnvironment _environment = environment;
+        private readonly SignInManager<RentaRideAppUsers> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<RentaRideAppUsers> _userManager;
+        private readonly RARdbContext _rardbContext;
+        private readonly IWebHostEnvironment _environment;
+
+        public RegistrationController(UserManager<RentaRideAppUsers> userManager, RoleManager<IdentityRole> roleManager, SignInManager<RentaRideAppUsers> signInManager, RARdbContext rardbContext, IWebHostEnvironment environment)
+        {
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
+            _rardbContext = rardbContext;
+            _environment = environment;
+        }
+
         private RentaRideAppUsers CreaterUser()
         {
             try
@@ -53,7 +63,7 @@ namespace RentaRide.Controllers
                 userReg.userFirstName = model.regmodelFirstName;
                 userReg.userMiddleName = model.regmodelMiddleName;
                 userReg.userLastName = model.regmodelLastName;
-                userReg.userisApproved = false;
+                userReg.userisActive = true;
 
                 var userResult = _userManager.CreateAsync(userReg, model.regmodelPassword).GetAwaiter().GetResult();
                 if (userResult.Succeeded)
@@ -69,7 +79,7 @@ namespace RentaRide.Controllers
                     var secValidIDFileExt = GetFileExtension(model.regmodel2ndValidID);
                     var POBFileExt = GetFileExtension(model.regmodelPOB);
                     var SelfieFileExt = GetFileExtension(model.regmodelSelfieProof);
-                    var userDetailsReg = new UserDetailsModel
+                    var userDetailsReg = new UserDetailsDBModel
                     {
                         userDateCreated = DateTime.Now,
                         userDateLastModified = DateTime.Now,
