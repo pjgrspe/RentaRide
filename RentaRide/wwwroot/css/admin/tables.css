@@ -1,19 +1,47 @@
-﻿@media (max-width: 992px) {
-    .table thead th:nth-child(1), /* Id column */
-    .table tbody td:nth-child(1), /* Id column */
-    .table thead th:nth-child(4), /* Email column */
-    .table tbody td:nth-child(4), /* Email column */
-    .table thead th:nth-child(5), /* Contact column */
-    .table tbody td:nth-child(5) { /* Contact column */
+﻿/*USERS TABLE*/
+@media (max-width: 992px) {
+    /*.table thead th:nth-child(1),*/ /* Id column */
+    /*.table tbody td:nth-child(1),*/ /* Id column */
+    .table-users thead th:nth-child(4), /* Email column */
+    .table-users tbody td:nth-child(4), /* Email column */
+    .table-users thead th:nth-child(5), /* Contact column */
+    .table-users tbody td:nth-child(5) { /* Contact column */
         display: none;
     }
 }
 
 @media (max-width: 768px) {
-    .table thead th:nth-child(3), /* Date column */
-    .table tbody td:nth-child(3) { /* Date column */
+    .table-users thead th:nth-child(3), /* Date column */
+    .table-users tbody td:nth-child(3) { /* Date column */
         display: none;
     }
+}
+
+
+
+/*DRIVERS TABLE*/
+@media (max-width: 992px) {
+    /*.table thead th:nth-child(1),*/ /* Id column */
+    /*.table tbody td:nth-child(1),*/ /* Id column */
+    .table-drivers thead th:nth-child(5), /* Date Modified column */
+    .table-drivers tbody td:nth-child(5) { /* Date Modified column */
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    /*.table-drivers thead th:nth-child(1),*/ /* Pic column */
+    /*.table-drivers tbody td:nth-child(1),*/ /* Pic column */
+    .table-drivers thead th:nth-child(4), /* Date Created column */
+    .table-drivers tbody td:nth-child(4), /* Date Created column */
+    .table-drivers thead th:nth-child(2), /* ID column */
+    .table-drivers tbody td:nth-child(2) { /* ID column */
+        display: none;
+    }
+}
+
+.img-col {
+    width: auto;
 }
 
 /* ---------------------------------------------------
@@ -38,10 +66,9 @@
     position: relative;
 }
 
-    .position-relative:hover .overlay {
-        opacity: 1;
-    }
-
+.position-relative:hover .overlay {
+    opacity: 1;
+}
 
 /*
 .overlay {
@@ -74,7 +101,7 @@
 
 #searchInput {
     min-width: 150px;
-    width: 250px;
+    width: 200px;
 }
 
 .status span {
@@ -86,6 +113,10 @@
 }
 
 .status-pending span {
+    background-color: #fab86a;
+}
+
+.status-onduty span {
     background-color: #fab86a;
 }
 
@@ -112,20 +143,17 @@
 
 .table-container {
     min-height: 500px;
-    max-height: 500px; /* Adjust the height as needed */
+    max-height: 400px; /* Adjust the height as needed */
     overflow-y: auto;
+    width:100%;
 }
 
 .table {
     width: 100%;
-    table-layout: fixed;
 }
 
 th {
     white-space: nowrap;
-    position: sticky;
-    top: 0;
-    background-color: gray;
 }
 
 
@@ -142,8 +170,11 @@ td {
 
 .table-responsive {
     justify-content: center;
+    height:660px;
     border-radius: 10px;
     display: flex;
+    max-width: 1200px;
+    min-width:fit-content;
 }
 
 .table thead tr th {

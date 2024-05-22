@@ -1,4 +1,7 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿/* ---------------------------------------------------
+    SIDEBAR SCRIPTS
+----------------------------------------------------- */
+document.addEventListener("DOMContentLoaded", function () {
     const navLinks = document.querySelectorAll('.nav-item-link');
     const profileLinks = document.querySelectorAll('.profile-menu .dropdown-item');
     const mainContent = document.querySelector('.main-content');
@@ -58,12 +61,20 @@
     });
 });
 
+$(document).ready(function () {
+    $("#sidebarCollapse").on("click", function () {
+        $("#sidebar").toggleClass("active");
+        $(this).toggleClass("active");
+    });
+});
 
-/*TABLE SCRIPTS*/
+/* ---------------------------------------------------
+    TABLE SCRIPTS
+----------------------------------------------------- */
 function filterTable() {
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
     const statusFilter = document.getElementById('statusFilter').value;
-    const tableRows = document.querySelectorAll('#applicationsTable .table-row');
+    const tableRows = document.querySelectorAll('#usersTable .table-row');
 
     tableRows.forEach(row => {
         const name = row.children[1].innerText.toLowerCase();
@@ -90,7 +101,7 @@ function filterTable() {
 let sortOrder = {};
 
 function sortTable(columnIndex) {
-    const table = document.getElementById("applicationsTable");
+    const table = document.getElementById("usersTable");
     const rows = Array.from(table.getElementsByClassName("table-row"));
     const ths = table.getElementsByTagName("th");
 
@@ -132,7 +143,11 @@ function updateIcons(columnIndex) {
     });
 }
 
-function openModal(id, name, email, contact, status, dateCreated, dateModified, dateOfBirth, streetAddress, city, province, driversLicenseSrc, secondaryIDSrc, proofOfBillingSrc, selfieWithIDSrc) {
+
+/* ---------------------------------------------------
+    USER TABLE SCRIPTS
+----------------------------------------------------- */
+function openModalUserDetails(id, name, email, contact, status, dateCreated, dateModified, dateOfBirth, streetAddress, city, province, driversLicenseSrc, secondaryIDSrc, proofOfBillingSrc, selfiePicSrc) {
     $('#modalUserId').text(id);
     $('#modalUserName').text(name);
     $('#modalUserEmail').text(email);
@@ -149,7 +164,8 @@ function openModal(id, name, email, contact, status, dateCreated, dateModified, 
 
     // Set the src attribute for the images
     $('#modalDriversLicense img').attr('src', driversLicenseSrc);
-    $('#driversLicenseModal img').attr('src', driversLicenseSrc);
+    $('#driversLicenseFrontImage').attr('src', driversLicenseSrc);
+    $('#driversLicenseBackImage').attr('src', driversLicenseSrc);
     $('#modalSecondaryID img').attr('src', secondaryIDSrc);
     $('#secondaryIDModal img').attr('src', secondaryIDSrc);
     $('#modalProofOfBilling img').attr('src', proofOfBillingSrc);
@@ -162,7 +178,7 @@ function openModal(id, name, email, contact, status, dateCreated, dateModified, 
     $('#userModal').modal('show');
 }
 
-function closeModal() {
+function closeModalUserDetails() {
     $('#userModal').modal('hide');
 }
 
@@ -176,4 +192,103 @@ function denyUser() {
     // Implement denial logic here
     alert("User denied.");
     $('#userModal').modal('hide');
+}
+
+
+/* ---------------------------------------------------
+    DRIVERS TABLE SCRIPT
+----------------------------------------------------- */
+
+/*ADD DRIVER MODAL*/
+function openModalAddDriver() {
+    $('#addNewDriverModal').modal('show');
+}
+
+function closeModalAddDriver() {
+    $('#addNewDriverModal').modal('hide');
+}
+
+function addDriver() {
+    alert("User added.");
+    $('#addNewDriverModal').modal('hide');
+}
+
+
+
+/*EDIT DRIVER MODAL*/
+function openModalEditDriver(firstname,middlename,lastname,email,contact,status) {
+    $('#driverFirstName-edit').val(firstname);
+    $('#driverMiddleName-edit').val(middlename);
+    $('#driverLastName-edit').val(lastname);
+    $('#driverEmail-edit').val(email);
+    $('#driverContact-edit').val(contact);
+    $('#driverStatus-edit').val(status);
+
+    $('#editDriverModal').modal('show');
+}
+
+function closeModalEditDriver() {
+    $('#editDriverModal').modal('hide');
+}
+
+function editDriver(){
+    alert("User edited.");
+    $('#editDriverModal').modal('hide');
+}
+
+
+
+/*CONTACT MODAL*/
+function openModalDriverContact(name, email, contact) {
+    $('#modalUserName').text(name);
+    $('#modalUserEmail').text(email);
+    $('#modalUserContact').text(contact);
+
+    $('#contactModal').modal('show');
+}
+
+function closeModalDriverContact() {
+    $('#contactModal').modal('hide');
+}
+
+
+
+/*DRIVER PICTURE MODAL*/
+function openModalDriverPicture(driverPicture) {
+    $('#driversPictureModal img').attr('src', driverPicture);
+
+    $('#driversPictureModal').modal('show');
+}
+
+function closeModalDriverPicture() {
+    $('#driversPictureModal').modal('hide');
+}
+
+
+
+/*VIEW DRIVER'S LICENSE MODAL*/
+function openModalViewDriverLicense(front,back) {
+    $('#driversLicenseFrontImage').attr('src', front);
+    $('#driversLicenseBackImage').attr('src', back);
+
+    $('#driversLicenseModal').modal('show');
+}
+
+function closeModalViewDriverLicense() {
+    $('#driversLicenseModal').modal('hide');
+}
+
+
+/*DELETE DRIVER MODAL*/
+function openModalDeleteDriver() {
+    $('#deleteDriverModal').modal('show');
+}
+
+function closeModalDeleteDriver() {
+    $('#deleteDriverModal').modal('hide');
+}
+
+function deleteDriver() {
+    alert("User deleted.");
+    $('#deleteDriverModal').modal('hide');
 }
