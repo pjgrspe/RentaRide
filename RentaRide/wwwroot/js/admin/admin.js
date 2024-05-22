@@ -147,7 +147,7 @@ function updateIcons(columnIndex) {
 /* ---------------------------------------------------
     USER TABLE SCRIPTS
 ----------------------------------------------------- */
-function openModalUserDetails(id, name, email, contact, status, dateCreated, dateModified, dateOfBirth, streetAddress, city, province, driversLicenseSrc, secondaryIDSrc, proofOfBillingSrc, driverPicSrc) {
+function openModalUserDetails(id, name, email, contact, status, dateCreated, dateModified, dateOfBirth, streetAddress, city, province, driversLicenseSrc, secondaryIDSrc, proofOfBillingSrc, selfiePicSrc) {
     $('#modalUserId').text(id);
     $('#modalUserName').text(name);
     $('#modalUserEmail').text(email);
@@ -170,8 +170,10 @@ function openModalUserDetails(id, name, email, contact, status, dateCreated, dat
     $('#secondaryIDModal img').attr('src', secondaryIDSrc);
     $('#modalProofOfBilling img').attr('src', proofOfBillingSrc);
     $('#proofOfBillingModal img').attr('src', proofOfBillingSrc);
-    $('#modaldriverPic img').attr('src', driverPicSrc);
-    $('#driverPicModal img').attr('src', driverPicSrc);
+    $('#modaldriverPic img').attr('src', selfiePicSrc);
+    $('#driverPicModal img').attr('src', selfiePicSrc);
+    document.getElementById('approveUserId').value = id;
+    document.getElementById('denyUserId').value = id;
 
     $('#userModal').modal('show');
 }
