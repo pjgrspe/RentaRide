@@ -46,8 +46,14 @@ namespace RentaRide.Models.Accounts
         [Required]
         [DisplayName("Contact")]
         public string regmodelContact { get; set; }
-        [DisplayName("Driver's License")]
+        [DisplayName("Driver's License (Front)")]
+        [RequireBothOrNone("regmodelLicenseBack", ErrorMessage = "Both License and License Back must be provided, or both must be empty.")]
+
         public IFormFile? regmodelLicense { get; set; }
+        [RequireBothOrNone("regmodelLicense", ErrorMessage = "Both License and License Back must be provided, or both must be empty.")]
+
+        [DisplayName("Driver's License (Back)")]
+        public IFormFile? regmodelLicenseBack { get; set; }
         [DisplayName("Secondary Valid ID")]
         public IFormFile? regmodel2ndValidID { get; set; }
         [DisplayName("Proof of Billing")]

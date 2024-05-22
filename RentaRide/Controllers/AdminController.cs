@@ -53,7 +53,7 @@ namespace RentaRide.Controllers
             try
             {
                 //Model logic for Application menu name
-                if (menuName == "Applications")
+                if (menuName == "Users")
                 {
                     var users = await _rardbContext.TBL_UserDetails
                                       .Include(u => u.RentaRideAppUsers)
@@ -78,10 +78,11 @@ namespace RentaRide.Controllers
                         userVMCityAdd = user.userCityAdd,
                         userVMProvinceAdd = user.userProvinceAdd,
                         userVMContact = user.userContact,
-                        userVMLicense = imgNullCheck(user.userLicense) /*+ user.userLicenseFileExt*/,
-                        userVM2ndValidID = imgNullCheck(user.user2ndValidID) /*+ user.user2ndValidIDFileExt*/,
-                        userVMProofofBilling = imgNullCheck(user.userProofofBilling)/* + user.userProofofBillingFileExt*/,
-                        userVMSelfieProof = imgNullCheck(user.userSelfieProof) /*+ user.userSelfieProofFileExt*/
+                        userVMLicense = imgNullCheck(user.userLicense),
+                        userVMLicenseBack = imgNullCheck(user.userLicenseBack),
+                        userVM2ndValidID = imgNullCheck(user.user2ndValidID),
+                        userVMProofofBilling = imgNullCheck(user.userProofofBilling),
+                        userVMSelfieProof = imgNullCheck(user.userSelfieProof)
                     }).ToList();
                 }
 

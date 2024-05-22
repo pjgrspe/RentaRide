@@ -29,6 +29,8 @@ namespace RentaRide.Database.Database_Models
         public string userContact { get; set; }
         public string? userLicense { get; set; }
         public string? userLicenseFileExt { get; set; }
+        public string? userLicenseBack { get; set; }
+        public string? userLicenseBackFileExt { get; set; }
         public string? user2ndValidID { get; set; }
         public string? user2ndValidIDFileExt { get; set; }
         public string? userProofofBilling { get; set; }
