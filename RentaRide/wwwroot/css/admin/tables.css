@@ -1,4 +1,5 @@
-﻿@media (max-width: 992px) {
+﻿/*USERS TABLE*/
+@media (max-width: 992px) {
     /*.table thead th:nth-child(1),*/ /* Id column */
     /*.table tbody td:nth-child(1),*/ /* Id column */
     .table-users thead th:nth-child(4), /* Email column */
@@ -65,10 +66,9 @@
     position: relative;
 }
 
-    .position-relative:hover .overlay {
-        opacity: 1;
-    }
-
+.position-relative:hover .overlay {
+    opacity: 1;
+}
 
 /*
 .overlay {
@@ -200,23 +200,4 @@ td {
 .table .td-actions .btn {
     margin: 0;
     padding: 5px;
-}
-
-.pagination {
-    margin: 1rem 0;
-}
-
-.pagination li {
-    cursor: pointer;
-}
-
-.pagination .active a {
-    background-color: #007bff;
-    color: white;
-}
-
-.pagination a {
-    color: #007bff;
-    padding: 0.5rem 0.75rem;
-    text-decoration: none;
 }

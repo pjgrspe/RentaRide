@@ -1,4 +1,7 @@
-﻿// Show the spinner initially
+﻿/* ---------------------------------------------------
+    LOADER SCRIPT
+----------------------------------------------------- */
+// Show the spinner initially
 document.getElementById('loadingSpinner').style.display = 'block';
 
 $(document).ready(function () {
@@ -7,11 +10,4 @@ $(document).ready(function () {
         $('#loadingSpinner').hide();
         $('.load-content').show(); // Show the content
     }, 1000); // Adjust the delay (in milliseconds) as needed
-});
-
-$(document).ready(function () {
-    $("#sidebarCollapse").on("click", function () {
-        $("#sidebar").toggleClass("active");
-        $(this).toggleClass("active");
-    });
 });

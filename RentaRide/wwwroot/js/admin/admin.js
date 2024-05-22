@@ -1,4 +1,7 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿/* ---------------------------------------------------
+    SIDEBAR SCRIPTS
+----------------------------------------------------- */
+document.addEventListener("DOMContentLoaded", function () {
     const navLinks = document.querySelectorAll('.nav-item-link');
     const profileLinks = document.querySelectorAll('.profile-menu .dropdown-item');
     const mainContent = document.querySelector('.main-content');
@@ -58,8 +61,16 @@
     });
 });
 
+$(document).ready(function () {
+    $("#sidebarCollapse").on("click", function () {
+        $("#sidebar").toggleClass("active");
+        $(this).toggleClass("active");
+    });
+});
 
-/*TABLE SCRIPTS*/
+/* ---------------------------------------------------
+    TABLE SCRIPTS
+----------------------------------------------------- */
 function filterTable() {
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
     const statusFilter = document.getElementById('statusFilter').value;
@@ -133,7 +144,9 @@ function updateIcons(columnIndex) {
 }
 
 
-/*USERS TABLE*/
+/* ---------------------------------------------------
+    USER TABLE SCRIPTS
+----------------------------------------------------- */
 function openModalUserDetails(id, name, email, contact, status, dateCreated, dateModified, dateOfBirth, streetAddress, city, province, driversLicenseSrc, secondaryIDSrc, proofOfBillingSrc, driverPicSrc) {
     $('#modalUserId').text(id);
     $('#modalUserName').text(name);
@@ -180,7 +193,9 @@ function denyUser() {
 }
 
 
-/*DRIVERS TABLE*/
+/* ---------------------------------------------------
+    DRIVERS TABLE SCRIPT
+----------------------------------------------------- */
 
 /*ADD DRIVER MODAL*/
 function openModalAddDriver() {
@@ -195,6 +210,7 @@ function addDriver() {
     alert("User added.");
     $('#addNewDriverModal').modal('hide');
 }
+
 
 
 /*EDIT DRIVER MODAL*/
@@ -213,10 +229,10 @@ function closeModalEditDriver() {
     $('#editDriverModal').modal('hide');
 }
 
-//function editDriver{
-//    alert("User edited.");
-//    $('#editDriverModal').modal('hide');
-//}
+function editDriver(){
+    alert("User edited.");
+    $('#editDriverModal').modal('hide');
+}
 
 
 
@@ -234,6 +250,7 @@ function closeModalDriverContact() {
 }
 
 
+
 /*DRIVER PICTURE MODAL*/
 function openModalDriverPicture(driverPicture) {
     $('#driversPictureModal img').attr('src', driverPicture);
@@ -246,6 +263,7 @@ function closeModalDriverPicture() {
 }
 
 
+
 /*VIEW DRIVER'S LICENSE MODAL*/
 function openModalViewDriverLicense(front,back) {
     $('#driversLicenseFrontImage').attr('src', front);
@@ -256,4 +274,19 @@ function openModalViewDriverLicense(front,back) {
 
 function closeModalViewDriverLicense() {
     $('#driversLicenseModal').modal('hide');
+}
+
+
+/*DELETE DRIVER MODAL*/
+function openModalDeleteDriver() {
+    $('#deleteDriverModal').modal('show');
+}
+
+function closeModalDeleteDriver() {
+    $('#deleteDriverModal').modal('hide');
+}
+
+function deleteDriver() {
+    alert("User deleted.");
+    $('#deleteDriverModal').modal('hide');
 }

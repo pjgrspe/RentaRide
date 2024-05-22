@@ -1,9 +1,12 @@
-﻿<div class="w-100 d-flex justify-content-center">
+﻿
+<div class="w-100 d-flex justify-content-center">
     <div class="row table-responsive bg-dark-secondary text-white">
         <div class="row justify-content-between mt-2">
+            @* TITLE *@
             <div class="col-md-3 d-flex align-items-center">
                 <h3 class="text-light mt-3 ms-2">Drivers</h3>
             </div>
+            @* SEARCH AND FILTER *@
             <div class="col-md-9">
                 <form class="d-flex justify-content-end align-items-center mt-3 rounded-3" onsubmit="return false;">
                     <input id="searchInput" class="form-control me-2 rounded-3" type="search" placeholder="Search" aria-label="Search">
@@ -16,13 +19,16 @@
                     <button class="btn btn-outline-light me-2 rounded-3" type="button" onclick="filterTable()">Search</button>
                 </form>
             </div>
+            @* ADD DRIVER BUTTON *@
             <div class="mt-2 mb-2 col-md-12 d-flex justify-content-end">
                 <button class="btn btn-success me-2 rounded-3" style="width:120px;" type="button" onclick="openModalAddDriver()">Add New +</button>
             </div>
         </div>
+        @* DRIVERS TABLE *@
         <div class="d-flex justify-content-center">
             <div class="table-container">
                 <table class="table table-drivers mt-1">
+                    @* HEADER *@
                     <thead class="text-light">
                         <tr>
                             <th class="text-center img-col">Picture</th>
@@ -35,23 +41,31 @@
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
+                    @* BODY *@
                     <tbody id="usersTable" class="text-light">
                         <tr class="table-row">
+                            @* PICTURE OF DRIVER *@
                             <td class="text-center img-col">
                                 <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle clickable" onclick="openModalDriverPicture('https://github.com/mdo.png')">
                             </td>
                             <td class="text-center">1</td>
+                            @* FULL NAME *@
                             <td>Patrick Jason Gorospe</td>
+                            @* DATE CREATED *@
                             <td>@DateTime.Now.ToString("MMMM dd, yyyy")</td>
+                            @* LAST DUTY DATE *@
                             <td>@DateTime.Now.ToString("MMMM dd, yyyy")</td>
+                            @* STATUS INFO*@
                             <td class="text-center status status-onduty"><span class="status-label text-dark">On Duty</span></td>
+                            @* VIEW LICENSE BTN *@
                             <td class="text-center">
                                 <button class="btn btn-primary btn-sm rounded-3" onclick="openModalViewDriverLicense('https://github.com/mdo.png','https://github.com/mdo.png')">View</button>
                             </td>
+                            @* ACTION BTNS *@
                             <td class="text-center td-actions">
                                 <i id="contactAction" class="fas fa-phone fa-lg me-2" onclick="openModalDriverContact('Name of Driver','09190082930','gorospe.patrickjason@auf.edu.ph')" style="cursor:pointer; color:#a5f6c6;"></i>
                                 <i class="fas fa-edit fa-lg me-2" onclick="openModalEditDriver('First','Middle','Last','Email','12345','onduty')" style="cursor:pointer; color:#35bbd8;"></i>
-                                <i class="fas fa-trash-alt fa-lg" onclick="deleteRecord('1')" style="cursor:pointer; color:#c1272d;"></i>
+                                <i class="fas fa-trash-alt fa-lg" onclick="openModalDeleteDriver('Name')" style="cursor:pointer; color:#c1272d;"></i>
                             </td>
                         </tr>
                     </tbody>
@@ -65,42 +79,57 @@
 <div class="modal fade" id="addNewDriverModal" tabindex="-1" aria-labelledby="addNewDriverModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-dark-secondary">
+            @* TITLE *@
             <div class="modal-header text-light border-0">
                 <h5 class="modal-title" id="addNewDriverModalLabel">Add New Driver</h5>
                 <button type="button" class="btn-close btn-close-white" onclick="closeModalAddDriver()" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            @* ADD DRIVER FORM *@
             <div class="modal-body text-light">
                 <form id="addDriverForm">
+                    @* FIRST NAME *@
                     <div class="form-group mb-3">
                         <label for="driverFirstName" class="font-weight-bold mb-1">First Name</label>
                         <input type="text" class="form-control" id="driverFirstName" placeholder="Enter driver's first name">
                     </div>
+                    @* MIDDLE NAME *@
                     <div class="form-group mb-3">
                         <label for="driverMiddleName" class="font-weight-bold mb-1">Middle Name</label>
                         <input type="text" class="form-control" id="driverMiddleName" placeholder="Enter driver's middle name">
                     </div>
+                    @* LAST NAME *@
                     <div class="form-group mb-3">
                         <label for="driverLastName" class="font-weight-bold mb-1">Last Name</label>
                         <input type="text" class="form-control" id="driverLastName" placeholder="Enter driver's last name">
                     </div>
+                    @* EMAIL *@
                     <div class="form-group mb-3">
                         <label for="driverEmail" class="font-weight-bold mb-1">Email</label>
                         <input type="email" class="form-control" id="driverEmail" placeholder="Enter driver's email">
                     </div>
+                    @* CONTACT *@
                     <div class="form-group mb-3">
                         <label for="driverContact" class="font-weight-bold mb-1">Contact</label>
                         <input type="text" class="form-control" id="driverContact" placeholder="Enter driver's contact number">
                     </div>
+                    @* PICTURE OF DRIVER *@
+                    <div class="form-group mb-3">
+                        <label for="driverPicture" class="font-weight-bold mb-1">Picture of Driver</label>
+                        <input type="file" class="form-control" id="driverPicture" placeholder="Enter driver's picture">
+                    </div>
+                    @* DRIVER'S LICENSE FRONT *@
                     <div class="form-group mb-3">
                         <label for="driverLicenseFront" class="font-weight-bold mb-1">Front of Driver's License</label>
                         <input type="file" class="form-control" id="driverLicenseFront" placeholder="Enter driver's license">
                     </div>
+                    @* DRIVER'S LICENSE BACK *@
                     <div class="form-group">
                         <label for="driverLicenseBack" class="font-weight-bold mb-1">Back of Driver's License</label>
                         <input type="file" class="form-control" id="driverLicenseBack" placeholder="Enter driver's license">
                     </div>
                 </form>
             </div>
+            @* ACTION BTNS *@
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalAddDriver()">Cancel</button>
                 <button type="button" class="btn btn-success" onclick="addDriver()">Add Driver</button>
@@ -113,32 +142,40 @@
 <div class="modal fade" id="editDriverModal" tabindex="-1" aria-labelledby="editDriverModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-dark-secondary">
+            @* TITLE *@
             <div class="modal-header text-light border-0">
                 <h5 class="modal-title" id="editDriverModalLabel">Edit (Name)'s Info</h5>
                 <button type="button" class="btn-close btn-close-white" onclick="closeModalEditDriver()" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            @* EDIT DRIVER FORM *@
             <div class="modal-body text-light">
                 <form id="editDriverForm">
+                    @* FIRST NAME *@
                     <div class="form-group mb-3">
                         <label for="driverFirstName-edit" class="font-weight-bold mb-1">First Name</label>
-                        <input type="text" class="form-control" id="driverFirstName-edit" @* placeholder="Enter driver's first name" *@>
+                        <input type="text" class="form-control" id="driverFirstName-edit" placeholder="Enter driver's first name">
                     </div>
+                    @* MIDDLE NAME *@
                     <div class="form-group mb-3">
                         <label for="driverMiddleName-edit" class="font-weight-bold mb-1">Middle Name</label>
                         <input type="text" class="form-control" id="driverMiddleName-edit" placeholder="Enter driver's middle name">
                     </div>
+                    @* LAST NAME *@
                     <div class="form-group mb-3">
                         <label for="driverLastName-edit" class="font-weight-bold mb-1">Last Name</label>
                         <input type="text" class="form-control" id="driverLastName-edit" placeholder="Enter driver's last name">
                     </div>
+                    @* EMAIL *@
                     <div class="form-group mb-3">
                         <label for="driverEmail-edit" class="font-weight-bold mb-1">Email</label>
                         <input type="email" class="form-control" id="driverEmail-edit" placeholder="Enter driver's email">
                     </div>
+                    @* CONTACT *@
                     <div class="form-group mb-3">
                         <label for="driverContact-edit" class="font-weight-bold mb-1">Contact</label>
                         <input type="text" class="form-control" id="driverContact-edit" placeholder="Enter driver's contact number">
                     </div>
+                    @* STATUS INFO *@
                     <div class="form-group mb-3">
                         <label for="driverStatus-edit" class="font-weight-bold mb-1">Status</label>
                         <select class="form-control" id="driverStatus-edit">
@@ -147,20 +184,24 @@
                             <option value="inactive">Inactive</option>
                         </select>
                     </div>
+                    @* PICTURE OF DRIVER *@
                     <div class="form-group mb-3">
                         <label for="driverPicture-edit" class="font-weight-bold mb-1">Picture</label>
                         <input type="file" class="form-control" id="driverPicture-edit" placeholder="Enter driver's picture">
                     </div>
+                    @* DRIVER'S LICENSE FRONT *@
                     <div class="form-group mb-3">
                         <label for="driverLicenseFront-edit" class="font-weight-bold mb-1">Front of Driver's License</label>
                         <input type="file" class="form-control" id="driverLicenseFront-edit" placeholder="Enter driver's license">
                     </div>
+                    @* DRIVER'S LICENSE BACK *@
                     <div class="form-group">
                         <label for="driverLicenseBack-edit" class="font-weight-bold mb-1">Back of Driver's License</label>
                         <input type="file" class="form-control" id="driverLicenseBack-edit" placeholder="Enter driver's license">
                     </div>
                 </form>
             </div>
+            @* ACTION BTNS *@
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalEditDriver()">Cancel</button>
                 <button type="button" class="btn btn-success" onclick="editDriver()">Save Changes</button>
@@ -173,17 +214,20 @@
 <div class="modal fade" id="driversLicenseModal" tabindex="-1" aria-labelledby="driversLicenseModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-custom">
         <div class="modal-content bg-glass">
+            @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="driversLicenseModalLabel">Driver's License</h5>
                 <button type="button" class="btn-close btn-close-white" onclick="closeModalViewDriverLicense()" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                @* FRONT PICTURE *@
                 <div class="row mb-3">
                     <div class="col text-center">
                         <h5 id="driversLicenseFrontLabel">Front</h5>
                         <img id="driversLicenseFrontImage" src="" alt="Driver's License Front" class="img-fluid">
                     </div>
                 </div>
+                @* BACK PICTURE *@
                 <div class="row">
                     <div class="col text-center">
                         <h5 id="driversLicenseBackLabel">Back</h5>
@@ -199,11 +243,13 @@
 <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-custom">
         <div class="modal-content bg-dark-secondary text-white">
+            @* TITLE *@
             <div class="modal-header border-bottom-0">
                 <h4 class="modal-title" id="contactModalLabel">Contact Info</h4>
                 <button type="button" class="btn-close btn-close-white" onclick="closeModalDriverContact()" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                @* CONTACT INFO *@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 text-center mb-4">
@@ -222,12 +268,31 @@
 <div class="modal fade" id="driversPictureModal" tabindex="-1" aria-labelledby="driversPictureModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-custom">
         <div class="modal-content bg-glass">
+            @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="driversPictureModalLabel">Driver's Picture</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            @* DRIVER PICTURE *@
             <div class="modal-body d-flex justify-content-center align-items-center">
                 <img id="driversPictureImage" src="" alt="Driver's Picture" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Driver Modal -->
+<div class="modal fade" id="deleteDriverModal" tabindex="-1" aria-labelledby="deleteDriverModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark-secondary">
+            @* EDIT DRIVER FORM *@
+            <div class="modal-body text-light text-center mt-4">
+                <h4>Do you really want to remove {name}?</h4>
+            </div>
+            @* ACTION BTNS *@
+            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalDeleteDriver()">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="deleteDriver()">Delete</button>
             </div>
         </div>
     </div>

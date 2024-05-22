@@ -4,9 +4,11 @@
 <div class="w-100 d-flex justify-content-center">
     <div class="row table-responsive bg-dark-secondary text-white">
         <div class="row justify-content-between mt-2">
+            @* TITLE *@
             <div class="col-md-3 d-flex">
                 <h3 class="text-light mt-3 ms-2">Users</h3>
             </div>
+            @* SEARCH AND FILTER *@
             <div class="col-md-9">
                 <form class="d-flex justify-content-end align-items-center mt-3" onsubmit="return false;">
                     <input id="searchInput" class="form-control me-2 rounded-3" type="search" placeholder="Search" aria-label="Search">
@@ -22,8 +24,10 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
+            @* USER TABLE *@
             <div class="table-container">
                 <table class="table table-users mt-1">
+                    @* HEADER *@
                     <thead class="text-light">
                         <tr>
                             <th class="text-center sortable" onclick="sortTable(0)">ID <i class="fas fa-sort ms-1"></i></th>
@@ -35,16 +39,24 @@
                             <th class="text-center">Details</th>
                         </tr>
                     </thead>
+                    @* BODY *@
                     <tbody id="usersTable" class="text-light">
                         @foreach (var user in Model)
                         {
                             <tr class="table-row">
+                                @* ID *@
                                 <td class="text-center">1</td>
+                                @* FULL NAME *@
                                 <td>@user.userVMFirstName @user.userVMMiddleName @user.userVMLastName</td>
+                                @* DATE CREATED *@
                                 <td>@user.FormattedDateCreated</td>
+                                @* EMAIL *@
                                 <td class="text-center overflow-hidden">@user.userVMEmail</td>
+                                @* CONTACT *@
                                 <td class="text-center">@user.userVMContact</td>
+                                @* STATUS INFO *@
                                 <td class="text-center status status-pending"><span class="status-label text-dark">Pending</span></td>
+                                @* REVIEW BTN *@
                                 <td class="text-center">
                                     <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails('@user.userVMID', '@user.userVMFirstName @user.userVMMiddleName @user.userVMLastName', '@user.userVMEmail', '@user.userVMContact', 'Pending' , '@user.FormattedDateCreated','@user.FormattedDateModified','@user.FormattedDOB', '@user.userVMstreetAdd', '@user.userVMCityAdd', '@user.userVMProvinceAdd','FileUploads/@ImageCategories.imgLicense/@user.userVMLicense','FileUploads/@ImageCategories.img2ndID/@user.userVM2ndValidID','FileUploads/@ImageCategories.imgPOB/@user.userVMProofofBilling','FileUploads/@ImageCategories.imgSelfie/@user.userVMSelfieProof')">Review</button>
                                 </td>
@@ -61,6 +73,7 @@
 <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content bg-dark-secondary text-white">
+            @* TITLE *@
             <div class="modal-header border-bottom-0">
                 <h5 class="modal-title" id="userModalLabel">User Details</h5>
                 <button type="button" class="btn-close btn-close-white" onclick="closeModalUserDetails()" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -68,6 +81,7 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
+                        @* LEFT COLUMN *@
                         <div class="col-md-6">
                             <p><strong>ID:</strong> <span id="modalUserId" class="mb-3"></span></p>
                             <p><strong>Name:</strong> <span id="modalUserName" class="mb-3"></span></p>
@@ -81,7 +95,9 @@
                             <p><strong>City:</strong> <span id="modalCity" class="mb-3"></span></p>
                             <p><strong>Province:</strong> <span id="modalProvince" class="mb-3"></span></p>
                         </div>
+                        @* RIGHT COLUMN *@
                         <div class="col-md-6">
+                            @* DRIVERS LICENSE PLACEHOLDER *@
                             <div class="mb-3">
                                 <label class="mb-2"><strong>Driver's License:</strong></label>
                                 <div id="modalDriversLicense" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 60px; margin: auto;" data-bs-toggle="modal" data-bs-target="#driversLicenseModal">
@@ -89,6 +105,7 @@
                                     <img src="" alt="Driver's License" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
                                 </div>
                             </div>
+                            @* SECONDARY ID PLACEHOLDER *@
                             <div class="mb-3">
                                 <label class="mb-2"><strong>Secondary ID:</strong></label>
                                 <div id="modalSecondaryID" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 60px; margin: auto;" data-bs-toggle="modal" data-bs-target="#secondaryIDModal">
@@ -96,6 +113,7 @@
                                     <img src="" alt="Secondary ID" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
                                 </div>
                             </div>
+                            @* POB PLACEHOLDER *@
                             <div class="mb-3">
                                 <label class="mb-2"><strong>Proof of Billing:</strong></label>
                                 <div id="modalProofOfBilling" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 60px; margin: auto;" data-bs-toggle="modal" data-bs-target="#proofOfBillingModal">
@@ -103,6 +121,7 @@
                                     <img src="" alt="Proof of Billing" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
                                 </div>
                             </div>
+                            @* SELFIE WITH ID PLACEHOLDER *@
                             <div class="mb-3">
                                 <label class="mb-2"><strong>Selfie with ID:</strong></label>
                                 <div id="modaldriverPic" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 60px; margin: auto;" data-bs-toggle="modal" data-bs-target="#driverPicModal">
@@ -114,6 +133,7 @@
                     </div>
                 </div>
             </div>
+            @* ACTION BTNS *@
             <div class="modal-footer mb-3 border-top-0 d-flex justify-content-center align-content-center">
                 <button style="min-width:100px;" type="button" class="btn btn-danger btn-lg rounded-4" onclick="denyUser()">Deny</button>
                 <button style="min-width:100px;" type="button" class="btn btn-success btn-lg rounded-4" onclick="approveUser()">Approve</button>
@@ -126,17 +146,20 @@
 <div class="modal fade" id="driversLicenseModal" tabindex="-1" aria-labelledby="driversLicenseModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-custom">
         <div class="modal-content bg-glass">
+            @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="driversLicenseModalLabel">Driver's License</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                @* DRIVER'S LICENSE FRONT *@
                 <div class="row mb-3">
                     <div class="col text-center">
                         <h5 id="driversLicenseFrontLabel">Front</h5>
                         <img id="driversLicenseFrontImage" src="" alt="Driver's License Front" class="img-fluid">
                     </div>
                 </div>
+                @* DRIVER'S LICENSE BACK *@
                 <div class="row">
                     <div class="col text-center">
                         <h5 id="driversLicenseBackLabel">Back</h5>
@@ -152,10 +175,12 @@
 <div class="modal fade" id="secondaryIDModal" tabindex="-1" aria-labelledby="secondaryIDModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-custom">
         <div class="modal-content bg-glass">
+            @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="secondaryIDModalLabel">Secondary ID</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            @* SECONDARY ID PICTURE *@
             <div class="modal-body d-flex justify-content-center align-items-center">
                 <img id="secondaryIDImage" src="" alt="Secondary ID" class="img-fluid">
             </div>
@@ -167,10 +192,12 @@
 <div class="modal fade" id="proofOfBillingModal" tabindex="-1" aria-labelledby="proofOfBillingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-custom">
         <div class="modal-content bg-glass">
+            @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="proofOfBillingModalLabel">Proof of Billing</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            @* POB PICTURE *@
             <div class="modal-body d-flex justify-content-center align-items-center">
                 <img id="proofOfBillingImage" src="" alt="Proof of Billing" class="img-fluid">
             </div>
@@ -182,10 +209,12 @@
 <div class="modal fade" id="driverPicModal" tabindex="-1" aria-labelledby="driverPicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-custom">
         <div class="modal-content bg-glass">
+            @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="driverPicModalLabel">Selfie with ID</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            @* SELFIE WITH ID  *@
             <div class="modal-body d-flex justify-content-center align-items-center">
                 <img id="driverPicImage" src="" alt="Selfie with ID" class="img-fluid">
             </div>
