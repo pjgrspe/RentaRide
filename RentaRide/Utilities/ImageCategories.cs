@@ -7,5 +7,6 @@
         public const string img2ndID = "2ndID";
         public const string imgPOB = "POB";
         public const string imgSelfie = "Selfie";
+        public const string imgProfile = "Profile";
     }
 }

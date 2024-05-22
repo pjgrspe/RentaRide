@@ -275,6 +275,18 @@ namespace RentaRide.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("driverLicenseBack")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("driverLicenseBackExt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("driverLicenseExt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("driverMiddleName")
                         .HasColumnType("nvarchar(max)");
 
@@ -282,6 +294,10 @@ namespace RentaRide.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("driverPicture")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("driverPictureExt")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

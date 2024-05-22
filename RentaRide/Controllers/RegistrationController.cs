@@ -4,6 +4,7 @@ using RentaRide.Database;
 using RentaRide.Database.Database_Models;
 using RentaRide.Models.Accounts;
 using RentaRide.Models.Identity;
+using RentaRide.Services;
 using RentaRide.Utilities;
 using System;
 using System.IO;
@@ -17,14 +18,16 @@ namespace RentaRide.Controllers
         private readonly UserManager<RentaRideAppUsers> _userManager;
         private readonly RARdbContext _rardbContext;
         private readonly IWebHostEnvironment _environment;
+        private readonly IFileServices _fileServices;
 
-        public RegistrationController(UserManager<RentaRideAppUsers> userManager, RoleManager<IdentityRole> roleManager, SignInManager<RentaRideAppUsers> signInManager, RARdbContext rardbContext, IWebHostEnvironment environment)
+        public RegistrationController(UserManager<RentaRideAppUsers> userManager, RoleManager<IdentityRole> roleManager, SignInManager<RentaRideAppUsers> signInManager, RARdbContext rardbContext, IWebHostEnvironment environment, IFileServices fileServices)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _rardbContext = rardbContext;
             _environment = environment;
+            _fileServices = fileServices;
         }
 
         private RentaRideAppUsers CreaterUser()
@@ -70,17 +73,17 @@ namespace RentaRide.Controllers
                 {
                     _userManager.AddToRoleAsync(userReg, RoleUtilities.RoleUser).GetAwaiter().GetResult();
 
-                    var licenseImgUpload = ProcessUploadedFile(model.regmodelLicense, ImageCategories.imgLicense,userReg.Id);
-                    var licenseBackImgUpload = ProcessUploadedFile(model.regmodelLicenseBack, ImageCategories.imgLicenseBack,userReg.Id);
-                    var secValidIDImgUpload = ProcessUploadedFile(model.regmodel2ndValidID, ImageCategories.img2ndID, userReg.Id);
-                    var POBImgUpload = ProcessUploadedFile(model.regmodelPOB, ImageCategories.imgPOB, userReg.Id);
-                    var SelfieImgUpload = ProcessUploadedFile(model.regmodelSelfieProof, ImageCategories.imgSelfie, userReg.Id);
+                    var licenseImgUpload = _fileServices.ProcessUploadedFile(model.regmodelLicense, ImageCategories.imgLicense,userReg.Id);
+                    var licenseBackImgUpload = _fileServices.ProcessUploadedFile(model.regmodelLicenseBack, ImageCategories.imgLicenseBack,userReg.Id);
+                    var secValidIDImgUpload = _fileServices.ProcessUploadedFile(model.regmodel2ndValidID, ImageCategories.img2ndID, userReg.Id);
+                    var POBImgUpload = _fileServices.ProcessUploadedFile(model.regmodelPOB, ImageCategories.imgPOB, userReg.Id);
+                    var SelfieImgUpload = _fileServices.ProcessUploadedFile(model.regmodelSelfieProof, ImageCategories.imgSelfie, userReg.Id);
 
-                    var licenseFileExt = GetFileExtension(model.regmodelLicense);
-                    var licenseBackFileExt = GetFileExtension(model.regmodelLicenseBack);
-                    var secValidIDFileExt = GetFileExtension(model.regmodel2ndValidID);
-                    var POBFileExt = GetFileExtension(model.regmodelPOB);
-                    var SelfieFileExt = GetFileExtension(model.regmodelSelfieProof);
+                    var licenseFileExt = _fileServices.GetFileExtension(model.regmodelLicense);
+                    var licenseBackFileExt = _fileServices.GetFileExtension(model.regmodelLicenseBack);
+                    var secValidIDFileExt = _fileServices.GetFileExtension(model.regmodel2ndValidID);
+                    var POBFileExt = _fileServices.GetFileExtension(model.regmodelPOB);
+                    var SelfieFileExt = _fileServices.GetFileExtension(model.regmodelSelfieProof);
                     var userDetailsReg = new UserDetailsDBModel
                     {
                         userDateCreated = DateTime.Now,
@@ -137,41 +140,6 @@ namespace RentaRide.Controllers
             }
             return View(model);
         }
-
-        [NonAction]
-        private string? ProcessUploadedFile(IFormFile? img, string imgCategory, string UID)
-        {
-            string? uniqueFileName = null;
-            string UploadFolder = Path.Combine(FileLoc.FileUploadFolder, imgCategory);
-            string path = Path.Combine(_environment.WebRootPath, UploadFolder);
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
-            if (img != null)
-            {
-                uniqueFileName = UID;
-                string filePath = Path.Combine(path, uniqueFileName);
-                using FileStream fileStream = new(filePath, FileMode.Create);
-                img.CopyTo(fileStream);
-            }
-
-            return uniqueFileName;
-        }
-
-        [NonAction]
-        private static string? GetFileExtension(IFormFile? img)
-        {
-            string? fileExtension = null;
-            if (img != null)
-            {
-                fileExtension = Path.GetExtension(img.FileName);
-            }
-
-            return fileExtension;
-        }
-
     }
 }
 
