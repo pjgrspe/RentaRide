@@ -23,14 +23,10 @@ namespace RentaRide.Models.Accounts
         [Required]
         [DisplayName("Driver Picture")]
         public IFormFile drivmodelImage { get; set; }
-        [Required]
         [DisplayName("Driver's License (Front)")]
-        [RequireBothOrNone("drivmodelLicenseBack", ErrorMessage = "Both License and License Back must be provided, or both must be empty.")]
-
+        [Required]   
         public IFormFile drivmodelLicense { get; set; }
         [Required]
-        [RequireBothOrNone("drivmodelLicense", ErrorMessage = "Both License and License Back must be provided, or both must be empty.")]
-
         [DisplayName("Driver's License (Back)")]
         public IFormFile drivmodelLicenseBack { get; set; }
     }

@@ -44,7 +44,7 @@ namespace RentaRide.Controllers
             return View();
 
         }
-        public async Task<IActionResult> AddNewDriver(AddDriverModel model)
+        public async Task<IActionResult> AddNewDriver(AdminPartialViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -56,24 +56,24 @@ namespace RentaRide.Controllers
                     driverLicenseExt = "Processing..",
                     driverLicenseBack = "Processing..",
                     driverLicenseBackExt = "Processing..",
-                    driverFirstName = model.drivmodelFirstName,
-                    driverMiddleName = model.drivmodelMiddleName,
-                    driverLastName = model.drivmodelLastName,
-                    driverContact = model.drivmodelContact,
-                    driverEmail = model.drivmodelEmail,
+                    driverFirstName = model.AddDriver.drivmodelFirstName,
+                    driverMiddleName = model.AddDriver.drivmodelMiddleName,
+                    driverLastName = model.AddDriver.drivmodelLastName,
+                    driverContact = model.AddDriver.drivmodelContact,
+                    driverEmail = model.AddDriver.drivmodelEmail,
                     driverRegisteredDate = DateTime.Now,
                     driverOnDuty = false,
                     driverIsActive = true
                 };
                 _rardbContext.TBL_Drivers.Add(driverAdd);
                 _rardbContext.SaveChanges();
-                var driverPictureImgUpload = _fileServices.ProcessUploadedFile(model.drivmodelImage, ImageCategories.imgProfile, driverAdd.driverID.ToString());
-                var driverLicenseImgUpload = _fileServices.ProcessUploadedFile(model.drivmodelLicense, ImageCategories.imgLicense, driverAdd.driverID.ToString());
-                var driverLicenseBackImgUpload = _fileServices.ProcessUploadedFile(model.drivmodelLicenseBack, ImageCategories.imgLicenseBack, driverAdd.driverID.ToString());
+                var driverPictureImgUpload = _fileServices.ProcessUploadedFile(model.AddDriver.drivmodelImage, ImageCategories.imgProfile, driverAdd.driverID.ToString());
+                var driverLicenseImgUpload = _fileServices.ProcessUploadedFile(model.AddDriver.drivmodelLicense, ImageCategories.imgLicense, driverAdd.driverID.ToString());
+                var driverLicenseBackImgUpload = _fileServices.ProcessUploadedFile(model.AddDriver.drivmodelLicenseBack, ImageCategories.imgLicenseBack, driverAdd.driverID.ToString());
 
-                var driverPictureFileExt = _fileServices.GetFileExtension(model.drivmodelImage);
-                var driverLicenseFileExt = _fileServices.GetFileExtension(model.drivmodelLicense);
-                var driverLicenseBackFileExt = _fileServices.GetFileExtension(model.drivmodelLicenseBack);
+                var driverPictureFileExt = _fileServices.GetFileExtension(model.AddDriver.drivmodelImage);
+                var driverLicenseFileExt = _fileServices.GetFileExtension(model.AddDriver.drivmodelLicense);
+                var driverLicenseBackFileExt = _fileServices.GetFileExtension(model.AddDriver.drivmodelLicenseBack);
                 
                 var driverToUpdate = _rardbContext.TBL_Drivers.Find(driverAdd.driverID);
                 driverToUpdate!.driverPicture = driverPictureImgUpload!;
@@ -153,6 +153,7 @@ namespace RentaRide.Controllers
                         driverVMOnDuty = driver.driverOnDuty,
                         driverVMIsActive = driver.driverIsActive
                     }).ToList();
+                    
                 }
 
                 return PartialView($"~/Views/Admin/Menu/{menuName}.cshtml", adminPartialModel);
