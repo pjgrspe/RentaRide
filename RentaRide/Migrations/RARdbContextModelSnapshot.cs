@@ -264,6 +264,9 @@ namespace RentaRide.Migrations
                     b.Property<bool>("driverIsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("driverIsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("driverLastDutyDate")
                         .HasColumnType("datetime2");
 
