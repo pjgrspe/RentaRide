@@ -11,7 +11,15 @@ namespace RentaRide.Database.Database_Models
         [Required]
         public string driverPicture { get; set; }
         [Required]
+        public string driverPictureExt { get; set; }
+        [Required]
         public string driverLicense { get; set; }
+        [Required]
+        public string driverLicenseExt { get; set; }
+        [Required]
+        public string driverLicenseBack { get; set; }
+        [Required]
+        public string driverLicenseBackExt { get; set; }
         [Required]
         public string driverFirstName { get; set; }
         public string? driverMiddleName { get; set; }

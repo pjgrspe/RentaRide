@@ -20,6 +20,7 @@ builder.Services.AddIdentity<RentaRideAppUsers, IdentityRole>(options =>
 ).AddEntityFrameworkStores<RARdbContext>();
 
 builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<IFileServices, FileService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
