@@ -186,6 +186,7 @@ function approveUser() {
     // Implement approval logic here
     alert("User approved.");
     $('#userModal').modal('hide');
+
 }
 
 function denyUser() {
