@@ -182,13 +182,14 @@ function closeModalUserDetails() {
     $('#userModal').modal('hide');
 }
 
+//LUISSSSSSSSSSSSSSSSSSSSS FUCK EM UP
 function approveUser() {
     // Implement approval logic here
-    alert("User approved.");
     $('#userModal').modal('hide');
 
 }
 
+//LETS FUCKING GO LUIS
 function denyUser() {
     // Implement denial logic here
     alert("User denied.");
@@ -209,8 +210,12 @@ function closeModalAddDriver() {
     $('#addNewDriverModal').modal('hide');
 }
 
+//LUIS DO YOUR THANG
 function addDriver() {
-    alert("User added.");
+    if (!$("#").valid()) {
+        // If the form is invalid, don't proceed to the next step
+        return;
+    }
     $('#addNewDriverModal').modal('hide');
 }
 
@@ -232,8 +237,12 @@ function closeModalEditDriver() {
     $('#editDriverModal').modal('hide');
 }
 
+//LUISSSSSSSSSS
 function editDriver(){
-    alert("User edited.");
+    if (!$("#").valid()) {
+        // If the form is invalid, don't proceed to the next step
+        return;
+    }
     $('#editDriverModal').modal('hide');
 }
 
@@ -289,6 +298,7 @@ function closeModalDeleteDriver() {
     $('#deleteDriverModal').modal('hide');
 }
 
+//LUIS DELETE THEM BTICHES
 function deleteDriver() {
     alert("User deleted.");
     $('#deleteDriverModal').modal('hide');
