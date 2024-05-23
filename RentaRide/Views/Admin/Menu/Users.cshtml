@@ -5,14 +5,14 @@
     <div class="row table-responsive bg-dark-secondary text-white">
         <div class="row justify-content-between mt-2">
             @* TITLE *@
-            <div class="col-md-3 d-flex">
-                <h3 class="text-light mt-3 ms-2">Users</h3>
+            <div class="col-md-3 d-flex align-items-center">
+                <h1 class="text-light ms-2 search-filter-title">Users</h1>
             </div>
             @* SEARCH AND FILTER *@
-            <div class="col-md-9">
-                <form class="d-flex justify-content-end align-items-center mt-3" onsubmit="return false;">
-                    <input id="searchInput" class="form-control me-2 rounded-3" type="search" placeholder="Search" aria-label="Search">
-                    <select id="statusFilter" class="form-select me-2 rounded-3">
+            <div class="col-md-9 d-flex justify-content-end">
+                <form class="d-flex justify-content-end align-items-center search-filter-form" onsubmit="return false;">
+                    <input id="searchInput" class="form-control me-2 rounded-3 search-input" type="search" placeholder="Search" aria-label="Search">
+                    <select id="statusFilter" class="form-select me-2 rounded-3 filter-select">
                         <option value="" selected>All Statuses</option>
                         <option value="pending">Pending</option>
                         <option value="active">Approved</option>
@@ -67,8 +67,27 @@
             }
             else
             {
-                <div class="text-center mt-5">
-                    <h4>No Users found.</h4>
+                <div class="table-container">
+                    <table class="table table-users mt-1">
+                        @* HEADER *@
+                        <thead class="text-light">
+                            <tr>
+                                <th class="text-center sortable" onclick="sortTable(0)">ID <i class="fas fa-sort ms-1"></i></th>
+                                <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
+                                <th class="sortable" onclick="sortTable(2)">Date Created <i class="fas fa-sort ms-1"></i></th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Contact</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Details</th>
+                            </tr>
+                        </thead>
+                        @* BODY *@
+                        <tbody id="usersTable" class="text-light">
+                        </tbody>
+                    </table>
+                    <div class="text-center" style="margin-top:200px;">
+                        <h3>No users found.</h3>
+                    </div>
                 </div>
             }
         </div>
@@ -77,8 +96,8 @@
 
 <!-- User Modal Structure -->
 <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-dark-secondary text-white">
+    <div class="modal-dialog modal-dialog-centered modal-lg p-2">
+        <div class="modal-content bg-dark-secondary text-white p-3">
             @* TITLE *@
             <div class="modal-header border-bottom-0">
                 <h5 class="modal-title" id="userModalLabel">User Details</h5>
@@ -164,8 +183,8 @@
 
 <!-- Drivers License Modal -->
 <div class="modal fade" id="driversLicenseModal" tabindex="-1" aria-labelledby="driversLicenseModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-custom">
-        <div class="modal-content bg-glass">
+    <div class="modal-dialog modal-dialog-centered modal-custom p-2">
+        <div class="modal-content bg-glass p-3">
             @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="driversLicenseModalLabel">Driver's License</h5>
@@ -193,8 +212,8 @@
 
 <!-- Secondary ID Modal -->
 <div class="modal fade" id="secondaryIDModal" tabindex="-1" aria-labelledby="secondaryIDModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-custom">
-        <div class="modal-content bg-glass">
+    <div class="modal-dialog modal-dialog-centered modal-custom p-2">
+        <div class="modal-content bg-glass p-3">
             @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="secondaryIDModalLabel">Secondary ID</h5>
@@ -210,8 +229,8 @@
 
 <!-- Proof of Billing Modal -->
 <div class="modal fade" id="proofOfBillingModal" tabindex="-1" aria-labelledby="proofOfBillingModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-custom">
-        <div class="modal-content bg-glass">
+    <div class="modal-dialog modal-dialog-centered modal-custom p-2">
+        <div class="modal-content bg-glass p-3">
             @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="proofOfBillingModalLabel">Proof of Billing</h5>
@@ -227,8 +246,8 @@
 
 <!-- Selfie with ID Modal -->
 <div class="modal fade" id="selfieWithIDModal" tabindex="-1" aria-labelledby="selfieWithIDModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-custom">
-        <div class="modal-content bg-glass">
+    <div class="modal-dialog modal-dialog-centered modal-custom p-2">
+        <div class="modal-content bg-glass p-3">
             @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="selfieWithIDModalLabel">Selfie with ID</h5>

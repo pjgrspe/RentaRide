@@ -74,8 +74,9 @@ $(document).ready(function () {
 function filterTable() {
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
     const statusFilter = document.getElementById('statusFilter').value;
-    const tableRows = document.querySelectorAll('#usersTable .table-row');
 
+    // Filter table rows
+    const tableRows = document.querySelectorAll('#usersTable .table-row');
     tableRows.forEach(row => {
         const name = row.children[1].innerText.toLowerCase();
         const statusClass = row.children[5].classList;
@@ -94,6 +95,30 @@ function filterTable() {
             row.style.display = '';
         } else {
             row.style.display = 'none';
+        }
+    });
+
+    // Filter card elements
+    const cards = document.querySelectorAll('#cards-table .card-item');
+    cards.forEach(card => {
+        const name = card.querySelector('.card-heading').innerText.toLowerCase();
+        const description = card.querySelector('.card-text').innerText.toLowerCase();
+        const statusClass = card.querySelector('.status').classList;
+        let status = '';
+
+        statusClass.forEach(className => {
+            if (className.startsWith('status-')) {
+                status = className.split('-')[1];
+            }
+        });
+
+        const matchesSearch = name.includes(searchInput) || description.includes(searchInput);
+        const matchesStatus = !statusFilter || status === statusFilter;
+
+        if (matchesSearch && matchesStatus) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
         }
     });
 }

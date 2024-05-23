@@ -61,6 +61,7 @@ a:hover {
 
 .bg-dark-secondary {
     background-color: #33353D !important;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
 }
 
 .bg-glass {
@@ -94,7 +95,12 @@ a:hover {
 }
 
 
+
 /*BTNS*/
+.btn{
+    border-radius:8px;
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -129,6 +135,12 @@ a:hover {
 .btn-info, .btn-info.active, .btn-info:active {
     background-color: #309eb8; /* Set the background color of the button */
 }
+
+.btn-close:active, .btn-close:focus {
+    box-shadow: none !important;
+    border: none !important;
+}
+
 /*FORMS*/
 
 .form-control:focus, .form-check-input:focus {
@@ -138,4 +150,16 @@ a:hover {
 
 .clickable{
     cursor:pointer;
+}
+
+.validation-message {
+    color: #dc3545; /* Bootstrap's danger color */
+    font-size: 0.875em; /* Make the font slightly smaller */
+    margin-top: 0.25rem; /* Add some space above the message */
+    min-height: 20px; /* Set a minimum height to prevent shifting */
+    display: block;
+}
+
+.form-control{
+    border-radius:3px;
 }

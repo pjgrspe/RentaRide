@@ -3,28 +3,28 @@
 
 <div class="w-100 d-flex justify-content-center">
     <div class="row table-responsive bg-dark-secondary text-white">
-        <div class="row justify-content-between mt-2">
+        <div class="row justify-content-between mt-4 search-filter-container">
             @* TITLE *@
             <div class="col-md-3 d-flex align-items-center">
-                <h3 class="text-light mt-3 ms-2">Drivers</h3>
+                <h1 class="text-light ms-2 search-filter-title">Drivers</h1>
             </div>
             @* SEARCH AND FILTER *@
-            <div class="col-md-9">
-                <form class="d-flex justify-content-end align-items-center mt-3 rounded-3" onsubmit="return false;">
-                    <input id="searchInput" class="form-control me-2 rounded-3" type="search" placeholder="Search" aria-label="Search">
-                    <select id="statusFilter" class="form-select me-2">
+            <div class="col-md-9 d-flex justify-content-end">
+                <form class="d-flex justify-content-end align-items-center rounded-3 search-filter-form" onsubmit="return false;">
+                    <input id="searchInput" class="form-control me-2 rounded-3 search-input" type="search" placeholder="Search" aria-label="Search">
+                    <select id="statusFilter" class="form-select me-2 filter-select">
                         <option value="" selected>All Statuses</option>
                         <option value="active">Active</option>
                         <option value="onduty">On Duty</option>
                         <option value="delay">Inactive</option>
                     </select>
-                    <button class="btn btn-outline-light me-2 rounded-3" type="button" onclick="filterTable()">Search</button>
+                    <button class="btn btn-outline-light rounded-3 search-filter-btn" type="button" onclick="filterTable()">Search</button>
                 </form>
             </div>
-            @* ADD DRIVER BUTTON *@
-            <div class="mt-2 mb-2 col-md-12 d-flex justify-content-end">
-                <button class="btn btn-success me-2 rounded-3" style="width:120px;" type="button" onclick="openModalAddDriver()">Add New +</button>
-            </div>
+        </div>
+        @* ADD DRIVER BUTTON *@
+        <div class="mt-2 mb-2 me-3 col-md-12 d-flex justify-content-end">
+            <button class="btn btn-success addnew-btn" type="button" onclick="openModalAddDriver()">Add New +</button>
         </div>
         @* DRIVERS TABLE *@
         <div class="d-flex justify-content-center">
@@ -81,8 +81,28 @@
             }
             else
             {
-                <div class="text-center mt-5">
-                    <h4>No drivers found.</h4>
+                <div class="table-container">
+                    <table class="table table-drivers mt-1">
+                        @* HEADER *@
+                        <thead class="text-light">
+                            <tr>
+                                <th class="text-center img-col">Picture</th>
+                                <th class="text-center sortable" onclick="sortTable(0)">ID <i class="fas fa-sort ms-1"></i></th>
+                                <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
+                                <th class="sortable" onclick="sortTable(2)">Date Created <i class="fas fa-sort ms-1"></i></th>
+                                <th class="sortable" onclick="sortTable(3)">Last Duty<i class="fas fa-sort ms-1"></i></th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">License</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        @* BODY *@
+                        <tbody id="usersTable" class="text-light">
+                        </tbody>
+                    </table>
+                    <div class="text-center" style="margin-top:180px;">
+                        <h3>No drivers found.</h3>
+                    </div>
                 </div>
             }
         </div>
@@ -91,8 +111,8 @@
 
 <!-- Add New Driver Modal -->
 <div class="modal fade" id="addNewDriverModal" tabindex="-1" aria-labelledby="addNewDriverModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark-secondary">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3">
             @* TITLE *@
             <div class="modal-header text-light border-0">
                 <h5 class="modal-title" id="addNewDriverModalLabel">Add New Driver</h5>
@@ -180,8 +200,8 @@
 
 <!-- Edit Driver Modal -->
 <div class="modal fade" id="editDriverModal" tabindex="-1" aria-labelledby="editDriverModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark-secondary">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3">
             @* TITLE *@
             <div class="modal-header text-light border-0">
                 <h5 class="modal-title" id="editDriverModalLabel">Edit (Name)'s Info</h5>
@@ -252,8 +272,8 @@
 
 <!-- Drivers License Modal -->
 <div class="modal fade" id="driversLicenseModal" tabindex="-1" aria-labelledby="driversLicenseModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-custom">
-        <div class="modal-content bg-glass">
+    <div class="modal-dialog modal-dialog-centered modal-custom p-2">
+        <div class="modal-content bg-glass p-3">
             @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="driversLicenseModalLabel">Driver's License</h5>
@@ -281,8 +301,8 @@
 
 <!-- Contact Modal Structure -->
 <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-custom">
-        <div class="modal-content bg-dark-secondary text-white">
+    <div class="modal-dialog modal-dialog-centered modal-custom p-2">
+        <div class="modal-content bg-dark-secondary text-white p-3">
             @* TITLE *@
             <div class="modal-header border-bottom-0">
                 <h4 class="modal-title" id="contactModalLabel">Contact Info</h4>
@@ -293,9 +313,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 text-center mb-4">
-                            <h4><span id="modalUserName" class="mb-3"></span></h4>
-                            <h4><span id="modalUserEmail" class="mb-3"></span></h4>
-                            <h4><span id="modalUserContact" class="mb-3"></span></h4>
+                            <h5><span id="modalUserName" class="mb-3"></span></h5>
+                            <h5><span id="modalUserEmail" class="mb-3"></span></h5>
+                            <h5><span id="modalUserContact" class="mb-3"></span></h5>
                         </div>
                     </div>
                 </div>
@@ -306,8 +326,8 @@
 
 <!-- Drivers Picture Modal -->
 <div class="modal fade" id="driversPictureModal" tabindex="-1" aria-labelledby="driversPictureModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-custom">
-        <div class="modal-content bg-glass">
+    <div class="modal-dialog modal-dialog-centered modal-custom p-2">
+        <div class="modal-content bg-glass p-3">
             @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="driversPictureModalLabel">Driver's Picture</h5>
@@ -323,8 +343,8 @@
 
 <!-- Delete Driver Modal -->
 <div class="modal fade" id="deleteDriverModal" tabindex="-1" aria-labelledby="deleteDriverModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark-secondary">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3">
             @* EDIT DRIVER FORM *@
             <div class="modal-body text-light text-center mt-4">
                 <h4>Do you really want to remove {name}?</h4>
