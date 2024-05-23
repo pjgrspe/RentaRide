@@ -4,8 +4,8 @@ namespace RentaRide.Models.ViewModels
 {
     public class AdminPartialViewModel
     {
-        public List<UsersViewModel> Users { get; set; }
-        public List<DriversViewModel> Drivers { get; set; }
+        public List<UsersViewModel> Users { get; set; } = new List<UsersViewModel>();
+        public List<DriversViewModel> Drivers { get; set; } = new List<DriversViewModel>();
         public AddDriverModel AddDriver { get; set; }
     }
 }
