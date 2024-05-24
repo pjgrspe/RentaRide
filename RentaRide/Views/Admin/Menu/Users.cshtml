@@ -23,7 +23,12 @@
                 </form>
             </div>
         </div>
-        <div class="d-flex justify-content-center">
+        @* LOADER *@
+        <div id="loader" class="d-flex justify-content-center align-items-center d-none" style="height:55vh; margin-bottom:100px;">
+            <partial name="_LoadingSimple"></partial>
+        </div>
+        @* TABLE CONTENT *@
+        <div id="tableContent" class="d-flex justify-content-center">
             @if (Model.Users != null && Model.Users.Any())
             {
                 @* USER TABLE *@
@@ -63,11 +68,14 @@
                             }
                         </tbody>
                     </table>
+                    <div id="no-results" class="text-center" style="margin-top:180px; display:none;">
+                        <h3>No users found.</h3>
+                    </div>
                 </div>
             }
             else
             {
-                <div class="table-container">
+                <div class="table-container" id="no-content">
                     <table class="table table-users mt-1">
                         @* HEADER *@
                         <thead class="text-light">
@@ -161,20 +169,18 @@
             @* ACTION BTNS *@
             <div class="modal-footer mb-3 border-top-0 d-flex justify-content-center align-content-center">
                 @* <button style="min-width:100px;" type="button" class="btn btn-danger btn-lg rounded-2" onclick="denyUser()">Deny</button>
-                <button style="min-width:100px;" type="button" class="btn btn-success btn-lg rounded-2" onclick="approveUser()">Approve</button> *@
-
-                @using (Html.BeginForm("UpdateUserValidation", "Admin", FormMethod.Post, new { id = "approveForm" }))
-                {
-                    <input type="hidden" name="userId" id="approveUserId" value="" />
-                    <input type="hidden" name="isApproved" value="true" />
-                    <button style="min-width:100px;" type="submit" class="btn btn-success btn-lg rounded-2" onclick="approveUser()">Approve</button>
-                }
-
+                <button style="min-width:100px;" type="button" class="btn btn-success btn-lg rounded-2" onclick="approveUser()">Approve</button> *@              
                 @using (Html.BeginForm("UpdateUserValidation", "Admin", FormMethod.Post, new { id = "denyForm" }))
                 {
                     <input type="hidden" name="userId" id="denyUserId" value="" />
                     <input type="hidden" name="isApproved" value="false" />
                     <button style="min-width:100px;" type="submit" class="btn btn-danger btn-lg rounded-2" onclick="denyUser()">Deny</button>
+                }
+                @using (Html.BeginForm("UpdateUserValidation", "Admin", FormMethod.Post, new { id = "approveForm" }))
+                {
+                    <input type="hidden" name="userId" id="approveUserId" value="" />
+                    <input type="hidden" name="isApproved" value="true" />
+                    <button style="min-width:100px;" type="submit" class="btn btn-success btn-lg rounded-2" onclick="approveUser()">Approve</button>
                 }
             </div>
         </div>

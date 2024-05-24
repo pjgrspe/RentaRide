@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.text())
             .then(data => {
                 mainContent.innerHTML = data;
+                loadContent();
             })
             .catch(error => console.error('Error loading content:', error));
     }
@@ -46,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.text())
             .then(data => {
                 mainContent.innerHTML = data;
+                loadContent();
             })
             .catch(error => console.error('Error loading content:', error));
     }
@@ -68,6 +70,68 @@ $(document).ready(function () {
     });
 });
 
+function showLoader() {
+    const loader = document.getElementById('loader');
+    const tableContent = document.getElementById('tableContent');
+
+    if (loader && tableContent) {
+        loader.classList.remove('d-none');
+        tableContent.classList.add('d-none');
+    }
+}
+
+function hideLoader() {
+    setTimeout(() => {
+        const loader = document.getElementById('loader');
+        const tableContent = document.getElementById('tableContent');
+
+        if (loader && tableContent) {
+            loader.classList.add('d-none');
+            tableContent.classList.remove('d-none');
+        }
+    }, 300); // 3ms delay
+}
+
+function loadContent() {
+    showLoader();
+    hideLoader();
+}
+
+function reloadActivePartialView() {
+    const activeLink = document.querySelector('.nav-item-link.active');
+    if (activeLink) {
+        const url = activeLink.getAttribute('href');
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector('.main-content').innerHTML = data;
+                loadContent();
+                toastSuccess();
+            })
+            .catch(error => {
+                console.error('Error loading content:', error);
+            });
+    }
+}
+
+function toastSuccess() {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+    Toast.fire({
+        icon: "success",
+        title: "{Action} successfully"
+    });
+}
+
 /* ---------------------------------------------------
     TABLE SCRIPTS
 ----------------------------------------------------- */
@@ -77,6 +141,7 @@ function filterTable() {
 
     // Filter table rows
     const tableRows = document.querySelectorAll('#usersTable .table-row');
+    let rowsVisible = false;
     tableRows.forEach(row => {
         const name = row.children[1].innerText.toLowerCase();
         const statusClass = row.children[5].classList;
@@ -90,16 +155,19 @@ function filterTable() {
 
         const matchesSearch = name.includes(searchInput);
         const matchesStatus = !statusFilter || status === statusFilter;
-
         if (matchesSearch && matchesStatus) {
             row.style.display = '';
+            rowsVisible = true;
+            loadContent();
         } else {
             row.style.display = 'none';
+            loadContent();
         }
     });
 
     // Filter card elements
     const cards = document.querySelectorAll('#cards-table .card-item');
+    let cardsVisible = false;
     cards.forEach(card => {
         const name = card.querySelector('.card-heading').innerText.toLowerCase();
         const description = card.querySelector('.card-text').innerText.toLowerCase();
@@ -117,11 +185,23 @@ function filterTable() {
 
         if (matchesSearch && matchesStatus) {
             card.style.display = '';
+            cardsVisible = true;
+            loadContent();
         } else {
             card.style.display = 'none';
+            loadContent();
         }
     });
+
+    // Display "No results" message if no rows or cards are visible
+    const noResultsMessage = document.getElementById('no-results');
+    if (!rowsVisible && !cardsVisible) {
+        noResultsMessage.style.display = 'block';
+    } else {
+        noResultsMessage.style.display = 'none';
+    }
 }
+
 
 let sortOrder = {};
 
@@ -258,6 +338,7 @@ function addDriver() {
                 //SUCCESS
                 alert("User added.");
                 $('#addNewDriverModal').modal('hide');
+                reloadActivePartialView();
             } else {
                 //FAILED
                 alert("Error occurred, insert failed");
@@ -306,13 +387,15 @@ function editDriver() {
             //JASON INSERT YOUR JS CODE HERE
             if (data.success) {
                 //SUCCESS
-                alert("User Edited.");
                 $('#editDriverModal').modal('hide');
+                reloadActivePartialView();
             } else {
                 //FAILED
                 alert("Error occurred, Edit failed");
                 //alert(data.message); <-- USE THIS IF YOU WANT TO DISPLAY THE MESSAGE FROM THE CONTROLLER
             }
+            
+
         })
         .catch(error => console.error('Error:', error));
 }
@@ -343,6 +426,7 @@ function deleteDriver() {
                 //SUCCESS
                 alert("User Deleted.");
                 $('#deleteDriverModal').modal('hide');
+                reloadActivePartialView();
             } else {
                 //FAILED
                 alert("Error occurred, delete failed");

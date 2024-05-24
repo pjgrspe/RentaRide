@@ -26,8 +26,12 @@
         <div class="mt-2 mb-2 me-3 col-md-12 d-flex justify-content-end">
             <button class="btn btn-success addnew-btn" type="button" onclick="openModalAddDriver()">Add New +</button>
         </div>
+        @* LOADER *@
+        <div id="loader" class="d-flex justify-content-center align-items-center d-none" style="height:70vh; margin-bottom:100px;">
+            <partial name="_LoadingSimple"></partial>
+        </div>
         @* DRIVERS TABLE *@
-        <div class="d-flex justify-content-center">
+        <div id="tableContent" class="d-flex justify-content-center">
             @if (Model.Drivers != null && Model.Drivers.Any())
             {
                 <div class="table-container">
@@ -46,8 +50,8 @@
                             </tr>
                         </thead>
                         @* BODY *@
-                        <tbody id="usersTable" class="text-light">
-                            @foreach(var driver in Model.Drivers)
+                        <tbody id="usersTable" class="text-light table-body">
+                            @foreach (var driver in Model.Drivers)
                             {
                                 <tr class="table-row">
                                     @* PICTURE OF DRIVER *@
@@ -77,6 +81,9 @@
                             }
                         </tbody>
                     </table>
+                    <div id="no-results" class="text-center" style="margin-top:180px; display:none;">
+                        <h3>No drivers found.</h3>
+                    </div>
                 </div>
             }
             else

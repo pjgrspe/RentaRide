@@ -5,7 +5,8 @@
 
 <section class="" id="hero_page">
     <div id="loadingSpinner" class="m-auto">
-        @await Html.PartialAsync("~/Views/Shared/_LoadingSpinner.cshtml")
+        <partial name="_LoadingSpinner"></partial>
+        @* @await Html.PartialAsync("~/Views/Shared/_LoadingSpinner.cshtml")  *@
     </div>
     <div class="load-content">
         <div class="wrapper w-100">
@@ -31,9 +32,10 @@
                     </div>                 
                 </nav>
                 @* CONTENT *@
+                @* LOADER *@
                 <div class="container-fluid p-0">
                     <div class="col main-content py-2">
-                    <!-- Content will be dynamically loaded here -->
+                        <!-- Content will be dynamically loaded here -->
                     </div>
                 </div>
             </div>
