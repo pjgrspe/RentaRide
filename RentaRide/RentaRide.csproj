@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Database\Backup\" />
     <Folder Include="wwwroot\FileUploads\LicenseBack\" />
     <Folder Include="wwwroot\img\logo\" />
     <Folder Include="wwwroot\img\ui\" />

@@ -13,7 +13,7 @@ namespace RentaRide.Controllers
     public class AdminController : Controller
     {
         private readonly ILogger<AdminController> _logger;
-        private readonly RARdbContext _rardbContext; 
+        private readonly RARdbContext _rardbContext;
         private readonly IUserServices _userServices;
         private readonly IFileServices _fileServices;
 
@@ -44,10 +44,27 @@ namespace RentaRide.Controllers
             return View();
 
         }
-        public async Task<IActionResult> AddNewDriver(AdminPartialViewModel model)
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewDriver([FromForm] IFormCollection form)
         {
             if (ModelState.IsValid)
             {
+                var model = new AdminPartialViewModel
+                {
+                    AddDriver = new DriverAddModel
+                    {
+                        drivmodelFirstName = form["drivmodelFirstName"],
+                        drivmodelMiddleName = form["drivmodelMiddleName"],
+                        drivmodelLastName = form["drivmodelLastName"],
+                        drivmodelEmail = form["drivmodelEmail"],
+                        drivmodelContact = form["drivmodelContact"],
+                        drivmodelImage = form.Files["drivmodelImage"],
+                        drivmodelLicense = form.Files["drivmodelLicense"],
+                        drivmodelLicenseBack = form.Files["drivmodelLicenseBack"]
+                    }
+                };
+
                 var driverAdd = new DriversDBModel
                 {
                     driverPicture = "Processing..",
@@ -74,7 +91,7 @@ namespace RentaRide.Controllers
                 var driverPictureFileExt = _fileServices.GetFileExtension(model.AddDriver.drivmodelImage);
                 var driverLicenseFileExt = _fileServices.GetFileExtension(model.AddDriver.drivmodelLicense);
                 var driverLicenseBackFileExt = _fileServices.GetFileExtension(model.AddDriver.drivmodelLicenseBack);
-                
+
                 var driverToUpdate = _rardbContext.TBL_Drivers.Find(driverAdd.driverID);
                 driverToUpdate!.driverPicture = driverPictureImgUpload!;
                 driverToUpdate!.driverPictureExt = driverPictureFileExt!;
@@ -82,14 +99,125 @@ namespace RentaRide.Controllers
                 driverToUpdate!.driverLicenseExt = driverLicenseFileExt!;
                 driverToUpdate!.driverLicenseBack = driverLicenseBackImgUpload!;
                 driverToUpdate!.driverLicenseBackExt = driverLicenseBackFileExt!;
-                
+
                 await _rardbContext.SaveChangesAsync();
+                return new JsonResult(new { success = true });
             }
             else
             {
                 ViewBag.ErrorMessage = "An error occureed with adding driver";
+                return new JsonResult(new { success = false, message = "An error occurred with adding driver" });
+
             }
-            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditDriver([FromForm] IFormCollection form)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var model = new AdminPartialViewModel
+                {
+                    EditDriver = new DriverEditModel
+                    {
+                        driveditmodelID = Int32.Parse(form["driveditmodelID"]),
+                        driveditmodelFirstName = form["driveditmodelFirstName"],
+                        driveditmodelMiddleName = form["driveditmodelMiddleName"],
+                        driveditmodelLastName = form["driveditmodelLastName"],
+                        driveditmodelEmail = form["driveditmodelEmail"],
+                        driveditmodelContact = form["driveditmodelContact"],
+                        driveditmodelStatus = form["driveditmodelStatus"],
+                        driveditmodelImage = form.Files["driveditmodelImage"],
+                        driveditmodelLicense = form.Files["driveditmodelLicense"],
+                        driveditmodelLicenseBack = form.Files["driveditmodelLicenseBack"]
+                    }
+                };
+
+                var driveID = Int32.Parse(form["driveditmodelID"]);
+                var driver = _rardbContext.TBL_Drivers.Find(driveID);
+                driver!.driverFirstName = model.EditDriver.driveditmodelFirstName!;
+                driver!.driverMiddleName = model.EditDriver.driveditmodelMiddleName!;
+                driver!.driverLastName = model.EditDriver.driveditmodelLastName!;
+                driver!.driverContact = model.EditDriver.driveditmodelEmail!;
+                driver!.driverEmail = model.EditDriver.driveditmodelContact!;
+
+                if (model.EditDriver.driveditmodelImage != null)
+                {
+                    var driverPictureImgUpload = _fileServices.ProcessUploadedFile(model.EditDriver.driveditmodelImage, ImageCategories.imgProfile, driver.driverID.ToString());
+                    var driverPictureFileExt = _fileServices.GetFileExtension(model.EditDriver.driveditmodelImage);
+                    driver!.driverPicture = driverPictureImgUpload!;
+                    driver!.driverPictureExt = driverPictureFileExt!;
+                }
+                if (model.EditDriver.driveditmodelLicense != null)
+                {
+                    var driverLicenseImgUpload = _fileServices.ProcessUploadedFile(model.EditDriver.driveditmodelLicense, ImageCategories.imgLicense, driver.driverID.ToString());
+                    var driverLicenseFileExt = _fileServices.GetFileExtension(model.EditDriver.driveditmodelLicense);
+                    driver!.driverLicense = driverLicenseImgUpload!;
+                    driver!.driverLicenseExt = driverLicenseFileExt!;
+                }
+                if (model.EditDriver.driveditmodelLicenseBack != null)
+                {
+                    var driverLicenseBackImgUpload = _fileServices.ProcessUploadedFile(model.EditDriver.driveditmodelLicenseBack, ImageCategories.imgLicenseBack, driver.driverID.ToString());
+                    var driverLicenseBackFileExt = _fileServices.GetFileExtension(model.EditDriver.driveditmodelLicenseBack);
+                    driver!.driverLicenseBack = driverLicenseBackImgUpload!;
+                    driver!.driverLicenseBackExt = driverLicenseBackFileExt!;
+                }
+
+                if (model.EditDriver.driveditmodelStatus == "active")
+                {
+                    driver!.driverIsActive = true;
+                    driver!.driverOnDuty = false;
+                }
+                else if (model.EditDriver.driveditmodelStatus == "onduty")
+                {
+                    driver!.driverIsActive = true;
+                    driver!.driverOnDuty = true;
+                }
+                else
+                {
+                    driver!.driverIsActive = false;
+                    driver!.driverOnDuty = false;
+                }
+
+                await _rardbContext.SaveChangesAsync();
+                return new JsonResult(new { success = true });
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "An error occureed with editing driver";
+                return new JsonResult(new { success = false, message = "An error occurred with editing driver" });
+
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteDriver([FromForm] IFormCollection form)
+        { 
+            if (ModelState.IsValid)
+            {
+
+                var model = new AdminPartialViewModel
+                {
+                    DelDriver = new DriverDelModel
+                    {
+                        drivdelmodelID = Int32.Parse(form["drivdelmodelID"]),
+                    }
+                };
+
+                var driveID = Int32.Parse(form["drivdelmodelID"]);
+                var driver = _rardbContext.TBL_Drivers.Find(driveID);
+                driver!.driverIsDeleted = true;
+
+                await _rardbContext.SaveChangesAsync();
+                return new JsonResult(new { success = true });
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "An error occureed with deleting driver";
+                return new JsonResult(new { success = false, message = "An error occurred with deleting driver" });
+
+            }
         }
 
         public async Task<IActionResult> LoadPartial(string menuName)
@@ -136,7 +264,9 @@ namespace RentaRide.Controllers
                     }).ToList();
                 }else if (menuName == "Drivers")
                 {
-                    var drivers = await _rardbContext.TBL_Drivers.ToListAsync();
+                    var drivers = await _rardbContext.TBL_Drivers
+                                                     .Where(driver => driver.driverIsDeleted == false)
+                                                     .ToListAsync();
                     adminPartialModel.Drivers = drivers.Select(driver => new DriversViewModel
                     {
                         driverVMID = driver.driverID,
