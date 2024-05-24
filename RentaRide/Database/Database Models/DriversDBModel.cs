@@ -36,6 +36,8 @@ namespace RentaRide.Database.Database_Models
         public bool driverOnDuty { get; set; } = false;
         [Required]
         public bool driverIsActive { get; set; } = false;
+        [Required]
+        public bool driverIsDeleted { get; set; } = false;
 
     }
 }

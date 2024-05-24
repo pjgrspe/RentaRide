@@ -30,8 +30,8 @@
 }
 
 @media (max-width: 768px) {
-    /*.table-drivers thead th:nth-child(1),*/ /* Pic column */
-    /*.table-drivers tbody td:nth-child(1),*/ /* Pic column */
+    .table-drivers thead th:nth-child(1), /* Pic column */
+    .table-drivers tbody td:nth-child(1), /* Pic column */
     .table-drivers thead th:nth-child(4), /* Date Created column */
     .table-drivers tbody td:nth-child(4), /* Date Created column */
     .table-drivers thead th:nth-child(2), /* ID column */
@@ -94,19 +94,85 @@
     border-radius: 4px;
 }
 
-#statusFilter {
+/*#statusFilter {
     max-width: 140px;
-    width: 140px;
+    width: 100%;
 }
 
 #searchInput {
+    min-width:30px;
+    width: 100%;
+}*/
+
+.addnew-btn {
+    width: 130px !important;
+    height: 50px;
+    border-radius: 8px 8px 8px 8px;
+}
+
+.search-filter-form {
+    width: 100%;
+}
+
+.search-input,
+.filter-select {
     min-width: 150px;
-    width: 200px;
+    max-width: 250px;
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .search-input,
+    .filter-select {
+        min-width: 100px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .search-input,
+    .filter-select {
+        min-width: 80px;
+        max-width: none;
+    }
+
+    .search-filter-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-input,
+    .filter-select,
+    .search-filter-btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        margin-right: 0!important;
+    }
+
+    .search-filter-title{
+        width:100%!important;
+        text-align:center;
+        margin-top:8px;
+        margin-bottom:8px;
+    }
+
+    .search-filter-container{
+        margin-top:8px!important;
+    }
+
+    .search-filter-btn {
+        margin-bottom: 8px;
+    }
+
+    .addnew-btn {
+        margin-bottom: 12px;
+        margin-left: 0px;
+    }
 }
 
 .status span {
     min-width: 75px;
-    height: 20px;
+    height: 23px;
     border-radius: 5px;
     display: inline-block;
     margin-right: 5px;
@@ -145,36 +211,41 @@
     min-height: 500px;
     max-height: 400px; /* Adjust the height as needed */
     overflow-y: auto;
-    width:100%;
+    overflow-x: hidden;
+    height: 70vh;
+    width: 100%;
 }
 
 .table {
     width: 100%;
+    margin-bottom: 0px;
+    overflow-y: auto;
 }
 
 th {
     white-space: nowrap;
+    border-bottom: solid 1px rgba(255, 255, 255, 0.5) !important;
+    border-bottom-style: solid !important;
 }
 
-
 td {
+    border-bottom: solid 1px rgba(255, 255, 255, 0.2) !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.table {
-    margin-bottom: 0px;
-    overflow-y: auto;
-}
-
 .table-responsive {
+    padding: 5px;
     justify-content: center;
-    height:660px;
+    min-height: 660px;
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
     border-radius: 10px;
     display: flex;
-    max-width: 1200px;
-    min-width:fit-content;
+    width: 100%;
+    overflow: hidden;
 }
 
 .table thead tr th {

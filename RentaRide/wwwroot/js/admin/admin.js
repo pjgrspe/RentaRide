@@ -74,8 +74,9 @@ $(document).ready(function () {
 function filterTable() {
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
     const statusFilter = document.getElementById('statusFilter').value;
-    const tableRows = document.querySelectorAll('#usersTable .table-row');
 
+    // Filter table rows
+    const tableRows = document.querySelectorAll('#usersTable .table-row');
     tableRows.forEach(row => {
         const name = row.children[1].innerText.toLowerCase();
         const statusClass = row.children[5].classList;
@@ -94,6 +95,30 @@ function filterTable() {
             row.style.display = '';
         } else {
             row.style.display = 'none';
+        }
+    });
+
+    // Filter card elements
+    const cards = document.querySelectorAll('#cards-table .card-item');
+    cards.forEach(card => {
+        const name = card.querySelector('.card-heading').innerText.toLowerCase();
+        const description = card.querySelector('.card-text').innerText.toLowerCase();
+        const statusClass = card.querySelector('.status').classList;
+        let status = '';
+
+        statusClass.forEach(className => {
+            if (className.startsWith('status-')) {
+                status = className.split('-')[1];
+            }
+        });
+
+        const matchesSearch = name.includes(searchInput) || description.includes(searchInput);
+        const matchesStatus = !statusFilter || status === statusFilter;
+
+        if (matchesSearch && matchesStatus) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
         }
     });
 }
@@ -212,17 +237,39 @@ function closeModalAddDriver() {
 
 //LUIS DO YOUR THANG
 function addDriver() {
-    if (!$("#").valid()) {
-        // If the form is invalid, don't proceed to the next step
-        return;
-    }
-    $('#addNewDriverModal').modal('hide');
+    var formData = new FormData();
+    formData.append('drivmodelFirstName', $('#driverFirstName').val());
+    formData.append('drivmodelMiddleName', $('#driverMiddleName').val());
+    formData.append('drivmodelLastName', $('#driverLastName').val());
+    formData.append('drivmodelEmail', $('#driverEmail').val());
+    formData.append('drivmodelContact', $('#driverContact').val());
+    formData.append('drivmodelImage', $('#driverPicture')[0].files[0]);
+    formData.append('drivmodelLicense', $('#driverLicenseFront')[0].files[0]);
+    formData.append('drivmodelLicenseBack', $('#driverLicenseBack')[0].files[0]);
+
+    fetch('/Admin/AddNewDriver', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
+        .then(data => {
+            //JASON INSERT YOUR JS CODE HERE
+            if (data.success) {
+                //SUCCESS
+                alert("User added.");
+                $('#addNewDriverModal').modal('hide');
+            } else {
+                //FAILED
+                alert("Error occurred, insert failed");
+                //alert(data.message); <-- USE THIS IF YOU WANT TO DISPLAY THE MESSAGE FROM THE CONTROLLER
+            }
+        })
+        .catch(error => console.error('Error:', error));
 }
 
-
-
 /*EDIT DRIVER MODAL*/
-function openModalEditDriver(firstname,middlename,lastname,email,contact,status) {
+function openModalEditDriver(id,firstname,middlename,lastname,email,contact,status) {
+    $('#driverID-edit').val(id);
     $('#driverFirstName-edit').val(firstname);
     $('#driverMiddleName-edit').val(middlename);
     $('#driverLastName-edit').val(lastname);
@@ -237,16 +284,73 @@ function closeModalEditDriver() {
     $('#editDriverModal').modal('hide');
 }
 
-//LUISSSSSSSSSS
-function editDriver(){
-    if (!$("#").valid()) {
-        // If the form is invalid, don't proceed to the next step
-        return;
-    }
-    $('#editDriverModal').modal('hide');
+function editDriver() {
+    var formData = new FormData();
+    formData.append('driveditmodelID', $('#driverID-edit').val());
+    formData.append('driveditmodelFirstName', $('#driverFirstName-edit').val());
+    formData.append('driveditmodelMiddleName', $('#driverMiddleName-edit').val());
+    formData.append('driveditmodelLastName', $('#driverLastName-edit').val());
+    formData.append('driveditmodelEmail', $('#driverEmail-edit').val());
+    formData.append('driveditmodelContact', $('#driverContact-edit').val());
+    formData.append('driveditmodelStatus', $('#driverStatus-edit').val());
+    formData.append('driveditmodelImage', $('#driverPicture-edit')[0].files[0]);
+    formData.append('driveditmodelLicense', $('#driverLicenseFront-edit')[0].files[0]);
+    formData.append('driveditmodelLicenseBack', $('#driverLicenseBack-edit')[0].files[0]);
+
+    fetch('/Admin/EditDriver', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
+        .then(data => {
+            //JASON INSERT YOUR JS CODE HERE
+            if (data.success) {
+                //SUCCESS
+                alert("User Edited.");
+                $('#editDriverModal').modal('hide');
+            } else {
+                //FAILED
+                alert("Error occurred, Edit failed");
+                //alert(data.message); <-- USE THIS IF YOU WANT TO DISPLAY THE MESSAGE FROM THE CONTROLLER
+            }
+        })
+        .catch(error => console.error('Error:', error));
 }
 
+/*DELETE DRIVER MODAL*/
+function openModalDeleteDriver(driverFullname, driverID) {
+    $('#driverID-delete').val(driverID);
 
+    $('#deleteDriverModal').modal('show');
+}
+
+function closeModalDeleteDriver() {
+    $('#deleteDriverModal').modal('hide');
+}
+
+function deleteDriver() {
+    var formData = new FormData();
+    formData.append('drivdelmodelID', $('#driverID-delete').val());
+
+    fetch('/Admin/DeleteDriver', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
+        .then(data => {
+            //JASON INSERT YOUR JS CODE HERE
+            if (data.success) {
+                //SUCCESS
+                alert("User Deleted.");
+                $('#deleteDriverModal').modal('hide');
+            } else {
+                //FAILED
+                alert("Error occurred, delete failed");
+                //alert(data.message); <-- USE THIS IF YOU WANT TO DISPLAY THE MESSAGE FROM THE CONTROLLER
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
 
 /*CONTACT MODAL*/
 function openModalDriverContact(name, email, contact) {
@@ -298,8 +402,3 @@ function closeModalDeleteDriver() {
     $('#deleteDriverModal').modal('hide');
 }
 
-//LUIS DELETE THEM BTICHES
-function deleteDriver() {
-    alert("User deleted.");
-    $('#deleteDriverModal').modal('hide');
-}

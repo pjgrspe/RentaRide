@@ -1,0 +1,78 @@
+﻿/* Card Styles */
+.bg-glass-cards {
+    background: rgba(85, 85, 95, 0.4); /* Semi-transparent background color */
+    backdrop-filter: blur(10px); /* Blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
+    color: white; /* Text color for readability */
+    display: flex; /* Flexbox for proper layout */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: space-between; /* Space between children */
+    height: 100%; /* Ensure the card takes full height */
+    padding: 20px; /* Padding inside the element */
+}
+
+.cards-table-container {
+    border-top: solid 1px rgba(255, 255, 255, 0.1);
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 70vh;
+    width: 100%;
+    position: relative;
+}
+
+.card-sl {
+    max-height: 600px; /* Adjust as needed */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex; /* Flexbox for proper layout */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: space-between; /* Space between children */
+    height: 100%; /* Ensure the card takes full height */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth animation */
+}
+
+.card-sl:hover {
+    transform: translateY(-10px); /* Lift up effect */
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19); /* Stronger shadow on hover */
+}
+
+.card-image img {
+    width: 100%; /* Ensures the image takes up the full width of the card */
+    height: auto;
+    border-radius: 8px 8px 0 0;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-heading {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    margin-bottom: 10px;
+}
+
+.card-button {
+    width: 100%;
+    margin-top: auto; /* Push the button to the bottom */
+}
+
+    .card-button:hover {
+        text-decoration: none;
+        color: #fff;
+    }
+
+@media (max-width: 768px) {
+    .card-sl {
+        max-width: 100%; /* Ensures the card takes the full width on smaller screens */
+    }
+}

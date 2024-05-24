@@ -3,28 +3,28 @@
 
 <div class="w-100 d-flex justify-content-center">
     <div class="row table-responsive bg-dark-secondary text-white">
-        <div class="row justify-content-between mt-2">
+        <div class="row justify-content-between mt-4 search-filter-container">
             @* TITLE *@
             <div class="col-md-3 d-flex align-items-center">
-                <h3 class="text-light mt-3 ms-2">Drivers</h3>
+                <h1 class="text-light ms-2 search-filter-title">Drivers</h1>
             </div>
             @* SEARCH AND FILTER *@
-            <div class="col-md-9">
-                <form class="d-flex justify-content-end align-items-center mt-3 rounded-3" onsubmit="return false;">
-                    <input id="searchInput" class="form-control me-2 rounded-3" type="search" placeholder="Search" aria-label="Search">
-                    <select id="statusFilter" class="form-select me-2">
+            <div class="col-md-9 d-flex justify-content-end">
+                <form class="d-flex justify-content-end align-items-center rounded-3 search-filter-form" onsubmit="return false;">
+                    <input id="searchInput" class="form-control me-2 rounded-3 search-input" type="search" placeholder="Search" aria-label="Search">
+                    <select id="statusFilter" class="form-select me-2 filter-select">
                         <option value="" selected>All Statuses</option>
                         <option value="active">Active</option>
                         <option value="onduty">On Duty</option>
                         <option value="delay">Inactive</option>
                     </select>
-                    <button class="btn btn-outline-light me-2 rounded-3" type="button" onclick="filterTable()">Search</button>
+                    <button class="btn btn-outline-light rounded-3 search-filter-btn" type="button" onclick="filterTable()">Search</button>
                 </form>
             </div>
-            @* ADD DRIVER BUTTON *@
-            <div class="mt-2 mb-2 col-md-12 d-flex justify-content-end">
-                <button class="btn btn-success me-2 rounded-3" style="width:120px;" type="button" onclick="openModalAddDriver()">Add New +</button>
-            </div>
+        </div>
+        @* ADD DRIVER BUTTON *@
+        <div class="mt-2 mb-2 me-3 col-md-12 d-flex justify-content-end">
+            <button class="btn btn-success addnew-btn" type="button" onclick="openModalAddDriver()">Add New +</button>
         </div>
         @* DRIVERS TABLE *@
         <div class="d-flex justify-content-center">
@@ -54,7 +54,7 @@
                                     <td class="text-center img-col">
                                         <img src="FileUploads/@ImageCategories.imgProfile/@driver.driverVMImage" alt="hugenerd" width="30" height="30" class="rounded-circle clickable" onclick="openModalDriverPicture('FileUploads/@ImageCategories.imgProfile/@driver.driverVMImage')">
                                     </td>
-                                    <td class="text-center">1</td>
+                                    <td class="text-center">@driver.driverVMID</td>
                                     @* FULL NAME *@
                                     <td>@driver.driverVMFullName</td>
                                     @* DATE CREATED *@
@@ -70,8 +70,8 @@
                                     @* ACTION BTNS *@
                                     <td class="text-center td-actions">
                                         <i id="contactAction" class="fas fa-phone fa-lg me-2" onclick="openModalDriverContact('@driver.driverVMFullName','@driver.driverVMContact','@driver.driverVMEmail')" style="cursor:pointer; color:#a5f6c6;"></i>
-                                        <i class="fas fa-edit fa-lg me-2" onclick="openModalEditDriver('@driver.driverVMFirstName','@driver.driverVMMiddleName','@driver.driverVMLastName','@driver.driverVMEmail','@driver.driverVMContact','@driver.driverVMfilterStatus')" style="cursor:pointer; color:#35bbd8;"></i>
-                                        <i class="fas fa-trash-alt fa-lg" onclick="openModalDeleteDriver('@driver.driverVMFullName')" style="cursor:pointer; color:#c1272d;"></i>
+                                        <i class="fas fa-edit fa-lg me-2" onclick="openModalEditDriver('@driver.driverVMID','@driver.driverVMFirstName','@driver.driverVMMiddleName','@driver.driverVMLastName','@driver.driverVMEmail','@driver.driverVMContact','@driver.driverVMfilterStatus')" style="cursor:pointer; color:#35bbd8;"></i>
+                                        <i class="fas fa-trash-alt fa-lg" onclick="openModalDeleteDriver('@driver.driverVMFullName','@driver.driverVMID')" style="cursor:pointer; color:#c1272d;"></i>
                                     </td>
                                 </tr>
                             }
@@ -81,8 +81,28 @@
             }
             else
             {
-                <div class="text-center mt-5">
-                    <h4>No drivers found.</h4>
+                <div class="table-container">
+                    <table class="table table-drivers mt-1">
+                        @* HEADER *@
+                        <thead class="text-light">
+                            <tr>
+                                <th class="text-center img-col">Picture</th>
+                                <th class="text-center sortable" onclick="sortTable(0)">ID <i class="fas fa-sort ms-1"></i></th>
+                                <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
+                                <th class="sortable" onclick="sortTable(2)">Date Created <i class="fas fa-sort ms-1"></i></th>
+                                <th class="sortable" onclick="sortTable(3)">Last Duty<i class="fas fa-sort ms-1"></i></th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">License</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        @* BODY *@
+                        <tbody id="usersTable" class="text-light">
+                        </tbody>
+                    </table>
+                    <div class="text-center" style="margin-top:180px;">
+                        <h3>No drivers found.</h3>
+                    </div>
                 </div>
             }
         </div>
@@ -91,16 +111,15 @@
 
 <!-- Add New Driver Modal -->
 <div class="modal fade" id="addNewDriverModal" tabindex="-1" aria-labelledby="addNewDriverModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark-secondary">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3">
             @* TITLE *@
             <div class="modal-header text-light border-0">
                 <h5 class="modal-title" id="addNewDriverModalLabel">Add New Driver</h5>
                 <button type="button" class="btn-close btn-close-white" onclick="closeModalAddDriver()" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
-            @using (Html.BeginForm("AddNewDriver", "Admin", FormMethod.Post, new { id = "addDriverForm", enctype = "multipart/form-data" }))
-            {
+            @* @using (Html.BeginForm("AddNewDriver", "Admin", FormMethod.Post, new { id = "addDriverForm", enctype = "multipart/form-data" }))
+            { *@
             @* ADD DRIVER FORM *@
             <div class="modal-body text-light">
                 @* FIRST NAME *@
@@ -171,17 +190,17 @@
             @* ACTION BTNS *@
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalAddDriver()">Cancel</button>
-                <button type="submit" class="btn btn-success" onclick="addDriver()">Add Driver</button>
+                <button type="button" class="btn btn-success" onclick="addDriver()">Add Driver</button>
             </div>
-            }
+            @* } *@
         </div>
     </div>
 </div>
 
 <!-- Edit Driver Modal -->
 <div class="modal fade" id="editDriverModal" tabindex="-1" aria-labelledby="editDriverModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark-secondary">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3">
             @* TITLE *@
             <div class="modal-header text-light border-0">
                 <h5 class="modal-title" id="editDriverModalLabel">Edit (Name)'s Info</h5>
@@ -189,57 +208,88 @@
             </div>
             @* EDIT DRIVER FORM *@
             <div class="modal-body text-light">
-                <form id="editDriverForm">
+                @* <form id="editDriverForm"> *@
+                    @Html.TextBoxFor(m => m.EditDriver.driveditmodelID, new { @class = "form-control", type = "hidden", id = "driverID-edit" })
                     @* FIRST NAME *@
                     <div class="form-group mb-3">
-                        <label for="driverFirstName-edit" class="font-weight-bold mb-1">First Name</label>
-                        <input type="text" class="form-control" id="driverFirstName-edit" placeholder="Enter driver's first name">
+                        @Html.LabelFor(m => m.EditDriver.driveditmodelFirstName, new { @class = "font-weight-bold mb-1"})
+                        @Html.TextBoxFor(m => m.EditDriver.driveditmodelFirstName, new { @class = "form-control", placeholder = "Enter driver's first name", type = "text", id = "driverFirstName-edit" })
+                        @Html.ValidationMessageFor(m => m.EditDriver.driveditmodelFirstName, "", new { @class = "text-danger" })
+                        @* <label for="driverFirstName-edit" class="font-weight-bold mb-1">First Name</label>
+                        <input type="text" class="form-control" id="driverFirstName-edit" placeholder="Enter driver's first name"> *@
                     </div>
                     @* MIDDLE NAME *@
                     <div class="form-group mb-3">
-                        <label for="driverMiddleName-edit" class="font-weight-bold mb-1">Middle Name</label>
-                        <input type="text" class="form-control" id="driverMiddleName-edit" placeholder="Enter driver's middle name">
+                        @Html.LabelFor(m => m.EditDriver.driveditmodelMiddleName, new { @class = "font-weight-bold mb-1" })
+                        @Html.TextBoxFor(m => m.EditDriver.driveditmodelMiddleName, new { @class = "form-control", placeholder = "Enter driver's middle name", type = "text", id = "driverMiddleName-edit" })
+                        @Html.ValidationMessageFor(m => m.EditDriver.driveditmodelMiddleName, "", new { @class = "text-danger" })
+                        @* <label for="driverMiddleName-edit" class="font-weight-bold mb-1">Middle Name</label>
+                        <input type="text" class="form-control" id="driverMiddleName-edit" placeholder="Enter driver's middle name"> *@
                     </div>
                     @* LAST NAME *@
                     <div class="form-group mb-3">
-                        <label for="driverLastName-edit" class="font-weight-bold mb-1">Last Name</label>
-                        <input type="text" class="form-control" id="driverLastName-edit" placeholder="Enter driver's last name">
+                        @Html.LabelFor(m => m.EditDriver.driveditmodelLastName, new { @class = "font-weight-bold mb-1" })
+                        @Html.TextBoxFor(m => m.EditDriver.driveditmodelLastName, new { @class = "form-control", placeholder = "Enter driver's last name", type = "text", id = "driverLastName-edit" })
+                        @Html.ValidationMessageFor(m => m.EditDriver.driveditmodelLastName, "", new { @class = "text-danger" })
+                        @* <label for="driverLastName-edit" class="font-weight-bold mb-1">Last Name</label>
+                        <input type="text" class="form-control" id="driverLastName-edit" placeholder="Enter driver's last name"> *@
                     </div>
                     @* EMAIL *@
                     <div class="form-group mb-3">
-                        <label for="driverEmail-edit" class="font-weight-bold mb-1">Email</label>
-                        <input type="email" class="form-control" id="driverEmail-edit" placeholder="Enter driver's email">
+                        @Html.LabelFor(m => m.EditDriver.driveditmodelEmail, new { @class = "font-weight-bold mb-1" })
+                        @Html.TextBoxFor(m => m.EditDriver.driveditmodelEmail, new { @class = "form-control", placeholder = "Enter driver's email", type = "email", id = "driverEmail-edit" })
+                        @Html.ValidationMessageFor(m => m.EditDriver.driveditmodelEmail, "", new { @class = "text-danger" })
+                        @* <label for="driverEmail-edit" class="font-weight-bold mb-1">Email</label>
+                        <input type="email" class="form-control" id="driverEmail-edit" placeholder="Enter driver's email"> *@
                     </div>
                     @* CONTACT *@
                     <div class="form-group mb-3">
-                        <label for="driverContact-edit" class="font-weight-bold mb-1">Contact</label>
-                        <input type="text" class="form-control" id="driverContact-edit" placeholder="Enter driver's contact number">
+                        @Html.LabelFor(m => m.EditDriver.driveditmodelContact, new { @class = "font-weight-bold mb-1" })
+                        @Html.TextBoxFor(m => m.EditDriver.driveditmodelContact, new { @class = "form-control", placeholder = "Enter driver's contact number", type = "text", id = "driverContact-edit" })
+                        @Html.ValidationMessageFor(m => m.EditDriver.driveditmodelContact, "", new { @class = "text-danger" })
+                        @* <label for="driverContact-edit" class="font-weight-bold mb-1">Contact</label>
+                        <input type="text" class="form-control" id="driverContact-edit" placeholder="Enter driver's contact number"> *@
                     </div>
                     @* STATUS INFO *@
                     <div class="form-group mb-3">
-                        <label for="driverStatus-edit" class="font-weight-bold mb-1">Status</label>
+                        @* <label for="driverStatus-edit" class="font-weight-bold mb-1">Status</label>
                         <select class="form-control" id="driverStatus-edit">
                             <option value="active">Active</option>
                             <option value="onduty">On Duty</option>
                             <option value="inactive">Inactive</option>
-                        </select>
-                    </div>
+                        </select> *@
+                        @Html.LabelFor(m => m.EditDriver.driveditmodelStatus, new { @class = "font-weight-bold mb-1" })
+                        @Html.DropDownList("driverStatus-edit", new SelectList(new List<Object>{
+                        new { value = "active" , text = "Active"  },
+                        new { value = "onduty" , text = "On Duty" },
+                        new { value = "delay" , text = "Inactive" }
+                        }, "value", "text"), new { @class = "form-control" })
+                        </div>
                     @* PICTURE OF DRIVER *@
                     <div class="form-group mb-3">
-                        <label for="driverPicture-edit" class="font-weight-bold mb-1">Picture</label>
-                        <input type="file" class="form-control" id="driverPicture-edit" placeholder="Enter driver's picture">
+                        @Html.LabelFor(m => m.EditDriver.driveditmodelImage, new { @class = "font-weight-bold mb-1" })
+                        @Html.TextBoxFor(m => m.EditDriver.driveditmodelImage, new { @class = "form-control", placeholder = "Enter driver's picture", type = "file", id = "driverPicture-edit" })
+                        @Html.ValidationMessageFor(m => m.EditDriver.driveditmodelImage, "", new { @class = "text-danger" })
+                        @* <label for="driverPicture-edit" class="font-weight-bold mb-1">Picture</label>
+                        <input type="file" class="form-control" id="driverPicture-edit" placeholder="Enter driver's picture"> *@
                     </div>
                     @* DRIVER'S LICENSE FRONT *@
                     <div class="form-group mb-3">
-                        <label for="driverLicenseFront-edit" class="font-weight-bold mb-1">Front of Driver's License</label>
-                        <input type="file" class="form-control" id="driverLicenseFront-edit" placeholder="Enter driver's license">
+                        @Html.LabelFor(m => m.EditDriver.driveditmodelLicense, new { @class = "font-weight-bold mb-1" })
+                        @Html.TextBoxFor(m => m.EditDriver.driveditmodelLicense, new { @class = "form-control", placeholder = "Enter driver's license (Front)", type = "file", id = "driverLicenseFront-edit" })
+                        @Html.ValidationMessageFor(m => m.EditDriver.driveditmodelLicense, "", new { @class = "text-danger" })
+                        @* <label for="driverLicenseFront-edit" class="font-weight-bold mb-1">Front of Driver's License</label>
+                        <input type="file" class="form-control" id="driverLicenseFront-edit" placeholder="Enter driver's license"> *@
                     </div>
                     @* DRIVER'S LICENSE BACK *@
                     <div class="form-group">
-                        <label for="driverLicenseBack-edit" class="font-weight-bold mb-1">Back of Driver's License</label>
-                        <input type="file" class="form-control" id="driverLicenseBack-edit" placeholder="Enter driver's license">
+                        @Html.LabelFor(m => m.EditDriver.driveditmodelLicenseBack, new { @class = "font-weight-bold mb-1" })
+                        @Html.TextBoxFor(m => m.EditDriver.driveditmodelLicenseBack, new { @class = "form-control", placeholder = "Enter driver's license (Back)", type = "file", id = "driverLicenseBack-edit" })
+                        @Html.ValidationMessageFor(m => m.EditDriver.driveditmodelLicenseBack, "", new { @class = "text-danger" })
+                        @* <label for="driverLicenseBack-edit" class="font-weight-bold mb-1">Back of Driver's License</label>
+                        <input type="file" class="form-control" id="driverLicenseBack-edit" placeholder="Enter driver's license"> *@
                     </div>
-                </form>
+                @* </form> *@
             </div>
             @* ACTION BTNS *@
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
@@ -252,8 +302,8 @@
 
 <!-- Drivers License Modal -->
 <div class="modal fade" id="driversLicenseModal" tabindex="-1" aria-labelledby="driversLicenseModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-custom">
-        <div class="modal-content bg-glass">
+    <div class="modal-dialog modal-dialog-centered modal-custom p-2">
+        <div class="modal-content bg-glass p-3">
             @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="driversLicenseModalLabel">Driver's License</h5>
@@ -281,8 +331,8 @@
 
 <!-- Contact Modal Structure -->
 <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-custom">
-        <div class="modal-content bg-dark-secondary text-white">
+    <div class="modal-dialog modal-dialog-centered modal-custom p-2">
+        <div class="modal-content bg-dark-secondary text-white p-3">
             @* TITLE *@
             <div class="modal-header border-bottom-0">
                 <h4 class="modal-title" id="contactModalLabel">Contact Info</h4>
@@ -293,9 +343,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 text-center mb-4">
-                            <h4><span id="modalUserName" class="mb-3"></span></h4>
-                            <h4><span id="modalUserEmail" class="mb-3"></span></h4>
-                            <h4><span id="modalUserContact" class="mb-3"></span></h4>
+                            <h5><span id="modalUserName" class="mb-3"></span></h5>
+                            <h5><span id="modalUserEmail" class="mb-3"></span></h5>
+                            <h5><span id="modalUserContact" class="mb-3"></span></h5>
                         </div>
                     </div>
                 </div>
@@ -306,8 +356,8 @@
 
 <!-- Drivers Picture Modal -->
 <div class="modal fade" id="driversPictureModal" tabindex="-1" aria-labelledby="driversPictureModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-custom">
-        <div class="modal-content bg-glass">
+    <div class="modal-dialog modal-dialog-centered modal-custom p-2">
+        <div class="modal-content bg-glass p-3">
             @* TITLE *@
             <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="driversPictureModalLabel">Driver's Picture</h5>
@@ -323,9 +373,10 @@
 
 <!-- Delete Driver Modal -->
 <div class="modal fade" id="deleteDriverModal" tabindex="-1" aria-labelledby="deleteDriverModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark-secondary">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3">
             @* EDIT DRIVER FORM *@
+            @Html.TextBoxFor(m => m.DelDriver.drivdelmodelID, new { @class = "form-control", type = "hidden", id = "driverID-delete" })
             <div class="modal-body text-light text-center mt-4">
                 <h4>Do you really want to remove {name}?</h4>
             </div>

@@ -17,23 +17,13 @@ function displayStep(stepNumber) {
 }
 
 $(document).ready(function () {
+    var currentStep = 1; // Initialize currentStep
+    var isTransitioning = false; // Flag to prevent rapid transitions
+
     $("#multi-step-form").find(".step").slice(1).hide();
 
-    //$(".next-step").click(function () {
-    //    if (currentStep < 4) {
-    //        $(".step-" + currentStep).addClass(
-    //            "animate__animated animate__fadeOutLeft"
-    //        );
-    //        currentStep++;
-    //        setTimeout(function () {
-    //            $(".step").removeClass("animate__animated animate__fadeOutLeft animate__fadeInLeft").hide();
-    //            $(".step-" + currentStep)
-    //                .show()
-    //                .addClass("animate__animated animate__fadeInRight");
-    //        }, 500);
-    //    }
-    //});
     $(".next-step").click(function () {
+        if (isTransitioning) return; // If already transitioning, do nothing
         if (currentStep < 4) {
             // Check if the current step's form inputs are valid
             if (!$("#multi-step-form").valid()) {
@@ -41,23 +31,29 @@ $(document).ready(function () {
                 return;
             }
 
+            console.log("Next step from step " + currentStep); // Debugging
+
             $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
+            isTransitioning = true; // Set flag to true to prevent further transitions
             currentStep++;
             setTimeout(function () {
                 $(".step").removeClass("animate__animated animate__fadeOutLeft animate__fadeInLeft").hide();
                 $(".step-" + currentStep)
                     .show()
                     .addClass("animate__animated animate__fadeInRight");
-                    updateProgressBar();
+                updateProgressBar();
+                isTransitioning = false; // Reset flag after transition
             }, 500);
         }
     });
 
     $(".prev-step").click(function () {
-        if (currentStep >= 1) {
-            $(".step-" + currentStep).addClass(
-                "animate__animated animate__fadeOutRight"
-            );
+        if (isTransitioning) return; // If already transitioning, do nothing
+        if (currentStep > 1) {
+            console.log("Previous step from step " + currentStep); // Debugging
+
+            $(".step-" + currentStep).addClass("animate__animated animate__fadeOutRight");
+            isTransitioning = true; // Set flag to true to prevent further transitions
             currentStep--;
             setTimeout(function () {
                 $(".step")
@@ -66,14 +62,29 @@ $(document).ready(function () {
                 $(".step-" + currentStep)
                     .show()
                     .addClass("animate__animated animate__fadeInLeft");
-                    updateProgressBar();
+                updateProgressBar();
+                isTransitioning = false; // Reset flag after transition
             }, 500);
         }
     });
-    updateProgressBar = function () {
+
+    function updateProgressBar() {
         var progressPercentage = ((currentStep - 1) / 3) * 100;
         $(".progress-bar").css("width", progressPercentage + "%");
-    };
+        console.log("Progress: " + progressPercentage + "%"); // Debugging
+    }
+
+    $("#multi-step-form").on('keypress', function (e) {
+        if (e.which === 13) { // Enter key pressed
+            e.preventDefault(); // Prevent form submission
+            if (currentStep < 4) {
+                console.log("Enter pressed at step " + currentStep); // Debugging
+                $(".next-step").click(); // Trigger click event of next-step button
+            }
+        }
+    });
 });
+
+
 
 /*ADD SCRIPTS BELOW*/

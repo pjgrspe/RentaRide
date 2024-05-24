@@ -1,9 +1,9 @@
 ﻿.navbar-header{
-    margin-left:10px;
+    margin-left:0px;
 }
 
 .fa-bars {
-    color: #f6f6f6;
+    color: darkgray;
 }
 /* Custom styles for sidebar*/
 .nav-link {
@@ -51,7 +51,7 @@
 
 /* Main content styling */
 .main-content{
-    padding: 20px;
+    padding: 0px;
     border-radius: 15px;
     margin: 10px 20px 20px 0;
     flex-grow: 1;
