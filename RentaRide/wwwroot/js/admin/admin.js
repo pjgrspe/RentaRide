@@ -475,14 +475,3 @@ function openModalViewDriverLicense(front,back) {
 function closeModalViewDriverLicense() {
     $('#driversLicenseModal').modal('hide');
 }
-
-
-/*DELETE DRIVER MODAL*/
-function openModalDeleteDriver() {
-    $('#deleteDriverModal').modal('show');
-}
-
-function closeModalDeleteDriver() {
-    $('#deleteDriverModal').modal('hide');
-}
-
