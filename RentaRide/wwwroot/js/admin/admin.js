@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-function reloadActivePartialView() {
+function reloadActivePartialView(message) {
     const activeLink = document.querySelector('.nav-item-link.active');
     if (activeLink) {
         const url = activeLink.getAttribute('href');
@@ -80,7 +80,7 @@ function reloadActivePartialView() {
             .then(data => {
                 document.querySelector('.main-content').innerHTML = data;
                 loadContent();
-                toastSuccess();
+                toastSuccess(message);
             })
             .catch(error => {
                 console.error('Error loading content:', error);
@@ -123,7 +123,7 @@ function loadContent() {
     TOAST SCRIPTS
 ----------------------------------------------------- */
 
-function toastSuccess() {
+function toastSuccess(message) {
     const Toast = Swal.mixin({
         toast: true,
         position: "top",
@@ -137,7 +137,7 @@ function toastSuccess() {
     });
     Toast.fire({
         icon: "success",
-        title: "{Action} successfully"
+        title: message
     });
 }
 
@@ -324,7 +324,6 @@ function closeModalAddDriver() {
     $('#addNewDriverModal').modal('hide');
 }
 
-//LUIS DO YOUR THANG
 function addDriver() {
     var formData = new FormData();
     formData.append('drivmodelFirstName', $('#driverFirstName').val());
@@ -342,16 +341,11 @@ function addDriver() {
     })
         .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
         .then(data => {
-            //JASON INSERT YOUR JS CODE HERE
             if (data.success) {
-                //SUCCESS
-                alert("User added.");
                 $('#addNewDriverModal').modal('hide');
-                reloadActivePartialView();
+                reloadActivePartialView("Driver successfully added.");
             } else {
-                //FAILED
                 alert("Error occurred, insert failed");
-                //alert(data.message); <-- USE THIS IF YOU WANT TO DISPLAY THE MESSAGE FROM THE CONTROLLER
             }
         })
         .catch(error => console.error('Error:', error));
@@ -397,7 +391,7 @@ function editDriver() {
             if (data.success) {
                 //SUCCESS
                 $('#editDriverModal').modal('hide');
-                reloadActivePartialView();
+                reloadActivePartialView("Driver successfully edited.");
             } else {
                 //FAILED
                 alert("Error occurred, Edit failed");
@@ -433,9 +427,8 @@ function deleteDriver() {
             //JASON INSERT YOUR JS CODE HERE
             if (data.success) {
                 //SUCCESS
-                alert("User Deleted.");
                 $('#deleteDriverModal').modal('hide');
-                reloadActivePartialView();
+                reloadActivePartialView("Driver successfully deleted.");
             } else {
                 //FAILED
                 alert("Error occurred, delete failed");
@@ -483,15 +476,5 @@ function openModalViewDriverLicense(front,back) {
 
 function closeModalViewDriverLicense() {
     $('#driversLicenseModal').modal('hide');
-}
-
-
-/*DELETE DRIVER MODAL*/
-function openModalDeleteDriver() {
-    $('#deleteDriverModal').modal('show');
-}
-
-function closeModalDeleteDriver() {
-    $('#deleteDriverModal').modal('hide');
 }
 
