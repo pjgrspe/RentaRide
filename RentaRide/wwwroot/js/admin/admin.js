@@ -477,4 +477,3 @@ function openModalViewDriverLicense(front,back) {
 function closeModalViewDriverLicense() {
     $('#driversLicenseModal').modal('hide');
 }
-
