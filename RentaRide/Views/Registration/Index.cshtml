@@ -20,7 +20,8 @@
 }
 <section class="d-flex justify-content-center bg-dark" id="hero_page">
     <div id="loadingSpinner" class="m-auto">
-    @await Html.PartialAsync("~/Views/Shared/_LoadingSpinner.cshtml") 
+        <partial name="_LoadingSpinner"></partial>
+    @* @await Html.PartialAsync("~/Views/Shared/_LoadingSpinner.cshtml")  *@
     </div>
     <div class="load-content">
         <div class="row m-auto text-center h-100 align-items-center text-light col-12">

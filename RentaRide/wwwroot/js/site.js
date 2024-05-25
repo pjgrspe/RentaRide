@@ -9,5 +9,5 @@ $(document).ready(function () {
     setTimeout(function () {
         $('#loadingSpinner').hide();
         $('.load-content').show(); // Show the content
-    }, 1000); // Adjust the delay (in milliseconds) as needed
+    }, 500); // Adjust the delay (in milliseconds) as needed
 });
