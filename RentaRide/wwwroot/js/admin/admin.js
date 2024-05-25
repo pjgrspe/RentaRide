@@ -1,10 +1,11 @@
 ﻿/* ---------------------------------------------------
-    SIDEBAR SCRIPTS
+   SIDEBAR SCRIPTS
 ----------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", function () {
     const navLinks = document.querySelectorAll('.nav-item-link');
     const profileLinks = document.querySelectorAll('.profile-menu .dropdown-item');
     const mainContent = document.querySelector('.main-content');
+    const dashboardTab = document.querySelector('.nav-item-link[href="/Admin/LoadPartial?menuName=Dashboard"]'); // Adjust the selector as needed
 
     function setActiveTab(link) {
         // Remove active class from all nav links
@@ -12,15 +13,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Add active class to the specified link
         link.classList.add('active', 'fw-bold');
+
+        // Save the active tab to local storage
+        localStorage.setItem('activeTab', link.getAttribute('href'));
     }
 
     function handleNavLinkClick(event) {
-        event.preventDefault(); // Prevent default link behavior
+        event.preventDefault();
 
-        setActiveTab(this);
-
-        // Load the content dynamically
-        const url = this.getAttribute('href');
+        // Fetch the content dynamically when a nav link is clicked
+        const url = event.currentTarget.getAttribute('href');
         fetch(url)
             .then(response => response.text())
             .then(data => {
@@ -28,47 +30,67 @@ document.addEventListener("DOMContentLoaded", function () {
                 loadContent();
             })
             .catch(error => console.error('Error loading content:', error));
+
+        setActiveTab(event.currentTarget);
     }
 
-    function handleProfileLinkClick(event) {
-        event.preventDefault(); // Prevent default link behavior
-
-        // Determine which sidebar tab to activate based on the profile link clicked
-        const profileMenuName = this.getAttribute('href').split('=')[1]; // Get the menuName parameter value
-        const sidebarLinkToActivate = Array.from(navLinks).find(link => link.getAttribute('href').includes(profileMenuName));
-
-        if (sidebarLinkToActivate) {
-            setActiveTab(sidebarLinkToActivate);
-        }
-
-        // Load the content dynamically
-        const url = this.getAttribute('href');
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                mainContent.innerHTML = data;
-                loadContent();
-            })
-            .catch(error => console.error('Error loading content:', error));
-    }
-
-    // Add event listeners to sidebar nav links
+    // Add click event listener to nav links
     navLinks.forEach(link => {
         link.addEventListener('click', handleNavLinkClick);
     });
 
-    // Add event listeners to profile dropdown links
+    // Add click event listener to profile links
     profileLinks.forEach(link => {
         link.addEventListener('click', handleProfileLinkClick);
     });
-});
 
-$(document).ready(function () {
-    $("#sidebarCollapse").on("click", function () {
-        $("#sidebar").toggleClass("active");
-        $(this).toggleClass("active");
+    // Set the active tab on page load based on local storage or default to Dashboard
+    const activeTabHref = localStorage.getItem('activeTab');
+    const activeTab = activeTabHref ? Array.from(navLinks).find(link => link.getAttribute('href') === activeTabHref) : dashboardTab;
+
+    if (activeTab) {
+        setActiveTab(activeTab);
+
+        // Load the content dynamically
+        const url = activeTab.getAttribute('href');
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                mainContent.innerHTML = data;
+                loadContent();
+            })
+            .catch(error => console.error('Error loading content:', error));
+    }
+
+    // Sidebar toggle functionality
+    document.querySelector("#sidebarCollapse").addEventListener("click", function () {
+        document.querySelector("#sidebar").classList.toggle("active");
+        this.classList.toggle("active");
     });
 });
+
+
+
+function reloadActivePartialView(message) {
+    const activeLink = document.querySelector('.nav-item-link.active');
+    if (activeLink) {
+        const url = activeLink.getAttribute('href');
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector('.main-content').innerHTML = data;
+                loadContent();
+                toastSuccess(message);
+            })
+            .catch(error => {
+                console.error('Error loading content:', error);
+            });
+    }
+}
+
+/* ---------------------------------------------------
+    LOADER SCRIPTS
+----------------------------------------------------- */
 
 function showLoader() {
     const loader = document.getElementById('loader');
@@ -97,24 +119,11 @@ function loadContent() {
     hideLoader();
 }
 
-function reloadActivePartialView() {
-    const activeLink = document.querySelector('.nav-item-link.active');
-    if (activeLink) {
-        const url = activeLink.getAttribute('href');
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                document.querySelector('.main-content').innerHTML = data;
-                loadContent();
-                toastSuccess();
-            })
-            .catch(error => {
-                console.error('Error loading content:', error);
-            });
-    }
-}
+/* ---------------------------------------------------
+    TOAST SCRIPTS
+----------------------------------------------------- */
 
-function toastSuccess() {
+function toastSuccess(message) {
     const Toast = Swal.mixin({
         toast: true,
         position: "top",
@@ -128,7 +137,7 @@ function toastSuccess() {
     });
     Toast.fire({
         icon: "success",
-        title: "{Action} successfully"
+        title: message
     });
 }
 
@@ -315,7 +324,6 @@ function closeModalAddDriver() {
     $('#addNewDriverModal').modal('hide');
 }
 
-//LUIS DO YOUR THANG
 function addDriver() {
     var formData = new FormData();
     formData.append('drivmodelFirstName', $('#driverFirstName').val());
@@ -333,16 +341,11 @@ function addDriver() {
     })
         .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
         .then(data => {
-            //JASON INSERT YOUR JS CODE HERE
             if (data.success) {
-                //SUCCESS
-                alert("User added.");
                 $('#addNewDriverModal').modal('hide');
-                reloadActivePartialView();
+                reloadActivePartialView("Driver successfully added.");
             } else {
-                //FAILED
                 alert("Error occurred, insert failed");
-                //alert(data.message); <-- USE THIS IF YOU WANT TO DISPLAY THE MESSAGE FROM THE CONTROLLER
             }
         })
         .catch(error => console.error('Error:', error));
@@ -388,7 +391,7 @@ function editDriver() {
             if (data.success) {
                 //SUCCESS
                 $('#editDriverModal').modal('hide');
-                reloadActivePartialView();
+                reloadActivePartialView("Driver successfully edited.");
             } else {
                 //FAILED
                 alert("Error occurred, Edit failed");
@@ -424,9 +427,8 @@ function deleteDriver() {
             //JASON INSERT YOUR JS CODE HERE
             if (data.success) {
                 //SUCCESS
-                alert("User Deleted.");
                 $('#deleteDriverModal').modal('hide');
-                reloadActivePartialView();
+                reloadActivePartialView("Driver successfully deleted.");
             } else {
                 //FAILED
                 alert("Error occurred, delete failed");
@@ -475,14 +477,3 @@ function openModalViewDriverLicense(front,back) {
 function closeModalViewDriverLicense() {
     $('#driversLicenseModal').modal('hide');
 }
-
-
-/*DELETE DRIVER MODAL*/
-function openModalDeleteDriver() {
-    $('#deleteDriverModal').modal('show');
-}
-
-function closeModalDeleteDriver() {
-    $('#deleteDriverModal').modal('hide');
-}
-
