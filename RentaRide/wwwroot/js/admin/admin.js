@@ -1,8 +1,11 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿/* ---------------------------------------------------
+   SIDEBAR SCRIPTS
+----------------------------------------------------- */
+document.addEventListener("DOMContentLoaded", function () {
     const navLinks = document.querySelectorAll('.nav-item-link');
     const profileLinks = document.querySelectorAll('.profile-menu .dropdown-item');
     const mainContent = document.querySelector('.main-content');
-    const dashboardTab = document.querySelector('.nav-item-link[href="dashboard.html"]'); // Adjust the selector as needed
+    const dashboardTab = document.querySelector('.nav-item-link[href="/Admin/LoadPartial?menuName=Dashboard"]'); // Adjust the selector as needed
 
     function setActiveTab(link) {
         // Remove active class from all nav links
@@ -16,12 +19,10 @@
     }
 
     function handleNavLinkClick(event) {
-        event.preventDefault(); // Prevent default link behavior
+        event.preventDefault();
 
-        setActiveTab(this);
-
-        // Load the content dynamically
-        const url = this.getAttribute('href');
+        // Fetch the content dynamically when a nav link is clicked
+        const url = event.currentTarget.getAttribute('href');
         fetch(url)
             .then(response => response.text())
             .then(data => {
@@ -29,36 +30,16 @@
                 loadContent();
             })
             .catch(error => console.error('Error loading content:', error));
+
+        setActiveTab(event.currentTarget);
     }
 
-    function handleProfileLinkClick(event) {
-        event.preventDefault(); // Prevent default link behavior
-
-        // Determine which sidebar tab to activate based on the profile link clicked
-        const profileMenuName = this.getAttribute('href').split('=')[1]; // Get the menuName parameter value
-        const sidebarLinkToActivate = Array.from(navLinks).find(link => link.getAttribute('href').includes(profileMenuName));
-
-        if (sidebarLinkToActivate) {
-            setActiveTab(sidebarLinkToActivate);
-        }
-
-        // Load the content dynamically
-        const url = this.getAttribute('href');
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                mainContent.innerHTML = data;
-                loadContent();
-            })
-            .catch(error => console.error('Error loading content:', error));
-    }
-
-    // Add event listeners to sidebar nav links
+    // Add click event listener to nav links
     navLinks.forEach(link => {
         link.addEventListener('click', handleNavLinkClick);
     });
 
-    // Add event listeners to profile dropdown links
+    // Add click event listener to profile links
     profileLinks.forEach(link => {
         link.addEventListener('click', handleProfileLinkClick);
     });
@@ -80,14 +61,14 @@
             })
             .catch(error => console.error('Error loading content:', error));
     }
-});
 
-$(document).ready(function () {
-    $("#sidebarCollapse").on("click", function () {
-        $("#sidebar").toggleClass("active");
-        $(this).toggleClass("active");
+    // Sidebar toggle functionality
+    document.querySelector("#sidebarCollapse").addEventListener("click", function () {
+        document.querySelector("#sidebar").classList.toggle("active");
+        this.classList.toggle("active");
     });
 });
+
 
 
 function reloadActivePartialView() {
