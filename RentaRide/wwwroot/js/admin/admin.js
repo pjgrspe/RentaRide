@@ -1,10 +1,8 @@
-﻿/* ---------------------------------------------------
-    SIDEBAR SCRIPTS
------------------------------------------------------ */
-document.addEventListener("DOMContentLoaded", function () {
+﻿document.addEventListener("DOMContentLoaded", function () {
     const navLinks = document.querySelectorAll('.nav-item-link');
     const profileLinks = document.querySelectorAll('.profile-menu .dropdown-item');
     const mainContent = document.querySelector('.main-content');
+    const dashboardTab = document.querySelector('.nav-item-link[href="dashboard.html"]'); // Adjust the selector as needed
 
     function setActiveTab(link) {
         // Remove active class from all nav links
@@ -12,6 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Add active class to the specified link
         link.classList.add('active', 'fw-bold');
+
+        // Save the active tab to local storage
+        localStorage.setItem('activeTab', link.getAttribute('href'));
     }
 
     function handleNavLinkClick(event) {
@@ -61,6 +62,24 @@ document.addEventListener("DOMContentLoaded", function () {
     profileLinks.forEach(link => {
         link.addEventListener('click', handleProfileLinkClick);
     });
+
+    // Set the active tab on page load based on local storage or default to Dashboard
+    const activeTabHref = localStorage.getItem('activeTab');
+    const activeTab = activeTabHref ? Array.from(navLinks).find(link => link.getAttribute('href') === activeTabHref) : dashboardTab;
+
+    if (activeTab) {
+        setActiveTab(activeTab);
+
+        // Load the content dynamically
+        const url = activeTab.getAttribute('href');
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                mainContent.innerHTML = data;
+                loadContent();
+            })
+            .catch(error => console.error('Error loading content:', error));
+    }
 });
 
 $(document).ready(function () {
@@ -69,6 +88,28 @@ $(document).ready(function () {
         $(this).toggleClass("active");
     });
 });
+
+
+function reloadActivePartialView() {
+    const activeLink = document.querySelector('.nav-item-link.active');
+    if (activeLink) {
+        const url = activeLink.getAttribute('href');
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector('.main-content').innerHTML = data;
+                loadContent();
+                toastSuccess();
+            })
+            .catch(error => {
+                console.error('Error loading content:', error);
+            });
+    }
+}
+
+/* ---------------------------------------------------
+    LOADER SCRIPTS
+----------------------------------------------------- */
 
 function showLoader() {
     const loader = document.getElementById('loader');
@@ -97,22 +138,9 @@ function loadContent() {
     hideLoader();
 }
 
-function reloadActivePartialView() {
-    const activeLink = document.querySelector('.nav-item-link.active');
-    if (activeLink) {
-        const url = activeLink.getAttribute('href');
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                document.querySelector('.main-content').innerHTML = data;
-                loadContent();
-                toastSuccess();
-            })
-            .catch(error => {
-                console.error('Error loading content:', error);
-            });
-    }
-}
+/* ---------------------------------------------------
+    TOAST SCRIPTS
+----------------------------------------------------- */
 
 function toastSuccess() {
     const Toast = Swal.mixin({
