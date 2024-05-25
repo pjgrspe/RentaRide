@@ -83,6 +83,7 @@ function reloadActivePartialView(message) {
                 toastSuccess(message);
             })
             .catch(error => {
+                toastSuccess(message);
                 console.error('Error loading content:', error);
             });
     }
@@ -137,6 +138,24 @@ function toastSuccess(message) {
     });
     Toast.fire({
         icon: "success",
+        title: message
+    });
+}
+
+function toastError(message) {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+    Toast.fire({
+        icon: "error",
         title: message
     });
 }
@@ -345,7 +364,7 @@ function addDriver() {
                 $('#addNewDriverModal').modal('hide');
                 reloadActivePartialView("Driver successfully added.");
             } else {
-                alert("Error occurred, insert failed");
+                reloadActivePartialView("Something went wrong.");
             }
         })
         .catch(error => console.error('Error:', error));
@@ -394,7 +413,7 @@ function editDriver() {
                 reloadActivePartialView("Driver successfully edited.");
             } else {
                 //FAILED
-                alert("Error occurred, Edit failed");
+                reloadActivePartialView("Something went wrong.");
                 //alert(data.message); <-- USE THIS IF YOU WANT TO DISPLAY THE MESSAGE FROM THE CONTROLLER
             }
             
@@ -407,9 +426,11 @@ function editDriver() {
 function openModalDeleteDriver(driverFullname, driverID) {
     $('#driverID-delete').val(driverID);
 
+    // Set the driver's full name in the modal
+    $('#deleteDriverName').text(`${driverFullname}?`);
+
     $('#deleteDriverModal').modal('show');
 }
-
 function closeModalDeleteDriver() {
     $('#deleteDriverModal').modal('hide');
 }
@@ -431,7 +452,7 @@ function deleteDriver() {
                 reloadActivePartialView("Driver successfully deleted.");
             } else {
                 //FAILED
-                alert("Error occurred, delete failed");
+                reloadActivePartialView("Something went wrong.");
                 //alert(data.message); <-- USE THIS IF YOU WANT TO DISPLAY THE MESSAGE FROM THE CONTROLLER
             }
         })
