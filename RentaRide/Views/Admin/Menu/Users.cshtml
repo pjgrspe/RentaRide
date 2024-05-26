@@ -168,20 +168,10 @@
             </div>
             @* ACTION BTNS *@
             <div class="modal-footer mb-3 border-top-0 d-flex justify-content-center align-content-center">
-                @* <button style="min-width:100px;" type="button" class="btn btn-danger btn-lg rounded-2" onclick="denyUser()">Deny</button>
-                <button style="min-width:100px;" type="button" class="btn btn-success btn-lg rounded-2" onclick="approveUser()">Approve</button> *@              
-                @using (Html.BeginForm("UpdateUserValidation", "Admin", FormMethod.Post, new { id = "denyForm" }))
-                {
-                    <input type="hidden" name="userId" id="denyUserId" value="" />
-                    <input type="hidden" name="isApproved" value="false" />
-                    <button style="min-width:100px;" type="submit" class="btn btn-danger btn-lg rounded-2" onclick="denyUser()">Deny</button>
-                }
-                @using (Html.BeginForm("UpdateUserValidation", "Admin", FormMethod.Post, new { id = "approveForm" }))
-                {
-                    <input type="hidden" name="userId" id="approveUserId" value="" />
-                    <input type="hidden" name="isApproved" value="true" />
-                    <button style="min-width:100px;" type="submit" class="btn btn-success btn-lg rounded-2" onclick="approveUser()">Approve</button>
-                }
+                @Html.TextBoxFor(m => m.VerifyUser.userverID, new { @class = "form-control", type = "hidden", id = "userID-Verify" })
+                <button style="min-width:100px;" type="button" class="btn btn-danger btn-lg rounded-2" onclick="setUserVerify(false)">Deny</button>
+                <button style="min-width:100px;" type="button" class="btn btn-warning btn-lg rounded-2" onclick="setUserVerify(null)">Pending</button>
+                <button style="min-width:100px;" type="button" class="btn btn-success btn-lg rounded-2" onclick="setUserVerify(true)">Approve</button>
             </div>
         </div>
     </div>

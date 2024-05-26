@@ -51,7 +51,10 @@ namespace RentaRide.Database.Database_Models
         public string? carInactiveInfo { get; set; }
         public DateTime? carLastMaintenance { get; set; }
         public DateTime? carNextMaintenance { get; set; }
-
+        [Required]
+        public int carLastChangeOilMileage { get; set; }
+        [Required]
+        public int carOilChangeInterval { get; set; }
         [Required]
         public string carLicensePlate { get; set; }
 
