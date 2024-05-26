@@ -305,30 +305,79 @@ function openModalUserDetails(id, name, email, contact, status, dateCreated, dat
     $('#proofOfBillingModal img').attr('src', proofOfBillingSrc);
     $('#modalSelfieWithID img').attr('src', selfiePicSrc);
     $('#selfieWithIDModal img').attr('src', selfiePicSrc);
-    document.getElementById('approveUserId').value = id;
-    document.getElementById('denyUserId').value = id;
+    document.getElementById('userID-Verify').value = id;
 
     $('#userModal').modal('show');
 }
 
 function closeModalUserDetails() {
+    $('#modalUserId').text('');
+    $('#modalUserName').text('');
+    $('#modalUserEmail').text('');
+    $('#modalUserContact').text('');
+    $('#modalUserStatus').text('');
+
+    // Clear additional modal data
+    $('#modalDateCreated').text('');
+    $('#modalDateModified').text('');
+    $('#modalDateOfBirth').text('');
+    $('#modalStreetAddress').text('');
+    $('#modalCity').text('');
+    $('#modalProvince').text('');
+
+    // Clear the src attribute for the images
+    $('#modalDriversLicense img').attr('src', '');
+    $('#driversLicenseFrontImage').attr('src', '');
+    $('#driversLicenseBackImage').attr('src', '');
+    $('#modalSecondaryID img').attr('src', '');
+    $('#secondaryIDModal img').attr('src', '');
+    $('#modalProofOfBilling img').attr('src', '');
+    $('#proofOfBillingModal img').attr('src', '');
+    $('#modalSelfieWithID img').attr('src', '');
+    $('#selfieWithIDModal img').attr('src', '');
+    $('#userID-Verify').text('');
+
     $('#userModal').modal('hide');
 }
 
 //LUISSSSSSSSSSSSSSSSSSSSS FUCK EM UP
-function approveUser() {
-    // Implement approval logic here
-    $('#userModal').modal('hide');
+//CODE OPTIMIZED
+function setUserVerify(isVerified) {
+    var formData = new FormData();
+    formData.append('userverID', $('#userID-Verify').val());
+    formData.append('userverIsVerified', isVerified);
 
+    fetch('/Admin/UserVerify', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
+        .then(data => {
+            if (data.success) {
+                //SUCCESS
+                if (isVerified == true) {
+                    //JASON INSERT YOUR JS CODE HERE
+                    alert("User approved.");
+                }
+                else if (isVerified == false) {
+                    //JASON INSERT YOUR JS CODE HERE
+                    alert("User denied.");
+                }
+                else {
+                    //JASON INSERT YOUR JS CODE HERE
+                    alert("User set to Pending.");
+
+                }
+            } else {
+                //FAILED
+                //reloadActivePartialView("Something went wrong.");
+                //alert(data.message); <-- USE THIS IF YOU WANT TO DISPLAY THE MESSAGE FROM THE CONTROLLER
+                alert("Something went wrong");
+            }
+            closeModalUserDetails();
+        })
+        .catch(error => console.error('Error:', error));
 }
-
-//LETS FUCKING GO LUIS
-function denyUser() {
-    // Implement denial logic here
-    alert("User denied.");
-    $('#userModal').modal('hide');
-}
-
 
 /* ---------------------------------------------------
     DRIVERS TABLE SCRIPT
@@ -384,6 +433,14 @@ function openModalEditDriver(id,firstname,middlename,lastname,email,contact,stat
 }
 
 function closeModalEditDriver() {
+    $('#driverID-edit').val('');
+    $('#driverFirstName-edit').val('');
+    $('#driverMiddleName-edit').val('');
+    $('#driverLastName-edit').val('');
+    $('#driverEmail-edit').val('');
+    $('#driverContact-edit').val('');
+    $('#driverStatus-edit').val('');
+
     $('#editDriverModal').modal('hide');
 }
 
@@ -409,7 +466,7 @@ function editDriver() {
             //JASON INSERT YOUR JS CODE HERE
             if (data.success) {
                 //SUCCESS
-                $('#editDriverModal').modal('hide');
+                closeModalEditDriver();
                 reloadActivePartialView("Driver successfully edited.");
             } else {
                 //FAILED
@@ -432,6 +489,9 @@ function openModalDeleteDriver(driverFullname, driverID) {
     $('#deleteDriverModal').modal('show');
 }
 function closeModalDeleteDriver() {
+    $('#driverID-delete').val('');
+    $('#deleteDriverName').text('');
+
     $('#deleteDriverModal').modal('hide');
 }
 
@@ -448,7 +508,8 @@ function deleteDriver() {
             //JASON INSERT YOUR JS CODE HERE
             if (data.success) {
                 //SUCCESS
-                $('#deleteDriverModal').modal('hide');
+                //$('#deleteDriverModal').modal('hide');
+                closeModalDeleteDriver();
                 reloadActivePartialView("Driver successfully deleted.");
             } else {
                 //FAILED
@@ -469,6 +530,9 @@ function openModalDriverContact(name, email, contact) {
 }
 
 function closeModalDriverContact() {
+    $('#modalUserName').text('');
+    $('#modalUserEmail').text('');
+    $('#modalUserContact').text('');
     $('#contactModal').modal('hide');
 }
 
@@ -482,6 +546,7 @@ function openModalDriverPicture(driverPicture) {
 }
 
 function closeModalDriverPicture() {
+    $('#driversPictureModal img').attr('src', '');
     $('#driversPictureModal').modal('hide');
 }
 
@@ -496,5 +561,7 @@ function openModalViewDriverLicense(front,back) {
 }
 
 function closeModalViewDriverLicense() {
+    $('#driversLicenseFrontImage').attr('src', '');
+    $('#driversLicenseBackImage').attr('src', '');
     $('#driversLicenseModal').modal('hide');
 }

@@ -197,17 +197,41 @@ namespace RentaRide.Controllers
             if (ModelState.IsValid)
             {
 
-                var model = new AdminPartialViewModel
-                {
-                    DelDriver = new DriverDelModel
-                    {
-                        drivdelmodelID = Int32.Parse(form["drivdelmodelID"]),
-                    }
-                };
-
-                var driveID = Int32.Parse(form["drivdelmodelID"]);
-                var driver = _rardbContext.TBL_Drivers.Find(driveID);
+                var driverID = form["drivdelmodelID"];
+                var driveIDstring = Int32.Parse(driverID!);
+                var driver = _rardbContext.TBL_Drivers.Find(driveIDstring);
                 driver!.driverIsDeleted = true;
+
+                await _rardbContext.SaveChangesAsync();
+                return new JsonResult(new { success = true });
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "An error occureed with deleting driver";
+                return new JsonResult(new { success = false, message = "An error occurred with deleting driver" });
+
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> UserVerify([FromForm] IFormCollection form)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var userID = form["userverID"];
+                var user = _rardbContext.Users.Find(userID);
+                string? Verified = form["userverIsVerified"];
+                bool? isVerified = null;
+
+                if (Verified != null)
+                {
+                    bool temp;
+                    if (bool.TryParse(Verified, out temp))
+                    {
+                        isVerified = temp;
+                    }
+                }
+                user!.userisApproved = isVerified;
 
                 await _rardbContext.SaveChangesAsync();
                 return new JsonResult(new { success = true });
@@ -294,20 +318,6 @@ namespace RentaRide.Controllers
                 return NotFound("Partial view not found.");
             }
         }
-        [HttpPost]
-        public IActionResult UpdateUserValidation(string userId, bool isApproved)
-        {
-            var user = _rardbContext.Users.Find(userId);
-            if (user != null)
-            {
-                user.userisApproved = isApproved;
-                _rardbContext.SaveChanges();
-            }
-
-            return RedirectToAction("Index");
-            //return View();
-        }
-
         [NonAction]
         private static string imgNullCheck(string? img)
         {
