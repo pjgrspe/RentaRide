@@ -215,16 +215,6 @@ namespace RentaRide.Controllers
         [HttpPost]
         public async Task<IActionResult> UserVerify([FromForm] IFormCollection form)
         {
-            //var user = _rardbContext.Users.Find(userId);
-            //if (user != null)
-            //{
-            //    user.userisApproved = isApproved;
-            //    _rardbContext.SaveChanges();
-            //}
-
-            //return RedirectToAction("Index");
-            ////return View();
-            ///
             if (ModelState.IsValid)
             {
 
