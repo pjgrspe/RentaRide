@@ -385,7 +385,8 @@
             @* EDIT DRIVER FORM *@
             @Html.TextBoxFor(m => m.DelDriver.drivdelmodelID, new { @class = "form-control", type = "hidden", id = "driverID-delete" })
             <div class="modal-body text-light text-center mt-4">
-                <h4>Do you really want to remove {name}?</h4>
+                <h4>Do you really want to remove</h4>
+                <h4 id="deleteDriverName" class="mt-2"></h4>
             </div>
             @* ACTION BTNS *@
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
