@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using RentaRide.Database;
 using RentaRide.Database.Database_Models;
@@ -16,13 +17,17 @@ namespace RentaRide.Controllers
         private readonly RARdbContext _rardbContext;
         private readonly IUserServices _userServices;
         private readonly IFileServices _fileServices;
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _environment;
 
-        public AdminController(ILogger<AdminController> logger, RARdbContext rardbContext, IUserServices userServices, IFileServices fileServices)
+        public AdminController(ILogger<AdminController> logger, RARdbContext rardbContext, IUserServices userServices, IFileServices fileServices, IConfiguration configuration, IWebHostEnvironment environment)
         {
             _logger = logger;
             _rardbContext = rardbContext;
             _userServices = userServices;
             _fileServices = fileServices;
+            _configuration = configuration;
+            _environment = environment;
         }
 
         public IActionResult Index()
@@ -84,9 +89,9 @@ namespace RentaRide.Controllers
                 };
                 _rardbContext.TBL_Drivers.Add(driverAdd);
                 _rardbContext.SaveChanges();
-                var driverPictureImgUpload = _fileServices.ProcessUploadedFile(model.AddDriver.drivmodelImage, ImageCategories.imgProfile, driverAdd.driverID.ToString());
-                var driverLicenseImgUpload = _fileServices.ProcessUploadedFile(model.AddDriver.drivmodelLicense, ImageCategories.imgLicense, driverAdd.driverID.ToString());
-                var driverLicenseBackImgUpload = _fileServices.ProcessUploadedFile(model.AddDriver.drivmodelLicenseBack, ImageCategories.imgLicenseBack, driverAdd.driverID.ToString());
+                var driverPictureImgUpload = _fileServices.ProcessEncryptUploadedFile(model.AddDriver.drivmodelImage, ImageCategories.imgProfile);
+                var driverLicenseImgUpload = _fileServices.ProcessEncryptUploadedFile(model.AddDriver.drivmodelLicense, ImageCategories.imgLicense);
+                var driverLicenseBackImgUpload = _fileServices.ProcessEncryptUploadedFile(model.AddDriver.drivmodelLicenseBack, ImageCategories.imgLicenseBack);
 
                 var driverPictureFileExt = _fileServices.GetFileExtension(model.AddDriver.drivmodelImage);
                 var driverLicenseFileExt = _fileServices.GetFileExtension(model.AddDriver.drivmodelLicense);
@@ -144,21 +149,21 @@ namespace RentaRide.Controllers
 
                 if (model.EditDriver.driveditmodelImage != null)
                 {
-                    var driverPictureImgUpload = _fileServices.ProcessUploadedFile(model.EditDriver.driveditmodelImage, ImageCategories.imgProfile, driver.driverID.ToString());
+                    var driverPictureImgUpload = _fileServices.ProcessEncryptUploadedFile(model.EditDriver.driveditmodelImage, ImageCategories.imgProfile);
                     var driverPictureFileExt = _fileServices.GetFileExtension(model.EditDriver.driveditmodelImage);
                     driver!.driverPicture = driverPictureImgUpload!;
                     driver!.driverPictureExt = driverPictureFileExt!;
                 }
                 if (model.EditDriver.driveditmodelLicense != null)
                 {
-                    var driverLicenseImgUpload = _fileServices.ProcessUploadedFile(model.EditDriver.driveditmodelLicense, ImageCategories.imgLicense, driver.driverID.ToString());
+                    var driverLicenseImgUpload = _fileServices.ProcessEncryptUploadedFile(model.EditDriver.driveditmodelLicense, ImageCategories.imgLicense);
                     var driverLicenseFileExt = _fileServices.GetFileExtension(model.EditDriver.driveditmodelLicense);
                     driver!.driverLicense = driverLicenseImgUpload!;
                     driver!.driverLicenseExt = driverLicenseFileExt!;
                 }
                 if (model.EditDriver.driveditmodelLicenseBack != null)
                 {
-                    var driverLicenseBackImgUpload = _fileServices.ProcessUploadedFile(model.EditDriver.driveditmodelLicenseBack, ImageCategories.imgLicenseBack, driver.driverID.ToString());
+                    var driverLicenseBackImgUpload = _fileServices.ProcessEncryptUploadedFile(model.EditDriver.driveditmodelLicenseBack, ImageCategories.imgLicenseBack);
                     var driverLicenseBackFileExt = _fileServices.GetFileExtension(model.EditDriver.driveditmodelLicenseBack);
                     driver!.driverLicenseBack = driverLicenseBackImgUpload!;
                     driver!.driverLicenseBackExt = driverLicenseBackFileExt!;
@@ -280,12 +285,19 @@ namespace RentaRide.Controllers
                         userVMCityAdd = user.userCityAdd,
                         userVMProvinceAdd = user.userProvinceAdd,
                         userVMContact = user.userContact,
-                        userVMLicense = imgNullCheck(user.userLicense),
-                        userVMLicenseBack = imgNullCheck(user.userLicenseBack),
-                        userVM2ndValidID = imgNullCheck(user.user2ndValidID),
-                        userVMProofofBilling = imgNullCheck(user.userProofofBilling),
-                        userVMSelfieProof = imgNullCheck(user.userSelfieProof)
+                        userVMLicenseExt = user.userLicenseFileExt,
+                        userVMLicenseBackExt = user.userLicenseBackFileExt,
+                        userVM2ndValidIDExt = user.user2ndValidIDFileExt,
+                        userVMProofofBillingExt = user.userProofofBillingFileExt,
+                        userVMSelfieProofExt = user.userSelfieProofFileExt,
+
+                        userVMLicenseIMG = imgNullCheck(user.userLicense, ImageCategories.imgLicense),
+                        userVMLicenseBackIMG = imgNullCheck(user.userLicenseBack, ImageCategories.imgLicenseBack),
+                        userVM2ndValidIDIMG = imgNullCheck(user.user2ndValidID, ImageCategories.img2ndID),
+                        userVMProofofBillingIMG = imgNullCheck(user.userProofofBilling, ImageCategories.imgPOB),
+                        userVMSelfieProofIMG = imgNullCheck(user.userSelfieProof, ImageCategories.imgSelfie)
                     }).ToList();
+
                 }else if (menuName == "Drivers")
                 {
                     var drivers = await _rardbContext.TBL_Drivers
@@ -299,9 +311,12 @@ namespace RentaRide.Controllers
                         driverVMLastName = driver.driverLastName,
                         driverVMEmail = driver.driverEmail,
                         driverVMContact = driver.driverContact,
-                        driverVMImage = driver.driverPicture,
-                        driverVMLicense = driver.driverLicense,
-                        driverVMLicenseBack = driver.driverLicenseBack,
+                        driverVMImageIMG = imgNullCheck(driver.driverPicture, ImageCategories.imgProfile),
+                        driverVMLicenseIMG = imgNullCheck(driver.driverLicense, ImageCategories.imgLicense),
+                        driverVMLicenseBackIMG = imgNullCheck(driver.driverLicenseBack, ImageCategories.imgLicenseBack),
+                        driverVMImageExt = driver.driverPictureExt,
+                        driverVMLicenseExt = driver.driverLicenseExt,
+                        driverVMLicenseBackExt = driver.driverLicenseBackExt,
                         driverVMDateCreated = driver.driverRegisteredDate,
                         driverVMDateLastDutyDate = driver.driverLastDutyDate,
                         driverVMOnDuty = driver.driverOnDuty,
@@ -319,15 +334,19 @@ namespace RentaRide.Controllers
             }
         }
         [NonAction]
-        private static string imgNullCheck(string? img)
+        private string imgNullCheck(string? img, string imgCategory)
         {
-            string filePath = "Default.png";
-            if (img != null)
+            var key = _configuration["ImageEncryption:ImageKey"];
+            var iv = _configuration["ImageEncryption:ImageIV"];
+            string UploadFolder = Path.Combine(FileLoc.FileUploadFolder, imgCategory);
+            string path = Path.Combine(_environment.WebRootPath, UploadFolder);
+            if (img == null)
             {
-
-                 filePath = img;
+                img = "Default.png";
             }
-
+            var imageBytes = ImageUtilities.ProcessDecodeImage(img,path,key!,iv!);
+            var base64Image = Convert.ToBase64String(imageBytes);
+            var filePath = base64Image;
             return filePath;
         }
 

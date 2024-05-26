@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using Microsoft.VisualBasic.FileIO;
+using System.Globalization;
 
 namespace RentaRide.Models.ViewModels
 {
@@ -20,12 +21,63 @@ namespace RentaRide.Models.ViewModels
         public string? userVMCityAdd { get; set; }
         public string? userVMProvinceAdd { get; set; }
         public string? userVMContact { get; set; }
-        public string? userVMLicense { get; set; }
-        public string? userVMLicenseBack { get; set; }
-        public string? userVM2ndValidID { get; set; }
-        public string? userVMProofofBilling { get; set; }
-        public string? userVMSelfieProof { get; set; }
-
+        public string? userVMLicenseIMG { get; set; }
+        public string? userVMLicenseBackIMG { get; set; }
+        public string? userVM2ndValidIDIMG { get; set; }
+        public string? userVMProofofBillingIMG { get; set; }
+        public string? userVMSelfieProofIMG { get; set; }
+        public string? userVMLicenseExt { get; set; }
+        public string? userVMLicenseBackExt { get; set; }
+        public string? userVM2ndValidIDExt { get; set; }
+        public string? userVMProofofBillingExt { get; set; }
+        public string? userVMSelfieProofExt { get; set; }
+        public string? GetFormattedExtension(string? ext)
+        {
+            if (ext == ".jpg" || ext == ".jpeg")
+            {
+                return "jpeg";
+            }else if (ext == ".png")
+            {
+                return "png";
+            }else if (ext == ".gif")
+            {
+                return "gif";
+            }else if (ext == ".bmp")
+            {
+                return "bmp";
+            }else if (ext == ".svg")
+            {
+                return "svg+html";
+            }else if (ext == ".webp")
+            {
+                return "webp";
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public string? userVMLicenseIMGType => GetFormattedExtension(userVMLicenseExt);
+        public string? userVMLicenseBackIMGType => GetFormattedExtension(userVMLicenseBackExt);
+        public string? userVM2ndValidIDIMGType => GetFormattedExtension(userVM2ndValidIDExt);
+        public string? userVMProofofBillingIMGType => GetFormattedExtension(userVMProofofBillingExt);
+        public string? userVMSelfieProofIMGType => GetFormattedExtension(userVMSelfieProofExt);
+        public string? GetIMGSource(string? file, string? type)
+        {
+            if (file != null || type != null)
+            {
+                return $"data:image/{type};base64,{file}";
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public string? userVMLicense => GetIMGSource(userVMLicenseIMG, userVMLicenseIMGType);
+        public string? userVMLicenseBack => GetIMGSource(userVMLicenseBackIMG, userVMLicenseBackIMGType);
+        public string? userVM2ndValidID => GetIMGSource(userVM2ndValidIDIMG, userVM2ndValidIDIMGType);
+        public string? userVMProofofBilling => GetIMGSource(userVMProofofBillingIMG, userVMProofofBillingIMGType);
+        public string? userVMSelfieProof => GetIMGSource(userVMSelfieProofIMG, userVMSelfieProofIMGType);
         public string? GetFormattedDate(DateTime? date)
         {
             return date?.ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture);
