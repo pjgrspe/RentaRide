@@ -11,7 +11,11 @@ namespace RentaRide.Database.Database_Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int carID { get; set; }
         public string carPicture { get; set; }
-        public string carDocuments { get; set; }
+        public string carPictureExt { get; set; }
+        public string? carORDoc { get; set; }
+        public string? carORDocExt { get; set; }
+        public string? carCRDoc { get; set; }
+        public string? carCRDocExt { get; set; }
         [Required]
         public string carMake { get; set; }
         [Required]
@@ -59,7 +63,9 @@ namespace RentaRide.Database.Database_Models
         public string carLicensePlate { get; set; }
 
         //carLocation <--- problem for future us
-        
-
+        [Required]
+        public bool carIsDeleted { get; set; } = false;
+        [Required]
+        public DateTime carDateLogged { get; set; } = DateTime.Now;
     }
 }

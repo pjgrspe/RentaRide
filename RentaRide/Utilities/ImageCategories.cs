@@ -8,5 +8,7 @@
         public const string imgPOB = "POB";
         public const string imgSelfie = "Selfie";
         public const string imgProfile = "Profile";
+        public const string imgCar = "CarImages";
+        public const string imgCarDocs = "CarDocuments";
     }
 }

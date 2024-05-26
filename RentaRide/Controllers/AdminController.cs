@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Logging;
 using RentaRide.Database;
 using RentaRide.Database.Database_Models;
@@ -291,14 +292,15 @@ namespace RentaRide.Controllers
                         userVMProofofBillingExt = user.userProofofBillingFileExt,
                         userVMSelfieProofExt = user.userSelfieProofFileExt,
 
-                        userVMLicenseIMG = imgNullCheck(user.userLicense, ImageCategories.imgLicense),
-                        userVMLicenseBackIMG = imgNullCheck(user.userLicenseBack, ImageCategories.imgLicenseBack),
-                        userVM2ndValidIDIMG = imgNullCheck(user.user2ndValidID, ImageCategories.img2ndID),
-                        userVMProofofBillingIMG = imgNullCheck(user.userProofofBilling, ImageCategories.imgPOB),
-                        userVMSelfieProofIMG = imgNullCheck(user.userSelfieProof, ImageCategories.imgSelfie)
+                        userVMLicenseIMG = imgNullCheck(user.userLicense, ImageCategories.imgLicense, _configuration, _environment),
+                        userVMLicenseBackIMG = imgNullCheck(user.userLicenseBack, ImageCategories.imgLicenseBack, _configuration, _environment),
+                        userVM2ndValidIDIMG = imgNullCheck(user.user2ndValidID, ImageCategories.img2ndID, _configuration, _environment),
+                        userVMProofofBillingIMG = imgNullCheck(user.userProofofBilling, ImageCategories.imgPOB, _configuration, _environment),
+                        userVMSelfieProofIMG = imgNullCheck(user.userSelfieProof, ImageCategories.imgSelfie, _configuration, _environment)
                     }).ToList();
 
-                }else if (menuName == "Drivers")
+                }
+                else if (menuName == "Drivers")
                 {
                     var drivers = await _rardbContext.TBL_Drivers
                                                      .Where(driver => driver.driverIsDeleted == false)
@@ -311,9 +313,9 @@ namespace RentaRide.Controllers
                         driverVMLastName = driver.driverLastName,
                         driverVMEmail = driver.driverEmail,
                         driverVMContact = driver.driverContact,
-                        driverVMImageIMG = imgNullCheck(driver.driverPicture, ImageCategories.imgProfile),
-                        driverVMLicenseIMG = imgNullCheck(driver.driverLicense, ImageCategories.imgLicense),
-                        driverVMLicenseBackIMG = imgNullCheck(driver.driverLicenseBack, ImageCategories.imgLicenseBack),
+                        driverVMImageIMG = imgNullCheck(driver.driverPicture, ImageCategories.imgProfile, _configuration, _environment),
+                        driverVMLicenseIMG = imgNullCheck(driver.driverLicense, ImageCategories.imgLicense, _configuration, _environment),
+                        driverVMLicenseBackIMG = imgNullCheck(driver.driverLicenseBack, ImageCategories.imgLicenseBack, _configuration, _environment),
                         driverVMImageExt = driver.driverPictureExt,
                         driverVMLicenseExt = driver.driverLicenseExt,
                         driverVMLicenseBackExt = driver.driverLicenseBackExt,
@@ -322,7 +324,53 @@ namespace RentaRide.Controllers
                         driverVMOnDuty = driver.driverOnDuty,
                         driverVMIsActive = driver.driverIsActive
                     }).ToList();
-                    
+                }
+                else if (menuName == "Cars")
+                {
+                    var cars = await _rardbContext.TBL_Cars
+                                                    .Where(car => car.carIsDeleted == false)
+                                                    .Join(
+                                                        _rardbContext.TBL_CarTypes,
+                                                        car => car.carType,
+                                                        carType => carType.cartypeID,
+                                                        (car, carType) => new CarsViewModel
+                                                        {
+                                                            carVMID = car.carID,
+                                                            carVMPictureIMG = imgNullCheck(car.carPicture, ImageCategories.imgCar, _configuration, _environment),
+                                                            carVMORDocIMG = imgNullCheck(car.carORDoc, ImageCategories.imgCarDocs, _configuration, _environment),
+                                                            carVMCRDocIMG = imgNullCheck(car.carCRDoc, ImageCategories.imgCarDocs, _configuration, _environment),
+                                                            carVMPictureExt = car.carPictureExt,
+                                                            carVMORDocExt = car.carORDocExt,
+                                                            carVMCRDocExt = car.carCRDocExt,
+                                                            carVMMake = car.carMake,
+                                                            carVMModel = car.carModel,
+                                                            carVMYear = car.carYear,
+                                                            carVMTransmission = car.carTransmission,
+                                                            carVMColor = car.carColor,
+                                                            carVMTypeID = car.carType,
+                                                            carVMType = carType.cartypeName,
+                                                            carVMMileage = car.carMileage,
+                                                            carVMFuelType = car.carFuelType,
+                                                            carVMStatus = car.carStatus,
+                                                            carVMisActive = car.carIsActive,
+                                                            carVMInactiveInfo = car.carInactiveInfo,
+                                                            carVMLastChangeOilMileage = car.carLastChangeOilMileage,
+                                                            carVMOilChangeInterval = car.carOilChangeInterval,
+                                                            carVMIsDeleted = car.carIsDeleted,
+                                                            carVMPlateNumber = car.carLicensePlate,
+                                                            carVMDateLogged = car.carDateLogged
+                                                        }
+                                                    )
+                                                    .ToListAsync();
+
+                    adminPartialModel.Cars = cars;
+
+                    var carTypes = await _rardbContext.TBL_CarTypes.ToListAsync();
+                    adminPartialModel.CarTypes = carTypes.Select(carType => new CarTypesViewModel
+                    {
+                        cartypeVMID = carType.cartypeID,
+                        cartypeVMName = carType.cartypeName
+                    }).ToList();
                 }
 
                 return PartialView($"~/Views/Admin/Menu/{menuName}.cshtml", adminPartialModel);
@@ -333,13 +381,87 @@ namespace RentaRide.Controllers
                 return NotFound("Partial view not found.");
             }
         }
-        [NonAction]
-        private string imgNullCheck(string? img, string imgCategory)
+        public async Task<IActionResult> AddNewCar([FromForm] IFormCollection form)
         {
-            var key = _configuration["ImageEncryption:ImageKey"];
-            var iv = _configuration["ImageEncryption:ImageIV"];
+            if (ModelState.IsValid)
+            {
+                var model = new AdminPartialViewModel{
+                    AddCar = new CarAddModel
+                    {
+                        caraddImage = form.Files["caraddImage"],
+                        caraddMake = form["caraddMake"],
+                        caraddModel = form["caraddModel"],
+                        caraddYear = Int32.Parse(form["caraddYear"]),
+                        caraddType = form["caraddType"],
+                        caraddColor = form["caraddColor"],
+                        caraddPlateNumber = form["caraddPlateNumber"],
+                        caraddORDoc = form.Files["caraddORDoc"],
+                        caraddCRDoc = form.Files["caraddCRDoc"]
+                    }
+                };
+                
+                var carImageImgUpload = _fileServices.ProcessEncryptUploadedFile(model.AddCar.caraddImage, ImageCategories.imgCar);
+                var carORDocImgUpload = _fileServices.ProcessEncryptUploadedFile(model.AddCar.caraddORDoc, ImageCategories.imgCarDocs);
+                var carCRDocImgUpload = _fileServices.ProcessEncryptUploadedFile(model.AddCar.caraddCRDoc, ImageCategories.imgCarDocs);
+
+                var carImageFileExt = _fileServices.GetFileExtension(model.AddCar.caraddImage);
+                var carORDocFileExt = _fileServices.GetFileExtension(model.AddCar.caraddORDoc);
+                var carCRDocFileExt = _fileServices.GetFileExtension(model.AddCar.caraddCRDoc);
+
+                var carAdd = new CarsDBModel
+                {
+                    carPicture = "Pending....",
+                    carPictureExt = "Pending....",
+                    carORDoc = "Pending....",
+                    carORDocExt = "Pending....",
+                    carCRDoc = "Pending....",
+                    carCRDocExt = "Pending....",
+                    carMake = model.AddCar.caraddMake,
+                    carModel = model.AddCar.caraddModel,
+                    carYear = model.AddCar.caraddYear,
+                    carTransmission = false,
+                    carColor = model.AddCar.caraddColor,
+                    carType = Int32.Parse(model.AddCar.caraddType),
+                    carMileage = 0,
+                    carFuelType = false,
+                    carStatus = true,
+                    carIsActive = true,
+                    carInactiveInfo = null,
+                    carLastMaintenance = null,
+                    carNextMaintenance = null,
+                    carLastChangeOilMileage = 0,
+                    carOilChangeInterval = 0,
+                    carLicensePlate = model.AddCar.caraddPlateNumber,
+                    carIsDeleted = false
+                };
+
+                _rardbContext.TBL_Cars.Add(carAdd);
+                _rardbContext.SaveChanges();
+                var carToUpdate = _rardbContext.TBL_Cars.Find(carAdd.carID);
+                carToUpdate!.carPicture = carImageImgUpload!;
+                carToUpdate!.carPictureExt = carImageFileExt!;
+                carToUpdate!.carORDoc = carORDocImgUpload!;
+                carToUpdate!.carORDocExt = carORDocFileExt!;
+                carToUpdate!.carCRDoc = carCRDocImgUpload!;
+                carToUpdate!.carCRDocExt = carCRDocFileExt!;
+                
+                await _rardbContext.SaveChangesAsync();
+                return new JsonResult(new { success = true });
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "An error occureed with adding car";
+                return new JsonResult(new { success = false, message = "An error occurred with adding car" });
+            }
+        }
+
+        [NonAction]
+        private static string imgNullCheck(string? img, string imgCategory, IConfiguration configuration, IWebHostEnvironment environment)
+        {
+            var key = configuration["ImageEncryption:ImageKey"];
+            var iv = configuration["ImageEncryption:ImageIV"];
             string UploadFolder = Path.Combine(FileLoc.FileUploadFolder, imgCategory);
-            string path = Path.Combine(_environment.WebRootPath, UploadFolder);
+            string path = Path.Combine(environment.WebRootPath, UploadFolder);
             if (img == null)
             {
                 img = "Default.png";
