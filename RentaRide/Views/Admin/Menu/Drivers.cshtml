@@ -56,7 +56,7 @@
                                 <tr class="table-row">
                                     @* PICTURE OF DRIVER *@
                                     <td class="text-center img-col">
-                                        <img src="FileUploads/@ImageCategories.imgProfile/@driver.driverVMImage" alt="hugenerd" width="30" height="30" class="rounded-circle clickable" onclick="openModalDriverPicture('FileUploads/@ImageCategories.imgProfile/@driver.driverVMImage')">
+                                        <img src="@driver.driverVMImage" alt="hugenerd" width="30" height="30" class="rounded-circle clickable" onclick="openModalDriverPicture('@driver.driverVMImage')">
                                     </td>
                                     <td class="text-center">@driver.driverVMID</td>
                                     @* FULL NAME *@
@@ -69,7 +69,7 @@
                                     <td class="text-center status status-@driver.driverVMfilterStatus"><span class="status-label text-dark">@driver.driverVMStatus</span></td>
                                     @* VIEW LICENSE BTN *@
                                     <td class="text-center">
-                                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalViewDriverLicense('FileUploads/@ImageCategories.imgLicense/@driver.driverVMLicense','FileUploads/@ImageCategories.imgLicenseBack/@driver.driverVMLicenseBack')">View</button>
+                                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalViewDriverLicense('@driver.driverVMLicense','@driver.driverVMLicenseBack')">View</button>
                                     </td>
                                     @* ACTION BTNS *@
                                     <td class="text-center td-actions">

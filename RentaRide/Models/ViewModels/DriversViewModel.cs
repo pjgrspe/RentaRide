@@ -24,9 +24,69 @@ namespace RentaRide.Models.ViewModels
         }
         public string? driverVMEmail { get; set; }
         public string? driverVMContact { get; set; }
-        public string? driverVMImage { get; set; }
-        public string? driverVMLicense { get; set; }
-        public string? driverVMLicenseBack { get; set; }
+        
+        public string? driverVMImageIMG { get; set; }
+        public string? driverVMLicenseIMG { get; set; }
+        public string? driverVMLicenseBackIMG { get; set; }
+        public string? driverVMImageExt { get; set; }
+        public string? driverVMLicenseExt { get; set; }
+        public string? driverVMLicenseBackExt { get; set; }
+        public string? GetFormattedExtension(string? ext)
+        {
+            if (ext == ".jpg" || ext == ".jpeg")
+            {
+                return "jpeg";
+
+
+            }else if (ext == ".png")
+            {
+                return "png";
+
+
+            }else if (ext == ".gif")
+            {
+                return "gif";
+
+
+            }else if (ext == ".bmp")
+            {
+                return "bmp";
+
+
+            }else if (ext == ".svg")
+            {
+                return "svg+html";
+
+
+            }else if (ext == ".webp")
+            {
+                return "webp";
+
+
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public string? driverVMImageIMGType => GetFormattedExtension(driverVMImageExt);
+        public string? driverVMLicenseIMGType => GetFormattedExtension(driverVMLicenseExt);
+        public string? driverVMLicenseBackIMGType => GetFormattedExtension(driverVMLicenseBackExt);
+        public string? GetIMGSource(string? file, string? type)
+        {
+            if (file != null || type != null)
+            {
+                return $"data:image/{type};base64,{file}";
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public string? driverVMImage => GetIMGSource(driverVMImageIMG, driverVMImageIMGType);
+        public string? driverVMLicense => GetIMGSource(driverVMLicenseIMG, driverVMLicenseIMGType);
+        public string? driverVMLicenseBack => GetIMGSource(driverVMLicenseBackIMG, driverVMLicenseBackIMGType);
+
         public DateTime driverVMDateCreated { get; set; }
         public DateTime? driverVMDateLastDutyDate { get; set; }
         public string? GetFormattedDate(DateTime? date)
