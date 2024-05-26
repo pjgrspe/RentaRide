@@ -77,7 +77,7 @@
 
 .card-text-description {
     margin-bottom: 10px;
-    height: 70px; /* Set a fixed height */
+    height: 140px; /* Set a fixed height */
     overflow: hidden;
 }
 
@@ -86,13 +86,35 @@
     margin-top: auto; /* Push the button to the bottom */
 }
 
-    .card-button:hover {
-        text-decoration: none;
-        color: #fff;
-    }
+.card-button:hover {
+    text-decoration: none;
+    color: #fff;
+}
 
 @media (max-width: 768px) {
     .card-sl {
         max-width: 100%; /* Ensures the card takes the full width on smaller screens */
     }
+}
+
+.preview-close-btn {
+    width: 1rem;
+    height: 1rem;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    line-height: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
+
+.img-thumbnail {
+    border-width: 0px; /* Make the border thinner */
 }

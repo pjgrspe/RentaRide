@@ -18,13 +18,13 @@
                         <option value="onduty">Listed</option>
                         <option value="delay">Unlisted</option>
                     </select>
-                    <button class="btn btn-outline-light rounded-3 search-filter-btn" type="button" onclick="filterTable()">Search</button>
+                    <button id="searchButton" class="btn btn-outline-light rounded-3 search-filter-btn" type="button" onclick="filterTable()">Search</button>
                 </form>
             </div>
         </div>
         @* ADD DRIVER BUTTON *@
         <div class="mt-2 mb-2 me-3 col-md-12 d-flex justify-content-end border-bottom-line">
-            <button class="btn btn-success addnew-btn" type="button" onclick="openModalAddDriver()">Add New +</button>
+            <button class="btn btn-success addnew-btn" type="button" onclick="openModalAddCar()">Add New +</button>
         </div>
         @* LOADER *@
         <div id="loader" class="d-flex justify-content-center align-items-center d-none" style="height:70vh; margin-bottom:100px;">
@@ -44,13 +44,18 @@
                             <div class="card-heading text-light">
                                 Lamborghini Aventador
                             </div>
-                            <div class="card-text card-text-description mb-4">
-                                Car Description
+                            <div class="card-text card-text-description text-muted">
+                                <div><strong>Year: </strong>2024</div>
+                                <div><strong>Car Type: </strong>Sports Car</div>
+                                <div><strong>Color: </strong>White</div>
+                                <div><strong>License No.: </strong>XYZ 1234</div>
+                                <div><strong>Last log: </strong>May 26, 2024</div>
                             </div>
-                            <div class="card-text text-center mt-auto">
-                                <div class="text-center status status-onduty"><span class="status-label text-dark">Listed</span></div>
+                            <div class="card-text text-center">
+                                <div class="text-center status status-onduty">
+                                    <span class="status-label text-dark">Listed</span>
+                                </div>
                             </div>
-                            <button href="#" class="card-button btn btn-primary rounded-4 mt-1">Edit</button>
                         </div>
                     </div>
                 </div>
@@ -63,22 +68,126 @@
                         </div>
                         <div class="card-body d-flex flex-column">
                             <div class="card-heading text-light">
-                                Audi Q8
+                                Lamborghini Aventador
+                            </div>
+                            <div class="card-text card-text-description text-muted">
+                                <div><strong>Year: </strong>2023</div>
+                                <div><strong>Car Type: </strong>Sports Car</div>
+                                <div><strong>Color: </strong>Yellow</div>
+                                <div><strong>License No.: </strong>ABC 9876</div>
+                                <div><strong>Last log: </strong>May 23, 2024</div>
+                            </div>
+                            <div class="card-text text-center">
+                                <div class="text-center status status-onduty">
+                                    <span class="status-label text-dark">Listed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @* CARD END *@
+                @* CARD START *@
+                @* LEAVE THIS AS COMMENT FOR NOW *@
+                @* <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-4 card-item" data-status="onduty">
+                    <div class="card-sl bg-glass-cards clickable">
+                        <div class="card-image">
+                            <img src="https://images.pexels.com/photos/9139594/pexels-photo-9139594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <div class="card-heading text-light">
+                                Lamborghini Aventador
                             </div>
                             <div class="card-text card-text-description mb-4">
                                 Car Description
                             </div>
                             <div class="card-text text-center mt-auto">
-                                <div class="text-center status status-active"><span class="status-label text-dark">Active</span></div>
+                                <div class="text-center status status-onduty"><span class="status-label text-dark">Listed</span></div>
                             </div>
                             <button href="#" class="card-button btn btn-primary rounded-4 mt-1">Edit</button>
                         </div>
                     </div>
-                </div>
+                </div> *@
                 @* CARD END *@
                 <div id="no-results" class="text-center" style="margin-top:180px; display:none;">
                     <h3>No cars found.</h3>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add New Car Modal -->
+<div class="modal fade" id="addNewCarModal" tabindex="-1" aria-labelledby="addNewCarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3">
+            <!-- TITLE -->
+            <div class="modal-header text-light border-0">
+                <h5 class="modal-title" id="addNewCarModalLabel">Add New Car</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closeModalAddCar()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- ADD CAR FORM -->
+            <div class="modal-body text-light">
+                <!-- MULTIPLE IMAGE UPLOAD -->
+                <div class="form-group mb-3">
+                    <label for="carImages" class="font-weight-bold mb-1">Car Images</label>
+                    <input type="file" class="form-control" id="carImages" multiple accept="image/*" onchange="previewImages()">
+                    <div id="imagePreviewContainer" class="d-flex flex-wrap justify-content-center mt-3" style="display: none!important;"></div>
+                </div>
+                <!-- MAKE -->
+                <div class="form-group mb-3">
+                    <label for="carMake" class="font-weight-bold mb-1">Make</label>
+                    <input type="text" class="form-control" id="carMake" placeholder="Enter car's make.">
+                </div>
+                <!-- MODEL -->
+                <div class="form-group mb-3">
+                    <label for="carModel" class="font-weight-bold mb-1">Model</label>
+                    <input type="text" class="form-control" id="carModel" placeholder="Enter car's model.">
+                </div>
+                <!-- YEAR -->
+                <div class="form-group mb-3">
+                    <label for="carYear" class="font-weight-bold mb-1">Year</label>
+                    <select class="form-control" id="carYear">
+                        <option value="" disabled selected>Select car year</option>
+                        @for (int year = 1980; year <= DateTime.Now.Year; year++)
+                        {
+                            <option value="@year">@year</option>
+                        }
+                    </select>
+                </div>
+                <!-- TYPE -->
+                <div class="form-group mb-3">
+                    <label for="carType" class="font-weight-bold mb-1">Car Type</label>
+                    <select class="form-control" id="carType">
+                        <option value="" disabled selected>Select car type</option>
+                        <option value="Motorcycle">Motorcycle</option>
+                        <option value="SUV/Crossover">SUV/Crossover</option>
+                        <option value="Minivan/Van">Minivan/Van</option>
+                        <option value="Truck/Pickup">Truck/Pickup</option>
+                        <option value="Luxury Vehicle">Luxury Vehicle</option>
+                    </select>
+                </div>
+                <!-- COLOR -->
+                <div class="form-group mb-3">
+                    <label for="carColor" class="font-weight-bold mb-1">Color</label>
+                    <input type="text" class="form-control" id="carColor" placeholder="Enter car's color.">
+                </div>
+                <!-- LICENSE NO. -->
+                <div class="form-group mb-3">
+                    <label for="carLicenseNum" class="font-weight-bold mb-1">License Number</label>
+                    <input type="text" class="form-control" id="carLicenseNum" placeholder="Enter car's license number.">
+                </div>
+                <!-- OR/CR -->
+                <div class="form-group mb-3">
+                    <label for="carORCR" class="font-weight-bold mb-1">OR/CR</label>
+                    <input type="file" class="form-control" id="carORCR" placeholder="Upload OR/CR document">
+                </div>
+                
+            </div>
+            <!-- ACTION BUTTONS -->
+            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModalAddCar()">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="addCar()">Add Car</button>
             </div>
         </div>
     </div>
