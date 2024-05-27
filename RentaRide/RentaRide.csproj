@@ -18,9 +18,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\admin\cars.js" />
+    <Content Remove="wwwroot\js\admin\drivers.js" />
+    <Content Remove="wwwroot\js\admin\users.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\admin\users.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\FileUploads\LicenseBack\" />
     <Folder Include="wwwroot\img\logo\" />
     <Folder Include="wwwroot\img\ui\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\admin\drivers.js" />
+    <None Include="wwwroot\js\admin\cars.js" />
+    <None Include="wwwroot\js\admin\users.js" />
   </ItemGroup>
 
   <ItemGroup>
