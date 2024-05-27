@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\FileUploads\LicenseBack\" />
+    <Folder Include="wwwroot\FileUploads\Profile\" />
     <Folder Include="wwwroot\img\logo\" />
     <Folder Include="wwwroot\img\ui\" />
   </ItemGroup>

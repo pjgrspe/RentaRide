@@ -55,7 +55,11 @@
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
+            @using (Html.BeginForm("Logout", "Login", FormMethod.Post))
+            {
+                <li><button class="dropdown-item" type="submit">Logout</button></li>
+            }
+            @* <li><a class="dropdown-item" href="#">Sign out</a></li> *@
         </ul>
     </div>
 </div>

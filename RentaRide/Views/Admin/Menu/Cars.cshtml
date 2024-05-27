@@ -34,6 +34,35 @@
         <div id="tableContent" class="d-flex justify-content-center cards-table-container">
             <div class="row p-4 w-100" id="cards-table">
                 @* CARDS *@
+
+                @foreach(var cars in Model.Cars)
+                {
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-4 card-item" data-status="onduty">
+                        <div class="card-sl bg-glass-cards clickable">
+                            <div class="card-image">
+                                <img src="@cars.carVMPicture" />
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="card-heading text-light">
+                                    @cars.carVMMake @cars.carVMModel
+                                </div>
+                                <div class="card-text card-text-description text-muted">
+                                    <div><strong>Year: </strong>@cars.carVMYear</div>
+                                    <div><strong>Car Type: </strong>@cars.carVMType</div>
+                                    <div><strong>Color: </strong>@cars.carVMColor</div>
+                                    <div><strong>License No.: </strong>@cars.carVMPlateNumber</div>
+                                    <div><strong>Last log: </strong>@cars.carVMFormattedDateLogged</div>
+                                </div>
+                                <div class="card-text text-center">
+                                    <div class="text-center status status-onduty">
+                                        <span class="status-label text-dark">Listed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
                 @* CARD START *@
                 <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-4 card-item" data-status="onduty">
                     <div class="card-sl bg-glass-cards clickable">
@@ -159,12 +188,16 @@
                 <div class="form-group mb-3">
                     <label for="carType" class="font-weight-bold mb-1">Car Type</label>
                     <select class="form-control" id="carType">
-                        <option value="" disabled selected>Select car type</option>
+                        @* <option value="" disabled selected>Select car type</option>
                         <option value="Motorcycle">Motorcycle</option>
                         <option value="SUV/Crossover">SUV/Crossover</option>
                         <option value="Minivan/Van">Minivan/Van</option>
                         <option value="Truck/Pickup">Truck/Pickup</option>
-                        <option value="Luxury Vehicle">Luxury Vehicle</option>
+                        <option value="Luxury Vehicle">Luxury Vehicle</option> *@
+                        @foreach (var carType in Model.CarTypes)
+                        {
+                            <option value="@carType.cartypeVMID">@carType.cartypeVMName</option>
+                        }
                     </select>
                 </div>
                 <!-- COLOR -->
@@ -179,8 +212,12 @@
                 </div>
                 <!-- OR/CR -->
                 <div class="form-group mb-3">
-                    <label for="carORCR" class="font-weight-bold mb-1">OR/CR</label>
-                    <input type="file" class="form-control" id="carORCR" placeholder="Upload OR/CR document">
+                    <label for="carOR" class="font-weight-bold mb-1">OR</label>
+                    <input type="file" class="form-control" id="carOR" placeholder="Upload OR document">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="carCR" class="font-weight-bold mb-1">CR</label>
+                    <input type="file" class="form-control" id="carCR" placeholder="Upload CR document">
                 </div>
                 
             </div>

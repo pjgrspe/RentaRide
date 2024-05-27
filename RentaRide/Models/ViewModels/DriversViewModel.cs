@@ -8,38 +8,27 @@ namespace RentaRide.Models.ViewModels
         public string? driverVMFirstName { get; set; }
         public string? driverVMMiddleName { get; set; }
         public string? driverVMLastName { get; set; }
-        public string? driverVMFullName 
-        {
-            get
-            {
-                if (driverVMMiddleName == null)
-                {
-                    return driverVMFirstName + " " + driverVMLastName;
-                }
-                else
-                {
-                    return driverVMFirstName + " " + driverVMMiddleName + " " + driverVMLastName;
-                }
-            }
-        }
+        public string? driverVMFullName => ViewModelTools.ConvertToFullname(driverVMFirstName, driverVMMiddleName, driverVMLastName);
         public string? driverVMEmail { get; set; }
         public string? driverVMContact { get; set; }
-        public string? driverVMImage { get; set; }
-        public string? driverVMLicense { get; set; }
-        public string? driverVMLicenseBack { get; set; }
+        
+        public string? driverVMImageIMG { get; set; }
+        public string? driverVMLicenseIMG { get; set; }
+        public string? driverVMLicenseBackIMG { get; set; }
+        public string? driverVMImageExt { get; set; }
+        public string? driverVMLicenseExt { get; set; }
+        public string? driverVMLicenseBackExt { get; set; }
+        public string? driverVMImageIMGType => ViewModelTools.GetFormattedExtension(driverVMImageExt);
+        public string? driverVMLicenseIMGType => ViewModelTools.GetFormattedExtension(driverVMLicenseExt);
+        public string? driverVMLicenseBackIMGType => ViewModelTools.GetFormattedExtension(driverVMLicenseBackExt);
+        public string? driverVMImage => ViewModelTools.GetIMGSource(driverVMImageIMG, driverVMImageIMGType);
+        public string? driverVMLicense => ViewModelTools.GetIMGSource(driverVMLicenseIMG, driverVMLicenseIMGType);
+        public string? driverVMLicenseBack => ViewModelTools.GetIMGSource(driverVMLicenseBackIMG, driverVMLicenseBackIMGType);
         public DateTime driverVMDateCreated { get; set; }
         public DateTime? driverVMDateLastDutyDate { get; set; }
-        public string? GetFormattedDate(DateTime? date)
-        {
-            if (date == null)
-            {
-                return "No Date Recorded";
-            }
-            return date?.ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture);
-        
-        }
-        public string? FormattedDateCreated => GetFormattedDate(driverVMDateCreated);
-        public string? FormattedDateLastDuty => GetFormattedDate(driverVMDateLastDutyDate);
+
+        public string? FormattedDateCreated => ViewModelTools.GetFormattedDate(driverVMDateCreated);
+        public string? FormattedDateLastDuty => ViewModelTools.GetFormattedDate(driverVMDateLastDutyDate);
         
         public bool driverVMOnDuty { get; set; }
         public bool driverVMIsActive { get; set; }

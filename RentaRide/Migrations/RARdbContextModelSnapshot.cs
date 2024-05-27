@@ -180,13 +180,18 @@ namespace RentaRide.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("carID"));
 
+                    b.Property<string>("carCRDoc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("carCRDocExt")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("carColor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("carDocuments")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("carDateLogged")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool?>("carFuelType")
                         .HasColumnType("bit");
@@ -195,6 +200,9 @@ namespace RentaRide.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("carIsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("carIsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int>("carLastChangeOilMileage")
@@ -221,10 +229,20 @@ namespace RentaRide.Migrations
                     b.Property<DateTime?>("carNextMaintenance")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("carORDoc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("carORDocExt")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("carOilChangeInterval")
                         .HasColumnType("int");
 
                     b.Property<string>("carPicture")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("carPictureExt")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

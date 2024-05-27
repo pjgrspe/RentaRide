@@ -19,8 +19,9 @@ namespace RentaRide.Controllers
         private readonly RARdbContext _rardbContext;
         private readonly IWebHostEnvironment _environment;
         private readonly IFileServices _fileServices;
+        private readonly IConfiguration _configuration;
 
-        public RegistrationController(UserManager<RentaRideAppUsers> userManager, RoleManager<IdentityRole> roleManager, SignInManager<RentaRideAppUsers> signInManager, RARdbContext rardbContext, IWebHostEnvironment environment, IFileServices fileServices)
+        public RegistrationController(UserManager<RentaRideAppUsers> userManager, RoleManager<IdentityRole> roleManager, SignInManager<RentaRideAppUsers> signInManager, RARdbContext rardbContext, IWebHostEnvironment environment, IFileServices fileServices, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -28,6 +29,7 @@ namespace RentaRide.Controllers
             _rardbContext = rardbContext;
             _environment = environment;
             _fileServices = fileServices;
+            _configuration = configuration;
         }
 
         private RentaRideAppUsers CreaterUser()
@@ -72,12 +74,19 @@ namespace RentaRide.Controllers
                 if (userResult.Succeeded)
                 {
                     _userManager.AddToRoleAsync(userReg, RoleUtilities.RoleUser).GetAwaiter().GetResult();
-
-                    var licenseImgUpload = _fileServices.ProcessUploadedFile(model.regmodelLicense, ImageCategories.imgLicense,userReg.Id);
-                    var licenseBackImgUpload = _fileServices.ProcessUploadedFile(model.regmodelLicenseBack, ImageCategories.imgLicenseBack,userReg.Id);
-                    var secValidIDImgUpload = _fileServices.ProcessUploadedFile(model.regmodel2ndValidID, ImageCategories.img2ndID, userReg.Id);
-                    var POBImgUpload = _fileServices.ProcessUploadedFile(model.regmodelPOB, ImageCategories.imgPOB, userReg.Id);
-                    var SelfieImgUpload = _fileServices.ProcessUploadedFile(model.regmodelSelfieProof, ImageCategories.imgSelfie, userReg.Id);
+                    
+                    var userKey = _configuration["ImageEncryption:ImageKey"];
+                    var userIV = _configuration["ImageEncryption:ImageIV"];
+                    //var licenseImgUpload = _fileServices.ProcessUploadedFile(model.regmodelLicense, ImageCategories.imgLicense,userReg.Id);
+                    //var licenseBackImgUpload = _fileServices.ProcessUploadedFile(model.regmodelLicenseBack, ImageCategories.imgLicenseBack,userReg.Id);
+                    //var secValidIDImgUpload = _fileServices.ProcessUploadedFile(model.regmodel2ndValidID, ImageCategories.img2ndID, userReg.Id);
+                    //var POBImgUpload = _fileServices.ProcessUploadedFile(model.regmodelPOB, ImageCategories.imgPOB, userReg.Id);
+                    //var SelfieImgUpload = _fileServices.ProcessUploadedFile(model.regmodelSelfieProof, ImageCategories.imgSelfie, userReg.Id);
+                    var licenseImgUpload = _fileServices.ProcessEncryptUploadedFile(model.regmodelLicense, ImageCategories.imgLicense);
+                    var licenseBackImgUpload = _fileServices.ProcessEncryptUploadedFile(model.regmodelLicenseBack, ImageCategories.imgLicenseBack);
+                    var secValidIDImgUpload = _fileServices.ProcessEncryptUploadedFile(model.regmodel2ndValidID, ImageCategories.img2ndID);
+                    var POBImgUpload = _fileServices.ProcessEncryptUploadedFile(model.regmodelPOB, ImageCategories.imgPOB);
+                    var SelfieImgUpload = _fileServices.ProcessEncryptUploadedFile(model.regmodelSelfieProof, ImageCategories.imgSelfie);
 
                     var licenseFileExt = _fileServices.GetFileExtension(model.regmodelLicense);
                     var licenseBackFileExt = _fileServices.GetFileExtension(model.regmodelLicenseBack);
