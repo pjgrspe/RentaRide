@@ -39,9 +39,9 @@ function addCar() {
         .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
         .then(data => {
             if (data.success) {
-                alert('Car added.');
+                reloadActivePartialView("Car successfully added.");
             } else {
-                alert('Unknown Error Occurred');
+                reloadActivePartialView("Something went wrong.");
             }
             closeModalAddCar();
         })
@@ -103,3 +103,29 @@ function updateFileInput(files) {
     files.forEach(file => dt.items.add(file));
     document.getElementById('carImages').files = dt.files;
 }
+
+function openCarDetails() {
+    document.getElementById('contentContainer').classList.add('hidden-important');
+    document.getElementById('search-filter-div').classList.add('hidden-important');
+    document.getElementById('add-item-div').classList.add('hidden-important');
+
+    document.getElementById('detailsContainer').classList.remove('hidden-important');
+    document.getElementById('detailsContainer').classList.add('visible');
+}
+
+function closeCarDetails() {
+    document.getElementById('contentContainer').classList.remove('hidden-important');
+    document.getElementById('search-filter-div').classList.remove('hidden-important');
+    document.getElementById('add-item-div').classList.remove('hidden-important');
+
+    document.getElementById('detailsContainer').classList.remove('visible');
+    document.getElementById('detailsContainer').classList.add('hidden-important');
+}
+
+//function closeCarDetails() {
+//    document.getElementById('contentContainer').style.display = 'block';
+//    document.getElementById('search-filter-form').style.display = 'block';
+//    document.getElementById('add-item-div').style.display = 'block';
+
+//    document.getElementById('detailsContainer').style.display = 'none';
+//}

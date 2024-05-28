@@ -1,6 +1,6 @@
 ﻿/* Card Styles */
-.bg-glass-cards {
-    background: rgba(85, 85, 95, 0.4); /* Semi-transparent background color */
+.bg-glass-secondary {
+    background: rgba(197, 197, 197, 0.05); /* Semi-transparent background color */
     backdrop-filter: blur(10px); /* Blur effect */
     -webkit-backdrop-filter: blur(10px); /* Safari support */
     border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
@@ -15,17 +15,16 @@
 }
 
 .cards-table-container {
-    border-top: solid 1px rgba(255, 255, 255, 0.1);
     overflow-y: auto;
     overflow-x: hidden;
-    height: 70vh;
+    height: 95vh;
     width: 100%;
     position: relative;
 }
 
 .card-sl {
     max-height: 600px; /* Adjust as needed */
-    padding:15px;
+    padding:8px;
     border-radius: 16px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     display: flex; /* Flexbox for proper layout */
@@ -51,7 +50,7 @@
     height: 150px; /* Set a consistent height */
     width: 100%; /* Ensures the image takes up the full width of the card */
     object-fit: cover; /* Ensure the image covers the container while maintaining aspect ratio */
-    border-radius: 8px 8px 8px 8px;
+    border-radius: 8px;
 }
 
 .card-img {
@@ -79,6 +78,25 @@
     margin-bottom: 10px;
     height: 140px; /* Set a fixed height */
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem; /* Add space between the lines */
+}
+.card-text-description div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-text-description .row {
+    margin-bottom: 0.1rem;
+}
+
+.details-text-description .row {
+    margin-bottom: 0.5rem;
+}
+
+.card-text-description strong {
+    flex-shrink: 0; /* Prevent strong elements from shrinking */
 }
 
 .card-button {
@@ -117,4 +135,59 @@
 
 .img-thumbnail {
     border-width: 0px; /* Make the border thinner */
+}
+
+#detailsContainer {
+    margin-top: 20px;
+    border-top: solid 1px rgba(255, 255, 255, 0.1);
+}
+
+#contentContainer {
+    border-top: solid 1px rgba(255, 255, 255, 0.1);
+}
+
+.car-details-header{
+    padding:10px!important;
+}
+
+.car-details-body{
+    padding:10px!important;
+
+}
+
+.carousel-item img {
+    height: 350px; /* Set the desired height */
+    border-radius: 8px; /* Rounded corners */
+    object-fit: cover; /* Ensures the image covers the entire area */
+}
+
+.carousel-item{
+    padding: 10px; /* Set the desired height */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.car-details-header {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.logs {
+    height: 100%;
+    border-radius: 5px;
+    padding: 10px !important;
+}
+
+.details-table-container {
+    -moz-border-radius: inherit;
+    -webkit-border-radius: inherit;
+    border-radius: inherit;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height:89%;
+    width: 100%;
+    position: relative;
 }

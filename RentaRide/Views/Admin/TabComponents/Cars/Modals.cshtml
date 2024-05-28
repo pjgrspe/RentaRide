@@ -1,0 +1,87 @@
+﻿@using RentaRide.Utilities
+@model RentaRide.Models.ViewModels.AdminPartialViewModel
+
+<!-- Add New Car Modal -->
+<div class="modal fade" id="addNewCarModal" tabindex="-1" aria-labelledby="addNewCarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3">
+            <!-- TITLE -->
+            <div class="modal-header text-light border-0">
+                <h5 class="modal-title" id="addNewCarModalLabel">Add New Car</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closeModalAddCar()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- ADD CAR FORM -->
+            <div class="modal-body text-light">
+                <!-- MULTIPLE IMAGE UPLOAD -->
+                <div class="form-group mb-3">
+                    <label for="carImages" class="font-weight-bold mb-1">Car Images</label>
+                    @* <input type="file" class="form-control" id="carImages" multiple accept="image/*" onchange="previewImages()"> *@
+                    <input type="file" class="form-control" id="carImages" name="caraddImages" accept="image/*" onchange="previewImages()" multiple>
+                    <div id="imagePreviewContainer" class="d-flex flex-wrap justify-content-center mt-3" style="display: none!important;"></div>
+                </div>
+                <!-- MAKE -->
+                <div class="form-group mb-3">
+                    <label for="carMake" class="font-weight-bold mb-1">Make</label>
+                    <input type="text" class="form-control" id="carMake" placeholder="Enter car's make.">
+                </div>
+                <!-- MODEL -->
+                <div class="form-group mb-3">
+                    <label for="carModel" class="font-weight-bold mb-1">Model</label>
+                    <input type="text" class="form-control" id="carModel" placeholder="Enter car's model.">
+                </div>
+                <!-- YEAR -->
+                <div class="form-group mb-3">
+                    <label for="carYear" class="font-weight-bold mb-1">Year</label>
+                    <select class="form-control" id="carYear">
+                        <option value="" disabled selected>Select car year</option>
+                        @for (int year = 1980; year <= DateTime.Now.Year; year++)
+                        {
+                            <option value="@year">@year</option>
+                        }
+                    </select>
+                </div>
+                <!-- TYPE -->
+                <div class="form-group mb-3">
+                    <label for="carType" class="font-weight-bold mb-1">Car Type</label>
+                    <select class="form-control" id="carType">
+                        @* <option value="" disabled selected>Select car type</option>
+                        <option value="Motorcycle">Motorcycle</option>
+                        <option value="SUV/Crossover">SUV/Crossover</option>
+                        <option value="Minivan/Van">Minivan/Van</option>
+                        <option value="Truck/Pickup">Truck/Pickup</option>
+                        <option value="Luxury Vehicle">Luxury Vehicle</option> *@
+                        @foreach (var carType in Model.CarTypes)
+                        {
+                            <option value="@carType.cartypeVMID">@carType.cartypeVMName</option>
+                        }
+                    </select>
+                </div>
+                <!-- COLOR -->
+                <div class="form-group mb-3">
+                    <label for="carColor" class="font-weight-bold mb-1">Color</label>
+                    <input type="text" class="form-control" id="carColor" placeholder="Enter car's color.">
+                </div>
+                <!-- LICENSE NO. -->
+                <div class="form-group mb-3">
+                    <label for="carLicenseNum" class="font-weight-bold mb-1">License Number</label>
+                    <input type="text" class="form-control" id="carLicenseNum" placeholder="Enter car's license number.">
+                </div>
+                <!-- OR/CR -->
+                <div class="form-group mb-3">
+                    <label for="carOR" class="font-weight-bold mb-1">OR</label>
+                    <input type="file" class="form-control" id="carOR" placeholder="Upload OR document">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="carCR" class="font-weight-bold mb-1">CR</label>
+                    <input type="file" class="form-control" id="carCR" placeholder="Upload CR document">
+                </div>
+
+            </div>
+            <!-- ACTION BUTTONS -->
+            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModalAddCar()">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="addCar()">Add Car</button>
+            </div>
+        </div>
+    </div>
+</div>

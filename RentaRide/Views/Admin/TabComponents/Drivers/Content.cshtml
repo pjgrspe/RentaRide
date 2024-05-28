@@ -1,0 +1,83 @@
+﻿@using RentaRide.Utilities
+@model RentaRide.Models.ViewModels.AdminPartialViewModel
+
+@if (Model.Drivers != null && Model.Drivers.Any())
+{
+    <div class="table-container">
+        <table class="table table-drivers mt-1">
+            @* HEADER *@
+            <thead class="text-light">
+                <tr>
+                    <th class="text-center img-col">Picture</th>
+                    <th class="text-center sortable" onclick="sortTable(0)">ID <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(2)">Date Created <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(3)">Last Duty<i class="fas fa-sort ms-1"></i></th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">License</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            @* BODY *@
+            <tbody id="usersTable" class="text-light table-body">
+                @foreach (var driver in Model.Drivers)
+                {
+                    <tr class="table-row">
+                        @* PICTURE OF DRIVER *@
+                        <td class="text-center img-col">
+                            <img src="@driver.driverVMImage" alt="hugenerd" width="30" height="30" class="rounded-circle clickable" onclick="openModalDriverPicture('@driver.driverVMImage')">
+                        </td>
+                        <td class="text-center">@driver.driverVMID</td>
+                        @* FULL NAME *@
+                        <td>@driver.driverVMFullName</td>
+                        @* DATE CREATED *@
+                        <td>@driver.FormattedDateCreated</td>
+                        @* LAST DUTY DATE *@
+                        <td>@driver.FormattedDateLastDuty</td>
+                        @* STATUS INFO*@
+                        <td class="text-center status status-@driver.driverVMfilterStatus"><span class="status-label text-dark">@driver.driverVMStatus</span></td>
+                        @* VIEW LICENSE BTN *@
+                        <td class="text-center">
+                            <button class="btn btn-primary btn-sm rounded-3" onclick="openModalViewDriverLicense('@driver.driverVMLicense','@driver.driverVMLicenseBack')">View</button>
+                        </td>
+                        @* ACTION BTNS *@
+                        <td class="text-center td-actions">
+                            <i id="contactAction" class="fas fa-phone fa-lg me-2" onclick="openModalDriverContact('@driver.driverVMFullName','@driver.driverVMContact','@driver.driverVMEmail')" style="cursor:pointer; color:#a5f6c6;"></i>
+                            <i class="fas fa-edit fa-lg me-2" onclick="openModalEditDriver('@driver.driverVMID','@driver.driverVMFirstName','@driver.driverVMMiddleName','@driver.driverVMLastName','@driver.driverVMEmail','@driver.driverVMContact','@driver.driverVMfilterStatus')" style="cursor:pointer; color:#35bbd8;"></i>
+                            <i class="fas fa-trash-alt fa-lg" onclick="openModalDeleteDriver('@driver.driverVMFullName','@driver.driverVMID')" style="cursor:pointer; color:#c1272d;"></i>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div id="no-results" class="text-center" style="margin-top:180px; display:none;">
+            <h3>No drivers found.</h3>
+        </div>
+    </div>
+}
+else
+{
+    <div class="table-container">
+        <table class="table table-drivers mt-1">
+            @* HEADER *@
+            <thead class="text-light">
+                <tr>
+                    <th class="text-center img-col">Picture</th>
+                    <th class="text-center sortable" onclick="sortTable(0)">ID <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(2)">Date Created <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(3)">Last Duty<i class="fas fa-sort ms-1"></i></th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">License</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            @* BODY *@
+            <tbody id="usersTable" class="text-light">
+            </tbody>
+        </table>
+        <div class="text-center" style="margin-top:180px;">
+            <h3>No drivers found.</h3>
+        </div>
+    </div>
+}

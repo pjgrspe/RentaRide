@@ -61,7 +61,6 @@ a:hover {
 
 .bg-dark-secondary {
     background-color: #33353D !important;
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
 }
 
 .bg-glass {
@@ -162,4 +161,22 @@ a:hover {
 
 .form-control{
     border-radius:3px;
+}
+
+.border-right {
+    border-right: solid 1px rgba(255, 255, 255, 0.1)
+}
+
+.text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hidden-important {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
 }

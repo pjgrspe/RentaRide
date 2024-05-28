@@ -1,0 +1,45 @@
+﻿@using RentaRide.Utilities
+@model RentaRide.Models.ViewModels.AdminPartialViewModel
+
+<div class="w-100 d-flex justify-content-center">
+    <div class="row table-responsive table-responsive-cars bg-dark-secondary text-white">
+        <div class="row justify-content-between mt-3 search-filter-container">
+            @* TITLE *@
+            <div class="col-md-3 d-flex align-items-center title-div">
+                <h1 class="text-light ms-2 search-filter-title">Cars</h1>
+            </div>
+            @* SEARCH AND FILTER *@
+            <div class="col-md-9 d-flex justify-content-end pe-0" id="search-filter-div">
+                <form class="d-flex justify-content-end align-items-center rounded-3 search-filter-form" onsubmit="return false;">
+                    <input id="searchInput" class="form-control me-2 rounded-3 search-input" type="search" placeholder="Search" aria-label="Search">
+                    <select id="statusFilter" class="form-select me-2 filter-select">
+                        <option value="" selected>All Statuses</option>
+                        <option value="active">Active</option>
+                        <option value="onduty">Listed</option>
+                        <option value="delay">Unlisted</option>
+                    </select>
+                    <button id="searchButton" class="btn btn-outline-light rounded-3 search-filter-btn" type="button" onclick="filterTable()">Search</button>
+                </form>
+            </div>
+        </div>
+        @* ADD DRIVER BUTTON *@
+        <div class="mt-2 mb-2 col-md-12 d-flex justify-content-end add-item-div" id="add-item-div">
+            <button class="btn btn-success addnew-btn" type="button" onclick="openModalAddCar()">Add New +</button>
+        </div>
+        @* LOADER *@
+        <div id="loader" class="d-flex justify-content-center align-items-center d-none" style="height:70vh; margin-bottom:100px;">
+            <partial name="_LoadingSimple"></partial>
+        </div>
+        @* CARS TABLE *@
+        <div id="tableContent" class="d-flex justify-content-center cards-table-container">
+            <div id="contentContainer" class="w-100">
+                <partial name="~/Views/Admin/TabComponents/Cars/Content.cshtml"></partial>
+            </div>
+            <div id="detailsContainer" class="w-100" style="display: none;">
+                <partial name="~/Views/Admin/TabComponents/Cars/Details.cshtml"></partial>
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Views/Admin/TabComponents/Cars/Modals.cshtml")

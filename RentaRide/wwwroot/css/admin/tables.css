@@ -110,6 +110,10 @@
     border-radius: 8px 8px 8px 8px;
 }
 
+.title-div {
+    padding-left: 0px;
+}
+
 .search-filter-form {
     width: 100%;
 }
@@ -162,11 +166,16 @@
 
     .search-filter-btn {
         margin-bottom: 8px;
+        width:100%
     }
 
     .addnew-btn {
         margin-bottom: 12px;
         margin-left: 0px;
+    }
+
+    .title-div{
+        margin-bottom:10px;
     }
 }
 
@@ -236,9 +245,22 @@ td {
 }
 
 .table-responsive {
-    padding: 5px;
+    padding: 20px;
     justify-content: center;
-    min-height: 660px;
+    min-height: 680px;
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
+    border-radius: 10px;
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+}
+
+.table-responsive-cars {
+    padding: 20px;
+    justify-content: center;
+    min-height: 0px;
     height: 100%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
     border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
