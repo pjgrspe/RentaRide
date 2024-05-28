@@ -13,19 +13,28 @@ function closeModalAddCar() {
 
 function addCar() {
     var formData = new FormData();
+    const files = document.getElementById('carImages').files;
+
+    for (let i = 0; i < files.length; i++) {
+        formData.append('caraddImages', files[i]);
+    }
+
     formData.append('caraddMake', $('#carMake').val());
     formData.append('caraddModel', $('#carModel').val());
     formData.append('caraddYear', $('#carYear').val());
     formData.append('caraddType', $('#carType').val());
     formData.append('caraddColor', $('#carColor').val());
     formData.append('caraddPlateNumber', $('#carLicenseNum').val());
-    formData.append('caraddImage', $('#carImages')[0].files[0]);
     formData.append('caraddORDoc', $('#carOR')[0].files[0]);
     formData.append('caraddCRDoc', $('#carCR')[0].files[0]);
+    
 
     fetch('/Admin/AddNewCar', {
         method: 'POST',
-        body: formData
+        body: formData,
+        data: formData,
+        processData: false,
+        contentType: false
     })
         .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
         .then(data => {
@@ -83,6 +92,8 @@ function previewImages() {
                 previewContainer.appendChild(imgContainer);
             }
             reader.readAsDataURL(files[i]);
+            updateFileInput(uploadedImages);
+
         }
     }
 }

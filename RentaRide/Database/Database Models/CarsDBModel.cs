@@ -10,8 +10,8 @@ namespace RentaRide.Database.Database_Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int carID { get; set; }
-        public string carPicture { get; set; }
-        public string carPictureExt { get; set; }
+        public string? carThumbnail { get; set; }
+        public string? carThumbnailExt { get; set; }
         public string? carORDoc { get; set; }
         public string? carORDocExt { get; set; }
         public string? carCRDoc { get; set; }

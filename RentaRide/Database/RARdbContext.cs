@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RentaRide.Database.Database_Models;
 using RentaRide.Models.Identity;
+using System.Reflection.Emit;
 
 namespace RentaRide.Database
 {
@@ -17,6 +18,7 @@ namespace RentaRide.Database
         public DbSet<UserDetailsDBModel> TBL_UserDetails { get; set; }
         public DbSet<DriversDBModel> TBL_Drivers { get; set; }
         public DbSet<CarsDBModel> TBL_Cars { get; set; }
+        public DbSet<CarImagesDBModel> TBL_CarImages { get; set; }
         public DbSet<CarTypesDBModel> TBL_CarTypes { get; set; }
         public DbSet<ListingsDBModel> TBL_Listings { get; set; }
         public DbSet<RatesDBModel> TBL_Rates { get; set; }
@@ -30,6 +32,12 @@ namespace RentaRide.Database
                 .HasOne(ud => ud.RentaRideAppUsers)
                 .WithOne()
                 .HasForeignKey<UserDetailsDBModel>(ud => ud.UserID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CarImagesDBModel>()
+                .HasOne(p => p.carsDBModel)
+                .WithMany()
+                .HasForeignKey(p => p.carID)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<ListingsDBModel>()
