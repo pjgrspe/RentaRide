@@ -155,6 +155,32 @@ namespace RentaRide.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("RentaRide.Database.Database_Models.CarImagesDBModel", b =>
+                {
+                    b.Property<int>("carimgID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("carimgID"));
+
+                    b.Property<int>("carID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("carimgExt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("carimgName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("carimgID");
+
+                    b.HasIndex("carID");
+
+                    b.ToTable("TBL_CarImages");
+                });
+
             modelBuilder.Entity("RentaRide.Database.Database_Models.CarTypesDBModel", b =>
                 {
                     b.Property<int>("cartypeID")
@@ -238,16 +264,14 @@ namespace RentaRide.Migrations
                     b.Property<int>("carOilChangeInterval")
                         .HasColumnType("int");
 
-                    b.Property<string>("carPicture")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("carPictureExt")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool?>("carStatus")
                         .HasColumnType("bit");
+
+                    b.Property<string>("carThumbnail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("carThumbnailExt")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("carTransmission")
                         .HasColumnType("bit");
@@ -701,6 +725,17 @@ namespace RentaRide.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RentaRide.Database.Database_Models.CarImagesDBModel", b =>
+                {
+                    b.HasOne("RentaRide.Database.Database_Models.CarsDBModel", "carsDBModel")
+                        .WithMany()
+                        .HasForeignKey("carID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("carsDBModel");
                 });
 
             modelBuilder.Entity("RentaRide.Database.Database_Models.CarsDBModel", b =>

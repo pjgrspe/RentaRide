@@ -160,7 +160,8 @@
                 <!-- MULTIPLE IMAGE UPLOAD -->
                 <div class="form-group mb-3">
                     <label for="carImages" class="font-weight-bold mb-1">Car Images</label>
-                    <input type="file" class="form-control" id="carImages" multiple accept="image/*" onchange="previewImages()">
+                    @* <input type="file" class="form-control" id="carImages" multiple accept="image/*" onchange="previewImages()"> *@
+                    <input type="file" class="form-control" id="carImages" name="caraddImages" accept="image/*" onchange="previewImages()" multiple>
                     <div id="imagePreviewContainer" class="d-flex flex-wrap justify-content-center mt-3" style="display: none!important;"></div>
                 </div>
                 <!-- MAKE -->

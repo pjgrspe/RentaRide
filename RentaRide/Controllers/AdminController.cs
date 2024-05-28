@@ -336,10 +336,10 @@ namespace RentaRide.Controllers
                                                         (car, carType) => new CarsViewModel
                                                         {
                                                             carVMID = car.carID,
-                                                            carVMPictureIMG = imgNullCheck(car.carPicture, ImageCategories.imgCar, _configuration, _environment),
+                                                            carVMPictureIMG = imgNullCheck(car.carThumbnail, ImageCategories.imgCar, _configuration, _environment),
                                                             carVMORDocIMG = imgNullCheck(car.carORDoc, ImageCategories.imgCarDocs, _configuration, _environment),
                                                             carVMCRDocIMG = imgNullCheck(car.carCRDoc, ImageCategories.imgCarDocs, _configuration, _environment),
-                                                            carVMPictureExt = car.carPictureExt,
+                                                            carVMPictureExt = car.carThumbnailExt,
                                                             carVMORDocExt = car.carORDocExt,
                                                             carVMCRDocExt = car.carCRDocExt,
                                                             carVMMake = car.carMake,
@@ -388,7 +388,7 @@ namespace RentaRide.Controllers
                 var model = new AdminPartialViewModel{
                     AddCar = new CarAddModel
                     {
-                        caraddImage = form.Files["caraddImage"],
+                        caraddImages = new List<IFormFile>(),
                         caraddMake = form["caraddMake"],
                         caraddModel = form["caraddModel"],
                         caraddYear = Int32.Parse(form["caraddYear"]),
@@ -399,19 +399,11 @@ namespace RentaRide.Controllers
                         caraddCRDoc = form.Files["caraddCRDoc"]
                     }
                 };
-                
-                var carImageImgUpload = _fileServices.ProcessEncryptUploadedFile(model.AddCar.caraddImage, ImageCategories.imgCar);
-                var carORDocImgUpload = _fileServices.ProcessEncryptUploadedFile(model.AddCar.caraddORDoc, ImageCategories.imgCarDocs);
-                var carCRDocImgUpload = _fileServices.ProcessEncryptUploadedFile(model.AddCar.caraddCRDoc, ImageCategories.imgCarDocs);
-
-                var carImageFileExt = _fileServices.GetFileExtension(model.AddCar.caraddImage);
-                var carORDocFileExt = _fileServices.GetFileExtension(model.AddCar.caraddORDoc);
-                var carCRDocFileExt = _fileServices.GetFileExtension(model.AddCar.caraddCRDoc);
 
                 var carAdd = new CarsDBModel
                 {
-                    carPicture = "Pending....",
-                    carPictureExt = "Pending....",
+                    carThumbnail = "Pending....",
+                    carThumbnailExt = "Pending....",
                     carORDoc = "Pending....",
                     carORDocExt = "Pending....",
                     carCRDoc = "Pending....",
@@ -437,9 +429,37 @@ namespace RentaRide.Controllers
 
                 _rardbContext.TBL_Cars.Add(carAdd);
                 _rardbContext.SaveChanges();
+
+                foreach (var file in form.Files)
+                {
+                    if (file.Name == "caraddImages")
+                    {
+                        model.AddCar.caraddImages.Add(file);
+                        var carIMG = _fileServices.ProcessEncryptUploadedFile(file, ImageCategories.imgCar);
+                        var carIMGext = _fileServices.GetFileExtension(file);
+                        var carImgAdd = new CarImagesDBModel
+                        {
+                            carID = carAdd.carID,
+                            carimgName = carIMG!,
+                            carimgExt = carIMGext!
+                        };
+                        
+                        _rardbContext.TBL_CarImages.Add(carImgAdd);
+                        _rardbContext.SaveChanges();
+                    }
+                }
+                var carImageThumbnailImgUpload = _fileServices.ProcessEncryptUploadedFile(model.AddCar.caraddImages[0], ImageCategories.imgCar);
+                var carORDocImgUpload = _fileServices.ProcessEncryptUploadedFile(model.AddCar.caraddORDoc, ImageCategories.imgCarDocs);
+                var carCRDocImgUpload = _fileServices.ProcessEncryptUploadedFile(model.AddCar.caraddCRDoc, ImageCategories.imgCarDocs);
+
+                var carImageThumbnailFileExt = _fileServices.GetFileExtension(model.AddCar.caraddImages[0]);
+                var carORDocFileExt = _fileServices.GetFileExtension(model.AddCar.caraddORDoc);
+                var carCRDocFileExt = _fileServices.GetFileExtension(model.AddCar.caraddCRDoc);
+
+                
                 var carToUpdate = _rardbContext.TBL_Cars.Find(carAdd.carID);
-                carToUpdate!.carPicture = carImageImgUpload!;
-                carToUpdate!.carPictureExt = carImageFileExt!;
+                carToUpdate!.carThumbnail = carImageThumbnailImgUpload!;
+                carToUpdate!.carThumbnailExt = carImageThumbnailFileExt!;
                 carToUpdate!.carORDoc = carORDocImgUpload!;
                 carToUpdate!.carORDocExt = carORDocFileExt!;
                 carToUpdate!.carCRDoc = carCRDocImgUpload!;
