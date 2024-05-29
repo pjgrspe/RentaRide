@@ -1,22 +1,27 @@
 ﻿@model RentaRide.Models.ViewModels.AdminPartialViewModel
 @using RentaRide.Utilities;
 
+@* DETAILS CONTAINER *@
 <div class="container p-0">
     <div class="row w-100">
         <div class="col-lg-6 border-right">
             <div class="car-details">
+                @* CAR TITLE *@
                 <div class="car-details-header mt-2 d-flex align-content-center">
                     <button type="button" class="btn btn-md mb-2 me-2" onclick="closeCarDetails()">
                         <i class="fa-solid fa-lg fa-arrow-left text-white"></i>
                     </button>
                     <h2 class="mt-1">Lamborghini Adventador 2022</h2>
                 </div>
+                @* PICTURES *@
                 <div id="carDetailsCarousel" class="carousel slide">
+                    @* CAROUSEL INDICATORS *@
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carDetailsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                         <button type="button" data-bs-target="#carDetailsCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
                         <button type="button" data-bs-target="#carDetailsCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
                     </div>
+                    @* CAROUSEL PICS *@
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <img src="https://images.pexels.com/photos/9139594/pexels-photo-9139594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="d-block w-100" alt="Car Image 1">
@@ -28,6 +33,7 @@
                             <img src="https://images.pexels.com/photos/9139594/pexels-photo-9139594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="d-block w-100" alt="Car Image 3">
                         </div>
                     </div>
+                    @* LEFT AND RIGHT ARROWS *@
                     <button class="carousel-control-prev" type="button" data-bs-target="#carDetailsCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
@@ -37,30 +43,38 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
+                @* CAR DETAILS *@
                 <div class="car-details-body card-body">
                     <div class="row">
+                        @* LEFT COLUMN *@
                         <div class="col-lg-6">
                             <div class="card-text details-text-description">
+                                @* CAR TYPE *@
                                 <div class="row">
                                     <div class="col-5 text-left text-truncate"><strong>Car Type: </strong></div>
                                     <div class="col-7 text-right text-truncate">Sports</div>
                                 </div>
+                                @* COLOR *@
                                 <div class="row">
                                     <div class="col-5 text-left text-truncate"><strong>Color: </strong></div>
                                     <div class="col-7 text-right text-truncate">White</div>
                                 </div>
+                                @* LICENSE NO. *@
                                 <div class="row">
                                     <div class="col-5 text-left text-truncate"><strong>License No.: </strong></div>
                                     <div class="col-7 text-right text-truncate">XYZ 1234</div>
                                 </div>
+                                @* MILEAGE *@
                                 <div class="row">
                                     <div class="col-5 text-left text-truncate"><strong>Mileage: </strong></div>
                                     <div class="col-7 text-right text-truncate">10000KM</div>
                                 </div>
+                                @* LAST LOG *@
                                 <div class="row">
                                     <div class="col-5 text-left text-truncate"><strong>Last log: </strong></div>
                                     <div class="col-7 text-right text-truncate">May 25, 2024</div>
                                 </div>
+                                @* STATUS *@
                                 <div class="row">
                                     <div class="col-5 text-left text-truncate"><strong>Status: </strong></div>
                                     <div class="col-7 text-right">
@@ -71,6 +85,7 @@
                                 </div>
                             </div>
                         </div>
+                        @* RIGHT COLUMN *@
                         <div class="col-lg-6">
                             @* OR PLACEHOLDER *@
                             <div>
@@ -90,16 +105,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <!-- Additional content can go here -->
-                    </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="logs mt-2">
                 <h2>Logs</h2>
-                @* USER TABLE *@
+                @* LOGS TABLE *@
                 <div class="details-table-container bg-glass-secondary mt-4">
                     <table class="table table-users mt-1">
                         @* HEADER *@
@@ -115,11 +127,15 @@
                         @* BODY *@
                         <tbody id="usersTable" class="text-light">
                                 <tr class="table-row">
+                                    @* ID *@
                                     <td class="text-center">1</td>
-                                    @* DATE CREATED *@
+                                    @* LOG DATE *@
                                     <td>May 25, 2024</td>
+                                    @* MILEAGE *@
                                     <td>10000km</td>
+                                    @* STATUS *@
                                     <td class="text-center status status-active"><span class="status-label text-dark">Order</span></td>
+                                    @* FULL DETAILS BTN *@
                                     <td class="text-center">
                                         <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails()">
                                             View
@@ -128,6 +144,7 @@
                                 </tr>
                         </tbody>
                     </table>
+                    @* IF NO DATA *@
                     <div id="no-results" class="text-center" style="margin-top:180px; display:none;">
                         <h3>No users found.</h3>
                     </div>
