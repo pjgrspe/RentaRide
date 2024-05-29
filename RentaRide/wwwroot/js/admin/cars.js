@@ -121,11 +121,3 @@ function closeCarDetails() {
     document.getElementById('detailsContainer').classList.remove('visible');
     document.getElementById('detailsContainer').classList.add('hidden-important');
 }
-
-//function closeCarDetails() {
-//    document.getElementById('contentContainer').style.display = 'block';
-//    document.getElementById('search-filter-form').style.display = 'block';
-//    document.getElementById('add-item-div').style.display = 'block';
-
-//    document.getElementById('detailsContainer').style.display = 'none';
-//}
