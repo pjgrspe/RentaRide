@@ -1,4 +1,10 @@
-﻿.navbar-header{
+﻿
+
+.container{
+    max-width:1920px!important;
+}
+
+.navbar-header{
     margin-left:0px;
 }
 

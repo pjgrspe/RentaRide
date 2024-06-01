@@ -2,16 +2,22 @@
 @using RentaRide.Utilities;
 
 @* DETAILS CONTAINER *@
-<div class="container p-0">
+<div class="container w-100 p-0">
     <div class="row w-100">
         <div class="col-lg-6 border-right">
             <div class="car-details">
-                @* CAR TITLE *@
+                @* DETAILS HEADER *@
                 <div class="car-details-header mt-2 d-flex align-content-center">
+                    @* BACK BUTTON *@
                     <button type="button" class="btn btn-md mb-2 me-2" onclick="closeCarDetails()">
                         <i class="fa-solid fa-lg fa-arrow-left text-white"></i>
                     </button>
-                    <h2 class="mt-1">Lamborghini Adventador 2022</h2>
+                    @* TITLE *@
+                    <h2 >Lamborghini Adventador 2022</h2>
+                    @* EDIT BUTTON *@
+                    <div class="ms-auto">
+                        <i class="fas fa-edit fa-lg mt-3 me-2" onclick="openModalEditCarDetails()" style="cursor:pointer; color: darkgray;"></i>
+                    </div>
                 </div>
                 @* PICTURES *@
                 <div id="carDetailsCarousel" class="carousel slide">
@@ -86,7 +92,7 @@
                             </div>
                         </div>
                         @* RIGHT COLUMN *@
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 or-cr">
                             @* OR PLACEHOLDER *@
                             <div>
                                 <label class="mb-2"><strong>OR:</strong></label>
@@ -98,7 +104,7 @@
                             @* CR PLACEHOLDER *@
                             <div class="mt-4">
                                 <label class="mb-2"><strong>CR:</strong></label>
-                                <div id="modalProofOfBilling" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 40px; margin: auto;" onclick="openCRModal()">
+                                <div id="modalCR" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 40px; margin: auto;" onclick="openCRModal()">
                                     <div class=" text-light position-absolute top-50 start-50 translate-middle" style="z-index: 10; padding: 5px;">SHOW</div>
                                     <img src="da pic" alt="CR" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
                                 </div>
@@ -110,10 +116,15 @@
         </div>
         <div class="col-lg-6">
             <div class="logs mt-2">
-                <h2>Logs</h2>
+                @* LOGS HEADER *@
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <h2>Logs</h2>
+                    @* ADD LOG BTN *@
+                    <button class="btn btn-success addlog-btn" type="button" onclick="openModalAddCar()">Add Log +</button>
+                </div>
                 @* LOGS TABLE *@
                 <div class="details-table-container bg-glass-secondary mt-4">
-                    <table class="table table-users mt-1">
+                    <table class="table table-details mt-1">
                         @* HEADER *@
                         <thead class="text-light">
                             <tr>
@@ -134,7 +145,23 @@
                                     @* MILEAGE *@
                                     <td>10000km</td>
                                     @* STATUS *@
-                                    <td class="text-center status status-active"><span class="status-label text-dark">Order</span></td>
+                                    <td class="text-center status status-order"><span class="status-label text-dark">Order</span></td>
+                                    @* FULL DETAILS BTN *@
+                                    <td class="text-center">
+                                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails()">
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="table-row">
+                                    @* ID *@
+                                    <td class="text-center">1</td>
+                                    @* LOG DATE *@
+                                    <td>May 25, 2024</td>
+                                    @* MILEAGE *@
+                                    <td>10000km</td>
+                                    @* STATUS *@
+                                    <td class="text-center status status-manual"><span class="status-label text-dark">Manual</span></td>
                                     @* FULL DETAILS BTN *@
                                     <td class="text-center">
                                         <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails()">
