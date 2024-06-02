@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const navLinks = document.querySelectorAll('.nav-item-link');
     const profileLinks = document.querySelectorAll('.profile-menu .dropdown-item');
     const mainContent = document.querySelector('.main-content');
-    const dashboardTab = document.querySelector('.nav-item-link[href="/Admin/LoadPartial?menuName=Dashboard"]'); // Adjust the selector as needed
+    const dashboardTab = document.querySelector('.nav-item-link[href="/Admin/LoadPartial?tabName=Dashboard"]'); // Adjust the selector as needed
 
     function setActiveTab(link) {
         // Remove active class from all nav links

@@ -250,9 +250,9 @@ namespace RentaRide.Controllers
             }
         }
 
-        public async Task<IActionResult> LoadPartial(string menuName)
+        public async Task<IActionResult> LoadPartial(string tabName)
         {
-            if (string.IsNullOrEmpty(menuName))
+            if (string.IsNullOrEmpty(tabName))
             {
                 return BadRequest("Partial name is required.");
             }
@@ -261,7 +261,7 @@ namespace RentaRide.Controllers
             try
             {
                 //Model logic for Application menu name
-                if (menuName == "Users")
+                if (tabName == "Users")
                 {
                     var users = await _rardbContext.TBL_UserDetails
                                       .Include(u => u.RentaRideAppUsers)
@@ -300,7 +300,7 @@ namespace RentaRide.Controllers
                     }).ToList();
 
                 }
-                else if (menuName == "Drivers")
+                else if (tabName == "Drivers")
                 {
                     var drivers = await _rardbContext.TBL_Drivers
                                                      .Where(driver => driver.driverIsDeleted == false)
@@ -325,7 +325,7 @@ namespace RentaRide.Controllers
                         driverVMIsActive = driver.driverIsActive
                     }).ToList();
                 }
-                else if (menuName == "Cars")
+                else if (tabName == "Cars")
                 {
                     var cars = await _rardbContext.TBL_Cars
                                                     .Where(car => car.carIsDeleted == false)
@@ -373,11 +373,11 @@ namespace RentaRide.Controllers
                     }).ToList();
                 }
 
-                return PartialView($"~/Views/Admin/Menu/{menuName}.cshtml", adminPartialModel);
+                return PartialView($"~/Views/Admin/Tabs/{tabName}.cshtml", adminPartialModel);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error loading partial view: {menuName}", menuName);
+                _logger.LogError(ex, "Error loading partial view: {tabName}", tabName);
                 return NotFound("Partial view not found.");
             }
         }

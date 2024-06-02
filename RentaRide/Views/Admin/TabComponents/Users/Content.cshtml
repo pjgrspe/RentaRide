@@ -1,0 +1,89 @@
+﻿@model RentaRide.Models.ViewModels.AdminPartialViewModel
+@using RentaRide.Utilities;
+
+@if (Model.Users != null && Model.Users.Any())
+{
+    @* USER TABLE *@
+    <div class="table-container">
+        <table class="table table-users mt-1">
+            @* HEADER *@
+            <thead class="text-light">
+                <tr>
+                    <th class="text-center sortable" onclick="sortTable(0)">ID <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(2)">Date Created <i class="fas fa-sort ms-1"></i></th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Contact</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Details</th>
+                </tr>
+            </thead>
+            @* BODY *@
+            <tbody id="usersTable" class="text-light">
+
+                @foreach (var user in Model.Users)
+                {
+                    <tr class="table-row">
+                        <td class="text-center">@user.userVMDetailID</td>
+                        <td>@user.userVMFirstName @user.userVMMiddleName @user.userVMLastName</td>
+                        @* DATE CREATED *@
+                        <td>@user.FormattedDateCreated</td>
+                        @* EMAIL *@
+                        <td class="text-center overflow-hidden">@user.userVMEmail</td>
+                        @* CONTACT *@
+                        <td class="text-center">@user.userVMContact</td>
+                        <td class="text-center status status-@user.userVMfilterStatus"><span class="status-label text-dark">@user.userVMStatus</span></td>
+                        <td class="text-center">
+                            <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails('@user.userVMID',
+                                                                                                                        '@user.userVMFullName',
+                                                                                                                        '@user.userVMEmail',
+                                                                                                                        '@user.userVMContact',
+                                                                                                                        '@user.userVMStatus' ,
+                                                                                                                        '@user.FormattedDateCreated',
+                                                                                                                        '@user.FormattedDateModified',
+                                                                                                                        '@user.FormattedDOB',
+                                                                                                                        '@user.userVMstreetAdd',
+                                                                                                                        '@user.userVMCityAdd',
+                                                                                                                        '@user.userVMProvinceAdd',
+                                                                                                                        '@user.userVMLicense',
+                                                                                                                        '@user.userVMLicenseBack',
+                                                                                                                        '@user.userVM2ndValidID',
+                                                                                                                        '@user.userVMProofofBilling',
+                                                                                                                        '@user.userVMSelfieProof')">
+                            Review
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div id="no-results" class="text-center" style="margin-top:180px; display:none;">
+            <h3>No users found.</h3>
+        </div>
+    </div>
+}
+else
+{
+    <div class="table-container" id="no-content">
+        <table class="table table-users mt-1">
+            @* HEADER *@
+            <thead class="text-light">
+                <tr>
+                    <th class="text-center sortable" onclick="sortTable(0)">ID <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(2)">Date Created <i class="fas fa-sort ms-1"></i></th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Contact</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Details</th>
+                </tr>
+            </thead>
+            @* BODY *@
+            <tbody id="usersTable" class="text-light">
+            </tbody>
+        </table>
+        <div class="text-center" style="margin-top:200px;">
+            <h3>No users found.</h3>
+        </div>
+    </div>
+}

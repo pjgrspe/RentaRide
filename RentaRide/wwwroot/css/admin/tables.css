@@ -40,6 +40,33 @@
     }
 }
 
+/*DETAILS TABLE*/
+
+@media (max-width: 1200px) { /*xl*/
+    .table-details thead th:nth-child(1), /* ID column */
+    .table-details tbody td:nth-child(1){ /* ID column */
+        display: none;
+    }
+}
+
+
+@media (max-width: 992px) { /*lg*/
+    .border-right{
+        border-right: none;
+    }
+    .or-cr{
+        margin-top:20px;
+    }
+
+    #modalOR, #modalCR {
+        height:50px!important;
+    }
+}
+
+@media (max-width: 768px) { /*md*/
+
+}
+
 .img-col {
     width: auto;
 }
@@ -110,6 +137,16 @@
     border-radius: 8px 8px 8px 8px;
 }
 
+.addlog-btn {
+    width: 130px !important;
+    height: 40px;
+    border-radius: 8px 8px 8px 8px;
+}
+
+.title-div {
+    padding-left: 0px;
+}
+
 .search-filter-form {
     width: 100%;
 }
@@ -162,11 +199,16 @@
 
     .search-filter-btn {
         margin-bottom: 8px;
+        width:100%
     }
 
     .addnew-btn {
         margin-bottom: 12px;
         margin-left: 0px;
+    }
+
+    .title-div{
+        margin-bottom:10px;
     }
 }
 
@@ -186,7 +228,15 @@
     background-color: #fab86a;
 }
 
+.status-manual span {
+    background-color: darkgray;
+}
+
 .status-active span {
+    background-color: #a5f6c6;
+}
+
+.status-order span {
     background-color: #a5f6c6;
 }
 
@@ -236,9 +286,22 @@ td {
 }
 
 .table-responsive {
-    padding: 5px;
+    padding: 20px;
     justify-content: center;
-    min-height: 660px;
+    min-height: 680px;
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
+    border-radius: 10px;
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+}
+
+.table-responsive-cars {
+    padding: 20px;
+    justify-content: center;
+    min-height: 0px;
     height: 100%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
     border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */

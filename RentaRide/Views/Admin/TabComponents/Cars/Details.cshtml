@@ -1,0 +1,182 @@
+﻿@model RentaRide.Models.ViewModels.AdminPartialViewModel
+@using RentaRide.Utilities;
+
+@* DETAILS CONTAINER *@
+<div class="container w-100 p-0">
+    <div class="row w-100">
+        <div class="col-lg-6 border-right">
+            <div class="car-details">
+                @* DETAILS HEADER *@
+                <div class="car-details-header mt-2 d-flex align-content-center">
+                    @* BACK BUTTON *@
+                    <button type="button" class="btn btn-md mb-2 me-2" onclick="closeCarDetails()">
+                        <i class="fa-solid fa-lg fa-arrow-left text-white"></i>
+                    </button>
+                    @* TITLE *@
+                    <h2 >Lamborghini Adventador 2022</h2>
+                    @* EDIT BUTTON *@
+                    <div class="ms-auto">
+                        <i class="fas fa-edit fa-lg mt-3 me-2" onclick="openModalEditCarDetails()" style="cursor:pointer; color: darkgray;"></i>
+                    </div>
+                </div>
+                @* PICTURES *@
+                <div id="carDetailsCarousel" class="carousel slide">
+                    @* CAROUSEL INDICATORS *@
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carDetailsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carDetailsCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carDetailsCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    @* CAROUSEL PICS *@
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="https://images.pexels.com/photos/9139594/pexels-photo-9139594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="d-block w-100" alt="Car Image 1">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://images.pexels.com/photos/9139594/pexels-photo-9139594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="d-block w-100" alt="Car Image 2">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://images.pexels.com/photos/9139594/pexels-photo-9139594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="d-block w-100" alt="Car Image 3">
+                        </div>
+                    </div>
+                    @* LEFT AND RIGHT ARROWS *@
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carDetailsCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carDetailsCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+                @* CAR DETAILS *@
+                <div class="car-details-body card-body">
+                    <div class="row">
+                        @* LEFT COLUMN *@
+                        <div class="col-lg-6">
+                            <div class="card-text details-text-description">
+                                @* CAR TYPE *@
+                                <div class="row">
+                                    <div class="col-5 text-left text-truncate"><strong>Car Type: </strong></div>
+                                    <div class="col-7 text-right text-truncate">Sports</div>
+                                </div>
+                                @* COLOR *@
+                                <div class="row">
+                                    <div class="col-5 text-left text-truncate"><strong>Color: </strong></div>
+                                    <div class="col-7 text-right text-truncate">White</div>
+                                </div>
+                                @* LICENSE NO. *@
+                                <div class="row">
+                                    <div class="col-5 text-left text-truncate"><strong>License No.: </strong></div>
+                                    <div class="col-7 text-right text-truncate">XYZ 1234</div>
+                                </div>
+                                @* MILEAGE *@
+                                <div class="row">
+                                    <div class="col-5 text-left text-truncate"><strong>Mileage: </strong></div>
+                                    <div class="col-7 text-right text-truncate">10000KM</div>
+                                </div>
+                                @* LAST LOG *@
+                                <div class="row">
+                                    <div class="col-5 text-left text-truncate"><strong>Last log: </strong></div>
+                                    <div class="col-7 text-right text-truncate">May 25, 2024</div>
+                                </div>
+                                @* STATUS *@
+                                <div class="row">
+                                    <div class="col-5 text-left text-truncate"><strong>Status: </strong></div>
+                                    <div class="col-7 text-right">
+                                        <div class="d-flex justify-content-start text-center status status-onduty">
+                                            <span class="status-label text-dark">Listed</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @* RIGHT COLUMN *@
+                        <div class="col-lg-6 or-cr">
+                            @* OR PLACEHOLDER *@
+                            <div>
+                                <label class="mb-2"><strong>OR:</strong></label>
+                                <div id="modalOR" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 40px; margin: auto;" onclick="openORModal()">
+                                    <div class=" text-light position-absolute top-50 start-50 translate-middle" style="z-index: 10; padding: 5px;">SHOW</div>
+                                    <img src="da pic" alt="OR" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
+                                </div>
+                            </div>
+                            @* CR PLACEHOLDER *@
+                            <div class="mt-4">
+                                <label class="mb-2"><strong>CR:</strong></label>
+                                <div id="modalCR" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 40px; margin: auto;" onclick="openCRModal()">
+                                    <div class=" text-light position-absolute top-50 start-50 translate-middle" style="z-index: 10; padding: 5px;">SHOW</div>
+                                    <img src="da pic" alt="CR" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="logs mt-2">
+                @* LOGS HEADER *@
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <h2>Logs</h2>
+                    @* ADD LOG BTN *@
+                    <button class="btn btn-success addlog-btn" type="button" onclick="openModalAddCar()">Add Log +</button>
+                </div>
+                @* LOGS TABLE *@
+                <div class="details-table-container bg-glass-secondary mt-4">
+                    <table class="table table-details mt-1">
+                        @* HEADER *@
+                        <thead class="text-light">
+                            <tr>
+                                <th class="text-center sortable" onclick="sortTable(0)">ID <i class="fas fa-sort ms-1"></i></th>
+                                <th class="sortable" onclick="sortTable(1)">Log Date <i class="fas fa-sort ms-1"></i></th>
+                                <th class="sortable" onclick="sortTable(2)">Mileage <i class="fas fa-sort ms-1"></i></th></th>
+                                <th class="text-center">Type</th>
+                                <th class="text-center">Details</th>
+                            </tr>
+                        </thead>
+                        @* BODY *@
+                        <tbody id="usersTable" class="text-light">
+                                <tr class="table-row">
+                                    @* ID *@
+                                    <td class="text-center">1</td>
+                                    @* LOG DATE *@
+                                    <td>May 25, 2024</td>
+                                    @* MILEAGE *@
+                                    <td>10000km</td>
+                                    @* STATUS *@
+                                    <td class="text-center status status-order"><span class="status-label text-dark">Order</span></td>
+                                    @* FULL DETAILS BTN *@
+                                    <td class="text-center">
+                                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails()">
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="table-row">
+                                    @* ID *@
+                                    <td class="text-center">1</td>
+                                    @* LOG DATE *@
+                                    <td>May 25, 2024</td>
+                                    @* MILEAGE *@
+                                    <td>10000km</td>
+                                    @* STATUS *@
+                                    <td class="text-center status status-manual"><span class="status-label text-dark">Manual</span></td>
+                                    @* FULL DETAILS BTN *@
+                                    <td class="text-center">
+                                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails()">
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                    @* IF NO DATA *@
+                    <div id="no-results" class="text-center" style="margin-top:180px; display:none;">
+                        <h3>No users found.</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
