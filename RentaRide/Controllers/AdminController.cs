@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Logging;
 using RentaRide.Database;
 using RentaRide.Database.Database_Models;
+using RentaRide.Migrations;
 using RentaRide.Models.Accounts;
 using RentaRide.Models.ViewModels;
 using RentaRide.Services;
@@ -261,7 +262,7 @@ namespace RentaRide.Controllers
             try
             {
                 //Model logic for Application menu name
-                if (tabName == "Users")
+                if (tabName == MenuTabNames.menuUsers)
                 {
                     var users = await _rardbContext.TBL_UserDetails
                                       .Include(u => u.RentaRideAppUsers)
@@ -300,7 +301,7 @@ namespace RentaRide.Controllers
                     }).ToList();
 
                 }
-                else if (tabName == "Drivers")
+                else if (tabName == MenuTabNames.menuDrivers)
                 {
                     var drivers = await _rardbContext.TBL_Drivers
                                                      .Where(driver => driver.driverIsDeleted == false)
@@ -325,7 +326,7 @@ namespace RentaRide.Controllers
                         driverVMIsActive = driver.driverIsActive
                     }).ToList();
                 }
-                else if (tabName == "Cars")
+                else if (tabName == MenuTabNames.menuCars)
                 {
                     var cars = await _rardbContext.TBL_Cars
                                                     .Where(car => car.carIsDeleted == false)
@@ -473,6 +474,101 @@ namespace RentaRide.Controllers
                 ViewBag.ErrorMessage = "An error occureed with adding car";
                 return new JsonResult(new { success = false, message = "An error occurred with adding car" });
             }
+        }
+
+        //Not implemented yet, just an initial setup
+        public async Task<IActionResult> AddNewLog([FromForm] IFormCollection form)
+        {
+            if (ModelState.IsValid)
+            {
+                var model = new AdminPartialViewModel{
+                    AddLog = new CarAddLogModel
+                    {
+                        addLogDetails = form["addLogDetails"],
+                        addLogType = bool.Parse(form["addLogType"]),
+                        addLogMileage = Int32.Parse(form["addLogMileage"]),
+                        addLogDate = DateTime.Parse(form["addLogDate"])
+                        
+                    }
+                };
+
+                var logAdd = new CarLogsDBModel
+                {
+                    carID = Int32.Parse(form["carID"]),
+                    LogDate = model.AddLog.addLogDate,
+                    LogMileage = model.AddLog.addLogMileage,
+                    LogType = model.AddLog.addLogType,
+                    LogDetails = model.AddLog.addLogDetails
+                    
+                };
+
+                _rardbContext.TBL_CarLogs.Add(logAdd);
+                _rardbContext.SaveChanges();
+
+                await _rardbContext.SaveChangesAsync();
+                return new JsonResult(new { success = true });
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "An error occureed with adding car";
+                return new JsonResult(new { success = false, message = "An error occurred with adding log" });
+            }
+        }
+
+        public async Task<IActionResult> GetCarDetails(int carId)
+        {
+            // Fetch the car details from the database using the carId
+            var car = await _rardbContext.TBL_Cars.FindAsync(carId);
+
+            if (car == null)
+            {
+                return Json(new { success = false });
+            }
+
+            var carType = await _rardbContext.TBL_CarTypes
+                                                    .Where(ct => ct.cartypeID == car.carType)
+                                                    .Select(ct => ct.cartypeName)
+                                                    .FirstOrDefaultAsync();
+
+            var carImages = await _rardbContext.TBL_CarImages
+                    .Where(carImg => carImg.carID == car.carID)
+                    .Select(carImg => new CarImagesViewModel
+                    {
+                        carIMGVMID = carImg.carimgID,
+                        carIMGVMCarIMG = imgNullCheck(carImg.carimgName, ImageCategories.imgCar, _configuration, _environment),
+                        carIMGVMCarExt = carImg.carimgExt
+                    })
+                    .ToListAsync();
+
+            // Create a ViewModel with the car details
+            var viewModel = new AdminPartialViewModel
+            {
+                CarDetails = new CarDetailsViewModel
+                {
+                    cardeetsVM = car.carID,
+                    cardeetsVMMake = car.carMake,
+                    cardeetsVMModel = car.carModel,
+                    cardeetsVMYear = car.carYear,
+                    cardeetsVMTransmission = car.carTransmission,
+                    cardeetsVMCarType = carType,
+                    cardeetsVMColor = car.carColor,
+                    cardeetsVMLicense = car.carLicensePlate,
+                    cardeetsVMMileage = car.carMileage,
+                    cardeetsVMLastLog = car.carDateLogged,
+                    cardeetsVMStatusID = car.carStatus,
+                    cardeetsVMORIMG = imgNullCheck(car.carORDoc, ImageCategories.imgCarDocs, _configuration, _environment),
+                    cardeetsVMCRIMG = imgNullCheck(car.carCRDoc, ImageCategories.imgCarDocs, _configuration, _environment),
+                    cardeetsVMORExt = car.carORDocExt,
+                    cardeetsVMCRExt = car.carCRDocExt
+                },
+
+                CarImages = carImages
+            };
+
+            // Return the Details view with the ViewModel
+            return PartialView("~/Views/Admin/TabComponents/Cars/Details.cshtml", viewModel);
+            //return Json(new { success = true, data = viewModel });
+
         }
 
         [NonAction]

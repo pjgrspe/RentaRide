@@ -13,6 +13,9 @@ namespace RentaRide.Models.ViewModels
         public DriverEditModel EditDriver { get; set; }
         public DriverDelModel DelDriver { get; set; }
         public UserVerificationModel VerifyUser { get; set; }
-        public CarAddModel AddCar { get; set; }
+        public CarAddModel AddCar { get; set; } 
+        public CarDetailsViewModel CarDetails { get; set; } = new CarDetailsViewModel();
+        public List<CarImagesViewModel> CarImages { get; set; } = new List<CarImagesViewModel>();
+        public CarAddLogModel AddLog { get; set; }
     }
 }

@@ -104,14 +104,52 @@ function updateFileInput(files) {
     document.getElementById('carImages').files = dt.files;
 }
 
-function openCarDetails() {
-    document.getElementById('contentContainer').classList.add('hidden-important');
-    document.getElementById('search-filter-div').classList.add('hidden-important');
-    document.getElementById('add-item-div').classList.add('hidden-important');
+function openCarDetails(carId) {
+    fetch(`/Admin/GetCarDetails?carId=${carId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+/*                document.getElementById('detailsContainer').innerHTML = data.data;*/
+                document.getElementById('contentContainer').classList.add('hidden-important');
+                document.getElementById('search-filter-div').classList.add('hidden-important');
+                document.getElementById('add-item-div').classList.add('hidden-important');
 
-    document.getElementById('detailsContainer').classList.remove('hidden-important');
-    document.getElementById('detailsContainer').classList.add('visible');
+                document.getElementById('detailsContainer').classList.remove('hidden-important');
+                document.getElementById('detailsContainer').classList.add('visible');
+            } else {
+                reloadActivePartialView(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
 }
+
+function openCarDetails(carId) {
+    fetch(`/Admin/GetCarDetails?carId=${carId}`)
+        .then(response => response.text())
+        .then(data => {
+            // Check if the car was not found
+            if (data.includes('"success":false')) {
+                reloadActivePartialView(data.message);
+                return;
+            }
+
+            // Insert the returned HTML into the detailsContainer element
+            //document.getElementById('detailsContainer').innerHTML = data;
+
+            // Hide the contentContainer and show the detailsContainer
+
+
+            document.getElementById('contentContainer').classList.add('hidden-important');
+            document.getElementById('search-filter-div').classList.add('hidden-important');
+            document.getElementById('add-item-div').classList.add('hidden-important');
+
+            document.getElementById('detailsContainer').classList.remove('hidden-important');
+            document.getElementById('detailsContainer').classList.add('visible');
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+
 
 function closeCarDetails() {
     document.getElementById('contentContainer').classList.remove('hidden-important');

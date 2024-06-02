@@ -20,6 +20,7 @@ namespace RentaRide.Database
         public DbSet<CarsDBModel> TBL_Cars { get; set; }
         public DbSet<CarImagesDBModel> TBL_CarImages { get; set; }
         public DbSet<CarTypesDBModel> TBL_CarTypes { get; set; }
+        public DbSet<CarLogsDBModel> TBL_CarLogs { get; set; }
         public DbSet<ListingsDBModel> TBL_Listings { get; set; }
         public DbSet<RatesDBModel> TBL_Rates { get; set; }
         public DbSet<OrdersDBModel> TBL_Orders { get; set; }
