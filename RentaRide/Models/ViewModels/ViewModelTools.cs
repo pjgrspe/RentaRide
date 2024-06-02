@@ -55,7 +55,11 @@ namespace RentaRide.Models.ViewModels
         }
         public static string? GetIMGSource(string? file, string? type)
         {
-            if (file != null || type != null)
+            if (type == null)
+            {
+                return $"https://i.imgur.com/nCZu2iF.png";
+            }
+            else if (file != null)
             {
                 return $"data:image/{type};base64,{file}";
             }

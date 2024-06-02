@@ -481,20 +481,31 @@ namespace RentaRide.Controllers
         {
             if (ModelState.IsValid)
             {
-                var model = new AdminPartialViewModel{
+                int addLogCarID = Int32.Parse(form["addLogCarID"]);
+                int addLogMileage = Int32.Parse(form["addLogMileage"]);
+                var Car = _rardbContext.TBL_Cars.Find(addLogCarID);
+
+                if (Car!.carMileage > addLogMileage)
+                {
+                    ViewBag.ErrorMessage = "Mileage cannot be less than the current mileage";
+                    return new JsonResult(new { success = false, message = "Mileage cannot be less than the current mileage" });
+                }
+
+                var model = new AdminPartialViewModel {
                     AddLog = new CarAddLogModel
                     {
+                        addLogCarID = addLogCarID,
                         addLogDetails = form["addLogDetails"],
-                        addLogType = bool.Parse(form["addLogType"]),
-                        addLogMileage = Int32.Parse(form["addLogMileage"]),
+                        addLogType = Int32.Parse(form["addLogType"]),
+                        addLogMileage = addLogMileage,
                         addLogDate = DateTime.Parse(form["addLogDate"])
-                        
+
                     }
                 };
 
                 var logAdd = new CarLogsDBModel
                 {
-                    carID = Int32.Parse(form["carID"]),
+                    carID = addLogCarID,
                     LogDate = model.AddLog.addLogDate,
                     LogMileage = model.AddLog.addLogMileage,
                     LogType = model.AddLog.addLogType,
@@ -502,6 +513,16 @@ namespace RentaRide.Controllers
                     
                 };
 
+                
+                Car.carMileage = addLogMileage;
+                if(model.AddLog.addLogType == 2)
+                {
+                    Car.carLastMaintenance = model.AddLog.addLogDate;
+                }
+                else if(model.AddLog.addLogType == 3)
+                {
+                    Car.carLastChangeOilMileage = addLogMileage;
+                }
                 _rardbContext.TBL_CarLogs.Add(logAdd);
                 _rardbContext.SaveChanges();
 
@@ -510,12 +531,12 @@ namespace RentaRide.Controllers
             }
             else
             {
-                ViewBag.ErrorMessage = "An error occureed with adding car";
+                ViewBag.ErrorMessage = "An error occureed with adding log";
                 return new JsonResult(new { success = false, message = "An error occurred with adding log" });
             }
         }
 
-        public async Task<IActionResult> GetCarDetails(int carId)
+        public async Task<IActionResult> GetCarDetails(int carId, bool forDetailsPage)
         {
             // Fetch the car details from the database using the carId
             var car = await _rardbContext.TBL_Cars.FindAsync(carId);
@@ -540,6 +561,18 @@ namespace RentaRide.Controllers
                     })
                     .ToListAsync();
 
+            var carLogs = await _rardbContext.TBL_CarLogs
+                    .Where(carLogs => carLogs.carID == car.carID)
+                    .Select(carLogs => new CarLogsViewModel
+                    {
+                        carLogsVMID = carLogs.logID,
+                        carLogsVMTypeID = carLogs.LogType,
+                        carLogsVMMileage = carLogs.LogMileage,
+                        carLogsVMDate = carLogs.LogDate,
+                        carLogsVMDetails = carLogs.LogDetails
+                    })
+                    .ToListAsync();
+
             // Create a ViewModel with the car details
             var viewModel = new AdminPartialViewModel
             {
@@ -550,6 +583,7 @@ namespace RentaRide.Controllers
                     cardeetsVMModel = car.carModel,
                     cardeetsVMYear = car.carYear,
                     cardeetsVMTransmission = car.carTransmission,
+                    cardeetsVMTypeID = car.carType,
                     cardeetsVMCarType = carType,
                     cardeetsVMColor = car.carColor,
                     cardeetsVMLicense = car.carLicensePlate,
@@ -562,11 +596,26 @@ namespace RentaRide.Controllers
                     cardeetsVMCRExt = car.carCRDocExt
                 },
 
-                CarImages = carImages
+                CarImages = carImages,
+                CarLogs = carLogs
             };
 
+            var carTypes = await _rardbContext.TBL_CarTypes.ToListAsync();
+            viewModel.CarTypes = carTypes.Select(carType => new CarTypesViewModel
+            {
+                cartypeVMID = carType.cartypeID,
+                cartypeVMName = carType.cartypeName
+            }).ToList();
+
             // Return the Details view with the ViewModel
-            return PartialView("~/Views/Admin/TabComponents/Cars/Details.cshtml", viewModel);
+            if (forDetailsPage)
+            {
+                return PartialView("~/Views/Admin/TabComponents/Cars/Details.cshtml", viewModel);
+            }
+            else
+            {
+                return PartialView("~/Views/Admin/TabComponents/Cars/Modals.cshtml", viewModel);
+            }
             //return Json(new { success = true, data = viewModel });
 
         }

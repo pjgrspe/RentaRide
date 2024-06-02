@@ -95,40 +95,41 @@
                 <h5 class="modal-title" id="addNewCarModalLabel">Add New Log</h5>
                 <button type="button" class="btn-close btn-close-white" onclick="closeModalAddCar()" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <!-- ADD CAR FORM -->
+            <!-- ADD CAR LOG FORM -->
             <div class="modal-body text-light">
+                <input id="logCarID" hidden></input>
                 <!-- Type -->
                 <div class="form-group mb-3">
                     <label for="logType" class="font-weight-bold mb-1">Type</label>
                     @* CHANGE THIS TO TYPES *@
                     <select class="form-control" id="logType">
-                        <option value="" disabled selected>Select car year</option>
-                        @for (int year = 1980; year <= DateTime.Now.Year; year++)
-                        {
-                            <option value="@year">@year</option>
-                        }
+                        <option value="" disabled selected>Select log type</option>
+                        <option value="@LogTypes.logTypeID1">@LogTypes.logTypeName1</option>
+                        <option value="@LogTypes.logTypeID2">@LogTypes.logTypeName2</option>
+                        <option value="@LogTypes.logTypeID3">@LogTypes.logTypeName3</option>
+                        <option value="@LogTypes.logTypeID4">@LogTypes.logTypeName4</option>
                     </select>
                 </div>
-                <!-- MODEL -->
+                <!-- DATE -->
                 <div class="form-group mb-3">
                     <label for="logDate" class="font-weight-bold mb-1">Date</label>
                     <input type="datetime-local" class="form-control" id="logDate" placeholder="Enter log date.">
                 </div>
                 <!-- MILEAGE -->
                 <div class="form-group mb-3">
-                    <label for="logMileage" class="font-weight-bold mb-1">Date</label>
+                    <label for="logMileage" class="font-weight-bold mb-1">Mileage (should be higher than last recorded)</label>
                     <input type="text" class="form-control" id="logMileage" placeholder="Enter current mileage of the car.">
                 </div>
                 <!-- DETAILS -->
                 <div class="form-group mb-3">
                     <label for="logDetails" class="font-weight-bold mb-1">Details</label>
-                    <textarea type="text" class="form-control" id="logDetails" placeholder="Enter car's model.">
+                    <textarea type="text" class="form-control" id="logDetails" placeholder="Enter log details."></textarea>
                 </div>               
             </div>
             <!-- ACTION BUTTONS -->
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModalAddCar()">Cancel</button>
-                <button type="button" class="btn btn-success" onclick="addCar()">Add Car</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModalAddLog()">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="addLog()">Add Log</button>
             </div>
         </div>
     </div>
@@ -157,7 +158,7 @@
     <div class="modal-dialog modal-dialog-centered modal-custom p-2">
         <div class="modal-content bg-glass p-3">
             @* TITLE *@
-            <div class="modal-header text-light bCRder-bottom-0">
+            <div class="modal-header text-light border-bottom-0">
                 <h5 class="modal-title" id="carsCRPictureModalLabel">Car CR</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -172,7 +173,7 @@
 <!-- Edit Car Modal -->
 <div class="modal fade" id="editcarModal" tabindex="-1" aria-labelledby="editcarModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered p-2">
-        <div class="modal-content bg-dark-secondary p-3">
+        <div class="modal-content bg-dark-secondary p-3" id="modal-content-editcar">
             @* TITLE *@
             <div class="modal-header text-light border-0">
                 <h5 class="modal-title" id="editcarModalLabel">Edit Car's Info</h5>
@@ -189,13 +190,13 @@
                 </div>
                 <!-- MAKE -->
                 <div class="form-group mb-3">
-                    <label for="editcarMake" class="font-weight-bold mb-1" value="@Model.CarDetails.cardeetsVMMake">Make</label>
-                    <input type="text" class="form-control" id="editcarMake" placeholder="Enter Car's make.">
+                    <label for="editcarMake" class="font-weight-bold mb-1">Make</label>
+                    <input type="text" class="form-control" id="editcarMake" value="@Model.CarDetails.cardeetsVMMake" placeholder="Enter Car's make.">
                 </div>
                 <!-- MODEL -->
                 <div class="form-group mb-3">
-                    <label for="editcarModel" class="font-weight-bold mb-1" value="@Model.CarDetails.cardeetsVMModel">Model</label>
-                    <input type="text" class="form-control" id="editcarModel" placeholder="Enter Car's model.">
+                    <label for="editcarModel" class="font-weight-bold mb-1">Model</label>
+                    <input type="text" class="form-control" id="editcarModel" value="@Model.CarDetails.cardeetsVMModel" placeholder="Enter Car's model.">
                 </div>
                 <!-- YEAR -->
                 <div class="form-group mb-3">
@@ -204,7 +205,14 @@
                         <option value="" disabled selected>Select editcar year</option>
                         @for (int year = 1980; year <= DateTime.Now.Year; year++)
                         {
-                            <option value="@year">@year</option>
+                            if(year == Model.CarDetails.cardeetsVMYear)
+                            {
+                                <option value="@year" selected>@year</option>
+                            }
+                            else
+                            {
+                                <option value="@year">@year</option>
+                            }
                         }
                     </select>
                 </div>
@@ -218,32 +226,38 @@
                         <option value="Minivan/Van">Minivan/Van</option>
                         <option value="Truck/Pickup">Truck/Pickup</option>
                         <option value="Luxury Vehicle">Luxury Vehicle</option> *@
-                        @foreach (var CarType in Model.CarTypes)
+                        @foreach (var carType in Model.CarTypes)
                         {
-                            <option value="@CarType.cartypeVMName">@CarType.cartypeVMName</option>
+                            if(carType.cartypeVMID == Model.CarDetails.cardeetsVMTypeID)
+                            {
+                                <option value="@carType.cartypeVMID" selected>@carType.cartypeVMName</option>
+                            }
+                            else
+                            {
+                                <option value="@carType.cartypeVMID">@carType.cartypeVMName</option>
+                            }
                         }
                     </select>
                 </div>
                 <!-- COLOR -->
                 <div class="form-group mb-3">
                     <label for="editcarColor" class="font-weight-bold mb-1">Color</label>
-                    <input type="text" class="form-control" id="editcarColor" placeholder="Enter Car's color.">
+                    <input type="text" class="form-control" id="editcarColor" value="@Model.CarDetails.cardeetsVMColor" placeholder="Enter Car's color.">
                 </div>
                 <!-- LICENSE NO. -->
                 <div class="form-group mb-3">
                     <label for="editcarLicenseNum" class="font-weight-bold mb-1">License Number</label>
-                    <input type="text" class="form-control" id="editcarLicenseNum" placeholder="Enter Car's license number.">
+                    <input type="text" class="form-control" id="editcarLicenseNum" value="@Model.CarDetails.cardeetsVMLicense" placeholder="Enter Car's license number.">
                 </div>
                 <!-- OR/CR -->
                 <div class="form-group mb-3">
-                    <label for="editcarOR" class="font-weight-bold mb-1">OR</label>
+                    <label for="editcarOR" class="font-weight-bold mb-1">Update OR</label>
                     <input type="file" class="form-control" id="editcarOR" placeholder="Upload OR document">
                 </div>
                 <div class="form-group mb-3">
-                    <label for="editcarCR" class="font-weight-bold mb-1">CR</label>
+                    <label for="editcarCR" class="font-weight-bold mb-1">Update CR</label>
                     <input type="file" class="form-control" id="editcarCR" placeholder="Upload CR document">
                 </div>
-            </div>
             </div>
             @* ACTION BTNS *@
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">

@@ -61,7 +61,6 @@ namespace RentaRide.Database.Database_Models
         public int carOilChangeInterval { get; set; }
         [Required]
         public string carLicensePlate { get; set; }
-
         //carLocation <--- problem for future us
         [Required]
         public bool carIsDeleted { get; set; } = false;

@@ -13,14 +13,10 @@ function closeModalAddDriver() {
 
 function addDriver() {
     var formData = new FormData();
-    formData.append('drivmodelFirstName', $('#driverFirstName').val());
-    formData.append('drivmodelMiddleName', $('#driverMiddleName').val());
-    formData.append('drivmodelLastName', $('#driverLastName').val());
-    formData.append('drivmodelEmail', $('#driverEmail').val());
-    formData.append('drivmodelContact', $('#driverContact').val());
-    formData.append('drivmodelImage', $('#driverPicture')[0].files[0]);
-    formData.append('drivmodelLicense', $('#driverLicenseFront')[0].files[0]);
-    formData.append('drivmodelLicenseBack', $('#driverLicenseBack')[0].files[0]);
+    formData.append('addLogType', $('#logType').val());
+    formData.append('addLogDate', $('#logDate').val());
+    formData.append('addLogMileage', $('#logMileage').val());
+    formData.append('addLogDetails', $('#logDetails').val());
 
     fetch('/Admin/AddNewDriver', {
         method: 'POST',

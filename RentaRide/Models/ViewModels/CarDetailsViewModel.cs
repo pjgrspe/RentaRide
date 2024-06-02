@@ -9,7 +9,7 @@ namespace RentaRide.Models.ViewModels
         public string cardeetsVMModel { get; set; }
         public int cardeetsVMYear { get; set; }
         public bool? cardeetsVMTransmission { get; set; }
-
+        public int cardeetsVMTypeID { get; set; }
         public string cardeetsVMCarType { get; set; }
         public string cardeetsVMColor { get; set; }
         public string cardeetsVMLicense { get; set; }
