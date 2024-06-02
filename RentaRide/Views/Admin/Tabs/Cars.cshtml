@@ -33,10 +33,11 @@
         @* CARS TABLE *@
         <div id="tableContent" class="d-flex justify-content-center cards-table-container">
             <div id="contentContainer" class="w-100">
-                <partial name="~/Views/Admin/TabComponents/Cars/Content.cshtml"></partial>
+                @await Html.PartialAsync("~/Views/Admin/TabComponents/Cars/Content.cshtml")
             </div>
             <div id="detailsContainer" class="w-100" style="display: none;">
-                <partial name="~/Views/Admin/TabComponents/Cars/Details.cshtml"></partial>
+                @* <partial name="~/Views/Admin/TabComponents/Cars/Details.cshtml"></partial> *@
+                @await Html.PartialAsync("~/Views/Admin/TabComponents/Cars/Details.cshtml")
             </div>
         </div>
     </div>
