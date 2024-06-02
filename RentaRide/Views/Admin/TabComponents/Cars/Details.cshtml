@@ -13,23 +13,37 @@
                         <i class="fa-solid fa-lg fa-arrow-left text-white"></i>
                     </button>
                     @* TITLE *@
-                    <h2 >Lamborghini Adventador 2022</h2>
+                    @* <h2>Lamborghini Adventador 2022</h2> *@
+                    <h2>@Model.CarDetails.cardeetsVMMake @Model.CarDetails.cardeetsVMModel @Model.CarDetails.cardeetsVMYear</h2>
+
                     @* EDIT BUTTON *@
                     <div class="ms-auto">
                         <i class="fas fa-edit fa-lg mt-3 me-2" onclick="openModalEditCarDetails()" style="cursor:pointer; color: darkgray;"></i>
                     </div>
                 </div>
+
+
                 @* PICTURES *@
                 <div id="carDetailsCarousel" class="carousel slide">
                     @* CAROUSEL INDICATORS *@
                     <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carDetailsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        @for (var i = 0; i < Model.CarImages.Count; i++)
+                        {
+                            <button type="button" data-bs-target="#carDetailsCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" @(i == 0 ? "aria-current=\"true\"" : "") aria-label="Slide @(i + 1)"></button>
+                        }
+                        @* <button type="button" data-bs-target="#carDetailsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                         <button type="button" data-bs-target="#carDetailsCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carDetailsCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carDetailsCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button> *@
                     </div>
                     @* CAROUSEL PICS *@
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
+                        @for (var i = 0; i < Model.CarImages.Count; i++)
+                        {
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <img src="@Model.CarImages[i].carIMGVMPicture" class="d-block w-100" alt="Car Image @(i + 1)">
+                            </div>
+                        }
+                        @* <div class="carousel-item active">
                             <img src="https://images.pexels.com/photos/9139594/pexels-photo-9139594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="d-block w-100" alt="Car Image 1">
                         </div>
                         <div class="carousel-item">
@@ -37,7 +51,7 @@
                         </div>
                         <div class="carousel-item">
                             <img src="https://images.pexels.com/photos/9139594/pexels-photo-9139594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="d-block w-100" alt="Car Image 3">
-                        </div>
+                        </div> *@
                     </div>
                     @* LEFT AND RIGHT ARROWS *@
                     <button class="carousel-control-prev" type="button" data-bs-target="#carDetailsCarousel" data-bs-slide="prev">
@@ -48,7 +62,11 @@
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
+
+
                 </div>
+
+
                 @* CAR DETAILS *@
                 <div class="car-details-body card-body">
                     <div class="row">
@@ -58,34 +76,40 @@
                                 @* CAR TYPE *@
                                 <div class="row">
                                     <div class="col-5 text-left text-truncate"><strong>Car Type: </strong></div>
-                                    <div class="col-7 text-right text-truncate">Sports</div>
+                                    @* <div class="col-7 text-right text-truncate">Sports</div> *@
+                                    <div class="col-7 text-right text-truncate">@Model.CarDetails.cardeetsVMCarType</div>
                                 </div>
                                 @* COLOR *@
                                 <div class="row">
                                     <div class="col-5 text-left text-truncate"><strong>Color: </strong></div>
-                                    <div class="col-7 text-right text-truncate">White</div>
+                                    @* <div class="col-7 text-right text-truncate">White</div> *@
+                                    <div class="col-7 text-right text-truncate">@Model.CarDetails.cardeetsVMColor</div>
                                 </div>
                                 @* LICENSE NO. *@
                                 <div class="row">
                                     <div class="col-5 text-left text-truncate"><strong>License No.: </strong></div>
-                                    <div class="col-7 text-right text-truncate">XYZ 1234</div>
+                                    @* <div class="col-7 text-right text-truncate">XYZ 1234</div> *@
+                                    <div class="col-7 text-right text-truncate">@Model.CarDetails.cardeetsVMLicense</div>
                                 </div>
                                 @* MILEAGE *@
                                 <div class="row">
                                     <div class="col-5 text-left text-truncate"><strong>Mileage: </strong></div>
-                                    <div class="col-7 text-right text-truncate">10000KM</div>
+                                    @* <div class="col-7 text-right text-truncate">10000KM</div> *@
+                                    <div class="col-7 text-right text-truncate">@Model.CarDetails.cardeetsVMMileage</div>
                                 </div>
                                 @* LAST LOG *@
                                 <div class="row">
                                     <div class="col-5 text-left text-truncate"><strong>Last log: </strong></div>
-                                    <div class="col-7 text-right text-truncate">May 25, 2024</div>
+                                    @* <div class="col-7 text-right text-truncate">May 25, 2024</div> *@
+                                    <div class="col-7 text-right text-truncate">@Model.CarDetails.cardeetsVMFormattedLastLog</div>
                                 </div>
                                 @* STATUS *@
                                 <div class="row">
                                     <div class="col-5 text-left text-truncate"><strong>Status: </strong></div>
                                     <div class="col-7 text-right">
                                         <div class="d-flex justify-content-start text-center status status-onduty">
-                                            <span class="status-label text-dark">Listed</span>
+                                            @* <span class="status-label text-dark">Listed</span> *@
+                                            <span class="status-label text-dark">@Model.CarDetails.cardeetsVMStatus</span>
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +122,7 @@
                                 <label class="mb-2"><strong>OR:</strong></label>
                                 <div id="modalOR" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 40px; margin: auto;" onclick="openORModal()">
                                     <div class=" text-light position-absolute top-50 start-50 translate-middle" style="z-index: 10; padding: 5px;">SHOW</div>
-                                    <img src="da pic" alt="OR" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
+                                    <img src="@Model.CarDetails.carIMGVMOR" alt="OR" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
                                 </div>
                             </div>
                             @* CR PLACEHOLDER *@
@@ -106,7 +130,7 @@
                                 <label class="mb-2"><strong>CR:</strong></label>
                                 <div id="modalCR" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 40px; margin: auto;" onclick="openCRModal()">
                                     <div class=" text-light position-absolute top-50 start-50 translate-middle" style="z-index: 10; padding: 5px;">SHOW</div>
-                                    <img src="da pic" alt="CR" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
+                                    <img src="@Model.CarDetails.carIMGVMCR" alt="CR" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
                                 </div>
                             </div>
                         </div>
