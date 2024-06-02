@@ -228,6 +228,15 @@
     background-color: #fab86a;
 }
 
+.status-maintenance span {
+    background-color: #fab86a;
+    min-width: 110px!important;
+}
+
+.status-repair span {
+    background-color: #fb7a7a;
+}
+
 .status-manual span {
     background-color: darkgray;
 }

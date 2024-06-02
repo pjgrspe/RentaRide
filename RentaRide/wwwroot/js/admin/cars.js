@@ -104,24 +104,42 @@ function updateFileInput(files) {
     document.getElementById('carImages').files = dt.files;
 }
 
-function openCarDetails(carId) {
-    fetch(`/Admin/GetCarDetails?carId=${carId}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-/*                document.getElementById('detailsContainer').innerHTML = data.data;*/
-                document.getElementById('contentContainer').classList.add('hidden-important');
-                document.getElementById('search-filter-div').classList.add('hidden-important');
-                document.getElementById('add-item-div').classList.add('hidden-important');
-
-                document.getElementById('detailsContainer').classList.remove('hidden-important');
-                document.getElementById('detailsContainer').classList.add('visible');
-            } else {
-                reloadActivePartialView(data.message);
-            }
-        })
-        .catch(error => console.error('Error:', error));
+function openModalAddLog() {
+    $('#addNewLogModal').modal('show');
 }
+
+function closeModalAddLog() {
+    $('#addNewLogModal').modal('hide');
+}
+
+function openORModal(ORPicture) {
+    $('#carsORPictureModal').modal('show');
+    $('#carsORPictureModal img').attr('src', ORPicture);
+}
+
+function openCRModal(CRPicture) {
+    $('#carsCRPictureModal').modal('show');
+    $('#carsCRPictureModal img').attr('src', CRPicture);
+}
+
+//function openCarDetails(carId) {
+//    fetch(`/Admin/GetCarDetails?carId=${carId}`)
+//        .then(response => response.json())
+//        .then(data => {
+//            if (data.success) {
+///*                document.getElementById('detailsContainer').innerHTML = data.data;*/
+//                document.getElementById('contentContainer').classList.add('hidden-important');
+//                document.getElementById('search-filter-div').classList.add('hidden-important');
+//                document.getElementById('add-item-div').classList.add('hidden-important');
+
+//                document.getElementById('detailsContainer').classList.remove('hidden-important');
+//                document.getElementById('detailsContainer').classList.add('visible');
+//            } else {
+//                reloadActivePartialView(data.message);
+//            }
+//        })
+//        .catch(error => console.error('Error:', error));
+//}
 
 function openCarDetails(carId) {
     fetch(`/Admin/GetCarDetails?carId=${carId}`)
@@ -133,6 +151,7 @@ function openCarDetails(carId) {
                 return;
             }
 
+            document.getElementById('detailsContainer').innerHTML = data;
             // Insert the returned HTML into the detailsContainer element
             //document.getElementById('detailsContainer').innerHTML = data;
 
@@ -149,8 +168,6 @@ function openCarDetails(carId) {
         .catch(error => console.error('Error:', error));
 }
 
-
-
 function closeCarDetails() {
     document.getElementById('contentContainer').classList.remove('hidden-important');
     document.getElementById('search-filter-div').classList.remove('hidden-important');
@@ -159,3 +176,20 @@ function closeCarDetails() {
     document.getElementById('detailsContainer').classList.remove('visible');
     document.getElementById('detailsContainer').classList.add('hidden-important');
 }
+
+function openModalEditCarDetails(carId) {
+    fetch(`/Admin/GetCarDetails?carId=${carId}`)
+        .then(response => response.text())
+        .then(data => {
+            // Check if the car was not found
+            if (data.includes('"success":false')) {
+                reloadActivePartialView(data.message);
+                return;
+            }
+
+            document.getElementById('editCarModel').innerHTML = data;
+            $('#editCarModal').modal('show');
+        })
+        .catch(error => console.error('Error:', error));
+}
+
