@@ -1,0 +1,71 @@
+﻿<!-- Edit Listing Modal -->
+<div class="modal fade" id="editListingModal" tabindex="-1" aria-labelledby="editListingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3" id="modal-content-editListing">
+            <!-- TITLE -->
+            <div class="modal-header text-light border-0">
+                <h5 class="modal-title" id="editListingModalLabel">Edit Listing's Info</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closeModalEditListing()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- EDIT Listing FORM -->
+            <div class="modal-body text-light">
+                <!-- CAR -->
+                <div class="form-group mb-3">
+                    <label for="editlistingCar" class="font-weight-bold mb-1">Type</label>
+                    <!-- CHANGE THIS TO CAR -->
+                    <select class="form-control" id="editlistingCar">
+                        <option value="" disabled selected>Select car</option>
+                        <option value="Car1">Car 1</option>
+                        <option value="Car2">Car 2</option>
+                        <option value="Car3">Car 3</option>
+                    </select>
+                </div>
+                <!-- DAILY RATE -->
+                <div class="form-group mb-3">
+                    <label for="editListingDailyRate" class="font-weight-bold mb-1">Daily Rate</label>
+                    <div class="d-flex align-items-center">
+                        <input type="range" class="form-range custom-range me-3" id="editListingDailyRateSlider" min="0" max="1500" step="50" oninput="updatePriceInput(this.value, 'editListingDailyRate')">
+                        <input type="text" class="form-control w-auto" id="editListingDailyRate" value="P750" readonly style="max-width: 100px;">
+                    </div>
+                </div>
+                <!-- WEEKLY RATE -->
+                <div class="form-group mb-3">
+                    <label for="editListingWeeklyRate" class="font-weight-bold mb-1">Weekly Rate</label>
+                    <div class="d-flex align-items-center">
+                        <input type="range" class="form-range custom-range me-3" id="editListingWeeklyRateSlider" min="3500" max="10500" step="100" oninput="updatePriceInput(this.value, 'editListingWeeklyRate')">
+                        <input type="text" class="form-control w-auto" id="editListingWeeklyRate" value="P7000" readonly style="max-width: 100px;">
+                    </div>
+                </div>
+                <!-- MONTHLY RATE -->
+                <div class="form-group mb-3">
+                    <label for="editListingMonthlyRate" class="font-weight-bold mb-1">Monthly Rate</label>
+                    <div class="d-flex align-items-center">
+                        <input type="range" class="form-range custom-range me-3" id="editListingMonthlyRateSlider" min="20000" max="45000" step="500" oninput="updatePriceInput(this.value, 'editListingMonthlyRate')">
+                        <input type="text" class="form-control w-auto" id="editListingMonthlyRate" value="P20000" readonly style="max-width: 100px;">
+                    </div>
+                </div>
+                <!-- DETAILS -->
+                <div class="form-group mb-3">
+                    <label for="editlistingDetails" class="font-weight-bold mb-1">Details</label>
+                    <textarea type="text" class="form-control" id="editlistingDetails" placeholder="Enter log details."></textarea>
+                </div>
+                <!-- STATUS -->
+                <div class="form-group mb-3">
+                    <label for="editlistingStatus" class="font-weight-bold mb-1">Status</label>
+                    <!-- CHANGE THIS TO Status -->
+                    <select class="form-control" id="editlistingStatus">
+                        <option value="" disabled selected>Select Status</option>
+                        <option value="Status1">Status 1</option>
+                        <option value="Status2">Status 2</option>
+                        <option value="Status3">Status 3</option>
+                    </select>
+                </div>
+            </div>
+            <!-- ACTION BUTTONS -->
+            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalEditListing()">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="editListing()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

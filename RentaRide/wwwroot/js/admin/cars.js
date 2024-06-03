@@ -17,7 +17,6 @@ function addCar() {
     var carTransBool = document.getElementById('carTrans').value;
     var carFuelBool = document.getElementById('carFuelType').value;
 
-
     for (let i = 0; i < files.length; i++) {
         formData.append('caraddImages', files[i]);
     }
@@ -62,13 +61,14 @@ function addCar() {
 
 let uploadedImages = [];
 
-function previewImages() {
-    const previewContainer = document.getElementById('imagePreviewContainer');
-    const files = document.getElementById('carImages').files;
+function previewImages(inputElementId, previewContainerId) {
+    const previewContainer = document.getElementById(previewContainerId);
+    const files = document.getElementById(inputElementId).files;
 
     if (files.length > 0) {
-        previewContainer.classList.remove('d-none'); // Show the preview container by removing 'd-none'
-        previewContainer.style.display = 'flex'; // Show the preview container
+        previewContainer.classList.remove('d-none');
+        previewContainer.style.display = 'flex';
+
         for (let i = 0; i < files.length; i++) {
             uploadedImages.push(files[i]);
 
@@ -91,10 +91,10 @@ function previewImages() {
                     const index = uploadedImages.indexOf(files[i]);
                     if (index > -1) {
                         uploadedImages.splice(index, 1);
-                        updateFileInput(uploadedImages);
+                        updateFileInput(inputElementId, uploadedImages);
                     }
                     if (uploadedImages.length === 0) {
-                        previewContainer.classList.add('d-none'); // Hide the preview container if no images left
+                        previewContainer.classList.add('d-none');
                     }
                 };
 
@@ -103,17 +103,17 @@ function previewImages() {
                 previewContainer.appendChild(imgContainer);
             }
             reader.readAsDataURL(files[i]);
-            updateFileInput(uploadedImages);
-
+            updateFileInput(inputElementId, uploadedImages);
         }
     }
 }
 
-function updateFileInput(files) {
+function updateFileInput(inputElementId, files) {
     const dt = new DataTransfer();
     files.forEach(file => dt.items.add(file));
-    document.getElementById('carImages').files = dt.files;
+    document.getElementById(inputElementId).files = dt.files;
 }
+
 
 function openModalAddLog(carID) {
     $('#logCarID').val(carID);
@@ -176,9 +176,15 @@ function openModalEditCarDetails(carId) {
 
             document.getElementById('modalContainer').innerHTML = data;
             $('#editcarModal').modal('show');
+
+
         })
         .catch(error => console.error('Error:', error));
 
+}
+
+function closeModalEditCarDetails() {
+    $('#editcarModal').modal('hide');
 }
 
 function addLog() {
@@ -209,3 +215,45 @@ function addLog() {
         .catch(error => console.error('Error:', error));
 
 }
+
+
+
+//DELETING CAR MODALS
+function openModalDeleteCar() {
+    $('#deleteCarModal').modal('show');
+}
+function closeModalDeleteCar() {
+    $('#deleteCarModal').modal('hide');
+}
+
+//VIEW LOG DETAILS MODALS
+function openModalLogDetails() {
+    $('#logDetailsModal').modal('show');
+}
+
+function closeModalLogDetails() {
+    $('#logDetailsModal').modal('hide');
+}
+
+//EDIT LOGS MODAL
+function openModalEditLogDetails() {
+
+}
+
+function closeModalEditLogDetails() {
+
+}
+
+//DELETE LOGS MODAL
+function openModalDeleteLogDetails() {
+    $('#deleteLogModal').modal('show');
+}
+
+function closeModalDeleteLogDetails() {
+    $('#deleteLogModal').modal('hide');
+}
+
+
+
+
+    

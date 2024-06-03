@@ -12,130 +12,228 @@
                 <button type="button" class="btn-close btn-close-white" onclick="closeModalAddCar()" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- ADD CAR FORM -->
+            <form id="add-car-form" enctype="multipart/form-data">
+                <div class="modal-body text-light" id="add-car-form">
+                    <!-- MULTIPLE IMAGE UPLOAD -->
+                    <div class="form-group">
+                        <label for="carImages" class="font-weight-bold mb-1">Car Images</label>
+                        <input type="file" class="form-control" id="carImages" name="caraddImages" accept="image/*" onchange="previewImages('carImages', 'addImagePreviewContainer')" multiple>
+                        <div id="addImagePreviewContainer" class="d-flex flex-wrap justify-content-center mt-3" style="display: none!important;"></div>
+                    </div>
+                    <!-- MAKE -->
+                    <div class="form-group mb-3">
+                        <label for="carMake" class="font-weight-bold mb-1">Make</label>
+                        <input type="text" class="form-control" id="carMake" placeholder="Enter car's make.">
+                    </div>
+                    <!-- MODEL -->
+                    <div class="form-group mb-3">
+                        <label for="carModel" class="font-weight-bold mb-1">Model</label>
+                        <input type="text" class="form-control" id="carModel" placeholder="Enter car's model.">
+                    </div>
+                    <!-- YEAR -->
+                    <div class="form-group mb-3">
+                        <label for="carYear" class="font-weight-bold mb-1">Year</label>
+                        <select class="form-control" id="carYear">
+                            <option value="" disabled selected>Select car year</option>
+                            @for (int year = 1980; year <= DateTime.Now.Year; year++)
+                            {
+                                <option value="@year">@year</option>
+                            }
+                        </select>
+                    </div>
+                    <!-- TYPE -->
+                    <div class="form-group mb-3">
+                        <label for="carType" class="font-weight-bold mb-1">Car Type</label>
+                        <select class="form-control" id="carType">
+                            @foreach (var carType in Model.CarTypes)
+                            {
+                                <option value="@carType.cartypeVMID">@carType.cartypeVMName</option>
+                            }
+                        </select>
+                    </div>
+                    <!-- COLOR -->
+                    <div class="form-group mb-3">
+                        <label for="carColor" class="font-weight-bold mb-1">Color</label>
+                        <input type="text" class="form-control" id="carColor" placeholder="Enter car's color.">
+                    </div>
+                    <!-- LICENSE NO. -->
+                    <div class="form-group mb-3">
+                        <label for="carLicenseNum" class="font-weight-bold mb-1">License Number</label>
+                        <input type="text" class="form-control" id="carLicenseNum" placeholder="Enter car's license number.">
+                    </div>
+                    <!-- TRANSMISSION -->
+                    <div class="form-group mb-3">
+                        <label for="carTrans" class="font-weight-bold mb-1">Transmission Type</label>
+                        <select class="form-control" id="carTrans">
+                            <option value="" disabled selected>Select transmission type</option>
+                            <option value=false>Manual</option>
+                            <option value=true>Automatic</option>
+                        </select>
+                    </div>
+                    <!-- FUEL TYPE -->
+                    <div class="form-group mb-3">
+                        <label for="carFuelType" class="font-weight-bold mb-1">Fuel Type</label>
+                        <select class="form-control" id="carFuelType">
+                            <option value="" disabled selected>Select fuel type</option>
+                            <option value="">Electric</option>
+                            <option value=false>Gasoline</option>
+                            <option value=true>Diesel</option>
+                        </select>
+                    </div>
+
+                    <!-- MILEAGE -->
+                    <div class="form-group mb-3">
+                        <label for="carMileage" class="font-weight-bold mb-1">Mileage</label>
+                        <input type="text" class="form-control" id="carMileage" placeholder="Enter car's current mileage.">
+                    </div>
+                    <!-- LAST CHANGE OIL Mileage -->
+                    <div class="form-group mb-3">
+                        <label for="carChangeOilDate" class="font-weight-bold mb-1">Mileage Last Change Oil</label>
+                        <input type="text" class="form-control" id="carChangeOilDate" placeholder="Enter car's mileage since last change oil">
+                    </div>
+                    <!-- CHANGE OIL INTERVAL -->
+                    <div class="form-group mb-3">
+                        <label for="carChangeOilInterval" class="font-weight-bold mb-1">Mileage alert interval</label>
+                        <select class="form-control" id="carChangeOilInterval">
+                            @for (int Mileage = ChangeOilConfig.ChangeOilIntervalMin; Mileage <= ChangeOilConfig.ChangeOilIntervalMax; Mileage = Mileage + ChangeOilConfig.ChangeOilChoiceIntervalSize)
+                            {
+                                if (Mileage == ChangeOilConfig.ChangeOilDefaultValue)
+                                {
+                                    <option value="@Mileage" selected>Every: @Mileage KM</option>
+                                }
+                                else
+                                {
+                                    <option value="@Mileage">Every: @Mileage KM</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <!-- LAST MAINTENANCE DATE -->
+                    <div class="form-group mb-3">
+                        <label for="carLastMaintenanceDate" class="font-weight-bold mb-1">Last Recorded Maintenance Date</label>
+                        <input type="datetime-local" class="form-control" id="carLastMaintenanceDate" placeholder="Enter car's last recorded maintenance date.">
+                    </div>
+                    <!-- SEATS -->
+                    <div class="form-group mb-3">
+                        <label for="carSeats" class="font-weight-bold mb-1">Seating capacity</label>
+                        <input type="text" class="form-control" id="carSeats" placeholder="Enter car's seating capacity.">
+                    </div>
+
+
+
+                    <!-- OR/CR -->
+                    <div class="form-group mb-3">
+                        <label for="carOR" class="font-weight-bold mb-1">OR</label>
+                        <input type="file" class="form-control" id="carOR" placeholder="Upload OR document">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="carCR" class="font-weight-bold mb-1">CR</label>
+                        <input type="file" class="form-control" id="carCR" placeholder="Upload CR document">
+                    </div>
+
+                </div>
+            </form>          
+            <!-- ACTION BUTTONS -->
+            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModalAddCar()">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="addCar()">Add Car</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Car Modal -->
+<div class="modal fade" id="editcarModal" tabindex="-1" aria-labelledby="editcarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3" id="modal-content-editcar">
+            @* TITLE *@
+            <div class="modal-header text-light border-0">
+                <h5 class="modal-title" id="editcarModalLabel">Edit Car's Info</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closeModalEditcar()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            @* EDIT CAR FORM *@
             <div class="modal-body text-light">
                 <!-- MULTIPLE IMAGE UPLOAD -->
-                <div class="form-group mb-3">
-                    <label for="carImages" class="font-weight-bold mb-1">Car Images</label>
-                    @* <input type="file" class="form-control" id="carImages" multiple accept="image/*" onchange="previewImages()"> *@
-                    <input type="file" class="form-control" id="carImages" name="caraddImages" accept="image/*" onchange="previewImages()" multiple>
-                    <div id="imagePreviewContainer" class="d-flex flex-wrap justify-content-center mt-3" style="display: none!important;"></div>
+                <div class="form-group">
+                    <label for="editcarImages" class="font-weight-bold mb-1">Car Images</label>
+                    <input type="file" class="form-control" id="editcarImages" name="editcaraddImages" accept="image/*" onchange="previewImages('editcarImages', 'editImagePreviewContainer')" multiple>
+                    <div id="editImagePreviewContainer" class="d-flex flex-wrap justify-content-center mt-3" style="display: none!important;"></div>
                 </div>
                 <!-- MAKE -->
                 <div class="form-group mb-3">
-                    <label for="carMake" class="font-weight-bold mb-1">Make</label>
-                    <input type="text" class="form-control" id="carMake" placeholder="Enter car's make.">
+                    <label for="editcarMake" class="font-weight-bold mb-1">Make</label>
+                    <input type="text" class="form-control" id="editcarMake" value="@Model.CarDetails.cardeetsVMMake" placeholder="Enter Car's make.">
                 </div>
                 <!-- MODEL -->
                 <div class="form-group mb-3">
-                    <label for="carModel" class="font-weight-bold mb-1">Model</label>
-                    <input type="text" class="form-control" id="carModel" placeholder="Enter car's model.">
+                    <label for="editcarModel" class="font-weight-bold mb-1">Model</label>
+                    <input type="text" class="form-control" id="editcarModel" value="@Model.CarDetails.cardeetsVMModel" placeholder="Enter Car's model.">
                 </div>
                 <!-- YEAR -->
                 <div class="form-group mb-3">
-                    <label for="carYear" class="font-weight-bold mb-1">Year</label>
-                    <select class="form-control" id="carYear">
-                        <option value="" disabled selected>Select car year</option>
+                    <label for="editcarYear" class="font-weight-bold mb-1">Year</label>
+                    <select class="form-control" id="editcarYear">
+                        <option value="" disabled selected>Select editcar year</option>
                         @for (int year = 1980; year <= DateTime.Now.Year; year++)
                         {
-                            <option value="@year">@year</option>
+                            if (year == Model.CarDetails.cardeetsVMYear)
+                            {
+                                <option value="@year" selected>@year</option>
+                            }
+                            else
+                            {
+                                <option value="@year">@year</option>
+                            }
                         }
                     </select>
                 </div>
                 <!-- TYPE -->
                 <div class="form-group mb-3">
-                    <label for="carType" class="font-weight-bold mb-1">Car Type</label>
-                    <select class="form-control" id="carType">
+                    <label for="editcarType" class="font-weight-bold mb-1">Car Type</label>
+                    <select class="form-control" id="editcarType">
+                        @* <option value="" disabled selected>Select editcar type</option>
+                        <option value="Motorcycle">Motorcycle</option>
+                        <option value="SUV/Crossover">SUV/Crossover</option>
+                        <option value="Minivan/Van">Minivan/Van</option>
+                        <option value="Truck/Pickup">Truck/Pickup</option>
+                        <option value="Luxury Vehicle">Luxury Vehicle</option> *@
                         @foreach (var carType in Model.CarTypes)
                         {
-                            <option value="@carType.cartypeVMID">@carType.cartypeVMName</option>
+                            if (carType.cartypeVMID == Model.CarDetails.cardeetsVMTypeID)
+                            {
+                                <option value="@carType.cartypeVMID" selected>@carType.cartypeVMName</option>
+                            }
+                            else
+                            {
+                                <option value="@carType.cartypeVMID">@carType.cartypeVMName</option>
+                            }
                         }
                     </select>
                 </div>
                 <!-- COLOR -->
                 <div class="form-group mb-3">
-                    <label for="carColor" class="font-weight-bold mb-1">Color</label>
-                    <input type="text" class="form-control" id="carColor" placeholder="Enter car's color.">
+                    <label for="editcarColor" class="font-weight-bold mb-1">Color</label>
+                    <input type="text" class="form-control" id="editcarColor" value="@Model.CarDetails.cardeetsVMColor" placeholder="Enter Car's color.">
                 </div>
                 <!-- LICENSE NO. -->
                 <div class="form-group mb-3">
-                    <label for="carLicenseNum" class="font-weight-bold mb-1">License Number</label>
-                    <input type="text" class="form-control" id="carLicenseNum" placeholder="Enter car's license number.">
+                    <label for="editcarLicenseNum" class="font-weight-bold mb-1">License Number</label>
+                    <input type="text" class="form-control" id="editcarLicenseNum" value="@Model.CarDetails.cardeetsVMLicense" placeholder="Enter Car's license number.">
                 </div>
-                <!-- TRANSMISSION -->
-                <div class="form-group mb-3">
-                    <label for="carTrans" class="font-weight-bold mb-1">Transmission Type</label>
-                    <select class="form-control" id="carTrans">
-                        <option value="" disabled selected>Select transmission type</option>
-                        <option value=false>Manual</option>
-                        <option value=true>Automatic</option>
-                    </select>
-                </div>
-                <!-- FUEL TYPE -->
-                <div class="form-group mb-3">
-                    <label for="carFuelType" class="font-weight-bold mb-1">Fuel Type</label>
-                    <select class="form-control" id="carFuelType">
-                        <option value="" disabled selected>Select fuel type</option>
-                        <option value="">Electric</option>
-                        <option value=false>Gasoline</option>
-                        <option value=true>Diesel</option>
-                    </select>
-                </div>
-
-                <!-- MILEAGE -->
-                <div class="form-group mb-3">
-                    <label for="carMileage" class="font-weight-bold mb-1">Mileage</label>
-                    <input type="text" class="form-control" id="carMileage" placeholder="Enter car's current mileage.">
-                </div>
-                <!-- LAST CHANGE OIL Mileage -->
-                <div class="form-group mb-3">
-                    <label for="carChangeOilDate" class="font-weight-bold mb-1">Mileage Last Change Oil</label>
-                    <input type="text" class="form-control" id="carChangeOilDate" placeholder="Enter car's mileage since last change oil">
-                </div>
-                <!-- CHANGE OIL INTERVAL -->
-                <div class="form-group mb-3">
-                    <label for="carChangeOilInterval" class="font-weight-bold mb-1">Mileage alert interval</label>
-                    <select class="form-control" id="carChangeOilInterval">
-                        @for (int Mileage = ChangeOilConfig.ChangeOilIntervalMin; Mileage <= ChangeOilConfig.ChangeOilIntervalMax; Mileage = Mileage + ChangeOilConfig.ChangeOilChoiceIntervalSize)
-                        {
-                            if (Mileage == ChangeOilConfig.ChangeOilDefaultValue)
-                            {
-                                <option value="@Mileage" selected>Every: @Mileage KM</option>
-                            }
-                            else
-                            {
-                                <option value="@Mileage">Every: @Mileage KM</option>
-                            }
-                        }
-                    </select>
-                </div>
-                <!-- LAST MAINTENANCE DATE -->
-                <div class="form-group mb-3">
-                    <label for="carLastMaintenanceDate" class="font-weight-bold mb-1">Last Recorded Maintenance Date</label>
-                    <input type="datetime-local" class="form-control" id="carLastMaintenanceDate" placeholder="Enter car's last recorded maintenance date.">
-                </div>
-                <!-- SEATS -->
-                <div class="form-group mb-3">
-                    <label for="carSeats" class="font-weight-bold mb-1">Seating capacity</label>
-                    <input type="text" class="form-control" id="carSeats" placeholder="Enter car's seating capacity.">
-                </div>
-
-
-
                 <!-- OR/CR -->
                 <div class="form-group mb-3">
-                    <label for="carOR" class="font-weight-bold mb-1">OR</label>
-                    <input type="file" class="form-control" id="carOR" placeholder="Upload OR document">
+                    <label for="editcarOR" class="font-weight-bold mb-1">Update OR</label>
+                    <input type="file" class="form-control" id="editcarOR" placeholder="Upload OR document">
                 </div>
                 <div class="form-group mb-3">
-                    <label for="carCR" class="font-weight-bold mb-1">CR</label>
-                    <input type="file" class="form-control" id="carCR" placeholder="Upload CR document">
+                    <label for="editcarCR" class="font-weight-bold mb-1">Update CR</label>
+                    <input type="file" class="form-control" id="editcarCR" placeholder="Upload CR document">
                 </div>
-
             </div>
-            <!-- ACTION BUTTONS -->
+            @* ACTION BTNS *@
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModalAddCar()">Cancel</button>
-                <button type="button" class="btn btn-success" onclick="addCar()">Add Car</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalEditCarDetails()">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="editcar()">Save Changes</button>
             </div>
         </div>
     </div>
@@ -225,99 +323,77 @@
     </div>
 </div>
 
-<!-- Edit Car Modal -->
-<div class="modal fade" id="editcarModal" tabindex="-1" aria-labelledby="editcarModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered p-2">
-        <div class="modal-content bg-dark-secondary p-3" id="modal-content-editcar">
-            @* TITLE *@
-            <div class="modal-header text-light border-0">
-                <h5 class="modal-title" id="editcarModalLabel">Edit Car's Info</h5>
-                <button type="button" class="btn-close btn-close-white" onclick="closeModalEditcar()" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- View Log Details Modal Structure -->
+<div class="modal fade" id="logDetailsModal" tabindex="-1" aria-labelledby="logDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg p-2">
+        <div class="modal-content bg-dark-secondary text-white p-3">
+            <!-- TITLE -->
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title" id="logDetailsModalLabel">Log Details</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closeModalUserDetails()" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            @* EDIT CAR FORM *@
-            <div class="modal-body text-light">
-                <!-- MULTIPLE IMAGE UPLOAD -->
-                <div class="form-group mb-3">
-                    <label for="editcarImages" class="font-weight-bold mb-1">Car Images</label>
-                    @* <input type="file" class="form-control" id="editcarImages" multiple accept="image/*" onchange="previewImages()"> *@
-                    <input type="file" class="form-control" id="editcarImages" name="editcaraddImages" accept="image/*" onchange="previewImages()" multiple>
-                    <div id="imagePreviewContainer" class="d-flex flex-wrap justify-content-center mt-3" style="display: none!important;"></div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- LEFT COLUMN -->
+                        <div class="col-md-12">
+                            <p><strong>ID:</strong> <span id="modalUserId" class="mb-3"></span></p>
+                            <p><strong>Name:</strong> <span id="modalUserName" class="mb-3"></span></p>
+                            <p><strong>Email:</strong> <span id="modalUserEmail" class="mb-3"></span></p>
+                            <p><strong>Contact:</strong> <span id="modalUserContact" class="mb-3"></span></p>
+                            <p><strong>Status:</strong> <span id="modalUserStatus" class="mb-3"></span></p>
+                            <p><strong>Date Created:</strong> <span id="modalDateCreated" class="mb-3"></span></p>
+                            <p><strong>Date Modified:</strong> <span id="modalDateModified" class="mb-3"></span></p>
+                            <p><strong>Date of Birth:</strong> <span id="modalDateOfBirth" class="mb-3"></span></p>
+                            <p><strong>Street Address:</strong> <span id="modalStreetAddress" class="mb-3"></span></p>
+                            <p><strong>City:</strong> <span id="modalCity" class="mb-3"></span></p>
+                            <p><strong>Province:</strong> <span id="modalProvince" class="mb-3"></span></p>
+                        </div>
+                    </div>
                 </div>
-                <!-- MAKE -->
-                <div class="form-group mb-3">
-                    <label for="editcarMake" class="font-weight-bold mb-1">Make</label>
-                    <input type="text" class="form-control" id="editcarMake" value="@Model.CarDetails.cardeetsVMMake" placeholder="Enter Car's make.">
-                </div>
-                <!-- MODEL -->
-                <div class="form-group mb-3">
-                    <label for="editcarModel" class="font-weight-bold mb-1">Model</label>
-                    <input type="text" class="form-control" id="editcarModel" value="@Model.CarDetails.cardeetsVMModel" placeholder="Enter Car's model.">
-                </div>
-                <!-- YEAR -->
-                <div class="form-group mb-3">
-                    <label for="editcarYear" class="font-weight-bold mb-1">Year</label>
-                    <select class="form-control" id="editcarYear">
-                        <option value="" disabled selected>Select editcar year</option>
-                        @for (int year = 1980; year <= DateTime.Now.Year; year++)
-                        {
-                            if(year == Model.CarDetails.cardeetsVMYear)
-                            {
-                                <option value="@year" selected>@year</option>
-                            }
-                            else
-                            {
-                                <option value="@year">@year</option>
-                            }
-                        }
-                    </select>
-                </div>
-                <!-- TYPE -->
-                <div class="form-group mb-3">
-                    <label for="editcarType" class="font-weight-bold mb-1">Car Type</label>
-                    <select class="form-control" id="editcarType">
-                        @* <option value="" disabled selected>Select editcar type</option>
-                        <option value="Motorcycle">Motorcycle</option>
-                        <option value="SUV/Crossover">SUV/Crossover</option>
-                        <option value="Minivan/Van">Minivan/Van</option>
-                        <option value="Truck/Pickup">Truck/Pickup</option>
-                        <option value="Luxury Vehicle">Luxury Vehicle</option> *@
-                        @foreach (var carType in Model.CarTypes)
-                        {
-                            if(carType.cartypeVMID == Model.CarDetails.cardeetsVMTypeID)
-                            {
-                                <option value="@carType.cartypeVMID" selected>@carType.cartypeVMName</option>
-                            }
-                            else
-                            {
-                                <option value="@carType.cartypeVMID">@carType.cartypeVMName</option>
-                            }
-                        }
-                    </select>
-                </div>
-                <!-- COLOR -->
-                <div class="form-group mb-3">
-                    <label for="editcarColor" class="font-weight-bold mb-1">Color</label>
-                    <input type="text" class="form-control" id="editcarColor" value="@Model.CarDetails.cardeetsVMColor" placeholder="Enter Car's color.">
-                </div>
-                <!-- LICENSE NO. -->
-                <div class="form-group mb-3">
-                    <label for="editcarLicenseNum" class="font-weight-bold mb-1">License Number</label>
-                    <input type="text" class="form-control" id="editcarLicenseNum" value="@Model.CarDetails.cardeetsVMLicense" placeholder="Enter Car's license number.">
-                </div>
-                <!-- OR/CR -->
-                <div class="form-group mb-3">
-                    <label for="editcarOR" class="font-weight-bold mb-1">Update OR</label>
-                    <input type="file" class="form-control" id="editcarOR" placeholder="Upload OR document">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="editcarCR" class="font-weight-bold mb-1">Update CR</label>
-                    <input type="file" class="form-control" id="editcarCR" placeholder="Upload CR document">
-                </div>
+            </div>
+            <!-- ACTION BUTTONS -->
+            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModalLogDetails()">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="openModalEditLogDetails()">Edit</button>
+                <button type="button" class="btn btn-danger" onclick="openModalDeleteLogDetails()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Delete Car Modal -->
+<div class="modal fade" id="deleteCarModal" tabindex="-1" aria-labelledby="deleteCarModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3">
+            @* EDIT Car FORM *@
+            <div class="modal-body text-light text-center mt-4">
+                <h4>Do you really want to remove</h4>
+                <h4 id="deleteCarName" class="mt-2"></h4>
             </div>
             @* ACTION BTNS *@
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalEditCar()">Cancel</button>
-                <button type="button" class="btn btn-success" onclick="editcar()">Save Changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalDeleteCar()">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="deleteCar()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Log Modal -->
+<div class="modal fade" id="deleteLogModal" tabindex="-1" aria-labelledby="deleteLogModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3">
+            @* EDIT Log FORM *@
+            <div class="modal-body text-light text-center mt-4">
+                <h4>Do you really want to remove</h4>
+                <h4 id="deleteLogName" class="mt-2"></h4>
+            </div>
+            @* ACTION BTNS *@
+            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalDeleteLogDetails()">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="deleteLog()">Delete</button>
             </div>
         </div>
     </div>
