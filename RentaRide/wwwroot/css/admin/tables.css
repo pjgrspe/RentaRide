@@ -297,7 +297,7 @@ td {
 .table-responsive {
     padding: 20px;
     justify-content: center;
-    min-height: 680px;
+    min-height: 800px;
     height: 100%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
     border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
