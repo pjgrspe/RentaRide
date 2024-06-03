@@ -31,8 +31,10 @@
         public int carVMOilChangeInterval { get; set; }
         public bool carVMIsDeleted { get; set; } = false;
         public string carVMPlateNumber { get; set; }
-        public DateTime carVMDateLogged { get; set; }
-        public string carVMFormattedDateLogged => ViewModelTools.GetFormattedDate(carVMDateLogged);
+        public DateTime carVMDateRegistered { get; set; }
+        public DateTime? carVMLastLogDate { get; set; }
+        public string carVMFormattedDateRegistered => ViewModelTools.GetFormattedDate(carVMDateRegistered);
+        public string carVMFormattedLastLogDate => ViewModelTools.GetFormattedDate(carVMLastLogDate);
 
     }
 }

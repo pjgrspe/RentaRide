@@ -14,6 +14,9 @@ function closeModalAddCar() {
 function addCar() {
     var formData = new FormData();
     const files = document.getElementById('carImages').files;
+    var carTransBool = document.getElementById('carTrans').value;
+    var carFuelBool = document.getElementById('carFuelType').value;
+
 
     for (let i = 0; i < files.length; i++) {
         formData.append('caraddImages', files[i]);
@@ -27,6 +30,14 @@ function addCar() {
     formData.append('caraddPlateNumber', $('#carLicenseNum').val());
     formData.append('caraddORDoc', $('#carOR')[0].files[0]);
     formData.append('caraddCRDoc', $('#carCR')[0].files[0]);
+    formData.append('caraddTrans', carTransBool);
+    formData.append('caraddFuelType', carFuelBool);
+    formData.append('caraddSeats', $('#carSeats').val());
+    formData.append('caraddMileage', $('#carMileage').val());
+    formData.append('caraddLastChangeOilMileage', $('#carChangeOilDate').val());
+    formData.append('caraddOilChangeInterval', $('#carChangeOilInterval').val());
+    formData.append('caraddLastMaintenance', $('#carLastMaintenanceDate').val());
+
     
 
     fetch('/Admin/AddNewCar', {
@@ -191,7 +202,7 @@ function addLog() {
             if (data.success) {
                 reloadActivePartialView("Log successfully added.");
             } else {
-                reloadActivePartialView("Something went wrong.");
+                reloadActivePartialView(data.message);
             }
             closeModalAddLog();
         })

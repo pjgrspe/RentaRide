@@ -1,4 +1,5 @@
 ﻿@using RentaRide.Utilities
+@using RentaRide.Config
 @model RentaRide.Models.ViewModels.AdminPartialViewModel
 
 <!-- Add New Car Modal -->
@@ -44,12 +45,6 @@
                 <div class="form-group mb-3">
                     <label for="carType" class="font-weight-bold mb-1">Car Type</label>
                     <select class="form-control" id="carType">
-                        @* <option value="" disabled selected>Select car type</option>
-                        <option value="Motorcycle">Motorcycle</option>
-                        <option value="SUV/Crossover">SUV/Crossover</option>
-                        <option value="Minivan/Van">Minivan/Van</option>
-                        <option value="Truck/Pickup">Truck/Pickup</option>
-                        <option value="Luxury Vehicle">Luxury Vehicle</option> *@
                         @foreach (var carType in Model.CarTypes)
                         {
                             <option value="@carType.cartypeVMID">@carType.cartypeVMName</option>
@@ -66,6 +61,66 @@
                     <label for="carLicenseNum" class="font-weight-bold mb-1">License Number</label>
                     <input type="text" class="form-control" id="carLicenseNum" placeholder="Enter car's license number.">
                 </div>
+                <!-- TRANSMISSION -->
+                <div class="form-group mb-3">
+                    <label for="carTrans" class="font-weight-bold mb-1">Transmission Type</label>
+                    <select class="form-control" id="carTrans">
+                        <option value="" disabled selected>Select transmission type</option>
+                        <option value=false>Manual</option>
+                        <option value=true>Automatic</option>
+                    </select>
+                </div>
+                <!-- FUEL TYPE -->
+                <div class="form-group mb-3">
+                    <label for="carFuelType" class="font-weight-bold mb-1">Fuel Type</label>
+                    <select class="form-control" id="carFuelType">
+                        <option value="" disabled selected>Select fuel type</option>
+                        <option value="">Electric</option>
+                        <option value=false>Gasoline</option>
+                        <option value=true>Diesel</option>
+                    </select>
+                </div>
+
+                <!-- MILEAGE -->
+                <div class="form-group mb-3">
+                    <label for="carMileage" class="font-weight-bold mb-1">Mileage</label>
+                    <input type="text" class="form-control" id="carMileage" placeholder="Enter car's current mileage.">
+                </div>
+                <!-- LAST CHANGE OIL Mileage -->
+                <div class="form-group mb-3">
+                    <label for="carChangeOilDate" class="font-weight-bold mb-1">Mileage Last Change Oil</label>
+                    <input type="text" class="form-control" id="carChangeOilDate" placeholder="Enter car's mileage since last change oil">
+                </div>
+                <!-- CHANGE OIL INTERVAL -->
+                <div class="form-group mb-3">
+                    <label for="carChangeOilInterval" class="font-weight-bold mb-1">Mileage alert interval</label>
+                    <select class="form-control" id="carChangeOilInterval">
+                        @for (int Mileage = ChangeOilConfig.ChangeOilIntervalMin; Mileage <= ChangeOilConfig.ChangeOilIntervalMax; Mileage = Mileage + ChangeOilConfig.ChangeOilChoiceIntervalSize)
+                        {
+                            if (Mileage == ChangeOilConfig.ChangeOilDefaultValue)
+                            {
+                                <option value="@Mileage" selected>Every: @Mileage KM</option>
+                            }
+                            else
+                            {
+                                <option value="@Mileage">Every: @Mileage KM</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <!-- LAST MAINTENANCE DATE -->
+                <div class="form-group mb-3">
+                    <label for="carLastMaintenanceDate" class="font-weight-bold mb-1">Last Recorded Maintenance Date</label>
+                    <input type="datetime-local" class="form-control" id="carLastMaintenanceDate" placeholder="Enter car's last recorded maintenance date.">
+                </div>
+                <!-- SEATS -->
+                <div class="form-group mb-3">
+                    <label for="carSeats" class="font-weight-bold mb-1">Seating capacity</label>
+                    <input type="text" class="form-control" id="carSeats" placeholder="Enter car's seating capacity.">
+                </div>
+
+
+
                 <!-- OR/CR -->
                 <div class="form-group mb-3">
                     <label for="carOR" class="font-weight-bold mb-1">OR</label>
@@ -113,7 +168,7 @@
                 <!-- DATE -->
                 <div class="form-group mb-3">
                     <label for="logDate" class="font-weight-bold mb-1">Date</label>
-                    <input type="datetime-local" class="form-control" id="logDate" placeholder="Enter log date.">
+                    <input type="datetime-local" class="form-control" id="logDate" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" placeholder="Enter log date.">
                 </div>
                 <!-- MILEAGE -->
                 <div class="form-group mb-3">
