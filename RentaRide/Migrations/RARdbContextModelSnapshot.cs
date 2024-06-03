@@ -199,8 +199,8 @@ namespace RentaRide.Migrations
                     b.Property<int>("LogMileage")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("LogType")
-                        .HasColumnType("bit");
+                    b.Property<int>("LogType")
+                        .HasColumnType("int");
 
                     b.Property<int>("carID")
                         .HasColumnType("int");
@@ -247,16 +247,10 @@ namespace RentaRide.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("carDateLogged")
+                    b.Property<DateTime>("carDateRegistered")
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("carFuelType")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("carInactiveInfo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("carIsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("carIsDeleted")
@@ -264,6 +258,9 @@ namespace RentaRide.Migrations
 
                     b.Property<int>("carLastChangeOilMileage")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("carLastLogDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("carLastMaintenance")
                         .HasColumnType("datetime2");
@@ -283,9 +280,6 @@ namespace RentaRide.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("carNextMaintenance")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("carORDoc")
                         .HasColumnType("nvarchar(max)");
 
@@ -293,6 +287,9 @@ namespace RentaRide.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("carOilChangeInterval")
+                        .HasColumnType("int");
+
+                    b.Property<int>("carSeats")
                         .HasColumnType("int");
 
                     b.Property<bool?>("carStatus")

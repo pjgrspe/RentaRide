@@ -24,6 +24,9 @@ namespace RentaRide.Database.Database_Models
         public int carYear { get; set; }
         [Required]
         public bool carTransmission { get; set; }
+        //Transmission types
+        //-0. Manual
+        //-1. Automatic
         [Required]
         public string carColor { get; set; }
         public int carType { get; set; }
@@ -50,22 +53,20 @@ namespace RentaRide.Database.Database_Models
         //-n. Maintenance
         //-0. Rented
         //-1. Available
-        [Required]
-        public bool carIsActive { get; set; } = true;
-        public string? carInactiveInfo { get; set; }
         public DateTime? carLastMaintenance { get; set; }
-        public DateTime? carNextMaintenance { get; set; }
         [Required]
         public int carLastChangeOilMileage { get; set; }
         [Required]
         public int carOilChangeInterval { get; set; }
         [Required]
         public string carLicensePlate { get; set; }
-
         //carLocation <--- problem for future us
         [Required]
         public bool carIsDeleted { get; set; } = false;
         [Required]
-        public DateTime carDateLogged { get; set; } = DateTime.Now;
+        public DateTime carDateRegistered { get; set; } = DateTime.Now;
+        public DateTime? carLastLogDate { get; set; }
+        [Required]
+        public int carSeats { get; set; } = 2;
     }
 }

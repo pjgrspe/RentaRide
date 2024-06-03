@@ -14,6 +14,9 @@ function closeModalAddCar() {
 function addCar() {
     var formData = new FormData();
     const files = document.getElementById('carImages').files;
+    var carTransBool = document.getElementById('carTrans').value;
+    var carFuelBool = document.getElementById('carFuelType').value;
+
 
     for (let i = 0; i < files.length; i++) {
         formData.append('caraddImages', files[i]);
@@ -27,6 +30,14 @@ function addCar() {
     formData.append('caraddPlateNumber', $('#carLicenseNum').val());
     formData.append('caraddORDoc', $('#carOR')[0].files[0]);
     formData.append('caraddCRDoc', $('#carCR')[0].files[0]);
+    formData.append('caraddTrans', carTransBool);
+    formData.append('caraddFuelType', carFuelBool);
+    formData.append('caraddSeats', $('#carSeats').val());
+    formData.append('caraddMileage', $('#carMileage').val());
+    formData.append('caraddLastChangeOilMileage', $('#carChangeOilDate').val());
+    formData.append('caraddOilChangeInterval', $('#carChangeOilInterval').val());
+    formData.append('caraddLastMaintenance', $('#carLastMaintenanceDate').val());
+
     
 
     fetch('/Admin/AddNewCar', {
@@ -104,7 +115,8 @@ function updateFileInput(files) {
     document.getElementById('carImages').files = dt.files;
 }
 
-function openModalAddLog() {
+function openModalAddLog(carID) {
+    $('#logCarID').val(carID);
     $('#addNewLogModal').modal('show');
 }
 
@@ -122,27 +134,8 @@ function openCRModal(CRPicture) {
     $('#carsCRPictureModal img').attr('src', CRPicture);
 }
 
-//function openCarDetails(carId) {
-//    fetch(`/Admin/GetCarDetails?carId=${carId}`)
-//        .then(response => response.json())
-//        .then(data => {
-//            if (data.success) {
-///*                document.getElementById('detailsContainer').innerHTML = data.data;*/
-//                document.getElementById('contentContainer').classList.add('hidden-important');
-//                document.getElementById('search-filter-div').classList.add('hidden-important');
-//                document.getElementById('add-item-div').classList.add('hidden-important');
-
-//                document.getElementById('detailsContainer').classList.remove('hidden-important');
-//                document.getElementById('detailsContainer').classList.add('visible');
-//            } else {
-//                reloadActivePartialView(data.message);
-//            }
-//        })
-//        .catch(error => console.error('Error:', error));
-//}
-
 function openCarDetails(carId) {
-    fetch(`/Admin/GetCarDetails?carId=${carId}`)
+    fetch(`/Admin/GetCarDetails?carId=${carId}&forDetailsPage=true`)
         .then(response => response.text())
         .then(data => {
             // Check if the car was not found
@@ -152,12 +145,6 @@ function openCarDetails(carId) {
             }
 
             document.getElementById('detailsContainer').innerHTML = data;
-            // Insert the returned HTML into the detailsContainer element
-            //document.getElementById('detailsContainer').innerHTML = data;
-
-            // Hide the contentContainer and show the detailsContainer
-
-
             document.getElementById('contentContainer').classList.add('hidden-important');
             document.getElementById('search-filter-div').classList.add('hidden-important');
             document.getElementById('add-item-div').classList.add('hidden-important');
@@ -178,7 +165,7 @@ function closeCarDetails() {
 }
 
 function openModalEditCarDetails(carId) {
-    fetch(`/Admin/GetCarDetails?carId=${carId}`)
+    fetch(`/Admin/GetCarDetails?carId=${carId}&forDetailsPage=false`)
         .then(response => response.text())
         .then(data => {
             // Check if the car was not found
@@ -187,9 +174,38 @@ function openModalEditCarDetails(carId) {
                 return;
             }
 
-            document.getElementById('editCarModel').innerHTML = data;
-            $('#editCarModal').modal('show');
+            document.getElementById('modalContainer').innerHTML = data;
+            $('#editcarModal').modal('show');
         })
         .catch(error => console.error('Error:', error));
+
 }
 
+function addLog() {
+    var formData = new FormData();
+    formData.append('addLogCarID', $('#logCarID').val());
+    formData.append('addLogDetails', $('#logDetails').val());
+    formData.append('addLogType', $('#logType').val());
+    formData.append('addLogMileage', $('#logMileage').val());
+    formData.append('addLogDate', $('#logDate').val());
+
+
+    fetch('/Admin/AddNewLog', {
+        method: 'POST',
+        body: formData,
+        data: formData,
+        processData: false,
+        contentType: false
+    })
+        .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
+        .then(data => {
+            if (data.success) {
+                reloadActivePartialView("Log successfully added.");
+            } else {
+                reloadActivePartialView(data.message);
+            }
+            closeModalAddLog();
+        })
+        .catch(error => console.error('Error:', error));
+
+}

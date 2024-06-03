@@ -18,8 +18,12 @@ namespace RentaRide.Database.Database_Models
         
         [Required]
         public int LogMileage { get; set; }
-        public bool? LogType { get; set; }
-        
+        public int LogType { get; set; }
+        //LOG TYPES
+        // 1 = Manual
+        // 2 = Maintenance
+        // 3 = Repair
+        // 4 = Rented
         [Required]
         public string LogDetails { get; set; }
 

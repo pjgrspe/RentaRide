@@ -37,6 +37,7 @@ namespace RentaRide.Models.Accounts
         [Required]
         [DisplayName("Street Address")]
         public string regmodelStreetAdd { get; set; }
+
         [Required]
         [DisplayName("Municipality/City")]
         public string regmodelCityAdd { get; set; }

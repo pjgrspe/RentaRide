@@ -16,6 +16,7 @@ namespace RentaRide.Models.ViewModels
         public CarAddModel AddCar { get; set; } 
         public CarDetailsViewModel CarDetails { get; set; } = new CarDetailsViewModel();
         public List<CarImagesViewModel> CarImages { get; set; } = new List<CarImagesViewModel>();
+        public List<CarLogsViewModel> CarLogs { get; set; } = new List<CarLogsViewModel>();
         public CarAddLogModel AddLog { get; set; }
     }
 }

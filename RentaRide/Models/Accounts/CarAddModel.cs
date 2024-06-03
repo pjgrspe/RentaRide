@@ -19,16 +19,35 @@ namespace RentaRide.Models.Accounts
         public int caraddYear { get; set; }
         [Required]
         [DisplayName("Type")]
-        public string caraddType { get; set; }
+        public int caraddType { get; set; }
         [Required]
         [DisplayName("Color")]
         public string caraddColor { get; set; }
         [Required]
         [DisplayName("License Number")]
         public string caraddPlateNumber { get; set; }
+        [Required]
         [DisplayName("OR")]
         public IFormFile? caraddORDoc { get; set; }
+        [Required]
         [DisplayName("CR")]
         public IFormFile? caraddCRDoc { get; set; }
+
+
+        [Required]
+        public bool? caraddTrans { get; set; }
+        [Required]
+        public bool? caraddFuelType { get; set; }
+        [Required]
+        public int caraddMileage { get; set; }
+        [Required]
+        public int caraddLastChangeOilMileage { get; set; }
+        [Required]
+        public int caraddOilChangeInterval { get; set; }
+        [Required]
+        public int caraddSeats { get; set; }
+        [Required]
+        public DateTime? caraddLastMaintenance { get; set; }
+
     }
 }
