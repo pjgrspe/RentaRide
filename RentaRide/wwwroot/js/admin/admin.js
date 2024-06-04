@@ -89,6 +89,27 @@ function reloadActivePartialView(message) {
     }
 }
 
+function reloadDetailsContainer(message) {
+    const carId = $('#logCarID').val();
+    console.log('Reloading details for car ID:', carId);
+
+    fetch(`/Admin/GetCarDetails?carId=${carId}&forDetailsPage=true`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log('Received data:', data);
+            document.querySelector('#detailsContainer').innerHTML = data;
+            document.querySelector('#detailsContainer').style.display = 'block';
+            toastSuccess(message);
+        })
+        .catch(error => console.error('Error loading details:', error));
+}
+
+
 /* ---------------------------------------------------
     LOADER SCRIPTS
 ----------------------------------------------------- */

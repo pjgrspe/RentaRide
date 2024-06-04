@@ -206,9 +206,9 @@ function addLog() {
         .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
         .then(data => {
             if (data.success) {
-                reloadActivePartialView("Log successfully added.");
+                reloadDetailsContainer("Log successfully added.");
             } else {
-                reloadActivePartialView(data.message);
+                reloadDetailsContainer(data.message);
             }
             closeModalAddLog();
         })
