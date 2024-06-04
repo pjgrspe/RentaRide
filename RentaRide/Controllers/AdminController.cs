@@ -523,6 +523,113 @@ namespace RentaRide.Controllers
             }
         }
 
+        public async Task<IActionResult> EditCar([FromForm] IFormCollection form)
+        {
+            if (ModelState.IsValid)
+            {
+                var model = new AdminPartialViewModel{
+                    EditCar = new CarEditModel
+                    {
+                        careditID = Int32.Parse(form["carEditID"]),
+                        careditMake = form["carEditMake"],
+                        careditModel = form["carEditModel"],
+                        careditYear = Int32.Parse(form["carEditYear"]),
+                        careditType = Int32.Parse(form["carEditType"]),
+                        careditColor = form["carEditColor"],
+                        careditPlateNumber = form["carEditPlateNumber"],
+                        careditTrans = bool.Parse(form["carEditTrans"]),
+                        careditFuelType = bool.Parse(form["carEditFuelType"]),
+                        careditOilChangeInterval = Int32.Parse(form["carEditOilChangeInterval"]),
+                        careditSeats = Int32.Parse(form["carEditSeats"]),
+                        careditORDoc = form.Files["carEditORDoc"],
+                        careditCRDoc = form.Files["carEditCRDoc"],
+                        careditImages = new List<IFormFile>()
+                    }
+                };
+
+                var carToUpdate = _rardbContext.TBL_Cars.Find(model.EditCar.careditID);
+                carToUpdate.carMake = model.EditCar.careditMake;
+                carToUpdate.carModel = model.EditCar.careditModel;
+                carToUpdate.carYear = model.EditCar.careditYear;
+                carToUpdate.carTransmission = model.EditCar.careditTrans;
+                carToUpdate.carColor = model.EditCar.careditColor;
+                carToUpdate.carType = model.EditCar.careditType;
+                carToUpdate.carFuelType = model.EditCar.careditFuelType;
+                carToUpdate.carOilChangeInterval = model.EditCar.careditOilChangeInterval;
+                carToUpdate.carSeats = model.EditCar.careditSeats;
+                carToUpdate.carLicensePlate = model.EditCar.careditPlateNumber;
+
+                var files = form.Files;
+                if (files.Any(f => f.Name == "careditImages"))
+                {
+                    // Delete the old images from the database
+                    var oldImages = _rardbContext.TBL_CarImages.Where(i => i.carID == model.EditCar.careditID);
+
+                    foreach(var oldImage in oldImages)
+                    {
+                        var oldFilePath = Path.Combine(_environment.WebRootPath, FileLoc.FileUploadFolder, ImageCategories.imgCar, oldImage.carimgName);
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
+                    }
+                    _rardbContext.TBL_CarImages.RemoveRange(oldImages);
+
+                    foreach (var file in form.Files)
+                    {
+                        if (file.Name == "careditImages")
+                        {
+                            model.EditCar.careditImages.Add(file);
+                            var carIMG = _fileServices.ProcessEncryptUploadedFile(file, ImageCategories.imgCar);
+                            var carIMGext = _fileServices.GetFileExtension(file);
+                            var carImgAdd = new CarImagesDBModel
+                            {
+                                carID = model.EditCar.careditID,
+                                carimgName = carIMG!,
+                                carimgExt = carIMGext!
+                            };
+                        
+                            _rardbContext.TBL_CarImages.Add(carImgAdd);
+                            _rardbContext.SaveChanges();
+                        }
+                    }
+
+                    if (model.EditCar.careditImages.Count > 0)
+                    {
+                        var carImageThumbnailImgUpload = _fileServices.ProcessEncryptUploadedFile(model.EditCar.careditImages[0], ImageCategories.imgCar);
+                        var carImageThumbnailFileExt = _fileServices.GetFileExtension(model.EditCar.careditImages[0]);
+                        carToUpdate.carThumbnail = carImageThumbnailImgUpload!;
+                        carToUpdate.carThumbnailExt = carImageThumbnailFileExt!;
+                    }
+
+
+                    if (model.EditCar.careditORDoc != null)
+                    {
+                        var carORDocImgUpload = _fileServices.ProcessEncryptUploadedFile(model.EditCar.careditORDoc, ImageCategories.imgCarDocs);
+                        var carORDocFileExt = _fileServices.GetFileExtension(model.EditCar.careditORDoc);
+                        carToUpdate.carORDoc = carORDocImgUpload!;
+                        carToUpdate.carORDocExt = carORDocFileExt!;
+                    }
+
+                    if (model.EditCar.careditCRDoc != null)
+                    {
+                        var carCRDocImgUpload = _fileServices.ProcessEncryptUploadedFile(model.EditCar.careditCRDoc, ImageCategories.imgCarDocs);
+                        var carCRDocFileExt = _fileServices.GetFileExtension(model.EditCar.careditCRDoc);
+                        carToUpdate.carCRDoc = carCRDocImgUpload!;
+                        carToUpdate.carCRDocExt = carCRDocFileExt!;
+                    }
+                }
+
+                await _rardbContext.SaveChangesAsync();
+                return new JsonResult(new { success = true });
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "An error occureed with adding car";
+                return new JsonResult(new { success = false, message = "An error occurred with adding car" });
+            }
+        }
+
         //Not implemented yet, just an initial setup
         public async Task<IActionResult> AddNewLog([FromForm] IFormCollection form)
         {
@@ -647,7 +754,9 @@ namespace RentaRide.Controllers
                     cardeetsVMORIMG = imgNullCheck(car.carORDoc, ImageCategories.imgCarDocs, _configuration, _environment),
                     cardeetsVMCRIMG = imgNullCheck(car.carCRDoc, ImageCategories.imgCarDocs, _configuration, _environment),
                     cardeetsVMORExt = car.carORDocExt,
-                    cardeetsVMCRExt = car.carCRDocExt
+                    cardeetsVMCRExt = car.carCRDocExt,
+                    cardeetsVMSeats = car.carSeats,
+                    cardeetsVMFuelType = car.carFuelType,
                 },
 
                 CarImages = carImages,

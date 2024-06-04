@@ -220,6 +220,71 @@
                     <label for="editcarLicenseNum" class="font-weight-bold mb-1">License Number</label>
                     <input type="text" class="form-control" id="editcarLicenseNum" value="@Model.CarDetails.cardeetsVMLicense" placeholder="Enter Car's license number.">
                 </div>
+
+                <!-- TRANSMISSION -->
+                <div class="form-group mb-3">
+                    <label for="editcarTrans" class="font-weight-bold mb-1">Transmission Type</label>
+                    <select class="form-control" id="editcarTrans">
+                        @if (Model.CarDetails.cardeetsVMTransmission)
+                        {
+                            <option value=false>Manual</option>
+                            <option value=true selected>Automatic</option>
+                        }
+                        else
+                        {
+                            <option value=false selected>Manual</option>
+                            <option value=true>Automatic</option>
+                        }
+                    </select>
+                </div>
+                <!-- FUEL TYPE -->
+                <div class="form-group mb-3">
+                    <label for="editcarFuelType" class="font-weight-bold mb-1">Fuel Type</label>
+                    <select class="form-control" id="editcarFuelType">
+                        <option value="" disabled selected>Select fuel type</option>
+                        @if (Model.CarDetails.cardeetsVMFuelType == true)
+                        {
+                            <option value="">Electric</option>
+                            <option value=false selected>Gasoline</option>
+                            <option value=true>Diesel</option>
+                        }
+                        else if (Model.CarDetails.cardeetsVMFuelType == false){
+                            <option value="">Electric</option>
+                            <option value=false selected>Gasoline</option>
+                            <option value=true>Diesel</option>
+                        }
+                        else{
+                            <option value="" selected>Electric</option>
+                            <option value=false>Gasoline</option>
+                            <option value=true>Diesel</option>
+                        }
+                    </select>
+                </div>
+                <!-- CHANGE OIL INTERVAL -->
+                <div class="form-group mb-3">
+                    <label for="editcarChangeOilInterval" class="font-weight-bold mb-1">Mileage alert interval</label>
+                    <select class="form-control" id="editcarChangeOilInterval">
+                        @for (int Mileage = ChangeOilConfig.ChangeOilIntervalMin; Mileage <= ChangeOilConfig.ChangeOilIntervalMax; Mileage = Mileage + ChangeOilConfig.ChangeOilChoiceIntervalSize)
+                        {
+                            if (Mileage == Model.CarDetails.cardeetsVMMileage)
+                            {
+                                <option value="@Mileage" selected>Every: @Mileage KM</option>
+                            }
+                            else
+                            {
+                                <option value="@Mileage">Every: @Mileage KM</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <!-- SEATS -->
+                <div class="form-group mb-3">
+                    <label for="editcarSeats" class="font-weight-bold mb-1">Seating capacity</label>
+                    <input type="text" class="form-control" id="editcarSeats" value="@Model.CarDetails.cardeetsVMSeats" placeholder="Enter car's seating capacity.">
+                </div>
+
+
+
                 <!-- OR/CR -->
                 <div class="form-group mb-3">
                     <label for="editcarOR" class="font-weight-bold mb-1">Update OR</label>
@@ -233,7 +298,7 @@
             @* ACTION BTNS *@
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalEditCarDetails()">Cancel</button>
-                <button type="button" class="btn btn-success" onclick="editcar()">Save Changes</button>
+                <button type="button" class="btn btn-success" onclick="editCar(@Model.CarDetails.cardeetsVM)">Save Changes</button>
             </div>
         </div>
     </div>

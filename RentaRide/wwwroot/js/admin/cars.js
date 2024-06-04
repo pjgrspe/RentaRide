@@ -59,6 +59,52 @@ function addCar() {
     
 }
 
+function editCar(carId) {
+    var formData = new FormData();
+    const files = document.getElementById('editcarImages').files;
+    var carTransBool = document.getElementById('editcarTrans').value;
+    var carFuelBool = document.getElementById('editcarFuelType').value;
+
+    for (let i = 0; i < files.length; i++) {
+        formData.append('careditImages', files[i]);
+    }
+
+    formData.append('careditID', carId);
+    formData.append('careditMake', $('#editcarMake').val());
+    formData.append('careditModel', $('#editcarModel').val());
+    formData.append('careditYear', $('#editcarYear').val());
+    formData.append('careditType', $('#editcarType').val());
+    formData.append('careditColor', $('#editcarColor').val());
+    formData.append('careditPlateNumber', $('#editcarLicenseNum').val());
+    formData.append('careditORDoc', $('#editcarOR')[0].files[0]);
+    formData.append('careditCRDoc', $('#editcarCR')[0].files[0]);
+    formData.append('careditTrans', carTransBool);
+    formData.append('careditFuelType', carFuelBool);
+    formData.append('careditSeats', $('#editcarSeats').val());
+    formData.append('careditOilChangeInterval', $('#editcarChangeOilInterval').val());
+
+
+
+    fetch('/Admin/EditCar', {
+        method: 'POST',
+        body: formData,
+        data: formData,
+        processData: false,
+        contentType: false
+    })
+        .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
+        .then(data => {
+            if (data.success) {
+                reloadActivePartialView("Car edited added.");
+            } else {
+                reloadActivePartialView("Something went wrong.");
+            }
+            closeModalEditCarDetails();
+        })
+        .catch(error => console.error('Error:', error));
+
+}
+
 let uploadedImages = [];
 
 function previewImages(inputElementId, previewContainerId) {

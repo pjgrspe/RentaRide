@@ -8,12 +8,14 @@ namespace RentaRide.Models.ViewModels
         public string cardeetsVMMake { get; set; }
         public string cardeetsVMModel { get; set; }
         public int cardeetsVMYear { get; set; }
-        public bool? cardeetsVMTransmission { get; set; }
+        public bool cardeetsVMTransmission { get; set; }
+        public bool? cardeetsVMFuelType { get; set; }
         public int cardeetsVMTypeID { get; set; }
         public string cardeetsVMCarType { get; set; }
         public string cardeetsVMColor { get; set; }
         public string cardeetsVMLicense { get; set; }
         public int cardeetsVMMileage { get; set; }
+        public int cardeetsVMSeats { get; set; }
         public DateTime? cardeetsVMLastLog { get; set; }
         public bool? cardeetsVMStatusID { get; set; }
         public string? cardeetsVMStatus 
