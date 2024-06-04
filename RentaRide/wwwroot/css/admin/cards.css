@@ -34,6 +34,18 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth animation */
 }
 
+.card-sl-listing {
+    max-height: 600px; /* Adjust as needed */
+    padding: 8px;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex; /* Flexbox for proper layout */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: space-between; /* Space between children */
+    height: 100%; /* Ensure the card takes full height */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth animation */
+}
+
 .card-sl:hover {
     transform: translateY(-10px); /* Lift up effect */
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19); /* Stronger shadow on hover */
@@ -46,8 +58,22 @@
     overflow: hidden;
 }
 
+.card-image-listing {
+    position: relative;
+    width: 100%;
+    height: 230px; /* Set a consistent height */
+    overflow: hidden;
+}
+
 .card-image img {
     height: 150px; /* Set a consistent height */
+    width: 100%; /* Ensures the image takes up the full width of the card */
+    object-fit: cover; /* Ensure the image covers the container while maintaining aspect ratio */
+    border-radius: 8px;
+}
+
+.card-image-listing img {
+    height: 230px; /* Set a consistent height */
     width: 100%; /* Ensures the image takes up the full width of the card */
     object-fit: cover; /* Ensure the image covers the container while maintaining aspect ratio */
     border-radius: 8px;
@@ -70,6 +96,12 @@
     margin-bottom: 10px;
 }
 
+.card-heading-listing {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
 .card-text {
     margin-bottom: 10px;
 }
@@ -82,6 +114,22 @@
     flex-direction: column;
     gap: 0.1rem; /* Add space between the lines */
 }
+
+.listing-description {
+    margin-bottom: 10px;
+    height: 130px!important; /* Set a fixed height */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem; /* Add space between the lines */
+}
+
+.description-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .card-text-description div {
     display: flex;
     justify-content: space-between;
@@ -196,3 +244,4 @@
     width: 100%;
     position: relative;
 }
+

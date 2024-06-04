@@ -28,10 +28,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\css\bootstrap\" />
     <Folder Include="wwwroot\FileUploads\LicenseBack\" />
     <Folder Include="wwwroot\FileUploads\Profile\" />
     <Folder Include="wwwroot\img\logo\" />
     <Folder Include="wwwroot\img\ui\" />
+    <Folder Include="wwwroot\js\bootstrap\" />
   </ItemGroup>
 
   <ItemGroup>

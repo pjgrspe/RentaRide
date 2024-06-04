@@ -3,7 +3,7 @@
 
 <div class="w-100 d-flex justify-content-center">
     <div class="row table-responsive table-responsive-cars bg-dark-secondary text-white">
-        <div class="row justify-content-between mt-3 search-filter-container">
+        <div class="row justify-content-between mt-3 mb-3 search-filter-container">
             @* TITLE *@
             <div class="col-md-3 d-flex align-items-center title-div">
                 <h1 class="text-light ms-2 search-filter-title">Cars</h1>
@@ -23,8 +23,10 @@
             </div>
         </div>
         @* ADD DRIVER BUTTON *@
-        <div class="mt-2 mb-2 col-md-12 d-flex justify-content-end add-item-div" id="add-item-div">
-            <button class="btn btn-success addnew-btn" type="button" onclick="openModalAddCar()">Add New +</button>
+        <div class="row mb-3">
+            <div class="col-md-12 d-flex justify-content-end add-item-div" id="add-item-div">
+                <button class="btn btn-success rounded-3 addnew-btn" style="min-width:120px; min-height:50px;" type="button" onclick="openModalAddCar()">Add New +</button>
+            </div>
         </div>
         @* LOADER *@
         <div id="loader" class="d-flex justify-content-center align-items-center d-none" style="height:70vh; margin-bottom:100px;">

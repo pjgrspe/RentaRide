@@ -18,7 +18,8 @@
 
                     @* EDIT BUTTON *@
                     <div class="ms-auto">
-                        <i class="fas fa-edit fa-lg mt-3 me-2" onclick="openModalEditCarDetails('@Model.CarDetails.cardeetsVM')" style="cursor:pointer; color: darkgray;"></i>
+                        <i class="fas fa-edit fa-lg mt-3 me-3" onclick="openModalEditCarDetails('@Model.CarDetails.cardeetsVM')" style="cursor:pointer; color: darkgray;"></i>
+                        <i class="fas fa-trash-alt fa-lg mt-3 me-2" onclick="openModalDeleteCar()" style="cursor:pointer; color:#c1272d;"></i>
                     </div>
                 </div>
 
@@ -175,7 +176,7 @@
                                     <td class="text-center status status-order"><span class="status-label text-dark">@logs.carLogsVMType</span></td>
                                     @* FULL DETAILS BTN *@
                                     <td class="text-center">
-                                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalLogDetails(@logs.carLogsVMDetails)">
+                                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalLogDetails()">
                                             View
                                         </button>
                                     </td>
