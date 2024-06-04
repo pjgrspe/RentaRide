@@ -1,4 +1,57 @@
-﻿<!-- Edit Listing Modal -->
+﻿<!-- Add Listing Modal -->
+<div class="modal fade" id="addListingModal" tabindex="-1" aria-labelledby="addListingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3" id="modal-content-addListing">
+            <!-- TITLE -->
+            <div class="modal-header text-light border-0">
+                <h5 class="modal-title" id="addListingModalLabel">Add Listing</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closeModaladdListing()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- add Listing FORM -->
+            <div class="modal-body text-light">
+                <!-- CAR -->
+                <div class="form-group mb-3">
+                    <label for="addlistingCar" class="font-weight-bold mb-1">Type</label>
+                    <!-- CHANGE THIS TO CAR -->
+                    <select class="form-control" id="addlistingCar">
+                        <option value="" disabled selected>Select car</option>
+                        <option value="Car1">Car 1</option>
+                        <option value="Car2">Car 2</option>
+                        <option value="Car3">Car 3</option>
+                    </select>
+                </div>
+                <!-- DAILY RATE -->
+                <div class="form-group mb-3">
+                    <label for="addListingDailyRate" class="font-weight-bold mb-1">Daily Rate (PHP)</label>
+                    <input type="number" class="form-control" id="addListingDailyRate" value="750" step="50">
+                </div>
+                <!-- WEEKLY RATE -->
+                <div class="form-group mb-3">
+                    <label for="addListingWeeklyRate" class="font-weight-bold mb-1">Weekly Rate (PHP)</label>
+                    <input type="number" class="form-control" id="addListingWeeklyRate" value="7000" step="100">
+                </div>
+                <!-- MONTHLY RATE -->
+                <div class="form-group mb-3">
+                    <label for="addListingMonthlyRate" class="font-weight-bold mb-1">Monthly Rate (PHP)</label>
+                    <input type="number" class="form-control" id="addListingMonthlyRate" value="20000" step="500">
+                </div>
+                <!-- DETAILS -->
+                <div class="form-group mb-3">
+                    <label for="addlistingDetails" class="font-weight-bold mb-1">Details</label>
+                    <textarea type="text" class="form-control" id="addlistingDetails" placeholder="Enter log details."></textarea>
+                </div>
+            </div>
+            <!-- ACTION BUTTONS -->
+            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalAddListing()">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="addListing()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Listing Modal -->
 <div class="modal fade" id="editListingModal" tabindex="-1" aria-labelledby="editListingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered p-2">
         <div class="modal-content bg-dark-secondary p-3" id="modal-content-editListing">
@@ -22,27 +75,18 @@
                 </div>
                 <!-- DAILY RATE -->
                 <div class="form-group mb-3">
-                    <label for="editListingDailyRate" class="font-weight-bold mb-1">Daily Rate</label>
-                    <div class="d-flex align-items-center">
-                        <input type="range" class="form-range custom-range me-3" id="editListingDailyRateSlider" min="0" max="1500" step="50" oninput="updatePriceInput(this.value, 'editListingDailyRate')">
-                        <input type="text" class="form-control w-auto" id="editListingDailyRate" value="P750" readonly style="max-width: 100px;">
-                    </div>
+                    <label for="editListingDailyRate" class="font-weight-bold mb-1">Daily Rate (PHP)</label>
+                    <input type="number" class="form-control" id="editListingDailyRate" value="750" step="50">
                 </div>
                 <!-- WEEKLY RATE -->
                 <div class="form-group mb-3">
-                    <label for="editListingWeeklyRate" class="font-weight-bold mb-1">Weekly Rate</label>
-                    <div class="d-flex align-items-center">
-                        <input type="range" class="form-range custom-range me-3" id="editListingWeeklyRateSlider" min="3500" max="10500" step="100" oninput="updatePriceInput(this.value, 'editListingWeeklyRate')">
-                        <input type="text" class="form-control w-auto" id="editListingWeeklyRate" value="P7000" readonly style="max-width: 100px;">
-                    </div>
+                    <label for="editListingWeeklyRate" class="font-weight-bold mb-1">Weekly Rate (PHP)</label>
+                    <input type="number" class="form-control" id="editListingWeeklyRate" value="7000" step="100">
                 </div>
                 <!-- MONTHLY RATE -->
                 <div class="form-group mb-3">
-                    <label for="editListingMonthlyRate" class="font-weight-bold mb-1">Monthly Rate</label>
-                    <div class="d-flex align-items-center">
-                        <input type="range" class="form-range custom-range me-3" id="editListingMonthlyRateSlider" min="20000" max="45000" step="500" oninput="updatePriceInput(this.value, 'editListingMonthlyRate')">
-                        <input type="text" class="form-control w-auto" id="editListingMonthlyRate" value="P20000" readonly style="max-width: 100px;">
-                    </div>
+                    <label for="editListingMonthlyRate" class="font-weight-bold mb-1">Monthly Rate (PHP)</label>
+                    <input type="number" class="form-control" id="editListingMonthlyRate" value="20000" step="500">
                 </div>
                 <!-- DETAILS -->
                 <div class="form-group mb-3">
