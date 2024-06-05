@@ -9,14 +9,20 @@ namespace RentaRide.Models.ViewModels
         public List<DriversViewModel> Drivers { get; set; } = new List<DriversViewModel>();
         public List<CarsViewModel> Cars { get; set; } = new List<CarsViewModel>();
         public List<CarTypesViewModel> CarTypes { get; set; } = new List<CarTypesViewModel>();
-        public DriverAddModel AddDriver { get; set; }
-        public DriverEditModel EditDriver { get; set; }
-        public DriverDelModel DelDriver { get; set; }
-        public UserVerificationModel VerifyUser { get; set; }
-        public CarAddModel AddCar { get; set; } 
         public CarDetailsViewModel CarDetails { get; set; } = new CarDetailsViewModel();
         public List<CarImagesViewModel> CarImages { get; set; } = new List<CarImagesViewModel>();
         public List<CarLogsViewModel> CarLogs { get; set; } = new List<CarLogsViewModel>();
+        public CarLogsDetailsViewModel CarLogsDetails { get; set; } = new CarLogsDetailsViewModel();
+        public UserVerificationModel VerifyUser { get; set; }
+        public DriverAddModel AddDriver { get; set; }
+        public DriverEditModel EditDriver { get; set; }
+        public DriverDelModel DelDriver { get; set; }
+        public CarAddModel AddCar { get; set; } 
+        public CarEditModel EditCar { get; set; }
+        public CarDelModel DelCar { get; set; }
         public CarAddLogModel AddLog { get; set; }
+        //public CarEditLogModel EditLog { get; set; }
+
+        public CarDelLogModel DelLog { get; set; }
     }
 }

@@ -18,8 +18,12 @@
 
                     @* EDIT BUTTON *@
                     <div class="ms-auto">
+                        @if (@Model.CarDetails.cardeetsVMOilChangeDue)
+                        {
+                            <span class="status-deny text-dark">OIL CHANGE DUE</span>
+                        }
                         <i class="fas fa-edit fa-lg mt-3 me-3" onclick="openModalEditCarDetails('@Model.CarDetails.cardeetsVM')" style="cursor:pointer; color: darkgray;"></i>
-                        <i class="fas fa-trash-alt fa-lg mt-3 me-2" onclick="openModalDeleteCar()" style="cursor:pointer; color:#c1272d;"></i>
+                        <i class="fas fa-trash-alt fa-lg mt-3 me-2" onclick="openModalDeleteCar('@Model.CarDetails.cardeetsVM')" style="cursor:pointer; color:#c1272d;"></i>
                     </div>
                 </div>
 
@@ -96,7 +100,43 @@
                                 <div class="row">
                                     <div class="col-5 text-left text-truncate"><strong>Mileage: </strong></div>
                                     @* <div class="col-7 text-right text-truncate">10000KM</div> *@
-                                    <div class="col-7 text-right text-truncate">@Model.CarDetails.cardeetsVMMileage</div>
+                                    <div class="col-7 text-right text-truncate">@Model.CarDetails.cardeetsVMMileage km</div>
+                                </div>
+                                @* MILEAGE INTERVAL *@
+                                <div class="row">
+                                    <div class="col-5 text-left text-truncate"><strong>Change oil interval: </strong></div>
+                                    @* <div class="col-7 text-right text-truncate">May 25, 2024</div> *@
+                                    <div class="col-7 text-right text-truncate">Every @Model.CarDetails.cardeetsVMOilChangeInterval km</div>
+                                </div>
+                                @* TRANSMISSION *@
+                                <div class="row">
+                                    <div class="col-5 text-left text-truncate"><strong>Transmission: </strong></div>
+                                    @* <div class="col-7 text-right text-truncate">May 25, 2024</div> *@
+                                    <div class="col-7 text-right text-truncate">@Model.CarDetails.cardeetsVMTransType</div>
+                                </div>
+                                @* FUEL TYPE *@
+                                <div class="row">
+                                    <div class="col-5 text-left text-truncate"><strong>Fuel Type: </strong></div>
+                                    @* <div class="col-7 text-right text-truncate">May 25, 2024</div> *@
+                                    <div class="col-7 text-right text-truncate">@Model.CarDetails.cardeetsVMFuelTypeName</div>
+                                </div>
+                                @* SEATS *@
+                                <div class="row">
+                                    <div class="col-5 text-left text-truncate"><strong>Seating Capacity: </strong></div>
+                                    @* <div class="col-7 text-right text-truncate">May 25, 2024</div> *@
+                                    <div class="col-7 text-right text-truncate">@Model.CarDetails.cardeetsVMSeats</div>
+                                </div>
+                                @* LAST OIL CHANGE *@
+                                <div class="row">
+                                    <div class="col-5 text-left text-truncate"><strong>Last Oil Change: </strong></div>
+                                    @* <div class="col-7 text-right text-truncate">May 25, 2024</div> *@
+                                    <div class="col-7 text-right text-truncate">@Model.CarDetails.cardeetsVMLastChangeOilMileage km</div>
+                                </div>
+                                @* LAST MAINTENANCE *@
+                                <div class="row">
+                                    <div class="col-5 text-left text-truncate"><strong>Last Maintenance date: </strong></div>
+                                    @* <div class="col-7 text-right text-truncate">May 25, 2024</div> *@
+                                    <div class="col-7 text-right text-truncate">@Model.CarDetails.cardeetsVMFormattedLastMaintenance</div>
                                 </div>
                                 @* LAST LOG *@
                                 <div class="row">
@@ -176,7 +216,7 @@
                                     <td class="text-center status status-order"><span class="status-label text-dark">@logs.carLogsVMType</span></td>
                                     @* FULL DETAILS BTN *@
                                     <td class="text-center">
-                                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalLogDetails()">
+                                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalLogDetails('@logs.carLogsVMID')">
                                             View
                                         </button>
                                     </td>
@@ -213,7 +253,7 @@
                     </table>
                     @* IF NO DATA *@
                     <div id="no-results" class="text-center" style="margin-top:180px; display:none;">
-                        <h3>No users found.</h3>
+                        <h3>No cars registered.</h3>
                     </div>
                 </div>
             </div>

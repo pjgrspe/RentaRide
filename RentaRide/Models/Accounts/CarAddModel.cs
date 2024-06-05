@@ -37,7 +37,7 @@ namespace RentaRide.Models.Accounts
         [Required]
         public bool? caraddTrans { get; set; }
         [Required]
-        public bool? caraddFuelType { get; set; }
+        public int caraddFuelType { get; set; }
         [Required]
         public int caraddMileage { get; set; }
         [Required]

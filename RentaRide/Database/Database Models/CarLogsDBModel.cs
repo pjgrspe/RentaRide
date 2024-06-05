@@ -26,6 +26,7 @@ namespace RentaRide.Database.Database_Models
         // 4 = Rented
         [Required]
         public string LogDetails { get; set; }
-
+        [Required]
+        public bool LogIsDeleted { get; set; } = false;
     }
 }
