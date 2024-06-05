@@ -43,11 +43,11 @@ namespace RentaRide.Database.Database_Models
         public CarTypesDBModel carTypesDBModel { get; set; }
         [Required]
         public int carMileage { get; set; }
-        public bool? carFuelType { get; set; }
+        public int carFuelType { get; set; }
         //Fuel Types
-        //-n. Electric
-        //-0. Gasoline
-        //-1. Diesel
+        //-1. Gasoline
+        //-2. Diesel
+        //-3. Electric
         public bool? carStatus { get; set; }
         //Status
         //-n. Maintenance
@@ -55,7 +55,7 @@ namespace RentaRide.Database.Database_Models
         //-1. Available
         public DateTime? carLastMaintenance { get; set; }
         [Required]
-        public int carLastChangeOilMileage { get; set; }
+        public int carLastChangeOilMileage { get; set; } = 0;
         [Required]
         public int carOilChangeInterval { get; set; }
         [Required]

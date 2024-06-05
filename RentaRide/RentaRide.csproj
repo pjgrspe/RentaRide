@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\css\bootstrap\" />
+    <Folder Include="wwwroot\FileUploads\CarImages\" />
     <Folder Include="wwwroot\FileUploads\LicenseBack\" />
     <Folder Include="wwwroot\FileUploads\Profile\" />
     <Folder Include="wwwroot\img\logo\" />

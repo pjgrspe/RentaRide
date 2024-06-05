@@ -13,12 +13,12 @@
                 </div>
                 <div class="card-body d-flex flex-column">
                     <div class="card-heading text-light">
-                        @cars.carVMMake @cars.carVMModel
+                        @cars.carVMMake @cars.carVMModel (@cars.carVMYear)
                     </div>
                     <div class="card-text card-text-description text-muted">
                         <div class="row">
-                            <div class="col-5 text-left"><strong>Year: </strong></div>
-                            <div class="col-7 text-right">@cars.carVMYear</div>
+                            <div class="col-5 text-left"><strong>License Plate: </strong></div>
+                            <div class="col-7 text-right">@cars.carVMPlateNumber</div>
                         </div>
                         <div class="row">
                             <div class="col-5 text-left"><strong>Car Type: </strong></div>
@@ -29,27 +29,27 @@
                             <div class="col-7 text-right">@cars.carVMColor</div>
                         </div>
                         <div class="row">
-                            <div class="col-5 text-left"><strong>License No.: </strong></div>
-                            <div class="col-7 text-right">@cars.carVMPlateNumber</div>
+                            <div class="col-5 text-left"><strong>Transmission: </strong></div>
+                            <div class="col-7 text-right">@cars.carVMTransmission</div>
                         </div>
                         <div class="row">
-                            <div class="col-5 text-left"><strong>Car Registered: </strong></div>
-                            <div class="col-7 text-right">@cars.carVMFormattedDateRegistered</div>
+                            <div class="col-5 text-left"><strong>Fuel Type: </strong></div>
+                            <div class="col-7 text-right">@cars.carVMFuelTypeName</div>
                         </div>
                         <div class="row">
-                            <div class="col-5 text-left"><strong>Last log: </strong></div>
-                            <div class="col-7 text-right">@cars.carVMFormattedLastLogDate</div>
+                            <div class="col-5 text-left"><strong>Mileage: </strong></div>
+                            <div class="col-7 text-right">@cars.carVMMileage</div>
                         </div>
-                        @* <div><strong>Year: </strong>carVMYear</div>
-                    <div><strong>Car Type: </strong>carVMType</div>
-                    <div><strong>Color: </strong>carVMColor</div>
-                    <div><strong>License No.: </strong>carVMPlateNumber</div>
-                    <div><strong>Last log: </strong>carVMFormattedDateLogged</div> *@
                     </div>
                     <div class="card-text text-center mt-auto">
                         <div class="text-center status status-onduty">
-                            <span class="status-label text-dark">Listed</span>
+                            <span class="status-label text-dark">@cars.carVMStatusName</span>
+                            @if (cars.carVMOilChangeDue)
+                            {
+                                <span class="status-oilchange text-dark">OIL CHANGE DUE</span>
+                            }
                         </div>
+
                     </div>
                 </div>
             </div>

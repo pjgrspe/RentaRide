@@ -196,6 +196,9 @@ namespace RentaRide.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("LogIsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("LogMileage")
                         .HasColumnType("int");
 
@@ -250,8 +253,8 @@ namespace RentaRide.Migrations
                     b.Property<DateTime>("carDateRegistered")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("carFuelType")
-                        .HasColumnType("bit");
+                    b.Property<int>("carFuelType")
+                        .HasColumnType("int");
 
                     b.Property<bool>("carIsDeleted")
                         .HasColumnType("bit");
