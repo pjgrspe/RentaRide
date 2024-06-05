@@ -16,5 +16,5 @@ function openModalAddListing(){
 }
 
 function closeModalAddListing() {
-    $('#addListingModal').modal('show');
+    $('#addListingModal').modal('hide');
 }
