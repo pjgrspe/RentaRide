@@ -1,4 +1,6 @@
-﻿namespace RentaRide.Models.ViewModels
+﻿using RentaRide.Utilities;
+
+namespace RentaRide.Models.ViewModels
 {
     public class CarLogsViewModel
     {
@@ -8,25 +10,7 @@
         {
             get
             {
-                if (carLogsVMTypeID == 1)
-                {
-                    return "Manual";
-                }
-                else if (carLogsVMTypeID == 2)
-                {
-                    return "Maintenance";
-                }
-                else if (carLogsVMTypeID == 3)
-                {
-                    return "Change Oil";
-                }else if (carLogsVMTypeID == 4)
-                {
-                    return "Repair";
-                }
-                else
-                {
-                    return "Rented";
-                }
+                return LogTypes.logTypeNames[carLogsVMTypeID];
             }
         }
         public int carLogsVMMileage { get; set; }

@@ -13,7 +13,7 @@
         public IFormFile? careditORDoc { get; set; }
         public IFormFile? careditCRDoc { get; set; }
         public bool careditTrans { get; set; }
-        public bool? careditFuelType { get; set; }
+        public int careditFuelType { get; set; }
         public int careditOilChangeInterval { get; set; }
         public int careditSeats { get; set; }
     }

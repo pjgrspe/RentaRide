@@ -35,7 +35,7 @@
                         <label for="carYear" class="font-weight-bold mb-1">Year</label>
                         <select class="form-control" id="carYear">
                             <option value="" disabled selected>Select car year</option>
-                            @for (int year = 1980; year <= DateTime.Now.Year; year++)
+                            @for (int year = DateTime.Today.AddYears(1).Year; year >= 1960; year--)
                             {
                                 <option value="@year">@year</option>
                             }
@@ -75,9 +75,9 @@
                         <label for="carFuelType" class="font-weight-bold mb-1">Fuel Type</label>
                         <select class="form-control" id="carFuelType">
                             <option value="" disabled selected>Select fuel type</option>
-                            <option value="">Electric</option>
-                            <option value=false>Gasoline</option>
-                            <option value=true>Diesel</option>
+                            <option value="1">Gasoline</option>
+                            <option value="2">Diesel</option>
+                            <option value="3">Electric</option>
                         </select>
                     </div>
 
@@ -242,21 +242,23 @@
                     <label for="editcarFuelType" class="font-weight-bold mb-1">Fuel Type</label>
                     <select class="form-control" id="editcarFuelType">
                         <option value="" disabled selected>Select fuel type</option>
-                        @if (Model.CarDetails.cardeetsVMFuelType == true)
+                        @if (Model.CarDetails.cardeetsVMFuelType == 1)
                         {
-                            <option value="">Electric</option>
-                            <option value=false selected>Gasoline</option>
-                            <option value=true>Diesel</option>
+                            <option value="1" selected>Gasoline</option>
+                            <option value="2">Diesel</option>
+                            <option value="3">Electric</option>
                         }
-                        else if (Model.CarDetails.cardeetsVMFuelType == false){
-                            <option value="">Electric</option>
-                            <option value=false selected>Gasoline</option>
-                            <option value=true>Diesel</option>
+                        else if (Model.CarDetails.cardeetsVMFuelType == 2)
+                        {
+                            <option value="1">Gasoline</option>
+                            <option value="2" selected>Diesel</option>
+                            <option value="3">Electric</option>
                         }
-                        else{
-                            <option value="" selected>Electric</option>
-                            <option value=false>Gasoline</option>
-                            <option value=true>Diesel</option>
+                        else
+                        {
+                            <option value="1">Gasoline</option>
+                            <option value="2">Diesel</option>
+                            <option value="3" selected>Electric</option>
                         }
                     </select>
                 </div>
@@ -266,7 +268,7 @@
                     <select class="form-control" id="editcarChangeOilInterval">
                         @for (int Mileage = ChangeOilConfig.ChangeOilIntervalMin; Mileage <= ChangeOilConfig.ChangeOilIntervalMax; Mileage = Mileage + ChangeOilConfig.ChangeOilChoiceIntervalSize)
                         {
-                            if (Mileage == Model.CarDetails.cardeetsVMMileage)
+                            if (Mileage == Model.CarDetails.cardeetsVMOilChangeInterval)
                             {
                                 <option value="@Mileage" selected>Every: @Mileage KM</option>
                             }
@@ -298,7 +300,7 @@
             @* ACTION BTNS *@
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalEditCarDetails()">Cancel</button>
-                <button type="button" class="btn btn-success" onclick="editCar(@Model.CarDetails.cardeetsVM)">Save Changes</button>
+                <button type="button" class="btn btn-success" onclick="editCar('@Model.CarDetails.cardeetsVM')">Save Changes</button>
             </div>
         </div>
     </div>
@@ -322,10 +324,14 @@
                     @* CHANGE THIS TO TYPES *@
                     <select class="form-control" id="logType">
                         <option value="" disabled selected>Select log type</option>
-                        <option value="@LogTypes.logTypeID1">@LogTypes.logTypeName1</option>
+                        @* <option value="@LogTypes.logTypeID1">@LogTypes.logTypeName1</option>
                         <option value="@LogTypes.logTypeID2">@LogTypes.logTypeName2</option>
                         <option value="@LogTypes.logTypeID3">@LogTypes.logTypeName3</option>
-                        <option value="@LogTypes.logTypeID4">@LogTypes.logTypeName4</option>
+                        <option value="@LogTypes.logTypeID4">@LogTypes.logTypeName4</option> *@
+                        @for (int i = 1; i < 5; i++)
+                        {
+                            <option value="@i">@LogTypes.logTypeNames[i]</option>
+                        }
                     </select>
                 </div>
                 <!-- DATE -->
@@ -402,17 +408,11 @@
                     <div class="row">
                         <!-- LEFT COLUMN -->
                         <div class="col-md-12">
-                            <p><strong>ID:</strong> <span id="modalUserId" class="mb-3"></span></p>
-                            <p><strong>Name:</strong> <span id="modalUserName" class="mb-3"></span></p>
-                            <p><strong>Email:</strong> <span id="modalUserEmail" class="mb-3"></span></p>
-                            <p><strong>Contact:</strong> <span id="modalUserContact" class="mb-3"></span></p>
-                            <p><strong>Status:</strong> <span id="modalUserStatus" class="mb-3"></span></p>
-                            <p><strong>Date Created:</strong> <span id="modalDateCreated" class="mb-3"></span></p>
-                            <p><strong>Date Modified:</strong> <span id="modalDateModified" class="mb-3"></span></p>
-                            <p><strong>Date of Birth:</strong> <span id="modalDateOfBirth" class="mb-3"></span></p>
-                            <p><strong>Street Address:</strong> <span id="modalStreetAddress" class="mb-3"></span></p>
-                            <p><strong>City:</strong> <span id="modalCity" class="mb-3"></span></p>
-                            <p><strong>Province:</strong> <span id="modalProvince" class="mb-3"></span></p>
+                            <p><strong>Log ID:</strong> <span id="modalLogID" class="mb-3">@Model.CarLogsDetails.carlogDeetsVMID</span></p>
+                            <p><strong>Log Type:</strong> <span id="modalLogType" class="mb-3"></span>@Model.CarLogsDetails.carlogDeetsVMType</p>
+                            <p><strong>Log Date:</strong> <span id="modalLogDate" class="mb-3"></span>@Model.CarLogsDetails.carlogDeetsVMDate</p>
+                            <p><strong>Log Mileage:</strong> <span id="modalLogMileage" class="mb-3"></span>@Model.CarLogsDetails.carlogDeetsVMMileage</p>
+                            <p><strong>Log Details:</strong> <span id="modalLogDetails" class="mb-3"></span>@Model.CarLogsDetails.carlogDeetsVMDetails</p>
                         </div>
                     </div>
                 </div>
@@ -420,8 +420,11 @@
             <!-- ACTION BUTTONS -->
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModalLogDetails()">Cancel</button>
+                @if (Model.CarLogsDetails.carlogDeetsVMTypeID != 0)
+                {
                 <button type="button" class="btn btn-success" onclick="openModalEditLogDetails()">Edit</button>
-                <button type="button" class="btn btn-danger" onclick="openModalDeleteLogDetails()">Delete</button>
+                <button type="button" class="btn btn-danger" onclick="openModalDeleteLogDetails('@Model.CarLogsDetails.carlogDeetsVMID')">Delete</button>
+                }
             </div>
         </div>
     </div>
@@ -440,7 +443,7 @@
             @* ACTION BTNS *@
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalDeleteCar()">Cancel</button>
-                <button type="button" class="btn btn-danger" onclick="deleteCar()">Delete</button>
+                <button type="button" class="btn btn-danger" onclick="deleteCar('@Model.CarDetails.cardeetsVM')">Delete</button>
             </div>
         </div>
     </div>
@@ -458,7 +461,7 @@
             @* ACTION BTNS *@
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalDeleteLogDetails()">Cancel</button>
-                <button type="button" class="btn btn-danger" onclick="deleteLog()">Delete</button>
+                <button type="button" class="btn btn-danger" onclick="deleteLog('@Model.CarLogsDetails.carlogDeetsVMID')">Delete</button>
             </div>
         </div>
     </div>

@@ -8,6 +8,11 @@ function openModalAddCar() {
 }
 
 function closeModalAddCar() {
+    document.getElementById('carImages').value = '';
+    var previewContainer = document.getElementById('addImagePreviewContainer');
+    while (previewContainer.firstChild) {
+        previewContainer.removeChild(previewContainer.firstChild);
+    }
     $('#addNewCarModal').modal('hide');
 }
 
@@ -100,6 +105,32 @@ function editCar(carId) {
                 reloadActivePartialView("Something went wrong.");
             }
             closeModalEditCarDetails();
+        })
+        .catch(error => console.error('Error:', error));
+
+}
+
+
+function deleteCar(carId) {
+    var formData = new FormData();
+    formData.append('cardelID', carId);
+
+
+    fetch('/Admin/DeleteCar', {
+        method: 'POST',
+        body: formData,
+        data: formData,
+        processData: false,
+        contentType: false
+    })
+        .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
+        .then(data => {
+            if (data.success) {
+                reloadActivePartialView("Car deleted.");
+            } else {
+                reloadActivePartialView("Something went wrong.");
+            }
+            closeModalDeleteCar();
         })
         .catch(error => console.error('Error:', error));
 
@@ -230,6 +261,11 @@ function openModalEditCarDetails(carId) {
 }
 
 function closeModalEditCarDetails() {
+    document.getElementById('editcarImages').value = '';
+    var previewContainer = document.getElementById('editImagePreviewContainer');
+    while (previewContainer.firstChild) {
+        previewContainer.removeChild(previewContainer.firstChild);
+    }
     $('#editcarModal').modal('hide');
 }
 
@@ -265,16 +301,44 @@ function addLog() {
 
 
 //DELETING CAR MODALS
-function openModalDeleteCar() {
-    $('#deleteCarModal').modal('show');
+function openModalDeleteCar(carId) {
+    fetch(`/Admin/GetCarDetails?carId=${carId}&forDetailsPage=false`)
+        .then(response => response.text())
+        .then(data => {
+            // Check if the car was not found
+            if (data.includes('"success":false')) {
+                reloadActivePartialView(data.message);
+                return;
+            }
+
+            document.getElementById('modalContainer').innerHTML = data;
+            $('#deleteCarModal').modal('show');
+
+
+        })
+        .catch(error => console.error('Error:', error));
 }
 function closeModalDeleteCar() {
     $('#deleteCarModal').modal('hide');
 }
 
 //VIEW LOG DETAILS MODALS
-function openModalLogDetails() {
-    $('#logDetailsModal').modal('show');
+function openModalLogDetails(logID) {
+    fetch(`/Admin/GetLogDetails?logId=${logID}`)
+        .then(response => response.text())
+        .then(data => {
+            // Check if the car was not found
+            if (data.includes('"success":false')) {
+                reloadActivePartialView(data.message);
+                return;
+            }
+
+            document.getElementById('modalContainer').innerHTML = data;
+            $('#logDetailsModal').modal('show');
+
+
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 function closeModalLogDetails() {
@@ -291,14 +355,52 @@ function closeModalEditLogDetails() {
 }
 
 //DELETE LOGS MODAL
-function openModalDeleteLogDetails() {
-    $('#deleteLogModal').modal('show');
+function openModalDeleteLogDetails(logID) {
+    fetch(`/Admin/GetLogDetails?logId=${logID}`)
+        .then(response => response.text())
+        .then(data => {
+            // Check if the car was not found
+            if (data.includes('"success":false')) {
+                reloadActivePartialView(data.message);
+                return;
+            }
+
+            document.getElementById('modalContainer').innerHTML = data;
+            $('#deleteLogModal').modal('show');
+
+
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 function closeModalDeleteLogDetails() {
     $('#deleteLogModal').modal('hide');
 }
 
+function deleteLog(logId) {
+    var formData = new FormData();
+    formData.append('cardellogID', logId);
+
+
+    fetch('/Admin/DeleteLog', {
+        method: 'POST',
+        body: formData,
+        data: formData,
+        processData: false,
+        contentType: false
+    })
+        .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
+        .then(data => {
+            if (data.success) {
+                reloadActivePartialView("Log deleted.");
+            } else {
+                reloadActivePartialView("Something went wrong. - " + data.message);
+            }
+            closeModalDeleteLogDetails();
+        })
+        .catch(error => console.error('Error:', error));
+
+}
 
 
 
