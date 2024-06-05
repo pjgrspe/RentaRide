@@ -1,0 +1,88 @@
+﻿@model RentaRide.Models.ViewModels.AdminPartialViewModel
+@using RentaRide.Utilities;
+
+@* @if (Model.Users != null && Model.Users.Any())
+{ *@
+    <div class="table-container">
+        <table class="table table-orders mt-1">
+            <!-- HEADER -->
+            <thead class="text-light">
+                <tr>
+                    <th class="text-center sortable" onclick="sortTable(0)">Order ID <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(1)">Receipt ID <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(2)">Book Date <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(3)">Return Date <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(4)">Cost <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(5)">Extra Fees <i class="fas fa-sort ms-1"></i></th>
+                    <th class="text-center">Payment Status</th>
+                    <th class="text-center">Payment Method</th>
+                    <th class="text-center sortable" onclick="sortTable(6)">Payment Date <i class="fas fa-sort ms-1"></i></th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Details</th>
+                </tr>
+            </thead>
+            <!-- BODY -->
+            <tbody id="usersTable" class="text-light">
+                <!-- Example data rows -->
+                <tr class="table-row">
+                    <td class="text-center">1001</td>
+                    <td>RCPT-0001</td>
+                    <td>2023-05-01</td>
+                    <td>2023-05-10</td>
+                    <td>$150.00</td>
+                    <td>$10.00</td>
+                    <td class="text-center">Paid</td>
+                    <td class="text-center">Credit Card</td>
+                    <td class="text-center">2023-05-01</td>
+                    <td class="text-center">Completed</td>
+                    <td class="text-center">
+                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails('1001',
+                                                                                                    'RCPT-0001',
+                                                                                                    '2023-05-01',
+                                                                                                    '2023-05-10',
+                                                                                                    '$150.00',
+                                                                                                    '$10.00',
+                                                                                                    'Completed',
+                                                                                                    'Paid',
+                                                                                                    'Credit Card',
+                                                                                                    '2023-05-01')">
+                            Review
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        <div id="no-results" class="text-center" style="margin-top:180px; display:none;">
+            <h3>No users found.</h3>
+        </div>
+    </div>
+@* } *@
+@* else
+{
+    <div class="table-container" id="no-content">
+        <table class="table table-users mt-1">
+            @* HEADER *@
+            @* <thead class="text-light">
+                <tr>
+                    <th class="text-center sortable" onclick="sortTable(0)">Order ID <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(1)">Receipt ID <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(2)">Book Date <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(3)">Return Date <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(4)">Total Cost <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(5)">Extra Fees <i class="fas fa-sort ms-1"></i></th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Payment Status</th>
+                    <th class="text-center">Payment Method</th>
+                    <th class="text-center">Payment Date</th>
+                    <th class="text-center">Details</th>
+                </tr>
+            </thead>
+            @* BODY *@
+            @* <tbody id="usersTable" class="text-light">
+            </tbody>
+        </table>
+        <div class="text-center" style="margin-top:200px;">
+            <h3>No users found.</h3>
+        </div>
+    </div> *@

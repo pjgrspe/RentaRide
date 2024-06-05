@@ -1,6 +1,6 @@
-﻿/*USERS TABLE*/
+﻿    /*.table thead th:nth-child(1),*/ /* Id column */
+/*USERS TABLE*/
 @media (max-width: 992px) {
-    /*.table thead th:nth-child(1),*/ /* Id column */
     /*.table tbody td:nth-child(1),*/ /* Id column */
     .table-users thead th:nth-child(4), /* Email column */
     .table-users tbody td:nth-child(4), /* Email column */
@@ -317,6 +317,16 @@ td {
 }
 
 .table-responsive-users {
+    min-height: 800px;
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
+    border-radius: 10px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.table-responsive-orders {
     min-height: 800px;
     height: 100%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
