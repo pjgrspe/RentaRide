@@ -392,9 +392,9 @@ function deleteLog(logId) {
         .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
         .then(data => {
             if (data.success) {
-                reloadActivePartialView("Log deleted.");
+                reloadDetailsContainer("Log deleted.");
             } else {
-                reloadActivePartialView("Something went wrong. - " + data.message);
+                reloadDetailsContainer("Something went wrong. - " + data.message);
             }
             closeModalDeleteLogDetails();
         })

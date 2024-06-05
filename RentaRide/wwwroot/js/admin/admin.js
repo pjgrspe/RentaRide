@@ -185,71 +185,99 @@ function toastError(message) {
     TABLE SCRIPTS
 ----------------------------------------------------- */
 
+function ordersFilterTable() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const statusFilter = document.getElementById('statusFilter').value;
+    const statusFilter2 = document.getElementById('statusFilter-2').value;
+
+    // Get all tables to filter
+    const tables = document.querySelectorAll('.table-container');
+
+    tables.forEach(table => {
+        const tableRows = table.querySelectorAll('.table-row');
+        let rowsVisible = false;
+        tableRows.forEach(row => {
+            const name = row.children[1].innerText.toLowerCase();
+            //ORDERS
+            const paymentStatusClass = row.children[6].classList;
+            const orderStatusClass = row.children[9].classList;
+            let paymentStatus = '';
+            let orderStatus = '';
+
+            paymentStatusClass.forEach(className => {
+                if (className.startsWith('status-')) {
+                    paymentStatus = className.split('-')[1];
+                }
+            });
+
+            orderStatusClass.forEach(className => {
+                if (className.startsWith('status-')) {
+                    orderStatus = className.split('-')[1];
+                }
+            });
+
+            const matchesSearch = name.includes(searchInput);
+            const matchesPaymentStatus = !statusFilter || paymentStatus === statusFilter;
+            const matchesOrderStatus = !statusFilter2 || orderStatus === statusFilter2;
+
+            if (matchesSearch && matchesPaymentStatus && matchesOrderStatus) {
+                row.style.display = '';
+                rowsVisible = true;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Display "No results" message if no rows are visible in this table
+        const noResultsMessage = table.querySelector('.no-results');
+        if (!rowsVisible) {
+            noResultsMessage.style.display = 'block';
+        } else {
+            noResultsMessage.style.display = 'none';
+        }
+    });
+}
+
 function filterTable() {
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
     const statusFilter = document.getElementById('statusFilter').value;
 
-    // Filter table rows
-    const tableRows = document.querySelectorAll('#usersTable .table-row');
-    let rowsVisible = false;
-    tableRows.forEach(row => {
-        const name = row.children[1].innerText.toLowerCase();
-        const statusClass = row.children[5].classList;
-        let status = '';
+    // Get all tables to filter
+    const tables = document.querySelectorAll('.table-container');
 
-        statusClass.forEach(className => {
-            if (className.startsWith('status-')) {
-                status = className.split('-')[1];
+    tables.forEach(table => {
+        const tableRows = table.querySelectorAll('.table-row');
+        let rowsVisible = false;
+        tableRows.forEach(row => {
+            const name = row.children[1].innerText.toLowerCase();
+            const statusClass = row.children[5].classList;
+            let status = '';
+
+            statusClass.forEach(className => {
+                if (className.startsWith('status-')) {
+                    status = className.split('-')[1];
+                }
+            });
+
+            const matchesSearch = name.includes(searchInput);
+            const matchesStatus = !statusFilter || status === statusFilter;
+
+            if (matchesSearch && matchesStatus) {
+                row.style.display = '';
+                rowsVisible = true;
+            } else {
+                row.style.display = 'none';
             }
         });
 
-        const matchesSearch = name.includes(searchInput);
-        const matchesStatus = !statusFilter || status === statusFilter;
-        if (matchesSearch && matchesStatus) {
-            row.style.display = '';
-            rowsVisible = true;
-            loadContent();
+        // Display "No results" message if no rows are visible in this table
+        const noResultsMessage = table.querySelector('.no-results');
+        if (!rowsVisible) {
+            noResultsMessage.style.display = 'block';
         } else {
-            row.style.display = 'none';
-            loadContent();
+            noResultsMessage.style.display = 'none';
         }
     });
-
-    // Filter card elements
-    const cards = document.querySelectorAll('#cards-table .card-item');
-    let cardsVisible = false;
-    cards.forEach(card => {
-        const name = card.querySelector('.card-heading').innerText.toLowerCase();
-        const description = card.querySelector('.card-text').innerText.toLowerCase();
-        const statusClass = card.querySelector('.status').classList;
-        let status = '';
-
-        statusClass.forEach(className => {
-            if (className.startsWith('status-')) {
-                status = className.split('-')[1];
-            }
-        });
-
-        const matchesSearch = name.includes(searchInput) || description.includes(searchInput);
-        const matchesStatus = !statusFilter || status === statusFilter;
-
-        if (matchesSearch && matchesStatus) {
-            card.style.display = '';
-            cardsVisible = true;
-            loadContent();
-        } else {
-            card.style.display = 'none';
-            loadContent();
-        }
-    });
-
-    // Display "No results" message if no rows or cards are visible
-    const noResultsMessage = document.getElementById('no-results');
-    if (!rowsVisible && !cardsVisible) {
-        noResultsMessage.style.display = 'block';
-    } else {
-        noResultsMessage.style.display = 'none';
-    }
 }
 
 
