@@ -250,3 +250,10 @@ a:hover {
     background: #0056b3;
     transform: scale(1.1);
 }
+
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
