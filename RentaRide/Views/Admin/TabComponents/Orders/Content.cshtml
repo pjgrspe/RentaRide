@@ -8,15 +8,12 @@
         <!-- HEADER -->
         <thead class="text-light">
             <tr>
-                <th class="text-center sortable" onclick="sortTable(0)">Order ID <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable" onclick="sortTable(1)">Receipt ID <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable" onclick="sortTable(2)">Book Date <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable" onclick="sortTable(3)">Return Date <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable text-center" onclick="sortTable(4)">Cost <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable text-center" onclick="sortTable(5)">Extra Fees <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable" onclick="sortTable(0)">Receipt ID <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable" onclick="sortTable(1)">Book Date <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable" onclick="sortTable(2)">Return Date <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable text-center" onclick="sortTable(3)">Cost <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable text-center" onclick="sortTable(4)">Extra Fees <i class="fas fa-sort ms-1"></i></th>
                 <th class="text-center">Payment Status</th>
-                <th class="text-center">Payment Method</th>
-                <th class="text-center sortable" onclick="sortTable(6)">Payment Date <i class="fas fa-sort ms-1"></i></th>
                 <th class="text-center">Status</th>
                 <th class="text-center">Details</th>
             </tr>
@@ -25,15 +22,12 @@
         <tbody id="usersTable" class="text-light">
             <!-- Example data rows -->
             <tr class="table-row">
-                <td class="text-center">1</td>
                 <td>RCPT-0001</td>
                 <td>2023-05-01</td>
                 <td>2023-05-10</td>
                 <td class="text-center">$150.00</td>
                 <td class="text-center">$10.00</td>
                 <td class="text-center status status-paid"><span class="status-label text-dark">Paid</span></td>
-                <td class="text-center">Credit Card</td>
-                <td class="text-center">2023-05-01</td>
                 <td class="text-center status status-ongoing"><span class="status-label text-dark">On Going</span></td>
                 <td class="text-center">
                     <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails('1001',

@@ -14,9 +14,10 @@
                     <input id="searchInput" class="form-control me-2 rounded-3 search-input" type="search" placeholder="Search" aria-label="Search">
                     <select id="statusFilter" class="form-select me-2 filter-select">
                         <option value="" selected>All Statuses</option>
-                        <option value="active">Active</option>
-                        <option value="onduty">Listed</option>
-                        <option value="delay">Unlisted</option>
+                        <option value="available">Available</option>
+                        <option value="rented">Rented</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="repair">Repair</option>
                     </select>
                     <button id="searchButton" class="btn btn-outline-light rounded-3 search-filter-btn" type="button" onclick="filterTable()">Search</button>
                 </form>
@@ -25,7 +26,7 @@
         @* ADD DRIVER BUTTON *@
         <div class="row mb-3">
             <div class="col-md-12 d-flex justify-content-end add-item-div" id="add-item-div">
-                <button class="btn btn-success rounded-3 addnew-btn" style="min-width:120px; min-height:50px;" type="button" onclick="openModalAddCar()">Add New +</button>
+                <button class="btn btn-success rounded-3 addnew-btn" style="min-width:120px; min-height:50px;" type="button" onclick="openModalAddCar()">Add Car +</button>
             </div>
         </div>
         @* LOADER *@

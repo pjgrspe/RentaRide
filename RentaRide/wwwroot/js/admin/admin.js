@@ -356,3 +356,12 @@ function updateIcons(columnIndex) {
         }
     });
 }
+
+/* ---------------------------------------------------
+    MODAL SCRIPTS
+    ----------------------------------------------------- */
+function removeBackdrops() {
+    $('.modal-backdrop').remove();
+    $('body').removeClass('modal-open');
+    $('body').css('padding-right', ''); // remove any padding added by Bootstrap to the body
+}

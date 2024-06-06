@@ -19,6 +19,10 @@ body {
     font-family: "Outfit", monospace;
 }
 
+.text-muted {
+    color: #f7fbfc !important;
+}
+
 .center-container {
     display: flex;
     justify-content: center;

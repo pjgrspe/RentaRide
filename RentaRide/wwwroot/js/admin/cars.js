@@ -343,6 +343,7 @@ function openModalLogDetails(logID) {
 
 function closeModalLogDetails() {
     $('#logDetailsModal').modal('hide');
+    removeBackdrops();
 }
 
 //EDIT LOGS MODAL
@@ -375,6 +376,8 @@ function openModalDeleteLogDetails(logID) {
 
 function closeModalDeleteLogDetails() {
     $('#deleteLogModal').modal('hide');
+    removeBackdrops();
+    $('#logDetailsModal').modal('show');
 }
 
 function deleteLog(logId) {
@@ -401,7 +404,3 @@ function deleteLog(logId) {
         .catch(error => console.error('Error:', error));
 
 }
-
-
-
-    
