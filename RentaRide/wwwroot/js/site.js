@@ -41,11 +41,12 @@ document.addEventListener("DOMContentLoaded", function () {
     loadMainContent();
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: -34.397, lng: 150.644 },
-            zoom: 8
-        });
-    }
+
+mapboxgl.accessToken = ' <UserAccessToken /> ';
+
+const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v11',
+    center: [-96, 37.8],
+    zoom: 3
 });
