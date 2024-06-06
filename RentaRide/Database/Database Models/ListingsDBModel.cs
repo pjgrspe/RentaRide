@@ -16,21 +16,22 @@ namespace RentaRide.Database.Database_Models
         [Required]
         public string listingDetails { get; set; }
         [Required]
-        public decimal listingPrice { get; set; } = 0.00m;
+        public decimal listingHourlyPrice { get; set; } = 0.00m;
         [Required]
-        public int listingRate { get; set; } = 1;
-        //Listing Rates
-        //-1. Hourly
-        //-2. Daily
-        //-3. Weekly
-        //-4. Monthly
-        //-5. Distance-Based
-        [ForeignKey("listingRate")]
-        public RatesDBModel listingRatesDBModel { get; set; }
+        public decimal listingDailyPrice { get; set; } = 0.00m;
         [Required]
-        public bool listingIsRented { get; set; }
+        public decimal listingWeeklyPrice { get; set; } = 0.00m;
+        [Required]
+        public decimal listingMonthlyPrice { get; set; } = 0.00m;
+        [Required]
+        public int listingStatus { get; set; }
+        //1 = Available,
+        //2 = Hidden,
+        //3 = Unavailable
+        [Required]
+        public bool listingIsActive { get; set; } = true;
         public DateTime listingAvailabilityStart { get; set; }
-        public DateTime  listingAvailabilityEnd { get; set; }
+        public DateTime? listingAvailabilityEnd { get; set; }
 
     }
 }

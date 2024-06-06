@@ -22,7 +22,6 @@ namespace RentaRide.Database
         public DbSet<CarTypesDBModel> TBL_CarTypes { get; set; }
         public DbSet<CarLogsDBModel> TBL_CarLogs { get; set; }
         public DbSet<ListingsDBModel> TBL_Listings { get; set; }
-        public DbSet<RatesDBModel> TBL_Rates { get; set; }
         public DbSet<OrdersDBModel> TBL_Orders { get; set; }
         public DbSet<PayTypesDBModel> TBL_PayTypes { get; set; }
 
@@ -42,7 +41,19 @@ namespace RentaRide.Database
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<ListingsDBModel>()
-                .Property(l => l.listingPrice)
+                .Property(l => l.listingHourlyPrice)
+                .HasPrecision(9, 2);
+
+            builder.Entity<ListingsDBModel>()
+                .Property(l => l.listingDailyPrice)
+                .HasPrecision(9, 2);
+
+            builder.Entity<ListingsDBModel>()
+                .Property(l => l.listingWeeklyPrice)
+                .HasPrecision(9, 2);
+
+            builder.Entity<ListingsDBModel>()
+                .Property(l => l.listingMonthlyPrice)
                 .HasPrecision(9, 2);
 
             builder.Entity<OrdersDBModel>()

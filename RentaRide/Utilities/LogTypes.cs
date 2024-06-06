@@ -19,15 +19,16 @@
         //public const int logTypeID8 = 8;
         //public const string logTypeName8 = "Deleted";
         public static readonly string[] logTypeNames = { 
-                                                            "Initial",
-                                                            "Manual", 
-                                                            "Maintenance", 
-                                                            "Change Oil", 
-                                                            "Repair", 
-                                                            "Rented", 
-                                                            "Returned", 
-                                                            "Edited", 
-                                                            "Deleted",
+                                                            "Initial",      //0
+                                                            "Manual",       //1
+                                                            "Maintenance",  //2
+                                                            "Change Oil",   //3
+                                                            "Repair",       //4
+                                                            "Rented",       //5
+                                                            "Returned",     //6
+                                                            "Edited",       //7
+                                                            "Deleted",      //8
+                                                            "Listed"        //9
                                                         };
     
     }
