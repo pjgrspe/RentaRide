@@ -9,10 +9,12 @@
         <thead class="text-light">
             <tr>
                 <th class="sortable" onclick="sortTable(0)">Receipt ID <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable" onclick="sortTable(1)">Book Date <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable" onclick="sortTable(2)">Return Date <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable text-center" onclick="sortTable(3)">Cost <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable text-center" onclick="sortTable(4)">Extra Fees <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable" onclick="sortTable(2)">Car <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable" onclick="sortTable(3)">Book Date <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable" onclick="sortTable(4)">Return Date <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable text-center" onclick="sortTable(5)">Cost <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable text-center" onclick="sortTable(6)">Extra Fees <i class="fas fa-sort ms-1"></i></th>
                 <th class="text-center">Payment Status</th>
                 <th class="text-center">Status</th>
                 <th class="text-center">Details</th>
@@ -23,6 +25,8 @@
             <!-- Example data rows -->
             <tr class="table-row">
                 <td>RCPT-0001</td>
+                <td>John Doe</td>
+                <td>Toyota Camry</td>
                 <td>2023-05-01</td>
                 <td>2023-05-10</td>
                 <td class="text-center">$150.00</td>
@@ -32,6 +36,8 @@
                 <td class="text-center">
                     <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails('1001',
                                                                                                     'RCPT-0001',
+                                                                                                    'John Doe',
+                                                                                                    'Toyota Camry',
                                                                                                     '2023-05-01',
                                                                                                     '2023-05-10',
                                                                                                     '$150.00',
@@ -50,6 +56,7 @@
         <h3>No order found.</h3>
     </div>
 </div>
+
 
 @* } *@
 @* else
