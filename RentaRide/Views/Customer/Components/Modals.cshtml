@@ -1,0 +1,62 @@
+﻿<!-- Order Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3" id="modal-content-order">
+            <!-- TITLE -->
+            <div class="modal-header text-light border-0">
+                <h5 class="modal-title" id="orderModalLabel">Place an Order</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closeModalOrder()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- ORDER FORM -->
+            <div class="modal-body text-light">
+                <!-- ORDER START DATE -->
+                <div class="form-group mb-3">
+                    <label for="OrderStartDate" class="font-weight-bold mb-1">Order Start Date</label>
+                    <input class="form-control flatpickr-orderstart" id="OrderStartDate" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" placeholder="Enter Order's start date">
+                </div>
+                <!-- ORDER END DATE -->
+                <div class="form-group mb-3">
+                    <label for="OrderEndDate" class="font-weight-bold mb-1">Order End Date</label>
+                    <input class="form-control flatpickr-orderend" id="OrderEndDate" placeholder="Enter Order's end date">
+                </div>
+                <!-- ORDER NOTES -->
+                <div class="form-group mb-3">
+                    <label for="orderNotes" class="font-weight-bold mb-1">Order Notes</label>
+                    <textarea class="form-control" id="orderNotes" placeholder="Enter any special instructions or notes"></textarea>
+                </div>
+                <!-- LOCATION LIMIT -->
+                <div class="form-group mb-3">
+                    <label for="locationLimit" class="font-weight-bold mb-1">Location Limit</label>
+                    <input type="text" class="form-control" id="locationLimit" placeholder="Enter the location limit for the order">
+                </div>
+                <!-- WITH DRIVER / WITHOUT DRIVER -->
+                <div class="form-group mb-3">
+                    <label for="withDriver" class="font-weight-bold mb-1">With Driver/Without Driver</label>
+                    <select class="form-control" id="withDriver">
+                        <option value="with">With Driver</option>
+                        <option value="without">Without Driver</option>
+                    </select>
+                </div>
+                <!-- PAYMENT METHOD -->
+                <div class="form-group mb-3">
+                    <label for="paymentMethod" class="font-weight-bold mb-1">Payment Method</label>
+                    <select class="form-control" id="paymentMethod" onchange="toggleProofOfPayment()">
+                        <option value="credit">Credit Card</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="gcash">GCash</option>
+                    </select>
+                </div>
+                <!-- PROOF OF PAYMENT -->
+                <div class="form-group mb-3" id="proofOfPaymentGroup" style="display: none;">
+                    <label for="proofOfPayment" class="font-weight-bold mb-1">Proof of Payment</label>
+                    <input type="file" class="form-control" id="proofOfPayment">
+                </div>
+            </div>
+            <!-- ACTION BUTTONS -->
+            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalOrder()">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="placeOrder()">Place Order</button>
+            </div>
+        </div>
+    </div>
+</div>

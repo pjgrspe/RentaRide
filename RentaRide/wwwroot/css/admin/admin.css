@@ -180,21 +180,11 @@ a.article:hover {
     color: #fff !important;
 }
 
-
 /*MODULES*/
-.module-1 {
+.module-1, .module-2 {
+    padding: 30px!important;
     border-radius: 15px;
-    min-height: 600px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
-    border-radius: 10px;
-    width: 100%;
-}
-
-.module-2 {
-    border-radius: 15px;
-    min-height: 600px;
+    min-height: 60px;
     margin-bottom: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
     border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
@@ -203,7 +193,7 @@ a.article:hover {
 }
 
 .module-3 {
-    border-radius: 15px;
+    border-radius: 30px;
     min-height: 400px;
     margin-bottom: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
@@ -213,7 +203,7 @@ a.article:hover {
 }
 
 .module-4 {
-    border-radius: 15px;
+    border-radius: 30px;
     min-height: 400px;
     margin-bottom: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
@@ -222,12 +212,79 @@ a.article:hover {
     width: 100%;
 }
 
-.header .date-time {
-    font-size: 1rem;
-}
-
-.header {
+.dashboard-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 1rem;
+}
+
+.date-time{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/*MAPBOX*/
+#map {
+    width: 100%;
+    height: 480px; /* Set a specific height for the map container */
+    border-radius: 10px;
+    margin-top: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
+}
+
+
+
+.marker {
+    background-image: url('../../img/content/car-pin.png');
+    background-size: contain;
+    width: 40px; /* Adjust width */
+    height: 54px; /* Adjust height */
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.mapboxgl-popup {
+    padding: 50px;
+    width: 100%;
+}
+
+.mapboxgl-popup-content {
+    text-align: center;
+    font-family: "Outfit", monospace;
+}
+
+.module-2 .bg-glass {
+    border-radius: 10px;
+}
+
+.statistics-description {
+    font-size: 2.15rem;
+    font-weight: 500;
+}
+
+    .statistics-description .number {
+        font-size: 2rem;
+        font-weight: 500;
+        margin-left: 10px; /* Adjust this value to bring numbers closer to text */
+    }
+
+.module-2 .d-flex {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+    .module-2 .d-flex span:first-child {
+        flex: 1;
+    }
+
+    .module-2 .d-flex span:last-child {
+        text-align: right;
+    }
+
+.listing-description {
+    max-height: 150px; /* Adjust height as needed */
+    overflow-y: auto;
+    word-wrap: break-word;
 }

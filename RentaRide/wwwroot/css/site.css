@@ -60,6 +60,10 @@ a:hover {
     color: #3565af;
 }
 
+.text-main {
+    color: #309eb8;
+}
+
 /*LOADER*/
 
 .load-content {
@@ -253,10 +257,4 @@ a:hover {
 .custom-range::-moz-range-thumb:hover {
     background: #0056b3;
     transform: scale(1.1);
-}
-
-#map {
-    top: 0;
-    bottom: 0;
-    width: 100%;
 }

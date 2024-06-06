@@ -1,7 +1,4 @@
-﻿/* ---------------------------------------------------
-   SIDEBAR SCRIPTS
------------------------------------------------------ */
-document.addEventListener("DOMContentLoaded", function () {
+﻿document.addEventListener("DOMContentLoaded", function () {
     const navLinks = document.querySelectorAll('.nav-item-link');
     const profileLinks = document.querySelectorAll('.profile-menu .dropdown-item');
     const mainContent = document.querySelector('.main-content');
@@ -23,13 +20,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Fetch the content dynamically when a nav link is clicked
         const url = event.currentTarget.getAttribute('href');
+
+        showLoader();  // Show the loader
+
         fetch(url)
             .then(response => response.text())
             .then(data => {
                 mainContent.innerHTML = data;
+                initChart();
                 loadContent();
+                initMapBoxIfNeeded(); // Initialize Mapbox after content is loaded
+                hideLoader();  // Hide the loader
             })
-            .catch(error => console.error('Error loading content:', error));
+            .catch(error => {
+                console.error('Error loading content:', error);
+                hideLoader();  // Hide the loader even if there's an error
+            });
 
         setActiveTab(event.currentTarget);
     }
@@ -53,13 +59,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Load the content dynamically
         const url = activeTab.getAttribute('href');
+
+        showLoader();  // Show the loader
+
         fetch(url)
             .then(response => response.text())
             .then(data => {
                 mainContent.innerHTML = data;
+                initChart();
                 loadContent();
+                initMapBoxIfNeeded(); // Initialize Mapbox after content is loaded
+                hideLoader();  // Hide the loader
             })
-            .catch(error => console.error('Error loading content:', error));
+            .catch(error => {
+                console.error('Error loading content:', error);
+                hideLoader();  // Hide the loader even if there's an error
+            });
     }
 
     // Sidebar toggle functionality
@@ -67,22 +82,206 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#sidebar").classList.toggle("active");
         this.classList.toggle("active");
     });
+
 });
+
+function initChart() {
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    var chartData = {
+        labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        datasets: [
+            {
+                label: "Orders",
+                backgroundColor: "rgba(250, 184, 106, 0.8)",  // #fab86a with 50% opacity
+                borderColor: "#fab86a",
+                borderWidth: 1,
+                data: [12, 14, 8, 16, 10, 9, 13]  // Data below 20
+            }
+        ]
+    };
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#ffffff'  // Light color for x-axis labels
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    max: 20,  // Set maximum value for y-axis
+                    ticks: {
+                        color: '#ffffff'  // Light color for y-axis labels
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#ffffff'  // Light color for legend labels
+                    }
+                },
+                tooltip: {
+                    titleColor: '#ffffff',  // Light color for tooltip titles
+                    bodyColor: '#ffffff',   // Light color for tooltip body
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)'  // Dark background for tooltip
+                }
+            }
+        }
+    });
+}
+
+let map; // Declare the map variable in the outer scope
+
+function initMapBox() {
+    mapboxgl.accessToken = 'pk.eyJ1IjoicGpncnNwZSIsImEiOiJjbHgyeTRld3UwYnd5MmpxNDNob3ZhMDN3In0.BgzV_qvJPTkUfmgK2c0aYw';
+
+    carLocationPins();
+
+    map.on('idle', function () {
+        map.resize()
+    })
+}
+
+function carLocationPins() {
+    const geojson = {
+        'type': 'FeatureCollection',
+        'features': [
+            {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [120.6010, 15.1456] // Angeles, Pampanga
+                },
+                'properties': {
+                    'title': 'Angeles Center',
+                    'description': 'Angeles, Pampanga'
+                }
+            },
+            {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [120.6110, 15.1400] // Random point in Angeles, Pampanga
+                },
+                'properties': {
+                    'title': 'Car 1',
+                    'description': 'Angeles, Pampanga'
+                }
+            },
+            {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [120.5910, 15.1500] // Random point in Angeles, Pampanga
+                },
+                'properties': {
+                    'title': 'Car 2',
+                    'description': 'Angeles, Pampanga'
+                }
+            },
+            {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [120.6200, 15.1600] // Random point in Angeles, Pampanga
+                },
+                'properties': {
+                    'title': 'Car 3',
+                    'description': 'Angeles, Pampanga'
+                }
+            }
+        ]
+    };
+
+    map = new mapboxgl.Map({
+        container: 'map', // container id
+        style: 'mapbox://styles/mapbox/standard', // stylesheet location
+        center: [120.6010, 15.1456], // starting position [lng, lat] (Angeles, Pampanga)
+        zoom: 13 // starting zoom
+    });
+
+    // add markers to map
+    for (const feature of geojson.features) {
+        // create a HTML element for each feature
+        const el = document.createElement('div');
+        el.className = 'marker';
+
+        // make a marker for each feature and add it to the map
+        new mapboxgl.Marker(el)
+            .setLngLat(feature.geometry.coordinates)
+            .setPopup(
+                new mapboxgl.Popup({ offset: 25 }) // add popups
+                    .setHTML(
+                        `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+                    )
+            )
+            .addTo(map);
+    }
+
+    // Force map resize
+    map.resize();
+
+    // Resize the map when the window is resized
+    window.addEventListener('resize', () => {
+        map.resize();
+    });
+}
+
+function redirectToOrdersTab() {
+    const ordersTabUrl = '/Admin/LoadPartial?tabName=Orders'; // Replace with the actual URL of your orders tab
+    const ordersTabLink = document.querySelector(`.nav-item-link[href="${ordersTabUrl}"]`);
+
+    if (ordersTabLink) {
+        // Create a new event and call handleNavLinkClick with it
+        const event = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true
+        });
+        ordersTabLink.dispatchEvent(event);
+    }
+}
+
+function initMapBoxIfNeeded() {
+    const mapContainer = document.getElementById('map');
+    if (mapContainer) {
+        initMapBox();
+
+        // Force map resize after a slight delay to ensure correct dimensions
+        setTimeout(() => {
+            map.resize();
+        }, 200);
+    }
+}
 
 function reloadActivePartialView(message) {
     const activeLink = document.querySelector('.nav-item-link.active');
     if (activeLink) {
         const url = activeLink.getAttribute('href');
+
+        showLoader();  // Show the loader
+
         fetch(url)
             .then(response => response.text())
             .then(data => {
                 document.querySelector('.main-content').innerHTML = data;
+                initChart();
+                initMapBoxIfNeeded(); // Initialize Mapbox after content is loaded
                 loadContent();
                 toastSuccess(message);
+                hideLoader();  // Hide the loader
             })
             .catch(error => {
-                toastSuccess(message);
                 console.error('Error loading content:', error);
+                hideLoader();  // Hide the loader even if there's an error
+                toastSuccess(message);
             });
     }
 }
@@ -90,6 +289,8 @@ function reloadActivePartialView(message) {
 function reloadDetailsContainer(message) {
     const carId = $('#logCarID').val();
     console.log('Reloading details for car ID:', carId);
+
+    showLoader();  // Show the loader
 
     fetch(`/Admin/GetCarDetails?carId=${carId}&forDetailsPage=true`)
         .then(response => {
@@ -103,10 +304,13 @@ function reloadDetailsContainer(message) {
             document.querySelector('#detailsContainer').innerHTML = data;
             document.querySelector('#detailsContainer').style.display = 'block';
             toastSuccess(message);
+            hideLoader();  // Hide the loader
         })
-        .catch(error => console.error('Error loading details:', error));
+        .catch(error => {
+            console.error('Error loading details:', error);
+            hideLoader();  // Hide the loader even if there's an error
+        });
 }
-
 
 /* ---------------------------------------------------
     LOADER SCRIPTS
@@ -131,7 +335,7 @@ function hideLoader() {
             loader.classList.add('d-none');
             tableContent.classList.remove('d-none');
         }
-    }, 300); // 3ms delay
+    }, 300); // 300ms delay
 }
 
 function loadContent() {
@@ -281,8 +485,10 @@ function filterTable() {
     // Filter card elements
     const cards = document.querySelectorAll('#cards-table .card-item');
     cards.forEach(card => {
-        const name = card.querySelector('.card-heading-listing').innerText.toLowerCase();
-        const description = card.querySelector('.listing-description').innerText.toLowerCase();
+        const name = card.querySelector('.card-heading')?.innerText.toLowerCase() || '';
+        const listingName = card.querySelector('.card-heading-listing')?.innerText.toLowerCase() || '';
+        const description = card.querySelector('.listing-description')?.innerText.toLowerCase() || '';
+        const textDescription = card.querySelector('.card-text-description')?.innerText.toLowerCase() || '';
         const statusClass = card.querySelector('.status').classList;
         let status = '';
 
@@ -292,7 +498,7 @@ function filterTable() {
             }
         });
 
-        const matchesSearch = name.includes(searchInput) || description.includes(searchInput);
+        const matchesSearch = name.includes(searchInput) || listingName.includes(searchInput) || description.includes(searchInput) || textDescription.includes(searchInput);
         const matchesStatus = !statusFilter || status === statusFilter;
 
         if (matchesSearch && matchesStatus) {
@@ -359,7 +565,7 @@ function updateIcons(columnIndex) {
 
 /* ---------------------------------------------------
     MODAL SCRIPTS
-    ----------------------------------------------------- */
+----------------------------------------------------- */
 function removeBackdrops() {
     $('.modal-backdrop').remove();
     $('body').removeClass('modal-open');

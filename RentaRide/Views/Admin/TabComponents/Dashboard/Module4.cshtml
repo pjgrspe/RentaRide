@@ -1,0 +1,30 @@
+﻿<div class="d-flex justify-content-between align-items-center">
+    <h2 style="font-size: 45px;" class="ms-1 mb-3 text-light">Orders Preview</h2>
+    <button class="btn btn-success mb-2 me-2" style="font-size: 18px;" onclick="redirectToOrdersTab()">View All</button>
+</div>
+<div class="table-container">
+    <table class="table table-orders mt-1">
+        <!-- HEADER -->
+        <thead class="text-light">
+            <tr>
+                <th class="sortable" onclick="sortTable(0)">Receipt ID <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable" onclick="sortTable(2)">Car <i class="fas fa-sort ms-1"></i></th>
+                <th class="text-center">Status</th>
+            </tr>
+        </thead>
+        <!-- BODY -->
+        <tbody id="usersTable" class="text-light">
+            <!-- Example data rows -->
+            <tr class="table-row">
+                <td>RCPT-0001</td>
+                <td>John Doe</td>
+                <td>Toyota Camry</td>
+                <td class="text-center status status-ongoing"><span class="status-label text-dark">On Going</span></td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="no-results" class="text-center no-results" style="margin-top:180px; display:none;">
+        <h3>No order found.</h3>
+    </div>
+</div>

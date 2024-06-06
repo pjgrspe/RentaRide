@@ -32,6 +32,15 @@ namespace RentaRide.Models.ViewModels
                 }
             }
         }
+
+        public string listingVMStatusNameClass
+        {
+            get
+            {
+                return TypeNamesUtilities.ListingStatusClassNames[listingVMStatus];
+            }
+        }
+
         public DateTime listingVMAvailabilityStart { get; set; }
         public DateTime? listingVMAvailabilityEnd { get; set; }
         public string listingVMFormattedStartDate => ViewModelTools.GetFormattedDate(listingVMAvailabilityStart);

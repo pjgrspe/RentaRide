@@ -43,13 +43,16 @@
                             </div>
                         </div>
                         <div class="card-text text-center mt-auto">
-                            <div class="text-center status status-onduty">
+                            <div class="text-center status status-@listing.listingVMStatusNameClass">
                                 <span class="status-label text-dark">@listing.listingVMStatusName</span>
                             </div>
                         </div>
                         <button onclick="openModalEditListing('@listing.listingVMID')" class="card-button btn btn-primary rounded-4 mt-1">Edit</button>
                     </div>
                 </div>
+            </div>
+            <div id="no-results" class="text-center no-results" style="margin-top:180px; display:none;">
+                <h3>No listings found.</h3>
             </div>
         }
     }

@@ -41,7 +41,7 @@
                 "repair",       //4
                 "rented",       //5
                 "returned",     //6
-                "rdited",       //7
+                "edited",       //7
                 "deleted",      //8
                 "listed"        //9
             };
@@ -61,12 +61,27 @@
                 "Maintenance",  //3 
                 "Repair"        //4
             };
+        public static readonly string[] carStatusClassNames = 
+            { 
+                "",             //0
+                "available",    //1
+                "rented",       //2
+                "maintenance",  //3 
+                "repair"        //4
+            };
         public static readonly string[] ListingStatusNames = 
             { 
                 "",             //0
-                "Available",    //1
+                "Listed",    //1
                 "Hidden",       //2
-                "Unavailable"   //3 
+                "Unlisted"   //3 
+            };
+        public static readonly string[] ListingStatusClassNames = 
+            { 
+                "",             //0
+                "listed",    //1
+                "hidden",       //2
+                "unlisted"   //3 
             };
         public static readonly string[] PayTypeNames = 
             { 
