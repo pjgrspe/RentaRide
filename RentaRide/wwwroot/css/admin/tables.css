@@ -1,6 +1,6 @@
-﻿/*USERS TABLE*/
+﻿/*.table thead th:nth-child(1),*/ /* Id column */
+/*USERS TABLE*/
 @media (max-width: 992px) {
-    /*.table thead th:nth-child(1),*/ /* Id column */
     /*.table tbody td:nth-child(1),*/ /* Id column */
     .table-users thead th:nth-child(4), /* Email column */
     .table-users tbody td:nth-child(4), /* Email column */
@@ -44,22 +44,23 @@
 
 @media (max-width: 1200px) { /*xl*/
     .table-details thead th:nth-child(1), /* ID column */
-    .table-details tbody td:nth-child(1){ /* ID column */
+    .table-details tbody td:nth-child(1) { /* ID column */
         display: none;
     }
 }
 
 
 @media (max-width: 992px) { /*lg*/
-    .border-right{
+    .border-right {
         border-right: none;
     }
-    .or-cr{
-        margin-top:20px;
+
+    .or-cr {
+        margin-top: 20px;
     }
 
     #modalOR, #modalCR {
-        height:50px!important;
+        height: 50px !important;
     }
 }
 
@@ -93,9 +94,9 @@
     position: relative;
 }
 
-.position-relative:hover .overlay {
-    opacity: 1;
-}
+    .position-relative:hover .overlay {
+        opacity: 1;
+    }
 
 /*
 .overlay {
@@ -183,23 +184,23 @@
     .search-filter-btn {
         width: 100%;
         margin-bottom: 0.5rem;
-        margin-right: 0!important;
+        margin-right: 0 !important;
     }
 
-    .search-filter-title{
-        width:100%!important;
-        text-align:center;
-        margin-top:8px;
-        margin-bottom:8px;
+    .search-filter-title {
+        width: 100% !important;
+        text-align: center;
+        margin-top: 8px;
+        margin-bottom: 8px;
     }
 
-    .search-filter-container{
-        margin-top:8px!important;
+    .search-filter-container {
+        margin-top: 8px !important;
     }
 
     .search-filter-btn {
         margin-bottom: 8px;
-        width:100%
+        width: 100%
     }
 
     .addnew-btn {
@@ -207,8 +208,8 @@
         margin-left: 0px;
     }
 
-    .title-div{
-        margin-bottom:10px;
+    .title-div {
+        margin-bottom: 10px;
     }
 }
 
@@ -220,6 +221,24 @@
     margin-right: 5px;
 }
 
+
+/*GREEN ONES*/
+.status-active span {
+    background-color: #a5f6c6;
+}
+
+.status-order span {
+    background-color: #a5f6c6;
+}
+
+.status-paid span {
+    background-color: #a5f6c6;
+}
+
+.status-ongoing span {
+    background-color: #a5f6c6;
+}
+/*ORANGE ONES*/
 .status-pending span {
     background-color: #fab86a;
 }
@@ -230,33 +249,48 @@
 
 .status-maintenance span {
     background-color: #fab86a;
-
 }
+
+.status-partial span {
+    background-color: #fab86a;
+}
+
+
+/*RED ONES*/
 
 .status-repair span {
     background-color: #fb7a7a;
 }
 
-.status-manual span {
-    background-color: darkgray;
-}
-
-.status-active span {
-    background-color: #a5f6c6;
-}
-
-.status-order span {
-    background-color: #a5f6c6;
+.status-cancelled span {
+    background-color: #fb7a7a;
 }
 
 .status-denied span {
     background-color: #fb7a7a;
 }
 
+.status-unpaid span {
+    background-color: #fb7a7a;
+}
+
+
+/*GRAY ONES*/
+.status-manual span {
+    background-color: darkgray;
+}
+
+.status-inactive span {
+    background-color: darkgray;
+}
+
 .status-delay span {
     background-color: darkgray;
 }
 
+.status-done span {
+    background-color: darkgray;
+}
 .status-label {
     color: black;
     font-weight: 500 !important;
@@ -317,6 +351,16 @@ td {
 }
 
 .table-responsive-users {
+    min-height: 800px;
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
+    border-radius: 10px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.table-responsive-orders {
     min-height: 800px;
     height: 100%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
