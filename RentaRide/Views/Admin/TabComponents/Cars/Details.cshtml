@@ -15,13 +15,14 @@
                     @* TITLE *@
                     @* <h2>Lamborghini Adventador 2022</h2> *@
                     <h2>@Model.CarDetails.cardeetsVMMake @Model.CarDetails.cardeetsVMModel @Model.CarDetails.cardeetsVMYear</h2>
-
-                    @* EDIT BUTTON *@
-                    <div class="ms-auto">
+                    <div class="ms-3 mt-2 text-center status status-oilchange">
                         @if (@Model.CarDetails.cardeetsVMOilChangeDue)
                         {
-                            <span class="status-deny text-dark">OIL CHANGE DUE</span>
+                            <span class="status-label-oilchange text-dark">OIL CHANGE DUE</span>
                         }
+                    </div>
+                    @* EDIT BUTTON *@
+                    <div class="ms-auto">
                         <i class="fas fa-edit fa-lg mt-3 me-3" onclick="openModalEditCarDetails('@Model.CarDetails.cardeetsVM')" style="cursor:pointer; color: darkgray;"></i>
                         <i class="fas fa-trash-alt fa-lg mt-3 me-2" onclick="openModalDeleteCar('@Model.CarDetails.cardeetsVM')" style="cursor:pointer; color:#c1272d;"></i>
                     </div>
@@ -162,7 +163,7 @@
                             @* OR PLACEHOLDER *@
                             <div>
                                 <label class="mb-2"><strong>OR:</strong></label>
-                                <div id="modalOR" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 40px; margin: auto;" onclick="openORModal('@Model.CarDetails.carIMGVMOR')">
+                                <div id="modalOR" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 140px; margin: auto;" onclick="openORModal('@Model.CarDetails.carIMGVMOR')">
                                     <div class=" text-light position-absolute top-50 start-50 translate-middle" style="z-index: 10; padding: 5px;">SHOW</div>
                                     <img src="@Model.CarDetails.carIMGVMOR" alt="OR" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
                                 </div>
@@ -170,7 +171,7 @@
                             @* CR PLACEHOLDER *@
                             <div class="mt-4">
                                 <label class="mb-2"><strong>CR:</strong></label>
-                                <div id="modalCR" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 40px; margin: auto;" onclick="openCRModal('@Model.CarDetails.carIMGVMCR')">
+                                <div id="modalCR" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 140px; margin: auto;" onclick="openCRModal('@Model.CarDetails.carIMGVMCR')">
                                     <div class=" text-light position-absolute top-50 start-50 translate-middle" style="z-index: 10; padding: 5px;">SHOW</div>
                                     <img src="@Model.CarDetails.carIMGVMCR" alt="CR" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
                                 </div>

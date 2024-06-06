@@ -1,5 +1,77 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!-- Add Order Modal -->
+<div class="modal fade" id="addOrderModal" tabindex="-1" aria-labelledby="addOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3" id="modal-content-addOrder">
+            <!-- TITLE -->
+            <div class="modal-header text-light border-0">
+                <h5 class="modal-title" id="addOrderModalLabel">Add Order</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closeModaladdOrder()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- add Order FORM -->
+            <div class="modal-body text-light">
+                <!-- CAR -->
+                <div class="form-group mb-3">
+                    <label for="addlistingCar" class="font-weight-bold mb-1">Car</label>
+                    <!-- CHANGE THIS TO CAR -->
+                    <select class="form-control" id="addlistingCar">
+                        <option value="" disabled selected>Select car</option>
+                    </select>
+                </div>
+                <!-- USER -->
+                <div class="form-group mb-3">
+                    <label for="addlistingUser" class="font-weight-bold mb-1">User</label>
+                    <!-- CHANGE THIS TO CAR -->
+                    <select class="form-control" id="addlistingUser">
+                        <option value="" disabled selected>Select User</option>
+                    </select>
+                </div>
+                <!-- ORDER START -->
+                <div class="form-group mb-3">
+                    <label for="addOrderStartDate" class="font-weight-bold mb-1">Order Start Date</label>
+                    <input type="datetime-local" class="form-control" id="addOrderStartDate" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" placeholder="Enter Order's availability start date'">
+                </div>
+                <!-- ORDER END -->
+                <div class="form-group mb-3">
+                    <label for="addListingEndDate" class="font-weight-bold mb-1">Order End Date</label>
+                    <input type="datetime-local" class="form-control" id="addListingEndDate" placeholder="Enter Listing's availability start date">
+                </div>
+                <!-- PAYMENT METHOD -->
+                <div class="form-group mb-3">
+                    <label for="addlistingPaymentMethod" class="font-weight-bold mb-1">Payment Method</label>
+                    <!-- CHANGE THIS TO PAYMENT METHOD -->
+                    <select class="form-control" id="addlistingPaymentMethod">
+                        <option value="" disabled selected>Select Payment Method</option>
+                    </select>
+                </div>
+                <!-- PAYMENT STATUS -->
+                <div class="form-group mb-3">
+                    <label for="addlistingPaymentStatus" class="font-weight-bold mb-1">Payment Status</label>
+                    <!-- CHANGE THIS TO PAYMENT STATUS -->
+                    <select class="form-control" id="addlistingPaymentStatus">
+                        <option value="" disabled selected>Select Payment Status</option>
+                    </select>
+                </div>
+                <!-- CUSTOM COST -->
+                <div class="form-group mb-3">
+                    <label for="addOrderTotalCost" class="font-weight-bold mb-1">Total Cost (PHP)</label>
+                    <input type="number" class="form-control" id="addOrderTotalCost" value="0" step="100">
+                </div>
+                <!-- EXTRA FEES -->
+                <div class="form-group mb-3">
+                    <label for="addOrderExtraFees" class="font-weight-bold mb-1">Extra Fees (PHP)</label>
+                    <input type="number" class="form-control" id="addOrderExtraFees" value="0" step="100">
+                </div>
+                <!-- PROOF OF PAYMENT -->
+                <div class="form-group mb-3">
+                    <label for="addOrderProofOfPayment" class="font-weight-bold mb-1">Proof Of Payment</label>
+                    <input type="file" class="form-control" id="addOrderProofOfPayment" placeholder="Enter driver's license">
+                </div>
+            </div>
+            <!-- ACTION BUTTONS -->
+            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalAddOrder()">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="addOrder()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
