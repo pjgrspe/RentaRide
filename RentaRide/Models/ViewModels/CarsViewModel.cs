@@ -1,4 +1,6 @@
-﻿namespace RentaRide.Models.ViewModels
+﻿using RentaRide.Utilities;
+
+namespace RentaRide.Models.ViewModels
 {
     public class CarsViewModel
     {
@@ -10,46 +12,38 @@
         public string carVMMake { get; set; }
         public string carVMModel { get; set; }
         public int carVMYear { get; set; }
-        public bool carVMTransmission { get; set; } //
+        public bool carVMTransmission { get; set; }
         public string carVMColor { get; set; }
         public int carVMTypeID { get; set; }
         public string carVMType { get; set; }
         public int carVMMileage { get; set; }
-        public int carVMFuelType { get; set; } //
+        public int carVMFuelType { get; set; }
         public string carVMFuelTypeName
         {
             get
             {
-                if (carVMFuelType == 1)
+                if (carVMFuelType <= TypeNamesUtilities.fuelTypeNames.Length)
                 {
-                    return "Gasoline";
-                }
-                else if (carVMFuelType == 2)
-                {
-                    return "Diesel";
+                    return TypeNamesUtilities.fuelTypeNames[carVMFuelType];
                 }
                 else
                 {
-                    return "Electric";
+                    return "Unknown type";
                 }
             }
         }
-        public bool? carVMStatus { get; set; }
+        public int carVMStatus { get; set; }
         public string carVMStatusName
         {
             get 
             {
-                if (carVMStatus == true)
-                {
-                    return "Available";
-                }
-                else if (carVMStatus == false)
-                {
-                    return "Rented";
+                if (carVMStatus <= TypeNamesUtilities.carStatusNames.Length) 
+                { 
+                    return TypeNamesUtilities.carStatusNames[carVMStatus];
                 }
                 else
                 {
-                    return "Maintenance";
+                    return "Unknown type";
                 }
             }
         }

@@ -48,11 +48,12 @@ namespace RentaRide.Database.Database_Models
         //-1. Gasoline
         //-2. Diesel
         //-3. Electric
-        public bool? carStatus { get; set; }
+        public int carStatus { get; set; }
         //Status
-        //-n. Maintenance
-        //-0. Rented
         //-1. Available
+        //-2. Rented
+        //-3. Maintenance
+        //-4. Repair
         public DateTime? carLastMaintenance { get; set; }
         [Required]
         public int carLastChangeOilMileage { get; set; } = 0;

@@ -8,6 +8,8 @@ using RentaRide.Database;
 using RentaRide.Database.Database_Models;
 using RentaRide.Migrations;
 using RentaRide.Models.Accounts;
+using RentaRide.Models.Cars;
+using RentaRide.Models.Listings;
 using RentaRide.Models.ViewModels;
 using RentaRide.Services;
 using RentaRide.Utilities;
@@ -100,11 +102,11 @@ namespace RentaRide.Controllers
                         userVMProofofBillingExt = user.userProofofBillingFileExt,
                         userVMSelfieProofExt = user.userSelfieProofFileExt,
 
-                        userVMLicenseIMG = imgNullCheck(user.userLicense, ImageCategories.imgLicense, _configuration, _environment),
-                        userVMLicenseBackIMG = imgNullCheck(user.userLicenseBack, ImageCategories.imgLicenseBack, _configuration, _environment),
-                        userVM2ndValidIDIMG = imgNullCheck(user.user2ndValidID, ImageCategories.img2ndID, _configuration, _environment),
-                        userVMProofofBillingIMG = imgNullCheck(user.userProofofBilling, ImageCategories.imgPOB, _configuration, _environment),
-                        userVMSelfieProofIMG = imgNullCheck(user.userSelfieProof, ImageCategories.imgSelfie, _configuration, _environment)
+                        userVMLicenseIMG = _fileServices.imgNullCheck(user.userLicense, ImageCategories.imgLicense),
+                        userVMLicenseBackIMG = _fileServices.imgNullCheck(user.userLicenseBack, ImageCategories.imgLicenseBack),
+                        userVM2ndValidIDIMG = _fileServices.imgNullCheck(user.user2ndValidID, ImageCategories.img2ndID),
+                        userVMProofofBillingIMG = _fileServices.imgNullCheck(user.userProofofBilling, ImageCategories.imgPOB),
+                        userVMSelfieProofIMG = _fileServices.imgNullCheck(user.userSelfieProof, ImageCategories.imgSelfie)
                     }).ToList();
 
                 }
@@ -122,9 +124,9 @@ namespace RentaRide.Controllers
                         driverVMLastName = driver.driverLastName,
                         driverVMEmail = driver.driverEmail,
                         driverVMContact = driver.driverContact,
-                        driverVMImageIMG = imgNullCheck(driver.driverPicture, ImageCategories.imgProfile, _configuration, _environment),
-                        driverVMLicenseIMG = imgNullCheck(driver.driverLicense, ImageCategories.imgLicense, _configuration, _environment),
-                        driverVMLicenseBackIMG = imgNullCheck(driver.driverLicenseBack, ImageCategories.imgLicenseBack, _configuration, _environment),
+                        driverVMImageIMG = _fileServices.imgNullCheck(driver.driverPicture, ImageCategories.imgProfile),
+                        driverVMLicenseIMG = _fileServices.imgNullCheck(driver.driverLicense, ImageCategories.imgLicense),
+                        driverVMLicenseBackIMG = _fileServices.imgNullCheck(driver.driverLicenseBack, ImageCategories.imgLicenseBack),
                         driverVMImageExt = driver.driverPictureExt,
                         driverVMLicenseExt = driver.driverLicenseExt,
                         driverVMLicenseBackExt = driver.driverLicenseBackExt,
@@ -145,7 +147,7 @@ namespace RentaRide.Controllers
                                                         (car, carType) => new CarsViewModel
                                                         {
                                                             carVMID = car.carID,
-                                                            carVMPictureIMG = imgNullCheck(car.carThumbnail, ImageCategories.imgCar, _configuration, _environment),
+                                                            carVMPictureIMG = _fileServices.imgNullCheck(car.carThumbnail, ImageCategories.imgCar),
                                                             carVMPictureExt = car.carThumbnailExt,
                                                             carVMMake = car.carMake,
                                                             carVMModel = car.carModel,
@@ -177,7 +179,7 @@ namespace RentaRide.Controllers
                 {
 
                     var listing = await _rardbContext.TBL_Listings
-                                                    .Where(listing => listing.listingIsActive == false)
+                                                    .Where(listing => listing.listingIsActive == true)
                                                     .Join(
                                                         _rardbContext.TBL_Cars,
                                                         listing => listing.carID,
@@ -185,10 +187,10 @@ namespace RentaRide.Controllers
                                                         (listing, car) => new ListingsViewModel
                                                         {
                                                             listingVMID = listing.listingID,
-                                                            carID = car.carID,
-                                                            carName = $"{car.carMake} {car.carModel} {car.carYear}",
-                                                            carIMG = imgNullCheck(car.carThumbnail, ImageCategories.imgCar, _configuration, _environment),
-                                                            carIMGext = car.carThumbnailExt,
+                                                            listingVMcarID = car.carID,
+                                                            listingVMcarName = $"{car.carMake} {car.carModel} {car.carYear}",
+                                                            listingVMcarIMG = _fileServices.imgNullCheck(car.carThumbnail, ImageCategories.imgCar),
+                                                            listingVMcarIMGext = car.carThumbnailExt,
                                                             listingVMDetails = listing.listingDetails,
                                                             listingVMHourlyPrice = listing.listingHourlyPrice,
                                                             listingVMDailyPrice = listing.listingDailyPrice,
@@ -231,7 +233,7 @@ namespace RentaRide.Controllers
                     .Select(carImg => new CarImagesViewModel
                     {
                         carIMGVMID = carImg.carimgID,
-                        carIMGVMCarIMG = imgNullCheck(carImg.carimgName, ImageCategories.imgCar, _configuration, _environment),
+                        carIMGVMCarIMG = _fileServices.imgNullCheck(carImg.carimgName, ImageCategories.imgCar),
                         carIMGVMCarExt = carImg.carimgExt
                     })
                     .ToListAsync();
@@ -265,8 +267,8 @@ namespace RentaRide.Controllers
                     cardeetsVMMileage = car.carMileage,
                     cardeetsVMLastLog = car.carLastLogDate,
                     cardeetsVMStatusID = car.carStatus,
-                    cardeetsVMORIMG = imgNullCheck(car.carORDoc, ImageCategories.imgCarDocs, _configuration, _environment),
-                    cardeetsVMCRIMG = imgNullCheck(car.carCRDoc, ImageCategories.imgCarDocs, _configuration, _environment),
+                    cardeetsVMORIMG = _fileServices.imgNullCheck(car.carORDoc, ImageCategories.imgCarDocs),
+                    cardeetsVMCRIMG = _fileServices.imgNullCheck(car.carCRDoc, ImageCategories.imgCarDocs),
                     cardeetsVMORExt = car.carORDocExt,
                     cardeetsVMCRExt = car.carCRDocExt,
                     cardeetsVMSeats = car.carSeats,
@@ -329,10 +331,41 @@ namespace RentaRide.Controllers
             //return Json(new { success = true, data = viewModel });
 
         }
+        public async Task<IActionResult> GetListingDetails(int listingId)
+        {
+            // Fetch the car details from the database using the carId
+            var listing = await _rardbContext.TBL_Listings.FindAsync(listingId);
+
+            if (listing == null)
+            {
+                return Json(new { success = false, message = "invalid listing"});
+            }
+
+            // Create a ViewModel with the car details
+            var viewModel = new AdminPartialViewModel
+            {
+                ListingDetails = new ListingDetailsViewModel
+                {
+                    listingdeetsVMID = listing.listingID,
+                    listingdeetsVMHourlyRate = listing.listingHourlyPrice,
+                    listingdeetsVMDailyRate = listing.listingDailyPrice,
+                    listingdeetsVMWeeklyRate = listing.listingWeeklyPrice,
+                    listingdeetsVMMonthlyRate = listing.listingMonthlyPrice,
+                    listingdeetsVMDetails = listing.listingDetails,
+                    listingdeetsVMStatus = listing.listingStatus
+                }
+            };
+
+            // Return the Details view with the ViewModel
+            
+            return PartialView("~/Views/Admin/TabComponents/Listings/Modals.cshtml", viewModel);
+            //return Json(new { success = true, data = viewModel });
+
+        }
         public async Task<IActionResult> GetCarList()
         {
             var adminPartialModel = new AdminPartialViewModel();
-            var cars = await _rardbContext.TBL_Cars.Where(car => car.carStatus == true)
+            var cars = await _rardbContext.TBL_Cars.Where(car => car.carStatus == 1)
                                                      .ToListAsync();
 
             adminPartialModel.ListingsCarList = cars.Select(cars => new ListingCarListViewModel
@@ -595,7 +628,7 @@ namespace RentaRide.Controllers
                     carType = model.AddCar.caraddType,
                     carMileage = model.AddCar.caraddMileage,
                     carFuelType = model.AddCar.caraddFuelType,
-                    carStatus = true, //
+                    carStatus = 1, //
                     carLastMaintenance = model.AddCar.caraddLastMaintenance,
                     carLastChangeOilMileage = model.AddCar.caraddLastChangeOilMileage,
                     carOilChangeInterval = model.AddCar.caraddOilChangeInterval,
@@ -958,10 +991,19 @@ namespace RentaRide.Controllers
                 if (model.AddLog.addLogType == 2)
                 {
                     Car.carLastMaintenance = model.AddLog.addLogDate;
+                    Car.carStatus = 3;
                 }
                 else if(model.AddLog.addLogType == 3)
                 {
                     Car.carLastChangeOilMileage = addLogMileage;
+                }
+                else if(model.AddLog.addLogType == 5)
+                {
+                    Car.carStatus = 4;
+                }
+                else
+                {
+                    Car.carStatus = 1;
                 }
                 _rardbContext.TBL_CarLogs.Add(logAdd);
                 _rardbContext.SaveChanges();
@@ -1045,8 +1087,35 @@ namespace RentaRide.Controllers
                     var Car = _rardbContext.TBL_Cars.Find(addListingCarID);
                     DateTime.TryParse(form["listingsaddEndDate"], out DateTime tempaddListingEndDate);
                     DateTime? addListingEndDate = !string.IsNullOrEmpty(form["listingsaddEndDate"]) ? tempaddListingEndDate : (DateTime?)null;
+                    var newListingStart = DateTime.Parse(form["listingaddStartDate"]);
 
-                    var model = new AdminPartialViewModel {
+                    var activeIndefiniteListing = await _rardbContext.TBL_Listings.FirstOrDefaultAsync(l => l.carID == addListingCarID && l.listingIsActive == true && l.listingAvailabilityEnd == null);
+
+                    if (activeIndefiniteListing != null)
+                    {
+                        // There is an active indefinite listing, return an error
+                        return new JsonResult(new { success = false, message = "There is an active indefinite listing for this car." });
+                    }
+
+                    // Check if the starting date is later than the end date
+                    if (addListingEndDate.HasValue && newListingStart > addListingEndDate)
+                    {
+                        return new JsonResult(new { success = false, message = "The starting date cannot be later than the end date." });
+                    }
+
+                    // Check for overlapping listings
+                    var overlappingListings = await _rardbContext.TBL_Listings
+                        .Where(l => l.carID == addListingCarID && l.listingIsActive == true && l.listingAvailabilityStart < addListingEndDate && newListingStart < l.listingAvailabilityEnd)
+                        .ToListAsync();
+
+                    if (overlappingListings.Any())
+                    {
+                        // There are overlapping listings, return an error
+                        return new JsonResult(new { success = false, message = "The new listing overlaps with an existing listing." });
+                    }
+
+                    var model = new AdminPartialViewModel
+                    {
                         AddListing = new ListingsAdd
                         {
                             listingaddCarID = addListingCarID,
@@ -1054,10 +1123,9 @@ namespace RentaRide.Controllers
                             listingaddDailyPrice = Decimal.Parse(form["listingaddDailyPrice"]),
                             listingaddWeeklyPrice = Decimal.Parse(form["listingaddWeeklyPrice"]),
                             listingaddMonthlyPrice = Decimal.Parse(form["listingaddMonthlyPrice"]),
-                            listingaddStartDate = DateTime.Parse(form["listingaddStartDate"]), //
+                            listingaddStartDate = newListingStart, //
                             listingsaddEndDate = addListingEndDate,  //
                             listingaddDetails = form["listingaddDetails"]
-
                         }
                     };
 
@@ -1074,7 +1142,6 @@ namespace RentaRide.Controllers
                         listingIsActive = true,
                         listingStatus = 1
                     };
-                
 
                     _rardbContext.TBL_Listings.Add(newlisting);
                     _rardbContext.SaveChanges();
@@ -1092,7 +1159,6 @@ namespace RentaRide.Controllers
                                      $"Monthly-{model.AddListing.listingaddMonthlyPrice} \n" +
                                      $"StartDate: {model.AddListing.listingaddStartDate} \n" +
                                      $"StartDate: {model.AddListing.listingsaddEndDate} \n"
-                    
                     };
 
                     _rardbContext.TBL_CarLogs.Add(logAdd);
@@ -1109,26 +1175,75 @@ namespace RentaRide.Controllers
             }
             catch (Exception ex)
             {
-                return new JsonResult(new { success = false, message = ex });
-
+                string errorMessage = ex.Message.ToString();
+                return new JsonResult(new { success = false, message = errorMessage });
             }
-            
         }
-        [NonAction]
-        private static string imgNullCheck(string? img, string imgCategory, IConfiguration configuration, IWebHostEnvironment environment)
+        public async Task<IActionResult> EditListing([FromForm] IFormCollection form)
         {
-            var key = configuration["ImageEncryption:ImageKey"];
-            var iv = configuration["ImageEncryption:ImageIV"];
-            string UploadFolder = Path.Combine(FileLoc.FileUploadFolder, imgCategory);
-            string path = Path.Combine(environment.WebRootPath, UploadFolder);
-            if (img == null)
+            try
             {
-                img = "Default.png";
+                if (ModelState.IsValid)
+                {
+                    var model = new AdminPartialViewModel{
+                        EditListing = new ListingsEdit
+                        {
+                            listingeditID = Int32.Parse(form["listingeditID"]),
+                            listingeditHourlyPrice = Decimal.Parse(form["listingeditHourlyPrice"]),
+                            listingeditDailyPrice = Decimal.Parse(form["listingeditDailyPrice"]),
+                            listingeditWeeklyPrice = Decimal.Parse(form["listingeditWeeklyPrice"]),
+                            listingeditMonthlyPrice = Decimal.Parse(form["listingeditMonthlyPrice"]),
+                            listingeditDetails = form["listingeditDetails"],
+                            listingeditStatus = Int32.Parse(form["listingeditStatus"])
+                        }
+                    };
+
+                    var ListingToEdit = _rardbContext.TBL_Listings.Find(model.EditListing.listingeditID);
+                    ListingToEdit.listingHourlyPrice = model.EditListing.listingeditHourlyPrice;
+                    ListingToEdit.listingDailyPrice = model.EditListing.listingeditDailyPrice;
+                    ListingToEdit.listingWeeklyPrice = model.EditListing.listingeditWeeklyPrice;
+                    ListingToEdit.listingMonthlyPrice = model.EditListing.listingeditMonthlyPrice;
+                    ListingToEdit.listingDetails = model.EditListing.listingeditDetails;
+                    ListingToEdit.listingStatus = model.EditListing.listingeditStatus;
+                    _rardbContext.SaveChanges();
+
+                    await _rardbContext.SaveChangesAsync();
+                    return new JsonResult(new { success = true });
+                }
+                else
+                {
+                    return new JsonResult(new { success = false, message = "An error occurred with editing listing" });
+                }
             }
-            var imageBytes = ImageUtilities.ProcessDecodeImage(img,path,key!,iv!);
-            var base64Image = Convert.ToBase64String(imageBytes);
-            var filePath = base64Image;
-            return filePath;
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message.ToString();
+                return new JsonResult(new { success = false, message = errorMessage });
+            }
+        }
+        public async Task<IActionResult> DeleteListing(int listingId)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var ListingToEdit = _rardbContext.TBL_Listings.Find(listingId);
+                    ListingToEdit.listingIsActive = false;
+                    _rardbContext.SaveChanges();
+
+                    await _rardbContext.SaveChangesAsync();
+                    return new JsonResult(new { success = true });
+                }
+                else
+                {
+                    return new JsonResult(new { success = false, message = "An error occurred with deleting listing" });
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message.ToString();
+                return new JsonResult(new { success = false, message = errorMessage });
+            }
         }
 
     }

@@ -16,7 +16,7 @@
                 <div class="form-group mb-3">
                     <label for="addlistingCar" class="font-weight-bold mb-1">Type</label>
                     <!-- CHANGE THIS TO CAR -->
-                    <select class="form-control" id="addlistingCar">
+                    <select class="form-control" id="addlistingCar" required>
                         <option value="" disabled selected>Select car</option>
                         @foreach(var cars in Model.ListingsCarList)
                         {
@@ -53,7 +53,7 @@
                 <div class="form-group mb-3">
                     <label for="addListingStartDate" class="font-weight-bold mb-1">Availability Start Date</label>
                     <input type="datetime-local" class="form-control" id="addListingStartDate" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"  placeholder="Enter Listing's availability start date'">
-                </div>-
+                </div>
                 <!-- Availability Start  -->
                 <div class="form-group mb-3">
                     <label for="addListingEndDate" class="font-weight-bold mb-1">Availability End Date (Leave null for indefinite)</label>
@@ -81,53 +81,55 @@
             </div>
             <!-- EDIT Listing FORM -->
             <div class="modal-body text-light">
-                <!-- CAR -->
+                <!-- HOURLY RATE -->
                 <div class="form-group mb-3">
-                    <label for="editlistingCar" class="font-weight-bold mb-1">Type</label>
-                    <!-- CHANGE THIS TO CAR -->
-                    <select class="form-control" id="editlistingCar">
-                        <option value="" disabled selected>Select car</option>
-                        <option value="Car1">Car 1</option>
-                        <option value="Car2">Car 2</option>
-                        <option value="Car3">Car 3</option>
-                    </select>
+                    <label for="editListingHourlyRate" class="font-weight-bold mb-1">Hourly Rate (PHP)</label>
+                    <input type="number" class="form-control" id="editListingHourlyRate" value="@Model.ListingDetails.listingdeetsVMHourlyRate" step="50">
                 </div>
                 <!-- DAILY RATE -->
                 <div class="form-group mb-3">
                     <label for="editListingDailyRate" class="font-weight-bold mb-1">Daily Rate (PHP)</label>
-                    <input type="number" class="form-control" id="editListingDailyRate" value="750" step="50">
+                    <input type="number" class="form-control" id="editListingDailyRate" value="@Model.ListingDetails.listingdeetsVMDailyRate" step="50">
                 </div>
                 <!-- WEEKLY RATE -->
                 <div class="form-group mb-3">
                     <label for="editListingWeeklyRate" class="font-weight-bold mb-1">Weekly Rate (PHP)</label>
-                    <input type="number" class="form-control" id="editListingWeeklyRate" value="7000" step="100">
+                    <input type="number" class="form-control" id="editListingWeeklyRate" value="@Model.ListingDetails.listingdeetsVMWeeklyRate" step="100">
                 </div>
                 <!-- MONTHLY RATE -->
                 <div class="form-group mb-3">
                     <label for="editListingMonthlyRate" class="font-weight-bold mb-1">Monthly Rate (PHP)</label>
-                    <input type="number" class="form-control" id="editListingMonthlyRate" value="20000" step="500">
+                    <input type="number" class="form-control" id="editListingMonthlyRate" value="@Model.ListingDetails.listingdeetsVMMonthlyRate" step="500">
                 </div>
                 <!-- DETAILS -->
                 <div class="form-group mb-3">
                     <label for="editlistingDetails" class="font-weight-bold mb-1">Details</label>
-                    <textarea type="text" class="form-control" id="editlistingDetails" placeholder="Enter log details."></textarea>
+                    <textarea type="text" class="form-control" id="editlistingDetails" value="" placeholder="Enter log details.">@Model.ListingDetails.listingdeetsVMDetails</textarea>
                 </div>
                 <!-- STATUS -->
                 <div class="form-group mb-3">
                     <label for="editlistingStatus" class="font-weight-bold mb-1">Status</label>
                     <!-- CHANGE THIS TO Status -->
                     <select class="form-control" id="editlistingStatus">
-                        <option value="" disabled selected>Select Status</option>
-                        <option value="Status1">Status 1</option>
-                        <option value="Status2">Status 2</option>
-                        <option value="Status3">Status 3</option>
+                        @for (int i = 1; i < TypeNamesUtilities.ListingStatusNames.Length; i++)
+                        {
+                            if (Model.ListingDetails.listingdeetsVMStatus == i)
+                            {
+                                <option value="@i" selected>@Model.ListingDetails.listingdeetsVMStatusName</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@TypeNamesUtilities.ListingStatusNames[i]</option>
+                            }
+                        }
                     </select>
                 </div>
             </div>
             <!-- ACTION BUTTONS -->
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalEditListing()">Cancel</button>
-                <button type="button" class="btn btn-success" onclick="editListing()">Save Changes</button>
+                <button type="button" class="btn btn-danger" onclick="deleteListing('@Model.ListingDetails.listingdeetsVMID')">End Listing</button>
+                <button type="button" class="btn btn-success" onclick="editListing('@Model.ListingDetails.listingdeetsVMID')">Save Changes</button>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-﻿namespace RentaRide.Models.Accounts
+﻿namespace RentaRide.Models.Listings
 {
     public class ListingsAdd
     {

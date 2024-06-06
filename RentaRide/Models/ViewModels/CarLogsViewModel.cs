@@ -10,13 +10,20 @@ namespace RentaRide.Models.ViewModels
         {
             get
             {
-                return LogTypes.logTypeNames[carLogsVMTypeID];
+                return TypeNamesUtilities.logTypeNames[carLogsVMTypeID];
+            }
+        }
+
+        public string carLogsVMTypeClass
+        {
+            get
+            {
+                return TypeNamesUtilities.logTypeclassNames[carLogsVMTypeID];
             }
         }
         public int carLogsVMMileage { get; set; }
         public DateTime carLogsVMDate { get; set; }
         public string carLogsVMFormattedDate => ViewModelTools.GetFormattedDate(carLogsVMDate);
-        
         public string carLogsVMDetails { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace RentaRide.Models.Accounts
+namespace RentaRide.Models.Cars
 {
     public class CarAddModel
     {

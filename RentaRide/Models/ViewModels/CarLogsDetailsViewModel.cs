@@ -15,7 +15,15 @@ namespace RentaRide.Models.ViewModels
         {
             get
             {
-                return LogTypes.logTypeNames[carlogDeetsVMTypeID];
+
+                if(carlogDeetsVMTypeID <= TypeNamesUtilities.logTypeNames.Length)
+                {
+                    return TypeNamesUtilities.logTypeNames[carlogDeetsVMTypeID];
+                }
+                else
+                {
+                    return "Invalid Type";
+                }
             }
         }
         public string carlogDeetsVMDetails { get; set; }
