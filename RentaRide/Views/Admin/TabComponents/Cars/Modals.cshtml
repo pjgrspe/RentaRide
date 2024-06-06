@@ -423,7 +423,6 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModalLogDetails()">Cancel</button>
                 @if (Model.CarLogsDetails.carlogDeetsVMTypeID != 0)
                 {
-                <button type="button" class="btn btn-success" onclick="openModalEditLogDetails()">Edit</button>
                 <button type="button" class="btn btn-danger" onclick="openModalDeleteLogDetails('@Model.CarLogsDetails.carlogDeetsVMID')">Delete</button>
                 }
             </div>
@@ -438,7 +437,7 @@
         <div class="modal-content bg-dark-secondary p-3">
             @* EDIT Car FORM *@
             <div class="modal-body text-light text-center mt-4">
-                <h4>Do you really want to remove</h4>
+                <h4>Do you really want to remove the car?</h4>
                 <h4 id="deleteCarName" class="mt-2"></h4>
             </div>
             @* ACTION BTNS *@
@@ -456,7 +455,7 @@
         <div class="modal-content bg-dark-secondary p-3">
             @* EDIT Log FORM *@
             <div class="modal-body text-light text-center mt-4">
-                <h4>Do you really want to remove</h4>
+                <h4>Do you really want to remove the log?</h4>
                 <h4 id="deleteLogName" class="mt-2"></h4>
             </div>
             @* ACTION BTNS *@
