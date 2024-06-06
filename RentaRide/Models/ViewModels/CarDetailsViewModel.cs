@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RentaRide.Utilities;
+using System.ComponentModel.DataAnnotations;
 
 namespace RentaRide.Models.ViewModels
 {
@@ -28,17 +29,13 @@ namespace RentaRide.Models.ViewModels
         {
             get
             {
-                if (cardeetsVMFuelType == 1)
+                if (cardeetsVMFuelType <= TypeNamesUtilities.fuelTypeNames.Length)
                 {
-                    return "Gasoline";
-                }
-                else if (cardeetsVMFuelType == 2)
-                {
-                    return "Diesel";
+                    return TypeNamesUtilities.fuelTypeNames[cardeetsVMFuelType];
                 }
                 else
                 {
-                    return "Electric";
+                    return "Invalid";
                 }
             }
         }
@@ -52,27 +49,22 @@ namespace RentaRide.Models.ViewModels
         public DateTime? cardeetsVMLastMaintenance { get; set; }
         public int cardeetsVMSeats { get; set; }
         public DateTime? cardeetsVMLastLog { get; set; }
-        public bool? cardeetsVMStatusID { get; set; }
-        public string? cardeetsVMStatus 
+        public int cardeetsVMStatusID { get; set; }
+        public string cardeetsVMStatus
         {
-            get
+            get 
             {
-                if (cardeetsVMStatusID == true)
-                {
-                    return "Available";
-                    
-                }
-                else if (cardeetsVMStatusID == false)
-                {
-                    return "Rented";
+                if (cardeetsVMStatusID <= TypeNamesUtilities.carStatusNames.Length) 
+                { 
+                    return TypeNamesUtilities.carStatusNames[cardeetsVMStatusID];
                 }
                 else
                 {
-                    return "Maintenance";
-
+                    return "Invalid";
                 }
             }
         }
+
         public string cardeetsVMORIMG { get; set; }
         public string cardeetsVMCRIMG { get; set; }
         public string cardeetsVMORExt { get; set; }

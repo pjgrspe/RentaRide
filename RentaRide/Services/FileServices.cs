@@ -1,4 +1,5 @@
-﻿using RentaRide.Utilities;
+﻿using Microsoft.AspNetCore.Mvc;
+using RentaRide.Utilities;
 
 namespace RentaRide.Services
 {
@@ -63,6 +64,22 @@ namespace RentaRide.Services
             }
 
             return uniqueFileName;
+        }
+
+        public string imgNullCheck(string? img, string imgCategory)
+        {
+            var key = _configuration["ImageEncryption:ImageKey"];
+            var iv = _configuration["ImageEncryption:ImageIV"];
+            string UploadFolder = Path.Combine(FileLoc.FileUploadFolder, imgCategory);
+            string path = Path.Combine(_environment.WebRootPath, UploadFolder);
+            if (img == null)
+            {
+                img = "Default.png";
+            }
+            var imageBytes = ImageUtilities.ProcessDecodeImage(img,path,key!,iv!);
+            var base64Image = Convert.ToBase64String(imageBytes);
+            var filePath = base64Image;
+            return filePath;
         }
     }
 }

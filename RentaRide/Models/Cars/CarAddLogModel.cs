@@ -1,4 +1,4 @@
-﻿namespace RentaRide.Models.Accounts
+﻿namespace RentaRide.Models.Cars
 {
     public class CarAddLogModel
     {

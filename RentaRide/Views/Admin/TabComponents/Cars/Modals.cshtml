@@ -75,9 +75,10 @@
                         <label for="carFuelType" class="font-weight-bold mb-1">Fuel Type</label>
                         <select class="form-control" id="carFuelType">
                             <option value="" disabled selected>Select fuel type</option>
-                            <option value="1">Gasoline</option>
-                            <option value="2">Diesel</option>
-                            <option value="3">Electric</option>
+                            @for(int i = 1; i < TypeNamesUtilities.fuelTypeNames.Length; i++)
+                            {
+                                <option value="@i">@TypeNamesUtilities.fuelTypeNames[i]</option>
+                            }
                         </select>
                     </div>
 
@@ -330,7 +331,7 @@
                         <option value="@LogTypes.logTypeID4">@LogTypes.logTypeName4</option> *@
                         @for (int i = 1; i < 5; i++)
                         {
-                            <option value="@i">@LogTypes.logTypeNames[i]</option>
+                            <option value="@i">@TypeNamesUtilities.logTypeNames[i]</option>
                         }
                     </select>
                 </div>

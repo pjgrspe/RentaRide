@@ -5,7 +5,55 @@
     @* CARDS *@
     @* CARD START *@
     @* LEAVE THIS AS COMMENT FOR NOW *@
-    <div class="col-xl-4 col-lg-4 col-md-6 col-12 mb-4 card-item" data-status="onduty">
+    @if (Model.Listings.Count == 0)
+    {
+        <div id="no-results" class="text-center" style="margin-top:180px; display:none;">
+            <h3>No cars found.</h3>
+        </div>
+    }
+    else
+    {
+        @foreach (var listing in Model.Listings)
+        {
+            <div class="col-xl-4 col-lg-4 col-md-6 col-12 mb-4 card-item" data-status="onduty">
+                <div class="card-sl-listing bg-glass-secondary" onclick="">
+                    <div class="card-image-listing">
+                        <img src="@listing.listingVMcarPicture" />
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <div class="card-heading-listing text-light">
+                            @listing.listingVMcarName
+                        </div>
+                        <div class="card-text listing-description">
+                            <div class="row">
+                                <div class="col-6 text-left"><strong>Hourly/Daily/Weekly/Monthly: </strong></div>
+                                <div class="col-6 text-right">@listing.listingVMHourlyPrice / @listing.listingVMDailyPrice / @listing.listingVMWeeklyPrice / @listing.listingVMMonthlyPrice</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 text-left"><strong>Description: </strong></div>
+                                <div class="col-6 text-right description-text">@listing.listingVMDetails</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 text-left"><strong>Available Date: </strong></div>
+                                <div class="col-6 text-right">@listing.listingVMFormattedStartDate</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 text-left"><strong>End Date: </strong></div>
+                                <div class="col-6 text-right">@listing.listingVMFormattedEndDate</div>
+                            </div>
+                        </div>
+                        <div class="card-text text-center mt-auto">
+                            <div class="text-center status status-onduty">
+                                <span class="status-label text-dark">@listing.listingVMStatusName</span>
+                            </div>
+                        </div>
+                        <button onclick="openModalEditListing('@listing.listingVMID')" class="card-button btn btn-primary rounded-4 mt-1">Edit</button>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    @* <div class="col-xl-4 col-lg-4 col-md-6 col-12 mb-4 card-item" data-status="onduty">
         <div class="card-sl-listing bg-glass-secondary" onclick="">
             <div class="card-image-listing">
                 <img src="https://images.pexels.com/photos/9139594/pexels-photo-9139594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
@@ -40,9 +88,6 @@
                 <button onclick="openModalEditListing()" class="card-button btn btn-primary rounded-4 mt-1">Edit</button>
             </div>
         </div>
-    </div>
+    </div> *@
     @* CARD END *@
-    <div id="no-results" class="text-center" style="margin-top:180px; display:none;">
-        <h3>No cars found.</h3>
-    </div>
 </div>

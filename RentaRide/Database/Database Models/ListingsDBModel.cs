@@ -14,9 +14,8 @@ namespace RentaRide.Database.Database_Models
         [ForeignKey("carID")]
         public CarsDBModel CarsDBModel { get; set; }
         [Required]
-        public string listingDetails { get; set; }
-        [Required]
-        public decimal listingHourlyPrice { get; set; } = 0.00m;
+        public string? listingDetails { get; set; }
+        public decimal? listingHourlyPrice { get; set; } = 0.00m;
         [Required]
         public decimal listingDailyPrice { get; set; } = 0.00m;
         [Required]
