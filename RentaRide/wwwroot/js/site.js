@@ -41,12 +41,3 @@ document.addEventListener("DOMContentLoaded", function () {
     loadMainContent();
 });
 
-
-mapboxgl.accessToken = ' <UserAccessToken /> ';
-
-const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/light-v11',
-    center: [-96, 37.8],
-    zoom: 3
-});
