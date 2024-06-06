@@ -221,32 +221,32 @@ a:hover {
     transition: background 0.15s ease-in-out;
 }
 
-    .custom-range::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 20px;
-        height: 20px;
-        background: #007bff;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: background 0.15s ease-in-out, transform 0.15s ease-in-out;
-    }
+.custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.15s ease-in-out, transform 0.15s ease-in-out;
+}
 
-        .custom-range::-webkit-slider-thumb:hover {
-            background: #0056b3;
-            transform: scale(1.1);
-        }
+.custom-range::-webkit-slider-thumb:hover {
+    background: #0056b3;
+    transform: scale(1.1);
+}
 
-    .custom-range::-moz-range-thumb {
-        width: 20px;
-        height: 20px;
-        background: #007bff;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: background 0.15s ease-in-out, transform 0.15s ease-in-out;
-    }
+.custom-range::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.15s ease-in-out, transform 0.15s ease-in-out;
+}
 
-        .custom-range::-moz-range-thumb:hover {
-            background: #0056b3;
-            transform: scale(1.1);
-        }
+.custom-range::-moz-range-thumb:hover {
+    background: #0056b3;
+    transform: scale(1.1);
+}

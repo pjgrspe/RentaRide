@@ -40,6 +40,27 @@
     }
 }
 
+/*ORDERS TABLE*/
+@media (max-width: 992px) {
+    /*.table thead th:nth-child(1),*/ /* Id column */
+    /*.table tbody td:nth-child(1),*/ /* Id column */
+    .table-orders thead th:nth-child(5), /* Date Modified column */
+    .table-orders tbody td:nth-child(5) { /* Date Modified column */
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .table-orders thead th:nth-child(1), /* Pic column */
+    .table-orders tbody td:nth-child(1), /* Pic column */
+    .table-orders thead th:nth-child(4), /* Date Created column */
+    .table-orders tbody td:nth-child(4), /* Date Created column */
+    .table-orders thead th:nth-child(2), /* ID column */
+    .table-orders tbody td:nth-child(2) { /* ID column */
+        display: none;
+    }
+}
+
 /*DETAILS TABLE*/
 
 @media (max-width: 1200px) { /*xl*/

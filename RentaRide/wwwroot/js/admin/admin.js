@@ -69,8 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
-
 function reloadActivePartialView(message) {
     const activeLink = document.querySelector('.nav-item-link.active');
     if (activeLink) {
@@ -244,10 +242,11 @@ function filterTable() {
 
     // Get all tables to filter
     const tables = document.querySelectorAll('.table-container');
+    let rowsVisible = false;
+    let cardsVisible = false;
 
     tables.forEach(table => {
         const tableRows = table.querySelectorAll('.table-row');
-        let rowsVisible = false;
         tableRows.forEach(row => {
             const name = row.children[1].innerText.toLowerCase();
             const statusClass = row.children[5].classList;
@@ -278,8 +277,40 @@ function filterTable() {
             noResultsMessage.style.display = 'none';
         }
     });
-}
 
+    // Filter card elements
+    const cards = document.querySelectorAll('#cards-table .card-item');
+    cards.forEach(card => {
+        const name = card.querySelector('.card-heading-listing').innerText.toLowerCase();
+        const description = card.querySelector('.listing-description').innerText.toLowerCase();
+        const statusClass = card.querySelector('.status').classList;
+        let status = '';
+
+        statusClass.forEach(className => {
+            if (className.startsWith('status-')) {
+                status = className.split('-')[1];
+            }
+        });
+
+        const matchesSearch = name.includes(searchInput) || description.includes(searchInput);
+        const matchesStatus = !statusFilter || status === statusFilter;
+
+        if (matchesSearch && matchesStatus) {
+            card.style.display = '';
+            cardsVisible = true;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // Display "No results" message if no rows or cards are visible
+    const noResultsMessageCards = document.getElementById('no-results');
+    if (!rowsVisible && !cardsVisible) {
+        noResultsMessageCards.style.display = 'block';
+    } else {
+        noResultsMessageCards.style.display = 'none';
+    }
+}
 
 let sortOrder = {};
 

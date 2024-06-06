@@ -180,3 +180,54 @@ a.article:hover {
     color: #fff !important;
 }
 
+
+/*MODULES*/
+.module-1 {
+    border-radius: 15px;
+    min-height: 600px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
+    border-radius: 10px;
+    width: 100%;
+}
+
+.module-2 {
+    border-radius: 15px;
+    min-height: 600px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
+    border-radius: 10px;
+    width: 100%;
+}
+
+.module-3 {
+    border-radius: 15px;
+    min-height: 400px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
+    border-radius: 10px;
+    width: 100%;
+}
+
+.module-4 {
+    border-radius: 15px;
+    min-height: 400px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a lifted look */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to enhance the glass effect */
+    border-radius: 10px;
+    width: 100%;
+}
+
+.header .date-time {
+    font-size: 1rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

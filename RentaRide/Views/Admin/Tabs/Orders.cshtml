@@ -29,12 +29,12 @@
         @* TABLE WRAPPER *@
         <div class="row bg-dark-secondary text-white">
             @* LOADER *@
-            <div id="loader" class="d-flex justify-content-center align-items-center d-none" style="height:55vh; margin-bottom:100px;">
+            <div id="loader" class="d-flex justify-content-center align-items-center d-none" style="height:40vh; margin-bottom:100px;">
                 <partial name="_LoadingSimple"></partial>
             </div>
             @* TABLE CONTENT *@
             <div id="tableContent" class="d-flex justify-content-center">
-                <partial name="~/Views/Admin/TabComponents/Orders/Content.cshtml"></partial>
+                @await Html.PartialAsync("~/Views/Admin/TabComponents/Orders/Content.cshtml")
             </div>
         </div>
     </div>
