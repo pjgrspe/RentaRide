@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentaRide.Database;
 
@@ -11,9 +12,11 @@ using RentaRide.Database;
 namespace RentaRide.Migrations
 {
     [DbContext(typeof(RARdbContext))]
-    partial class RARdbContextModelSnapshot : ModelSnapshot
+    [Migration("20240606190840_FKupdateOrderTBL")]
+    partial class FKupdateOrderTBL
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -463,7 +466,6 @@ namespace RentaRide.Migrations
                         .HasColumnType("decimal(9,2)");
 
                     b.Property<string>("orderLocationLimit")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("orderNotes")
@@ -472,30 +474,31 @@ namespace RentaRide.Migrations
                     b.Property<DateTime?>("orderPaymentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("orderPaymentExt")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("orderPaymentIMG")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("orderPaymentMethod")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("orderPickupDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("orderReservationID")
+                    b.Property<string>("orderPickupLocation")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("orderReservationID")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("orderReturnDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("orderReturnLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("orderReview")
                         .HasColumnType("int");
 
-                    b.Property<int>("orderStatus")
-                        .HasColumnType("int");
+                    b.Property<bool?>("orderStatus")
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("orderTotalCost")
                         .HasPrecision(9, 2)
@@ -510,6 +513,8 @@ namespace RentaRide.Migrations
                     b.HasIndex("driverID");
 
                     b.HasIndex("listingID");
+
+                    b.HasIndex("orderPaymentMethod");
 
                     b.HasIndex("userID");
 
@@ -802,6 +807,12 @@ namespace RentaRide.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RentaRide.Database.Database_Models.PayTypesDBModel", "PayTypesDBModel")
+                        .WithMany()
+                        .HasForeignKey("orderPaymentMethod")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RentaRide.Models.Identity.RentaRideAppUsers", "RentaRideAppUsers")
                         .WithMany()
                         .HasForeignKey("userID")
@@ -811,6 +822,8 @@ namespace RentaRide.Migrations
                     b.Navigation("DriversDBModel");
 
                     b.Navigation("ListingsDBModel");
+
+                    b.Navigation("PayTypesDBModel");
 
                     b.Navigation("RentaRideAppUsers");
                 });

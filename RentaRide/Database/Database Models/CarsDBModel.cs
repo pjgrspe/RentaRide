@@ -30,17 +30,6 @@ namespace RentaRide.Database.Database_Models
         [Required]
         public string carColor { get; set; }
         public int carType { get; set; }
-        //Car Types
-        //-1. Compact
-        //-2. Sedan
-        //-3. SUV
-        //-4. VAN
-        //-5. Minivan
-        //-6. Electric
-        //-7. Hybrid
-        //-8. Luxury
-        [ForeignKey("carType")]
-        public CarTypesDBModel carTypesDBModel { get; set; }
         [Required]
         public int carMileage { get; set; }
         public int carFuelType { get; set; }

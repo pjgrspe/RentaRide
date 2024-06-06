@@ -45,9 +45,10 @@
                     <div class="form-group mb-3">
                         <label for="carType" class="font-weight-bold mb-1">Car Type</label>
                         <select class="form-control" id="carType">
-                            @foreach (var carType in Model.CarTypes)
+                            <option value="" disabled selected>Select Car Type</option>
+                            @for (int i = 1; i < TypeNamesUtilities.CarTypeNames.Length; i++)
                             {
-                                <option value="@carType.cartypeVMID">@carType.cartypeVMName</option>
+                                <option value="@i">@TypeNamesUtilities.CarTypeNames[i]</option>
                             }
                         </select>
                     </div>
@@ -198,15 +199,15 @@
                         <option value="Minivan/Van">Minivan/Van</option>
                         <option value="Truck/Pickup">Truck/Pickup</option>
                         <option value="Luxury Vehicle">Luxury Vehicle</option> *@
-                        @foreach (var carType in Model.CarTypes)
+                        @for (int i = 1; i < TypeNamesUtilities.CarTypeNames.Length; i++)
                         {
-                            if (carType.cartypeVMID == Model.CarDetails.cardeetsVMTypeID)
+                            if (i == Model.CarDetails.cardeetsVMTypeID)
                             {
-                                <option value="@carType.cartypeVMID" selected>@carType.cartypeVMName</option>
+                                <option value="@i" selected>@TypeNamesUtilities.CarTypeNames[i]</option>
                             }
                             else
                             {
-                                <option value="@carType.cartypeVMID">@carType.cartypeVMName</option>
+                                <option value="@i">@TypeNamesUtilities.CarTypeNames[i]</option>
                             }
                         }
                     </select>

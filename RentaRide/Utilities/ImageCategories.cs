@@ -10,5 +10,6 @@
         public const string imgProfile = "Profile";
         public const string imgCar = "CarImages";
         public const string imgCarDocs = "CarDocuments";
+        public const string imgProofOP = "POPayments";
     }
 }

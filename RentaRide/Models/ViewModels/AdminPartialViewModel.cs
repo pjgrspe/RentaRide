@@ -2,6 +2,7 @@
 using RentaRide.Models.Accounts;
 using RentaRide.Models.Cars;
 using RentaRide.Models.Listings;
+using RentaRide.Models.Orders;
 
 namespace RentaRide.Models.ViewModels
 {
@@ -15,6 +16,9 @@ namespace RentaRide.Models.ViewModels
         public List<CarTypesViewModel> CarTypes { get; set; } = new List<CarTypesViewModel>();
         public List<CarImagesViewModel> CarImages { get; set; } = new List<CarImagesViewModel>();
         public List<CarLogsViewModel> CarLogs { get; set; } = new List<CarLogsViewModel>();
+        public List<OrderListingListViewModel> OrderListings { get; set; } = new List<OrderListingListViewModel>();
+        public List<OrderUserListViewModel> OrderUsers { get; set; } = new List<OrderUserListViewModel>();
+        public List<OrderDriverListViewModel> OrderDrivers { get; set; } = new List<OrderDriverListViewModel>();
         public CarLogsDetailsViewModel CarLogsDetails { get; set; } = new CarLogsDetailsViewModel();
         public CarDetailsViewModel CarDetails { get; set; } = new CarDetailsViewModel();
         public ListingDetailsViewModel ListingDetails { get; set; } = new ListingDetailsViewModel();
@@ -29,8 +33,10 @@ namespace RentaRide.Models.ViewModels
         public CarAddLogModel AddLog { get; set; }
         //public CarEditLogModel EditLog { get; set; }
         public CarDelLogModel DelLog { get; set; }
-        public ListingsAdd AddListing { get; set; }
-        public ListingsEdit EditListing { get; set; }
+        public ListingsAddModel AddListing { get; set; }
+        public ListingsEditModel EditListing { get; set; }
+        public OrderAddModel AddOrder { get; set; }
+
 
     }
 }

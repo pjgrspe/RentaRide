@@ -20,5 +20,15 @@ namespace RentaRide.Services
         {
             return _signInManager.IsSignedIn(userPrincipal);
         }
+        public string GenerateReceiptNumber()
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string randomLetters = new string(Enumerable.Repeat(chars, 4)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+            int randomNumber = random.Next(0, 9999);
+            string receiptNumber = randomLetters + "-" + randomNumber.ToString("D4");
+            return receiptNumber;
+        }
     }
 }

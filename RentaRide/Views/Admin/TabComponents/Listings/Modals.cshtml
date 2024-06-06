@@ -1,4 +1,5 @@
-﻿@using RentaRide.Utilities
+﻿@using RentaRide.Config
+@using RentaRide.Utilities
 @model RentaRide.Models.ViewModels.AdminPartialViewModel
 
 <!-- Add Listing Modal -->
@@ -8,7 +9,7 @@
             <!-- TITLE -->
             <div class="modal-header text-light border-0">
                 <h5 class="modal-title" id="addListingModalLabel">Add Listing</h5>
-                <button type="button" class="btn-close btn-close-white" onclick="closeModaladdListing()" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" onclick="closeModalAddListing()" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- add Listing FORM -->
             <div class="modal-body text-light">
@@ -27,22 +28,22 @@
                 <!-- Hourly RATE -->
                 <div class="form-group mb-3">
                     <label for="addListingHourlyRate" class="font-weight-bold mb-1">Hourly Rate (PHP)</label>
-                    <input type="number" class="form-control" id="addListingHourlyRate" value="750" step="50">
+                    <input type="number" class="form-control" id="addListingHourlyRate" min="0" value="@DefaultRateValuesConfig.HourlyRateDefault" step="1">
                 </div>
                 <!-- DAILY RATE -->
                 <div class="form-group mb-3">
                     <label for="addListingDailyRate" class="font-weight-bold mb-1">Daily Rate (PHP)</label>
-                    <input type="number" class="form-control" id="addListingDailyRate" value="750" step="50">
+                    <input type="number" class="form-control" id="addListingDailyRate" min="0" value="@DefaultRateValuesConfig.DailyRateDefault" " step="50">
                 </div>
                 <!-- WEEKLY RATE -->
                 <div class="form-group mb-3">
                     <label for="addListingWeeklyRate" class="font-weight-bold mb-1">Weekly Rate (PHP)</label>
-                    <input type="number" class="form-control" id="addListingWeeklyRate" value="7000" step="100">
+                    <input type="number" class="form-control" id="addListingWeeklyRate" min="0" value="@DefaultRateValuesConfig.WeeklyRateDefault" " step="100">
                 </div>
                 <!-- MONTHLY RATE -->
                 <div class="form-group mb-3">
                     <label for="addListingMonthlyRate" class="font-weight-bold mb-1">Monthly Rate (PHP)</label>
-                    <input type="number" class="form-control" id="addListingMonthlyRate" value="20000" step="500">
+                    <input type="number" class="form-control" id="addListingMonthlyRate" min="0" value="@DefaultRateValuesConfig.MonthlyRateDefault" " step="500">
                 </div>
                 <!-- DETAILS -->
                 <div class="form-group mb-3">
@@ -85,22 +86,22 @@
                 <!-- HOURLY RATE -->
                 <div class="form-group mb-3">
                     <label for="editListingHourlyRate" class="font-weight-bold mb-1">Hourly Rate (PHP)</label>
-                    <input type="number" class="form-control" id="editListingHourlyRate" value="@Model.ListingDetails.listingdeetsVMHourlyRate" step="50">
+                    <input type="number" class="form-control" id="editListingHourlyRate" min="0" value="@Model.ListingDetails.listingdeetsVMHourlyRate" step="1">
                 </div>
                 <!-- DAILY RATE -->
                 <div class="form-group mb-3">
                     <label for="editListingDailyRate" class="font-weight-bold mb-1">Daily Rate (PHP)</label>
-                    <input type="number" class="form-control" id="editListingDailyRate" value="@Model.ListingDetails.listingdeetsVMDailyRate" step="50">
+                    <input type="number" class="form-control" id="editListingDailyRate" min="0" value="@Model.ListingDetails.listingdeetsVMDailyRate" step="50">
                 </div>
                 <!-- WEEKLY RATE -->
                 <div class="form-group mb-3">
                     <label for="editListingWeeklyRate" class="font-weight-bold mb-1">Weekly Rate (PHP)</label>
-                    <input type="number" class="form-control" id="editListingWeeklyRate" value="@Model.ListingDetails.listingdeetsVMWeeklyRate" step="100">
+                    <input type="number" class="form-control" id="editListingWeeklyRate" min="0" value="@Model.ListingDetails.listingdeetsVMWeeklyRate" step="100">
                 </div>
                 <!-- MONTHLY RATE -->
                 <div class="form-group mb-3">
                     <label for="editListingMonthlyRate" class="font-weight-bold mb-1">Monthly Rate (PHP)</label>
-                    <input type="number" class="form-control" id="editListingMonthlyRate" value="@Model.ListingDetails.listingdeetsVMMonthlyRate" step="500">
+                    <input type="number" class="form-control" id="editListingMonthlyRate" min="0" value="@Model.ListingDetails.listingdeetsVMMonthlyRate" step="500">
                 </div>
                 <!-- DETAILS -->
                 <div class="form-group mb-3">

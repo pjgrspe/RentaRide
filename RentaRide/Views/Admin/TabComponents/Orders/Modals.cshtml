@@ -1,4 +1,7 @@
-﻿<!-- Add Order Modal -->
+﻿@using RentaRide.Utilities
+@model RentaRide.Models.ViewModels.AdminPartialViewModel
+
+<!-- Add Order Modal -->
 <div class="modal fade" id="addOrderModal" tabindex="-1" aria-labelledby="addOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered p-2">
         <div class="modal-content bg-dark-secondary p-3" id="modal-content-addOrder">
@@ -12,17 +15,35 @@
                 <!-- CAR -->
                 <div class="form-group mb-3">
                     <label for="addlistingCar" class="font-weight-bold mb-1">Car</label>
-                    <!-- CHANGE THIS TO CAR -->
                     <select class="form-control" id="addlistingCar">
                         <option value="" disabled selected>Select car</option>
+                        @foreach (var listing in Model.OrderListings)
+                        {
+                            <option value="@listing.orderlistingID">@listing.orderlistingName</option>
+                        })
+
                     </select>
                 </div>
                 <!-- USER -->
                 <div class="form-group mb-3">
                     <label for="addlistingUser" class="font-weight-bold mb-1">User</label>
-                    <!-- CHANGE THIS TO CAR -->
                     <select class="form-control" id="addlistingUser">
                         <option value="" disabled selected>Select User</option>
+                        @foreach (var user in Model.OrderUsers)
+                        {
+                            <option value="@user.orderuserID">@user.orderuserName</option>
+                        })
+                    </select>
+                </div>
+                <!-- DRIVER -->
+                <div class="form-group mb-3">
+                    <label for="addlistingDriver" class="font-weight-bold mb-1">Driver</label>
+                    <select class="form-control" id="addlistingDriver">
+                        <option value="" disabled selected>Select Driver</option>
+                        @foreach (var driver in Model.OrderDrivers)
+                        {
+                            <option value="@driver.orderdriverID">@driver.orderdriverName</option>
+                        })
                     </select>
                 </div>
                 <!-- ORDER START -->
@@ -32,8 +53,18 @@
                 </div>
                 <!-- ORDER END -->
                 <div class="form-group mb-3">
-                    <label for="addListingEndDate" class="font-weight-bold mb-1">Order End Date</label>
-                    <input class="form-control flatpickr-orderend" id="addListingEndDate" placeholder="Enter Listing's availability start date">
+                    <label for="addOrderEndDate" class="font-weight-bold mb-1">Order End Date</label>
+                    <input class="form-control flatpickr-orderend" id="addOrderEndDate" placeholder="Enter Listing's availability start date">
+                </div>
+                <!-- LOCATION LIMIT -->
+                <div class="form-group mb-3">
+                    <label for="addOrderLocLimit" class="font-weight-bold mb-1">Furthest Travel Location</label>
+                    <input class="form-control" id="addOrderLocLimit" placeholder="Enter Location Limit">
+                </div>
+                <!-- NOTES -->
+                <div class="form-group mb-3">
+                    <label for="addOrderNotes" class="font-weight-bold mb-1">Order Notes</label>
+                    <input class="form-control" id="addOrderNotes" placeholder="Enter Order Notes">
                 </div>
                 <!-- PAYMENT METHOD -->
                 <div class="form-group mb-3">
@@ -41,6 +72,10 @@
                     <!-- CHANGE THIS TO PAYMENT METHOD -->
                     <select class="form-control" id="addlistingPaymentMethod">
                         <option value="" disabled selected>Select Payment Method</option>
+                        @for (int i = 1; i < TypeNamesUtilities.PayTypeNames.Length; i++)
+                        {
+                            <option value="@i">@TypeNamesUtilities.PayTypeNames[i]</option>
+                        }
                     </select>
                 </div>
                 <!-- PAYMENT STATUS -->
@@ -49,6 +84,10 @@
                     <!-- CHANGE THIS TO PAYMENT STATUS -->
                     <select class="form-control" id="addlistingPaymentStatus">
                         <option value="" disabled selected>Select Payment Status</option>
+                        @for (int i = 2; i < TypeNamesUtilities.OrderStatusNames.Length; i++)
+                        {
+                            <option value="@i">@TypeNamesUtilities.OrderStatusNames[i]</option>
+                        }
                     </select>
                 </div>
                 <!-- PROOF OF PAYMENT -->
@@ -60,7 +99,7 @@
             <!-- ACTION BUTTONS -->
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalAddOrder()">Cancel</button>
-                <button type="button" class="btn btn-success" onclick="openNextModal('4')">Save Changes</button>
+                <button type="button" class="btn btn-success" onclick="openNextModal('4')">Continue</button>
             </div>
         </div>
     </div>
@@ -79,44 +118,38 @@
             <!-- add Order FORM -->
             <div class="modal-body text-light">
                 <div class="form-group mb-3">
-                    <div class="text-left font-weight-bold mb-1"><strong>Hourly [₱<span id="hourlyCost"></span> * <span id="HoursCalc"></span> Hrs]: </strong></div>
+                    <div class="text-left font-weight-bold mb-1"><strong>Hourly [₱<span id="hourlyCost"></span> x <span id="HoursCalc"></span> Hrs]: </strong></div>
                     <div class="text-right">Cost: <span id="HourCost"></span></div>
                 </div>
                 <div class="form-group mb-3">
-                    <div class="text-left font-weight-bold mb-1"><strong>Daily [₱<span id="dailyCost"></span> * <span id="DaysCalc"></span> Days]: </strong></div>
+                    <div class="text-left font-weight-bold mb-1"><strong>Daily [₱<span id="dailyCost"></span> x <span id="DaysCalc"></span> Days]: </strong></div>
                     <div class="text-right">Cost: <span id="DayCost"></span></div>
                 </div>
                 <div class="form-group mb-3">
-                    <div class="text-left font-weight-bold mb-1"><strong>Weekly [₱<span id="weeklyCost"></span> * <span id="WeeksCalc"></span> Weeks]: </strong></div>
+                    <div class="text-left font-weight-bold mb-1"><strong>Weekly [₱<span id="weeklyCost"></span> x <span id="WeeksCalc"></span> Weeks]: </strong></div>
                     <div class="text-right">Cost: <span id="WeekCost"></span></div>
                 </div>
                 <div class="form-group mb-3">
-                    <div class="text-left font-weight-bold mb-1"><strong>Monthly [₱<span id="monthlyCost"></span> * <span id="MonthsCalc"></span> Months]: </strong></div>
+                    <div class="text-left font-weight-bold mb-1"><strong>Monthly [₱<span id="monthlyCost"></span> x <span id="MonthsCalc"></span> Months]: </strong></div>
                     <div class="text-right">Cost: <span id="MonthCost"></span></div>
                 </div>
 
                 <!-- CUSTOM COST -->
                 <div class="form-group mb-3">
-                    <label for="addOrderTotalCostToo" class="font-weight-bold mb-1">Suggested Total Cost (PHP)</label>
-                    <input type="number" class="form-control" id="addOrderTotalCostToo" value="0" step="100">
+                    <label for="addOrderTotalCost" class="font-weight-bold mb-1">Suggested Total Cost (PHP)</label>
+                    <input type="number" class="form-control" id="addOrderTotalCost" value="0" step="100">
                 </div>
                 <!-- EXTRA FEES -->
                 <div class="form-group mb-3">
-                    <label for="addOrderExtraFeesToo" class="font-weight-bold mb-1">Extra Fees (PHP)</label>
-                    <input type="number" class="form-control" id="addOrderExtraFeesToo" value="0" step="100">
+                    <label for="addOrderExtraFees" class="font-weight-bold mb-1">Extra Fees (PHP)</label>
+                    <input type="number" class="form-control" id="addOrderExtraFees" value="0" step="100">
                 </div>
             </div>
             <!-- ACTION BUTTONS -->
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNextModal()">Cancel</button>
-                <button type="button" class="btn btn-success" onclick="addOrder()">Save Changes</button>
+                <button type="button" class="btn btn-success" onclick="addOrder()">Place Order</button>
             </div>
         </div>
     </div>
 </div>
-
-@* <script type="text/javascript">
-    $('#addOrderModal').on('shown.bs.modal', function () {
-        
-    });
-</script> *@
