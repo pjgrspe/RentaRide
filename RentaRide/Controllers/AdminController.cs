@@ -53,6 +53,11 @@ namespace RentaRide.Controllers
             return View();
 
         }
+
+        public IActionResult map()
+        {
+            return View();
+        }
         public async Task<IActionResult> LoadPartial(string tabName)
         {
             if (string.IsNullOrEmpty(tabName))

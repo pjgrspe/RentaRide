@@ -1,4 +1,6 @@
-﻿<div class="container">
+﻿@using RentaRide.Config
+
+<div class="container">
     <div class="header">
         <h1 class="ms-2 mb-4 text-light">
             Good morning, Admin!
@@ -8,7 +10,23 @@
     <div class="row">
         <div class="col-xl-7">
             <div class="module-1 bg-dark-secondary">
-                <div id="map" style="height: 100%; width: 100%;"></div>
+                @* <div id="map" style="height: 100%; width: 100%;"></div> *@
+
+                <div id="map"></div>
+
+                <script>
+                    
+                    mapboxgl.accessToken = 'pk.eyJ1IjoicGpncnNwZSIsImEiOiJjbHgyeTRld3UwYnd5MmpxNDNob3ZhMDN3In0.BgzV_qvJPTkUfmgK2c0aYw';
+
+                    const map = new mapboxgl.Map({
+                        container: 'map',
+                        style: 'mapbox://styles/mapbox/light-v11',
+                        center: [-96, 37.8],
+                        zoom: 3
+                    });
+
+                    // code from the next step will go here!
+                </script>
             </div>
         </div>
     <div class="col-xl-5">
@@ -30,3 +48,4 @@
         </div>
     </div>
 </div>
+
