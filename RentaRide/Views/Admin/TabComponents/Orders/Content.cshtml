@@ -11,11 +11,11 @@
                 <th class="sortable" onclick="sortTable(0)">Receipt ID <i class="fas fa-sort ms-1"></i></th>
                 <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
                 <th class="sortable" onclick="sortTable(2)">Car <i class="fas fa-sort ms-1"></i></th>
+                <th class="sortable" onclick="sortTable(2)">Plate Number<i class="fas fa-sort ms-1"></i></th>
                 <th class="sortable" onclick="sortTable(3)">Book Date <i class="fas fa-sort ms-1"></i></th>
                 <th class="sortable" onclick="sortTable(4)">Return Date <i class="fas fa-sort ms-1"></i></th>
                 <th class="sortable text-center" onclick="sortTable(5)">Cost <i class="fas fa-sort ms-1"></i></th>
                 <th class="sortable text-center" onclick="sortTable(6)">Extra Fees <i class="fas fa-sort ms-1"></i></th>
-                <th class="text-center">Payment Status</th>
                 <th class="text-center">Status</th>
                 <th class="text-center">Details</th>
             </tr>
@@ -23,7 +23,26 @@
         <!-- BODY -->
         <tbody id="usersTable" class="text-light">
             <!-- Example data rows -->
-            <tr class="table-row">
+            @foreach (var orders in Model.Orders)
+            {
+                <tr class="table-row">
+                    <td>@orders.ordersVMreceipt</td>
+                    <td>@orders.ordersVMCustName</td>
+                    <td>@orders.ordersVMCarName</td>
+                    <td>@orders.ordersVMPlateNumber</td>
+                    <td>@orders.ordersVMFormattedStartDate</td>
+                    <td>@orders.ordersVMFormattedEndDate</td>
+                    <td class="text-center">₱@orders.ordersVMTotalCost</td>
+                    <td class="text-center">₱@orders.ordersVMExtraFees</td>
+                    <td class="text-center status status-ongoing"><span class="status-label text-dark">@orders.ordersVMPStatusName</span></td>
+                    <td class="text-center">
+                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails()">
+                            View
+                        </button>
+                    </td>
+                </tr>
+            }
+            @* <tr class="table-row">
                 <td>RCPT-0001</td>
                 <td>John Doe</td>
                 <td>Toyota Camry</td>
@@ -31,25 +50,13 @@
                 <td>2023-05-10</td>
                 <td class="text-center">$150.00</td>
                 <td class="text-center">$10.00</td>
-                <td class="text-center status status-paid"><span class="status-label text-dark">Paid</span></td>
                 <td class="text-center status status-ongoing"><span class="status-label text-dark">On Going</span></td>
                 <td class="text-center">
-                    <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails('1001',
-                                                                                                    'RCPT-0001',
-                                                                                                    'John Doe',
-                                                                                                    'Toyota Camry',
-                                                                                                    '2023-05-01',
-                                                                                                    '2023-05-10',
-                                                                                                    '$150.00',
-                                                                                                    '$10.00',
-                                                                                                    'Completed',
-                                                                                                    'Paid',
-                                                                                                    'Credit Card',
-                                                                                                    '2023-05-01')">
+                    <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails()">
                         View
                     </button>
                 </td>
-            </tr>
+            </tr> *@
         </tbody>
     </table>
     <div id="no-results" class="text-center no-results" style="margin-top:180px; display:none;">

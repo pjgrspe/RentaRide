@@ -19,6 +19,7 @@ namespace RentaRide.Models.ViewModels
         public List<OrderListingListViewModel> OrderListings { get; set; } = new List<OrderListingListViewModel>();
         public List<OrderUserListViewModel> OrderUsers { get; set; } = new List<OrderUserListViewModel>();
         public List<OrderDriverListViewModel> OrderDrivers { get; set; } = new List<OrderDriverListViewModel>();
+        public List<OrdersViewModel> Orders { get; set; } = new List<OrdersViewModel>();
         public CarLogsDetailsViewModel CarLogsDetails { get; set; } = new CarLogsDetailsViewModel();
         public CarDetailsViewModel CarDetails { get; set; } = new CarDetailsViewModel();
         public ListingDetailsViewModel ListingDetails { get; set; } = new ListingDetailsViewModel();

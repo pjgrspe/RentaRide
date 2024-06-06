@@ -192,6 +192,36 @@ namespace RentaRide.Controllers
                                                     .ToListAsync();
                     adminPartialModel.Listings = listing;
                 }
+                else if (tabName == MenuTabNames.menuOrders)
+                {
+                    var order = await _rardbContext.TBL_Orders
+                                                        .Join(_rardbContext.TBL_Listings,
+                                                            order => order.listingID,
+                                                            listing => listing.listingID,
+                                                            (order, listing) => new { order, listing })
+                                                        .Join(_rardbContext.TBL_Cars,
+                                                            orderListing => orderListing.listing.carID,
+                                                            car => car.carID,
+                                                            (orderListing, car) => new { orderListing.order, orderListing.listing, car })
+                                                        .Join(_rardbContext.TBL_UserDetails,
+                                                            orderListingCar => orderListingCar.order.userID,
+                                                            user => user.UserID,
+                                                            (orderListingCar, user) => new OrdersViewModel
+                                                            {
+                                                                ordersVMID = orderListingCar.order.orderID,
+                                                                ordersVMreceipt = orderListingCar.order.orderReservationID,
+                                                                ordersVMCustName = user.RentaRideAppUsers.userLastName + ", " + user.RentaRideAppUsers.userFirstName,
+                                                                ordersVMCarName = orderListingCar.car.carMake + " " + orderListingCar.car.carModel + " " + "(" + orderListingCar.car.carYear + ")",
+                                                                ordersVMPlateNumber = orderListingCar.car.carLicensePlate,
+                                                                ordersVMStartDate = orderListingCar.order.orderPickupDate,
+                                                                ordersVMEndDate = orderListingCar.order.orderReturnDate,
+                                                                ordersVMTotalCost = orderListingCar.order.orderTotalCost,
+                                                                ordersVMExtraFees = orderListingCar.order.orderExtraFees,
+                                                                ordersVMStatusID = orderListingCar.order.orderStatus,
+                                                            })
+                                                        .ToListAsync();
+                    adminPartialModel.Orders = order;
+                }
 
                 return PartialView($"~/Views/Admin/Tabs/{tabName}.cshtml", adminPartialModel);
             }
@@ -1363,6 +1393,43 @@ namespace RentaRide.Controllers
                 string errorMessage = ex.Message.ToString();
                 return new JsonResult(new { success = false, message = errorMessage });
             }
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetListingDates(int listingId)
+        {
+            //var listing = await _rardbContext.TBL_Listings
+            //    .Where(l => l.listingID == listingId)
+            //    .Select(l => new { l.listingAvailabilityStart, l.listingAvailabilityEnd })
+            //    .FirstOrDefaultAsync();
+
+            //var orderDates = await _rardbContext.TBL_Orders
+            //    .Where(o => o.listingID == listingId && (o.orderStatus == 2 || o.orderStatus == 4))
+            //    .Select(o => new { o.orderPickupDate, o.orderReturnDate })
+            //    .ToListAsync();
+
+            //return Json(new { listing, orderDates });
+
+                var listing = await _rardbContext.TBL_Listings.FindAsync(listingId);
+                if (listing == null)
+                {
+                    return NotFound();
+                }
+
+                var orderDates = await _rardbContext.TBL_Orders
+                    .Where(o => o.listingID == listingId && (o.orderStatus == 2 || o.orderStatus == 4))
+                    .Select(o => new { o.orderPickupDate, o.orderReturnDate })
+                    .ToListAsync();
+
+                return Ok(new
+                {
+                    listingStartDate = listing.listingAvailabilityStart.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    listingEndDate = listing.listingAvailabilityEnd?.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    orderDates = orderDates.Select(d => new 
+                    {
+                        StartDate = d.orderPickupDate.ToString("yyyy-MM-ddTHH:mm:ss"),
+                        EndDate = d.orderReturnDate.ToString("yyyy-MM-ddTHH:mm:ss")
+                    })
+                });
         }
     }
 }

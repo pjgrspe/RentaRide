@@ -23,7 +23,7 @@ namespace RentaRide.Database.Database_Models
         public DateTime orderBookDate { get; set; }
         [Required]
         public DateTime orderPickupDate { get; set; }
-        public DateTime? orderReturnDate { get; set; }
+        public DateTime orderReturnDate { get; set; }
         public int orderStatus { get; set; }
         public decimal orderTotalCost { get; set; } = 0.00m;
         public decimal orderExtraFees { get; set; } = 0.00m;

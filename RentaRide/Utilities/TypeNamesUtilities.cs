@@ -97,7 +97,16 @@
                 "",             //0
                 "Cancelled",    //1
                 "Confirmed",    //2
-                "Pending"       //3
+                "Pending",      //3
+                "OnGoing"       //4
+            };
+
+        public static readonly string[] PayStatusNames = 
+            { 
+                "",             //0
+                "Active",       //1
+                "Inactive",     //2
+                "Banned"        //3
             };
     }
 }

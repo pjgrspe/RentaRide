@@ -37,9 +37,9 @@ function openModalAddListing(){
                 reloadActivePartialView(data.message);
                 return;
             }
+            document.getElementById('modalContainer').innerHTML = data;
 
             $('#addListingModal').modal('show');
-            document.getElementById('modalContainer').innerHTML = data;
 
         })
         .catch(error => console.error('Error:', error));

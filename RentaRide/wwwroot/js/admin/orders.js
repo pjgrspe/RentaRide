@@ -14,7 +14,6 @@
             var tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
 
-            // Initialize Flatpickr for the "Order End Date" field
             var endPicker = flatpickr(".flatpickr-orderend", {
                 dateFormat: "Y-m-dTH:i",
                 enableTime: true,
@@ -25,7 +24,7 @@
             });
 
             // Initialize Flatpickr for the "Order Start Date" and "Order End Date" fields
-            flatpickr(".flatpickr-orderstart", {
+            var startPicker = flatpickr(".flatpickr-orderstart", {
                 dateFormat: "Y-m-dTH:i",
                 enableTime: true,
                 altInput: true,
@@ -40,6 +39,51 @@
                         endPicker.setDate(tomorrow, true);
                     }
                 }
+            });
+
+            document.getElementById('addlistingCar').addEventListener('change', function () {
+                var listingId = this.value;
+
+                fetch(`/Admin/GetListingDates?listingId=${listingId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        var disabledDates = [];
+                        data.orderDates.forEach(order => {
+                            var startDate = new Date(order.startDate);
+                            var endDate = new Date(order.endDate);
+                            for (var d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+                                disabledDates.push(new Date(d));
+                            }
+                        });
+
+                        var listingStartDate = new Date(data.listingStartDate);
+                        if (listingStartDate < today) {
+                            listingStartDate = today;
+                        }
+
+                        startPicker.set('minDate', listingStartDate);
+                        if (data.listingEndDate) {
+                            startPicker.set('maxDate', new Date(data.listingEndDate));
+                        }
+                        startPicker.set('disable', disabledDates);
+
+                        endPicker.set('minDate', listingStartDate.getDate() + 1);
+                        if (data.listingEndDate) {
+                            endPicker.set('maxDate', new Date(data.listingEndDate));
+                        }
+                        endPicker.set('disable', disabledDates);
+
+                        var earliestAvailableDate = new Date(startPicker.config.minDate);
+                        while (disabledDates.some(d => d.getFullYear() === earliestAvailableDate.getFullYear() && d.getMonth() === earliestAvailableDate.getMonth() && d.getDate() === earliestAvailableDate.getDate())) {
+                            earliestAvailableDate.setDate(earliestAvailableDate.getDate() + 1);
+                        }
+
+                        // Set the selected dates to the earliest available date
+                        startPicker.setDate(earliestAvailableDate, true);
+                        startPicker.set('default', earliestAvailableDate);
+                        endPicker.setDate(new Date(earliestAvailableDate.getTime() + 24 * 60 * 60 * 1000), true); // Add one day to the earliest available date
+                    })
+                    .catch(error => console.error('Error:', error));
             });
 
             $('#addOrderModal').modal('show');
