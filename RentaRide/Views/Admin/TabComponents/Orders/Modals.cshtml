@@ -28,12 +28,12 @@
                 <!-- ORDER START -->
                 <div class="form-group mb-3">
                     <label for="addOrderStartDate" class="font-weight-bold mb-1">Order Start Date</label>
-                    <input type="datetime-local" class="form-control" id="addOrderStartDate" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" placeholder="Enter Order's availability start date'">
+                    <input class="form-control flatpickr-orderstart" id="addOrderStartDate" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" placeholder="Enter Order's availability start date'">
                 </div>
                 <!-- ORDER END -->
                 <div class="form-group mb-3">
                     <label for="addListingEndDate" class="font-weight-bold mb-1">Order End Date</label>
-                    <input type="datetime-local" class="form-control" id="addListingEndDate" placeholder="Enter Listing's availability start date">
+                    <input class="form-control flatpickr-orderend" id="addListingEndDate" placeholder="Enter Listing's availability start date">
                 </div>
                 <!-- PAYMENT METHOD -->
                 <div class="form-group mb-3">
@@ -75,3 +75,9 @@
         </div>
     </div>
 </div>
+
+@* <script type="text/javascript">
+    $('#addOrderModal').on('shown.bs.modal', function () {
+        
+    });
+</script> *@
