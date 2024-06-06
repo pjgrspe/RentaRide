@@ -11,6 +11,7 @@ using RentaRide.Models.Accounts;
 using RentaRide.Models.ViewModels;
 using RentaRide.Services;
 using RentaRide.Utilities;
+using System.Reflection;
 using System.Text;
 
 namespace RentaRide.Controllers
@@ -33,7 +34,6 @@ namespace RentaRide.Controllers
             _configuration = configuration;
             _environment = environment;
         }
-
         public IActionResult Index()
         {
             //Uncomment when frontend is ready
@@ -53,7 +53,292 @@ namespace RentaRide.Controllers
             return View();
 
         }
+        public async Task<IActionResult> LoadPartial(string tabName)
+        {
+            if (string.IsNullOrEmpty(tabName))
+            {
+                return BadRequest("Partial name is required.");
+            }
 
+            var adminPartialModel = new AdminPartialViewModel();
+            try
+            {
+                //Model logic for Application menu name
+                if (tabName == MenuTabNames.menuUsers)
+                {
+                    var users = await _rardbContext.TBL_UserDetails
+                                      .Include(u => u.RentaRideAppUsers)
+                                      .ToListAsync();
+
+
+                    adminPartialModel.Users = users.Select(user => new UsersViewModel
+                    {
+                        userVMID = user.RentaRideAppUsers.Id,
+                        userVMFirstName = user.RentaRideAppUsers.userFirstName,
+                        userVMMiddleName = user.RentaRideAppUsers.userMiddleName,
+                        userVMLastName = user.RentaRideAppUsers.userLastName,
+                        userVMEmail = user.RentaRideAppUsers.Email,
+                        userVMisApproved = user.RentaRideAppUsers.userisApproved,
+                        userVMisActive = user.RentaRideAppUsers.userisActive,
+                        userVMDetailID = user.userDetailID,
+                        userVMDateCreated = user.userDateCreated,
+                        userVMDateLastModified = user.userDateLastModified,
+                        userVMDateModified = user.userDateModified,
+                        userVMDOB = user.userDOB,
+                        userVMstreetAdd = user.userStreetAdd,
+                        userVMCityAdd = user.userCityAdd,
+                        userVMProvinceAdd = user.userProvinceAdd,
+                        userVMContact = user.userContact,
+                        userVMLicenseExt = user.userLicenseFileExt,
+                        userVMLicenseBackExt = user.userLicenseBackFileExt,
+                        userVM2ndValidIDExt = user.user2ndValidIDFileExt,
+                        userVMProofofBillingExt = user.userProofofBillingFileExt,
+                        userVMSelfieProofExt = user.userSelfieProofFileExt,
+
+                        userVMLicenseIMG = imgNullCheck(user.userLicense, ImageCategories.imgLicense, _configuration, _environment),
+                        userVMLicenseBackIMG = imgNullCheck(user.userLicenseBack, ImageCategories.imgLicenseBack, _configuration, _environment),
+                        userVM2ndValidIDIMG = imgNullCheck(user.user2ndValidID, ImageCategories.img2ndID, _configuration, _environment),
+                        userVMProofofBillingIMG = imgNullCheck(user.userProofofBilling, ImageCategories.imgPOB, _configuration, _environment),
+                        userVMSelfieProofIMG = imgNullCheck(user.userSelfieProof, ImageCategories.imgSelfie, _configuration, _environment)
+                    }).ToList();
+
+                }
+                else if (tabName == MenuTabNames.menuDrivers)
+                {
+                    var drivers = await _rardbContext.TBL_Drivers
+                                                     .Where(driver => driver.driverIsDeleted == false)
+                                                     .ToListAsync();
+
+                    adminPartialModel.Drivers = drivers.Select(driver => new DriversViewModel
+                    {
+                        driverVMID = driver.driverID,
+                        driverVMFirstName = driver.driverFirstName,
+                        driverVMMiddleName = driver.driverMiddleName,
+                        driverVMLastName = driver.driverLastName,
+                        driverVMEmail = driver.driverEmail,
+                        driverVMContact = driver.driverContact,
+                        driverVMImageIMG = imgNullCheck(driver.driverPicture, ImageCategories.imgProfile, _configuration, _environment),
+                        driverVMLicenseIMG = imgNullCheck(driver.driverLicense, ImageCategories.imgLicense, _configuration, _environment),
+                        driverVMLicenseBackIMG = imgNullCheck(driver.driverLicenseBack, ImageCategories.imgLicenseBack, _configuration, _environment),
+                        driverVMImageExt = driver.driverPictureExt,
+                        driverVMLicenseExt = driver.driverLicenseExt,
+                        driverVMLicenseBackExt = driver.driverLicenseBackExt,
+                        driverVMDateCreated = driver.driverRegisteredDate,
+                        driverVMDateLastDutyDate = driver.driverLastDutyDate,
+                        driverVMOnDuty = driver.driverOnDuty,
+                        driverVMIsActive = driver.driverIsActive
+                    }).ToList();
+                }
+                else if (tabName == MenuTabNames.menuCars)
+                {
+                    var cars = await _rardbContext.TBL_Cars
+                                                    .Where(car => car.carIsDeleted == false)
+                                                    .Join(
+                                                        _rardbContext.TBL_CarTypes,
+                                                        car => car.carType,
+                                                        carType => carType.cartypeID,
+                                                        (car, carType) => new CarsViewModel
+                                                        {
+                                                            carVMID = car.carID,
+                                                            carVMPictureIMG = imgNullCheck(car.carThumbnail, ImageCategories.imgCar, _configuration, _environment),
+                                                            carVMPictureExt = car.carThumbnailExt,
+                                                            carVMMake = car.carMake,
+                                                            carVMModel = car.carModel,
+                                                            carVMYear = car.carYear,
+                                                            carVMTransmission = car.carTransmission,
+                                                            carVMColor = car.carColor,
+                                                            carVMTypeID = car.carType,
+                                                            carVMType = carType.cartypeName,
+                                                            carVMMileage = car.carMileage,
+                                                            carVMFuelType = car.carFuelType,
+                                                            carVMStatus = car.carStatus,
+                                                            carVMLastChangeOilMileage = car.carLastChangeOilMileage,
+                                                            carVMOilChangeInterval = car.carOilChangeInterval,
+                                                            carVMPlateNumber = car.carLicensePlate,
+                                                        }
+                                                    )
+                                                    .ToListAsync();
+
+                    adminPartialModel.Cars = cars;
+
+                    var carTypes = await _rardbContext.TBL_CarTypes.ToListAsync();
+                    adminPartialModel.CarTypes = carTypes.Select(carType => new CarTypesViewModel
+                    {
+                        cartypeVMID = carType.cartypeID,
+                        cartypeVMName = carType.cartypeName
+                    }).ToList();
+                }
+                else if (tabName == MenuTabNames.menuListings)
+                {
+
+                    var listing = await _rardbContext.TBL_Listings
+                                                    .Where(listing => listing.listingIsActive == false)
+                                                    .Join(
+                                                        _rardbContext.TBL_Cars,
+                                                        listing => listing.carID,
+                                                        car => car.carID,
+                                                        (listing, car) => new ListingsViewModel
+                                                        {
+                                                            listingVMID = listing.listingID,
+                                                            carID = car.carID,
+                                                            carName = $"{car.carMake} {car.carModel} {car.carYear}",
+                                                            carIMG = imgNullCheck(car.carThumbnail, ImageCategories.imgCar, _configuration, _environment),
+                                                            carIMGext = car.carThumbnailExt,
+                                                            listingVMDetails = listing.listingDetails,
+                                                            listingVMHourlyPrice = listing.listingHourlyPrice,
+                                                            listingVMDailyPrice = listing.listingDailyPrice,
+                                                            listingVMWeeklyPrice = listing.listingWeeklyPrice,
+                                                            listingVMMonthlyPrice = listing.listingMonthlyPrice,
+                                                            listingVMStatus = listing.listingStatus,
+                                                            listingVMAvailabilityStart = listing.listingAvailabilityStart,
+                                                            listingVMAvailabilityEnd = listing.listingAvailabilityEnd
+                                                        }
+                                                    )
+                                                    .ToListAsync();
+                    adminPartialModel.Listings = listing;
+                }
+
+                return PartialView($"~/Views/Admin/Tabs/{tabName}.cshtml", adminPartialModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading partial view: {tabName}", tabName);
+                return NotFound("Partial view not found.");
+            }
+        }
+        public async Task<IActionResult> GetCarDetails(int carId, bool forDetailsPage)
+        {
+            // Fetch the car details from the database using the carId
+            var car = await _rardbContext.TBL_Cars.FindAsync(carId);
+
+            if (car == null)
+            {
+                return Json(new { success = false });
+            }
+
+            var carType = await _rardbContext.TBL_CarTypes
+                                                    .Where(ct => ct.cartypeID == car.carType)
+                                                    .Select(ct => ct.cartypeName)
+                                                    .FirstOrDefaultAsync();
+
+            var carImages = await _rardbContext.TBL_CarImages
+                    .Where(carImg => carImg.carID == car.carID)
+                    .Select(carImg => new CarImagesViewModel
+                    {
+                        carIMGVMID = carImg.carimgID,
+                        carIMGVMCarIMG = imgNullCheck(carImg.carimgName, ImageCategories.imgCar, _configuration, _environment),
+                        carIMGVMCarExt = carImg.carimgExt
+                    })
+                    .ToListAsync();
+
+            var carLogs = await _rardbContext.TBL_CarLogs
+                    .Where(carLogs => carLogs.carID == car.carID && carLogs.LogIsDeleted == false)
+                    .Select(carLogs => new CarLogsViewModel
+                    {
+                        carLogsVMID = carLogs.logID,
+                        carLogsVMTypeID = carLogs.LogType,
+                        carLogsVMMileage = carLogs.LogMileage,
+                        carLogsVMDate = carLogs.LogDate,
+                        carLogsVMDetails = carLogs.LogDetails
+                    })
+                    .ToListAsync();
+
+            // Create a ViewModel with the car details
+            var viewModel = new AdminPartialViewModel
+            {
+                CarDetails = new CarDetailsViewModel
+                {
+                    cardeetsVM = car.carID,
+                    cardeetsVMMake = car.carMake,
+                    cardeetsVMModel = car.carModel,
+                    cardeetsVMYear = car.carYear,
+                    cardeetsVMTransmission = car.carTransmission,
+                    cardeetsVMTypeID = car.carType,
+                    cardeetsVMCarType = carType,
+                    cardeetsVMColor = car.carColor,
+                    cardeetsVMLicense = car.carLicensePlate,
+                    cardeetsVMMileage = car.carMileage,
+                    cardeetsVMLastLog = car.carLastLogDate,
+                    cardeetsVMStatusID = car.carStatus,
+                    cardeetsVMORIMG = imgNullCheck(car.carORDoc, ImageCategories.imgCarDocs, _configuration, _environment),
+                    cardeetsVMCRIMG = imgNullCheck(car.carCRDoc, ImageCategories.imgCarDocs, _configuration, _environment),
+                    cardeetsVMORExt = car.carORDocExt,
+                    cardeetsVMCRExt = car.carCRDocExt,
+                    cardeetsVMSeats = car.carSeats,
+                    cardeetsVMFuelType = car.carFuelType,
+                    cardeetsVMOilChangeInterval = car.carOilChangeInterval,
+                    cardeetsVMLastChangeOilMileage = car.carLastChangeOilMileage,
+                    cardeetsVMLastMaintenance = car.carLastMaintenance
+
+                },
+
+                CarImages = carImages,
+                CarLogs = carLogs
+            };
+
+            var carTypes = await _rardbContext.TBL_CarTypes.ToListAsync();
+            viewModel.CarTypes = carTypes.Select(carType => new CarTypesViewModel
+            {
+                cartypeVMID = carType.cartypeID,
+                cartypeVMName = carType.cartypeName
+            }).ToList();
+
+            // Return the Details view with the ViewModel
+            if (forDetailsPage)
+            {
+                return PartialView("~/Views/Admin/TabComponents/Cars/Details.cshtml", viewModel);
+            }
+            else
+            {
+                return PartialView("~/Views/Admin/TabComponents/Cars/Modals.cshtml", viewModel);
+            }
+            //return Json(new { success = true, data = viewModel });
+
+        }
+        public async Task<IActionResult> GetLogDetails(int logId)
+        {
+            // Fetch the car details from the database using the carId
+            var carLog = await _rardbContext.TBL_CarLogs.FindAsync(logId);
+
+            if (carLog == null)
+            {
+                return Json(new { success = false });
+            }
+
+            // Create a ViewModel with the car details
+            var viewModel = new AdminPartialViewModel
+            {
+                CarLogsDetails = new CarLogsDetailsViewModel
+                {
+                    carlogDeetsVMID = carLog.logID,
+                    carlogDeetsVMMileage = carLog.LogMileage,
+                    carlogDeetsVMDate = carLog.LogDate,
+                    carlogDeetsVMDetails = carLog.LogDetails,
+                    carlogDeetsVMTypeID = carLog.LogType
+                }
+            };
+
+            // Return the Details view with the ViewModel
+            
+            return PartialView("~/Views/Admin/TabComponents/Cars/Modals.cshtml", viewModel);
+            //return Json(new { success = true, data = viewModel });
+
+        }
+        public async Task<IActionResult> GetCarList()
+        {
+            var adminPartialModel = new AdminPartialViewModel();
+            var cars = await _rardbContext.TBL_Cars.Where(car => car.carStatus == true)
+                                                     .ToListAsync();
+
+            adminPartialModel.ListingsCarList = cars.Select(cars => new ListingCarListViewModel
+            {
+                listingcarID = cars.carID,
+                listingcarName = $"{cars.carMake} {cars.carModel} {cars.carYear}",
+            }).ToList();
+
+            return PartialView("~/Views/Admin/TabComponents/Listings/Modals.cshtml", adminPartialModel);
+
+        }
         [HttpPost]
         public async Task<IActionResult> AddNewDriver([FromForm] IFormCollection form)
         {
@@ -119,7 +404,6 @@ namespace RentaRide.Controllers
 
             }
         }
-
         [HttpPost]
         public async Task<IActionResult> EditDriver([FromForm] IFormCollection form)
         {
@@ -199,7 +483,6 @@ namespace RentaRide.Controllers
 
             }
         }
-
         [HttpPost]
         public async Task<IActionResult> DeleteDriver([FromForm] IFormCollection form)
         { 
@@ -250,130 +533,6 @@ namespace RentaRide.Controllers
                 ViewBag.ErrorMessage = "An error occureed with deleting driver";
                 return new JsonResult(new { success = false, message = "An error occurred with deleting driver" });
 
-            }
-        }
-
-        public async Task<IActionResult> LoadPartial(string tabName)
-        {
-            if (string.IsNullOrEmpty(tabName))
-            {
-                return BadRequest("Partial name is required.");
-            }
-
-            var adminPartialModel = new AdminPartialViewModel();
-            try
-            {
-                //Model logic for Application menu name
-                if (tabName == MenuTabNames.menuUsers)
-                {
-                    var users = await _rardbContext.TBL_UserDetails
-                                      .Include(u => u.RentaRideAppUsers)
-                                      .ToListAsync();
-
-
-                    adminPartialModel.Users = users.Select(user => new UsersViewModel
-                    {
-                        userVMID = user.RentaRideAppUsers.Id,
-                        userVMFirstName = user.RentaRideAppUsers.userFirstName,
-                        userVMMiddleName = user.RentaRideAppUsers.userMiddleName,
-                        userVMLastName = user.RentaRideAppUsers.userLastName,
-                        userVMEmail = user.RentaRideAppUsers.Email,
-                        userVMisApproved = user.RentaRideAppUsers.userisApproved,
-                        userVMisActive = user.RentaRideAppUsers.userisActive,
-                        userVMDetailID = user.userDetailID,
-                        userVMDateCreated = user.userDateCreated,
-                        userVMDateLastModified = user.userDateLastModified,
-                        userVMDateModified = user.userDateModified,
-                        userVMDOB = user.userDOB,
-                        userVMstreetAdd = user.userStreetAdd,
-                        userVMCityAdd = user.userCityAdd,
-                        userVMProvinceAdd = user.userProvinceAdd,
-                        userVMContact = user.userContact,
-                        userVMLicenseExt = user.userLicenseFileExt,
-                        userVMLicenseBackExt = user.userLicenseBackFileExt,
-                        userVM2ndValidIDExt = user.user2ndValidIDFileExt,
-                        userVMProofofBillingExt = user.userProofofBillingFileExt,
-                        userVMSelfieProofExt = user.userSelfieProofFileExt,
-
-                        userVMLicenseIMG = imgNullCheck(user.userLicense, ImageCategories.imgLicense, _configuration, _environment),
-                        userVMLicenseBackIMG = imgNullCheck(user.userLicenseBack, ImageCategories.imgLicenseBack, _configuration, _environment),
-                        userVM2ndValidIDIMG = imgNullCheck(user.user2ndValidID, ImageCategories.img2ndID, _configuration, _environment),
-                        userVMProofofBillingIMG = imgNullCheck(user.userProofofBilling, ImageCategories.imgPOB, _configuration, _environment),
-                        userVMSelfieProofIMG = imgNullCheck(user.userSelfieProof, ImageCategories.imgSelfie, _configuration, _environment)
-                    }).ToList();
-
-                }
-                else if (tabName == MenuTabNames.menuDrivers)
-                {
-                    var drivers = await _rardbContext.TBL_Drivers
-                                                     .Where(driver => driver.driverIsDeleted == false)
-                                                     .ToListAsync();
-                    adminPartialModel.Drivers = drivers.Select(driver => new DriversViewModel
-                    {
-                        driverVMID = driver.driverID,
-                        driverVMFirstName = driver.driverFirstName,
-                        driverVMMiddleName = driver.driverMiddleName,
-                        driverVMLastName = driver.driverLastName,
-                        driverVMEmail = driver.driverEmail,
-                        driverVMContact = driver.driverContact,
-                        driverVMImageIMG = imgNullCheck(driver.driverPicture, ImageCategories.imgProfile, _configuration, _environment),
-                        driverVMLicenseIMG = imgNullCheck(driver.driverLicense, ImageCategories.imgLicense, _configuration, _environment),
-                        driverVMLicenseBackIMG = imgNullCheck(driver.driverLicenseBack, ImageCategories.imgLicenseBack, _configuration, _environment),
-                        driverVMImageExt = driver.driverPictureExt,
-                        driverVMLicenseExt = driver.driverLicenseExt,
-                        driverVMLicenseBackExt = driver.driverLicenseBackExt,
-                        driverVMDateCreated = driver.driverRegisteredDate,
-                        driverVMDateLastDutyDate = driver.driverLastDutyDate,
-                        driverVMOnDuty = driver.driverOnDuty,
-                        driverVMIsActive = driver.driverIsActive
-                    }).ToList();
-                }
-                else if (tabName == MenuTabNames.menuCars)
-                {
-                    var cars = await _rardbContext.TBL_Cars
-                                                    .Where(car => car.carIsDeleted == false)
-                                                    .Join(
-                                                        _rardbContext.TBL_CarTypes,
-                                                        car => car.carType,
-                                                        carType => carType.cartypeID,
-                                                        (car, carType) => new CarsViewModel
-                                                        {
-                                                            carVMID = car.carID,
-                                                            carVMPictureIMG = imgNullCheck(car.carThumbnail, ImageCategories.imgCar, _configuration, _environment),
-                                                            carVMPictureExt = car.carThumbnailExt,
-                                                            carVMMake = car.carMake,
-                                                            carVMModel = car.carModel,
-                                                            carVMYear = car.carYear,
-                                                            carVMTransmission = car.carTransmission,
-                                                            carVMColor = car.carColor,
-                                                            carVMTypeID = car.carType,
-                                                            carVMType = carType.cartypeName,
-                                                            carVMMileage = car.carMileage,
-                                                            carVMFuelType = car.carFuelType,
-                                                            carVMStatus = car.carStatus,
-                                                            carVMLastChangeOilMileage = car.carLastChangeOilMileage,
-                                                            carVMOilChangeInterval = car.carOilChangeInterval,
-                                                            carVMPlateNumber = car.carLicensePlate,
-                                                        }
-                                                    )
-                                                    .ToListAsync();
-
-                    adminPartialModel.Cars = cars;
-
-                    var carTypes = await _rardbContext.TBL_CarTypes.ToListAsync();
-                    adminPartialModel.CarTypes = carTypes.Select(carType => new CarTypesViewModel
-                    {
-                        cartypeVMID = carType.cartypeID,
-                        cartypeVMName = carType.cartypeName
-                    }).ToList();
-                }
-
-                return PartialView($"~/Views/Admin/Tabs/{tabName}.cshtml", adminPartialModel);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error loading partial view: {tabName}", tabName);
-                return NotFound("Partial view not found.");
             }
         }
         public async Task<IActionResult> AddNewCar([FromForm] IFormCollection form)
@@ -534,7 +693,6 @@ namespace RentaRide.Controllers
                 return new JsonResult(new { success = false, message = "An error occurred with adding car" });
             }
         }
-
         public async Task<IActionResult> EditCar([FromForm] IFormCollection form)
         {
             if (ModelState.IsValid)
@@ -747,8 +905,6 @@ namespace RentaRide.Controllers
                 return new JsonResult(new { success = false, message = "An error occurred with adding car" });
             }
         }
-        
-
         public async Task<IActionResult> AddNewLog([FromForm] IFormCollection form)
         {
             if (ModelState.IsValid)
@@ -814,7 +970,6 @@ namespace RentaRide.Controllers
                 return new JsonResult(new { success = false, message = "An error occurred with adding log" });
             }
         }
-
         public async Task<IActionResult> DeleteLog([FromForm] IFormCollection form)
         {
             if (ModelState.IsValid)
@@ -875,128 +1030,85 @@ namespace RentaRide.Controllers
                 return new JsonResult(new { success = false, message = "An error occurred with deleting log" });
             }
         }
-
-        public async Task<IActionResult> GetCarDetails(int carId, bool forDetailsPage)
+        public async Task<IActionResult> AddListing([FromForm] IFormCollection form)
         {
-            // Fetch the car details from the database using the carId
-            var car = await _rardbContext.TBL_Cars.FindAsync(carId);
-
-            if (car == null)
+            try
             {
-                return Json(new { success = false });
-            }
-
-            var carType = await _rardbContext.TBL_CarTypes
-                                                    .Where(ct => ct.cartypeID == car.carType)
-                                                    .Select(ct => ct.cartypeName)
-                                                    .FirstOrDefaultAsync();
-
-            var carImages = await _rardbContext.TBL_CarImages
-                    .Where(carImg => carImg.carID == car.carID)
-                    .Select(carImg => new CarImagesViewModel
-                    {
-                        carIMGVMID = carImg.carimgID,
-                        carIMGVMCarIMG = imgNullCheck(carImg.carimgName, ImageCategories.imgCar, _configuration, _environment),
-                        carIMGVMCarExt = carImg.carimgExt
-                    })
-                    .ToListAsync();
-
-            var carLogs = await _rardbContext.TBL_CarLogs
-                    .Where(carLogs => carLogs.carID == car.carID && carLogs.LogIsDeleted == false)
-                    .Select(carLogs => new CarLogsViewModel
-                    {
-                        carLogsVMID = carLogs.logID,
-                        carLogsVMTypeID = carLogs.LogType,
-                        carLogsVMMileage = carLogs.LogMileage,
-                        carLogsVMDate = carLogs.LogDate,
-                        carLogsVMDetails = carLogs.LogDetails
-                    })
-                    .ToListAsync();
-
-            // Create a ViewModel with the car details
-            var viewModel = new AdminPartialViewModel
-            {
-                CarDetails = new CarDetailsViewModel
+                if (ModelState.IsValid)
                 {
-                    cardeetsVM = car.carID,
-                    cardeetsVMMake = car.carMake,
-                    cardeetsVMModel = car.carModel,
-                    cardeetsVMYear = car.carYear,
-                    cardeetsVMTransmission = car.carTransmission,
-                    cardeetsVMTypeID = car.carType,
-                    cardeetsVMCarType = carType,
-                    cardeetsVMColor = car.carColor,
-                    cardeetsVMLicense = car.carLicensePlate,
-                    cardeetsVMMileage = car.carMileage,
-                    cardeetsVMLastLog = car.carLastLogDate,
-                    cardeetsVMStatusID = car.carStatus,
-                    cardeetsVMORIMG = imgNullCheck(car.carORDoc, ImageCategories.imgCarDocs, _configuration, _environment),
-                    cardeetsVMCRIMG = imgNullCheck(car.carCRDoc, ImageCategories.imgCarDocs, _configuration, _environment),
-                    cardeetsVMORExt = car.carORDocExt,
-                    cardeetsVMCRExt = car.carCRDocExt,
-                    cardeetsVMSeats = car.carSeats,
-                    cardeetsVMFuelType = car.carFuelType,
-                    cardeetsVMOilChangeInterval = car.carOilChangeInterval,
-                    cardeetsVMLastChangeOilMileage = car.carLastChangeOilMileage,
-                    cardeetsVMLastMaintenance = car.carLastMaintenance
+                    int addListingCarID = Int32.Parse(form["listingaddCarID"]);
+                    var Car = _rardbContext.TBL_Cars.Find(addListingCarID);
+                    DateTime.TryParse(form["listingsaddEndDate"], out DateTime tempaddListingEndDate);
+                    DateTime? addListingEndDate = !string.IsNullOrEmpty(form["listingsaddEndDate"]) ? tempaddListingEndDate : (DateTime?)null;
 
-                },
+                    var model = new AdminPartialViewModel {
+                        AddListing = new ListingsAdd
+                        {
+                            listingaddCarID = addListingCarID,
+                            listingaddHourlyPrice = Decimal.Parse(form["listingaddHourlyPrice"]),
+                            listingaddDailyPrice = Decimal.Parse(form["listingaddDailyPrice"]),
+                            listingaddWeeklyPrice = Decimal.Parse(form["listingaddWeeklyPrice"]),
+                            listingaddMonthlyPrice = Decimal.Parse(form["listingaddMonthlyPrice"]),
+                            listingaddStartDate = DateTime.Parse(form["listingaddStartDate"]), //
+                            listingsaddEndDate = addListingEndDate,  //
+                            listingaddDetails = form["listingaddDetails"]
 
-                CarImages = carImages,
-                CarLogs = carLogs
-            };
+                        }
+                    };
 
-            var carTypes = await _rardbContext.TBL_CarTypes.ToListAsync();
-            viewModel.CarTypes = carTypes.Select(carType => new CarTypesViewModel
-            {
-                cartypeVMID = carType.cartypeID,
-                cartypeVMName = carType.cartypeName
-            }).ToList();
+                    var newlisting = new ListingsDBModel
+                    {
+                        carID = addListingCarID,
+                        listingHourlyPrice = model.AddListing.listingaddHourlyPrice,
+                        listingDailyPrice = model.AddListing.listingaddDailyPrice,
+                        listingWeeklyPrice = model.AddListing.listingaddWeeklyPrice,
+                        listingMonthlyPrice = model.AddListing.listingaddMonthlyPrice,
+                        listingAvailabilityStart = model.AddListing.listingaddStartDate,
+                        listingAvailabilityEnd = model.AddListing.listingsaddEndDate,
+                        listingDetails = model.AddListing.listingaddDetails,
+                        listingIsActive = true,
+                        listingStatus = 1
+                    };
+                
 
-            // Return the Details view with the ViewModel
-            if (forDetailsPage)
-            {
-                return PartialView("~/Views/Admin/TabComponents/Cars/Details.cshtml", viewModel);
-            }
-            else
-            {
-                return PartialView("~/Views/Admin/TabComponents/Cars/Modals.cshtml", viewModel);
-            }
-            //return Json(new { success = true, data = viewModel });
+                    _rardbContext.TBL_Listings.Add(newlisting);
+                    _rardbContext.SaveChanges();
 
-        }
+                    var logAdd = new CarLogsDBModel
+                    {
+                        carID = Car.carID,
+                        LogDate = DateTime.Now,
+                        LogMileage = Car.carMileage,
+                        LogType = 9,
+                        LogDetails = $"Listed: \n" +
+                                     $"Hourly-{model.AddListing.listingaddHourlyPrice} \n " +
+                                     $"Daily-{model.AddListing.listingaddDailyPrice} \n" +
+                                     $"Weekly-{model.AddListing.listingaddWeeklyPrice} \n" +
+                                     $"Monthly-{model.AddListing.listingaddMonthlyPrice} \n" +
+                                     $"StartDate: {model.AddListing.listingaddStartDate} \n" +
+                                     $"StartDate: {model.AddListing.listingsaddEndDate} \n"
+                    
+                    };
 
+                    _rardbContext.TBL_CarLogs.Add(logAdd);
+                    _rardbContext.SaveChanges();
 
-        public async Task<IActionResult> GetLogDetails(int logId)
-        {
-            // Fetch the car details from the database using the carId
-            var carLog = await _rardbContext.TBL_CarLogs.FindAsync(logId);
-
-            if (carLog == null)
-            {
-                return Json(new { success = false });
-            }
-
-            // Create a ViewModel with the car details
-            var viewModel = new AdminPartialViewModel
-            {
-                CarLogsDetails = new CarLogsDetailsViewModel
-                {
-                    carlogDeetsVMID = carLog.logID,
-                    carlogDeetsVMMileage = carLog.LogMileage,
-                    carlogDeetsVMDate = carLog.LogDate,
-                    carlogDeetsVMDetails = carLog.LogDetails,
-                    carlogDeetsVMTypeID = carLog.LogType
+                    await _rardbContext.SaveChangesAsync();
+                    return new JsonResult(new { success = true });
                 }
-            };
+                else
+                {
+                    ViewBag.ErrorMessage = "An error occurred with adding listing";
+                    return new JsonResult(new { success = false, message = "An error occurred with adding listing" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, message = ex });
 
-            // Return the Details view with the ViewModel
+            }
             
-            return PartialView("~/Views/Admin/TabComponents/Cars/Modals.cshtml", viewModel);
-            //return Json(new { success = true, data = viewModel });
-
         }
-
         [NonAction]
         private static string imgNullCheck(string? img, string imgCategory, IConfiguration configuration, IWebHostEnvironment environment)
         {

@@ -42,9 +42,6 @@ namespace RentaRide.Database.Database_Models
         public PayTypesDBModel PayTypesDBModel { get; set; }
         public DateTime? orderPaymentDate { get; set; }
         public string? orderReservationID { get; set; }
-        public int? orderRating { get; set; }
-        [ForeignKey("orderRating")]
-        public RatesDBModel RatesDBModel { get; set; }
         public int? orderReview { get; set; }
         public string? orderNotes { get; set; }
         public string? orderLocationLimit { get; set; }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentaRide.Database;
 
@@ -11,9 +12,11 @@ using RentaRide.Database;
 namespace RentaRide.Migrations
 {
     [DbContext(typeof(RARdbContext))]
-    partial class RARdbContextModelSnapshot : ModelSnapshot
+    [Migration("20240606030019_ListingsUpdate2")]
+    partial class ListingsUpdate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -402,7 +405,7 @@ namespace RentaRide.Migrations
                     b.Property<int>("carID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("listingAvailabilityEnd")
+                    b.Property<DateTime>("listingAvailabilityEnd")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("listingAvailabilityStart")

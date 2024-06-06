@@ -1,4 +1,7 @@
-﻿<!-- Add Listing Modal -->
+﻿@using RentaRide.Utilities
+@model RentaRide.Models.ViewModels.AdminPartialViewModel
+
+<!-- Add Listing Modal -->
 <div class="modal fade" id="addListingModal" tabindex="-1" aria-labelledby="addListingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered p-2">
         <div class="modal-content bg-dark-secondary p-3" id="modal-content-addListing">
@@ -15,10 +18,16 @@
                     <!-- CHANGE THIS TO CAR -->
                     <select class="form-control" id="addlistingCar">
                         <option value="" disabled selected>Select car</option>
-                        <option value="Car1">Car 1</option>
-                        <option value="Car2">Car 2</option>
-                        <option value="Car3">Car 3</option>
+                        @foreach(var cars in Model.ListingsCarList)
+                        {
+                            <option value="@cars.listingcarID">@cars.listingcarName</option>
+                        })
                     </select>
+                </div>
+                <!-- Hourly RATE -->
+                <div class="form-group mb-3">
+                    <label for="addListingHourlyRate" class="font-weight-bold mb-1">Hourly Rate (PHP)</label>
+                    <input type="number" class="form-control" id="addListingHourlyRate" value="750" step="50">
                 </div>
                 <!-- DAILY RATE -->
                 <div class="form-group mb-3">
@@ -38,7 +47,17 @@
                 <!-- DETAILS -->
                 <div class="form-group mb-3">
                     <label for="addlistingDetails" class="font-weight-bold mb-1">Details</label>
-                    <textarea type="text" class="form-control" id="addlistingDetails" placeholder="Enter log details."></textarea>
+                    <textarea type="text" class="form-control" id="addListingDetails" placeholder="Enter log details."></textarea>
+                </div>
+                <!-- Availability Start -->
+                <div class="form-group mb-3">
+                    <label for="addListingStartDate" class="font-weight-bold mb-1">Availability Start Date</label>
+                    <input type="datetime-local" class="form-control" id="addListingStartDate" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"  placeholder="Enter Listing's availability start date'">
+                </div>-
+                <!-- Availability Start  -->
+                <div class="form-group mb-3">
+                    <label for="addListingEndDate" class="font-weight-bold mb-1">Availability End Date (Leave null for indefinite)</label>
+                    <input type="datetime-local" class="form-control" id="addListingEndDate" placeholder="Enter Listing's availability start date">
                 </div>
             </div>
             <!-- ACTION BUTTONS -->
