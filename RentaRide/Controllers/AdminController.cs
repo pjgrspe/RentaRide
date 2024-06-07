@@ -218,7 +218,7 @@ namespace RentaRide.Controllers
                                                                 ordersVMEndDate = orderListingCar.order.orderReturnDate,
                                                                 ordersVMTotalCost = orderListingCar.order.orderTotalCost,
                                                                 ordersVMExtraFees = orderListingCar.order.orderExtraFees,
-                                                                ordersVMStatusID = orderListingCar.order.orderStatus,
+                                                                ordersVMStatusID = orderListingCar.order.orderStatus
                                                             })
                                                         .ToListAsync();
                     adminPartialModel.Orders = order;
@@ -1440,7 +1440,7 @@ namespace RentaRide.Controllers
                 var order = _rardbContext.TBL_Orders.Find(orderId);
                 if (order == null)
                 {
-                    return Json(new { success = false });
+                    return new JsonResult(new { success = false });
                 }
 
                 

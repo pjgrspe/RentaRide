@@ -155,37 +155,39 @@ function closeModalOrderDetails() {
 }
 
 function setOrderVerify(orderId, statusInt) {
-    fetch(`/Admin/OrderVerify?orderId=${orderId}&stautsInt=${statusInt}`)
-        .then(response => response.text())
+    fetch(`/Admin/OrderVerify?orderId=${orderId}&statusInt=${statusInt}`)
+        .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
         .then(data => {
             // Check if the car was not found
-            if (data.success) {
-                //SUCCESS
-                if (statusInt == 2) {
-                    // Insert your JS code here for successful verification
-                    reloadActivePartialView("Order confirmed.");
-                }
-                else if (statusInt == 5) {
-                    // Insert your JS code here for denial
-                    reloadActivePartialView("Order denied.");
-                }
-                else {
-                    // Insert your JS code here for pending status
-                    reloadActivePartialView("Order set to Pending.");
-                }
-            } else {
+            if (!data.success) {
                 //FAILED
                 // Use this if you want to display the message from the controller
                 // alert(data.message);
                 alert("Something went wrong");
+                closeModalOrderDetails();
+            }
+
+            //SUCCESS
+            if (statusInt == 2) {
+                // Insert your JS code here for successful verification
+                reloadActivePartialView("Order confirmed.");
+            }
+            else if (statusInt == 5) {
+                // Insert your JS code here for denial
+                reloadActivePartialView("Order denied.");
+            }
+            else {
+                // Insert your JS code here for pending status
+                reloadActivePartialView("Order set to Pending.");
             }
             closeModalOrderDetails();
         })
         .catch(error => console.error('Error:', error));
 }
 
-function openNextModal(listingID) {
-    fetch(`/Admin/GetListingDetails?listingId=${listingID}`)
+function openNextModal() {
+    var listingId = $('#addlistingCar').val();
+    fetch(`/Admin/GetListingDetails?listingId=${listingId}`)
     .then(response => response.json())
     .then(data => {
         // Check if the listing was not found
