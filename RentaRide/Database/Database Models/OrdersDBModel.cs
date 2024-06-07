@@ -16,7 +16,7 @@ namespace RentaRide.Database.Database_Models
         public string userID { get; set; }
         [ForeignKey("userID")]
         public RentaRideAppUsers RentaRideAppUsers { get; set; }
-        public int driverID { get; set; }
+        public int? driverID { get; set; }
         [ForeignKey("driverID")]
         public DriversDBModel DriversDBModel { get; set; }
         [Required]

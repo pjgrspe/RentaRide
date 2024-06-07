@@ -5,7 +5,7 @@
         public bool orderaddFromAdmin { get; set; }
         public int orderaddListingID { get; set; }
         public string orderaddUserID { get; set; }
-        public int orderaddDriverID { get; set; }
+        public int? orderaddDriverID { get; set; }
         public DateTime orderaddStart { get; set; }
         public DateTime orderaddEnd { get; set; }
         public int orderaddPaymentID { get; set; }

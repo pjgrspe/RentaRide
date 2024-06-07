@@ -1,67 +1,67 @@
-﻿@* @using RentaRide.Utilities
-@model RentaRide.Models.ViewModels.AdminPartialViewModel *@
+﻿@using RentaRide.Utilities
+@model RentaRide.Models.ViewModels.CustomerPartialViewModel
 
 <div class="row p-4 w-100" id="cards-table">
-    @* CARDS *@
+    @* CARDS
     @* CARD START *@
     @* LEAVE THIS AS COMMENT FOR NOW *@
-    @* @if (Model.Listings.Count == 0)
+    @if (Model.Listings.Count == 0)
     {
         <div id="no-results" class="text-center" style="margin-top:180px; display:none;">
             <h3>No cars found.</h3>
         </div>
     }
     else
-    { *@
-        @* @foreach (var listing in Model.Listings)
-        { *@
-    <div class="col-xl-4 col-lg-4 col-md-6 col-12 mb-4 card-item" data-status="onduty">
-        <div class="card-sl-listing bg-glass-secondary">
-            <div class="card-image-listing">
-                <img src="https://example.com/car-image.jpg" alt="Car Image" />
-            </div>
-            <div class="card-body d-flex flex-column">
-                <div class="card-heading-listing text-light">
-                    Random Car Name
+    {
+        @foreach (var listing in Model.Listings)
+        {
+        <div class="col-xl-4 col-lg-4 col-md-6 col-12 mb-4 card-item" data-status="onduty">
+            <div class="card-sl-listing bg-glass-secondary">
+                <div class="card-image-listing">
+                    <img src="@listing.listingVMcarPicture" alt="Car Image" />
                 </div>
-                <div class="col-12 text-center text-muted">
-                    <p style="text-align: justify; text-align-last: center;">
-                        This is a sample description for the car. It can be quite long, so we need to ensure it displays properly within the card layout.
-                    </p>
+                <div class="card-body d-flex flex-column">
+                    <div class="card-heading-listing text-light">
+                            @listing.listingVMcarNameNoLicense
+                    </div>
+                    <div class="col-12 text-center text-muted">
+                        <p style="text-align: justify; text-align-last: center;">
+                            @listing.listingVMDetails
+                        </p>
+                    </div>
+                    <div class="card-text listing-description">
+                        <div class="row">
+                            <div class="col-6 text-left"><strong>Color: </strong></div>
+                            <div class="col-6 text-right">@listing.listingVMColor</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-left"><strong>Transmission: </strong></div>
+                            <div class="col-6 text-right">@listing.listingVMTransType</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-left"><strong>Fuel Type: </strong></div>
+                            <div class="col-6 text-right">@listing.listingVMFuel</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-left"><strong>Car Type: </strong></div>
+                            <div class="col-6 text-right">@listing.listingVMTypeName</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-left"><strong>No. of Seats: </strong></div>
+                            <div class="col-6 text-right">@listing.listingVMSeats</div>
+                        </div>
+                    </div>
+                    <div class="card-text text-center mt-auto">
+                        <div class="text-center status status-available">
+                            <span class="status-label text-dark">Available</span>
+                        </div>
+                    </div>
+                    <button onclick="openModalOrder('@listing.listingVMID','@Model.CustomerInfo.UserId')" class="card-button btn btn-primary rounded-4 mt-1">Order</button>
                 </div>
-                <div class="card-text listing-description">
-                    <div class="row">
-                        <div class="col-6 text-left"><strong>Color: </strong></div>
-                        <div class="col-6 text-right">Red</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 text-left"><strong>Transmission: </strong></div>
-                        <div class="col-6 text-right">Automatic</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 text-left"><strong>Fuel Type: </strong></div>
-                        <div class="col-6 text-right">Gasoline</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 text-left"><strong>Car Type: </strong></div>
-                        <div class="col-6 text-right">SUV</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 text-left"><strong>No. of Seats: </strong></div>
-                        <div class="col-6 text-right">5</div>
-                    </div>
-                </div>
-                <div class="card-text text-center mt-auto">
-                    <div class="text-center status status-available">
-                        <span class="status-label text-dark">Available</span>
-                    </div>
-                </div>
-                <button onclick="openModalOrder('1234')" class="card-button btn btn-primary rounded-4 mt-1">Order</button>
             </div>
         </div>
-    </div>
-        @* }
-    } *@
+        }
+    }
     @* <div class="col-xl-4 col-lg-4 col-md-6 col-12 mb-4 card-item" data-status="onduty">
     <div class="card-sl-listing bg-glass-secondary" onclick="">
     <div class="card-image-listing">
@@ -97,6 +97,6 @@
     <button onclick="openModalEditListing()" class="card-button btn btn-primary rounded-4 mt-1">Edit</button>
     </div>
     </div>
-    </div> *@
+    </div>
     @* CARD END *@
 </div>
