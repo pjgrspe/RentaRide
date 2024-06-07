@@ -42,6 +42,21 @@ namespace RentaRide.Models.ViewModels
                 }
             }
         }
+        public string ordersVMPStatusClassNames
+        {
+            get
+            {
+                if (ordersVMStatusID > TypeNamesUtilities.OrderStatusNames.Length)
+                {
+                    return "unknown";
+                }
+                else
+                {
+                    return TypeNamesUtilities.OrderStatusClassNames[ordersVMStatusID];
+                }
+            }
+        }
+
 
 
     }

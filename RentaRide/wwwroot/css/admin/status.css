@@ -16,6 +16,11 @@
     background-color: #a5f6c6;
 }
 
+.status-confirmed span {
+    background-color: #a5f6c6;
+}
+
+
 .status-paid span {
     background-color: #a5f6c6;
 }

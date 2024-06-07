@@ -61,6 +61,8 @@ namespace RentaRide.Controllers
         {
             return View();
         }
+
+
         public async Task<IActionResult> LoadPartial(string tabName, int page = 1, int pageSize = 10)
         {
             if (string.IsNullOrEmpty(tabName))
@@ -80,34 +82,33 @@ namespace RentaRide.Controllers
                                       .ToListAsync();
 
                     adminPartialModel.Users = users.Select(user => new UsersViewModel
-                    {
-                        userVMID = user.RentaRideAppUsers.Id,
-                        userVMFirstName = user.RentaRideAppUsers.userFirstName,
-                        userVMMiddleName = user.RentaRideAppUsers.userMiddleName,
-                        userVMLastName = user.RentaRideAppUsers.userLastName,
-                        userVMEmail = user.RentaRideAppUsers.Email,
-                        userVMisApproved = user.RentaRideAppUsers.userisApproved,
-                        userVMisActive = user.RentaRideAppUsers.userisActive,
-                        userVMDetailID = user.userDetailID,
-                        userVMDateCreated = user.userDateCreated,
-                        userVMDateLastModified = user.userDateLastModified,
-                        userVMDateModified = user.userDateModified,
-                        userVMDOB = user.userDOB,
-                        userVMstreetAdd = user.userStreetAdd,
-                        userVMCityAdd = user.userCityAdd,
-                        userVMProvinceAdd = user.userProvinceAdd,
-                        userVMContact = user.userContact,
-                        userVMLicenseExt = user.userLicenseFileExt,
-                        userVMLicenseBackExt = user.userLicenseBackFileExt,
-                        userVM2ndValidIDExt = user.user2ndValidIDFileExt,
-                        userVMProofofBillingExt = user.userProofofBillingFileExt,
-                        userVMSelfieProofExt = user.userSelfieProofFileExt,
-
-                        userVMLicenseIMG = _fileServices.imgNullCheck(user.userLicense, ImageCategories.imgLicense),
-                        userVMLicenseBackIMG = _fileServices.imgNullCheck(user.userLicenseBack, ImageCategories.imgLicenseBack),
-                        userVM2ndValidIDIMG = _fileServices.imgNullCheck(user.user2ndValidID, ImageCategories.img2ndID),
-                        userVMProofofBillingIMG = _fileServices.imgNullCheck(user.userProofofBilling, ImageCategories.imgPOB),
-                        userVMSelfieProofIMG = _fileServices.imgNullCheck(user.userSelfieProof, ImageCategories.imgSelfie)
+                                      {
+                                          userVMID = user.RentaRideAppUsers.Id,
+                                          userVMFirstName = user.RentaRideAppUsers.userFirstName,
+                                          userVMMiddleName = user.RentaRideAppUsers.userMiddleName,
+                                          userVMLastName = user.RentaRideAppUsers.userLastName,
+                                          userVMEmail = user.RentaRideAppUsers.Email,
+                                          userVMisApproved = user.RentaRideAppUsers.userisApproved,
+                                          userVMisActive = user.RentaRideAppUsers.userisActive,
+                                          userVMDetailID = user.userDetailID,
+                                          userVMDateCreated = user.userDateCreated,
+                                          userVMDateLastModified = user.userDateLastModified,
+                                          userVMDateModified = user.userDateModified,
+                                          userVMDOB = user.userDOB,
+                                          userVMstreetAdd = user.userStreetAdd,
+                                          userVMCityAdd = user.userCityAdd,
+                                          userVMProvinceAdd = user.userProvinceAdd,
+                                          userVMContact = user.userContact,
+                                          userVMLicenseExt = user.userLicenseFileExt,
+                                          userVMLicenseBackExt = user.userLicenseBackFileExt,
+                                          userVM2ndValidIDExt = user.user2ndValidIDFileExt,
+                                          userVMProofofBillingExt = user.userProofofBillingFileExt,
+                                          userVMSelfieProofExt = user.userSelfieProofFileExt,
+                                          userVMLicenseIMG = _fileServices.imgNullCheck(user.userLicense, ImageCategories.imgLicense),
+                                          userVMLicenseBackIMG = _fileServices.imgNullCheck(user.userLicenseBack, ImageCategories.imgLicenseBack),
+                                          userVM2ndValidIDIMG = _fileServices.imgNullCheck(user.user2ndValidID, ImageCategories.img2ndID),
+                                          userVMProofofBillingIMG = _fileServices.imgNullCheck(user.userProofofBilling, ImageCategories.imgPOB),
+                                          userVMSelfieProofIMG = _fileServices.imgNullCheck(user.userSelfieProof, ImageCategories.imgSelfie)
                     }).ToList();
                 }
                 else if (tabName == MenuTabNames.menuDrivers)
@@ -119,23 +120,23 @@ namespace RentaRide.Controllers
                                                      .ToListAsync();
 
                     adminPartialModel.Drivers = drivers.Select(driver => new DriversViewModel
-                    {
-                        driverVMID = driver.driverID,
-                        driverVMFirstName = driver.driverFirstName,
-                        driverVMMiddleName = driver.driverMiddleName,
-                        driverVMLastName = driver.driverLastName,
-                        driverVMEmail = driver.driverEmail,
-                        driverVMContact = driver.driverContact,
-                        driverVMImageIMG = _fileServices.imgNullCheck(driver.driverPicture, ImageCategories.imgProfile),
-                        driverVMLicenseIMG = _fileServices.imgNullCheck(driver.driverLicense, ImageCategories.imgLicense),
-                        driverVMLicenseBackIMG = _fileServices.imgNullCheck(driver.driverLicenseBack, ImageCategories.imgLicenseBack),
-                        driverVMImageExt = driver.driverPictureExt,
-                        driverVMLicenseExt = driver.driverLicenseExt,
-                        driverVMLicenseBackExt = driver.driverLicenseBackExt,
-                        driverVMDateCreated = driver.driverRegisteredDate,
-                        driverVMDateLastDutyDate = driver.driverLastDutyDate,
-                        driverVMOnDuty = driver.driverOnDuty,
-                        driverVMIsActive = driver.driverIsActive
+                                                     {
+                                                         driverVMID = driver.driverID,
+                                                         driverVMFirstName = driver.driverFirstName,
+                                                         driverVMMiddleName = driver.driverMiddleName,
+                                                         driverVMLastName = driver.driverLastName,
+                                                         driverVMEmail = driver.driverEmail,
+                                                         driverVMContact = driver.driverContact,
+                                                         driverVMImageIMG = _fileServices.imgNullCheck(driver.driverPicture, ImageCategories.imgProfile),
+                                                         driverVMLicenseIMG = _fileServices.imgNullCheck(driver.driverLicense, ImageCategories.imgLicense),
+                                                         driverVMLicenseBackIMG = _fileServices.imgNullCheck(driver.driverLicenseBack, ImageCategories.imgLicenseBack),
+                                                         driverVMImageExt = driver.driverPictureExt,
+                                                         driverVMLicenseExt = driver.driverLicenseExt,
+                                                         driverVMLicenseBackExt = driver.driverLicenseBackExt,
+                                                         driverVMDateCreated = driver.driverRegisteredDate,
+                                                         driverVMDateLastDutyDate = driver.driverLastDutyDate,
+                                                         driverVMOnDuty = driver.driverOnDuty,
+                                                         driverVMIsActive = driver.driverIsActive
                     }).ToList();
                 }
                 else if (tabName == MenuTabNames.menuCars)
@@ -147,21 +148,21 @@ namespace RentaRide.Controllers
                                                   .ToListAsync();
 
                     adminPartialModel.Cars = cars.Select(car => new CarsViewModel
-                    {
-                        carVMID = car.carID,
-                        carVMPictureIMG = _fileServices.imgNullCheck(car.carThumbnail, ImageCategories.imgCar),
-                        carVMPictureExt = car.carThumbnailExt,
-                        carVMMake = car.carMake,
-                        carVMModel = car.carModel,
-                        carVMYear = car.carYear,
-                        carVMTransmission = car.carTransmission,
-                        carVMColor = car.carColor,
-                        carVMTypeID = car.carType,
-                        carVMMileage = car.carMileage,
-                        carVMFuelType = car.carFuelType,
-                        carVMStatus = car.carStatus,
-                        carVMLastChangeOilMileage = car.carLastChangeOilMileage,
-                        carVMOilChangeInterval = car.carOilChangeInterval,
+                                                  {
+                                                      carVMID = car.carID,
+                                                      carVMPictureIMG = _fileServices.imgNullCheck(car.carThumbnail, ImageCategories.imgCar),
+                                                      carVMPictureExt = car.carThumbnailExt,
+                                                      carVMMake = car.carMake,
+                                                      carVMModel = car.carModel,
+                                                      carVMYear = car.carYear,
+                                                      carVMTransmission = car.carTransmission,
+                                                      carVMColor = car.carColor,
+                                                      carVMTypeID = car.carType,
+                                                      carVMMileage = car.carMileage,
+                                                      carVMFuelType = car.carFuelType,
+                                                      carVMStatus = car.carStatus,
+                                                      carVMLastChangeOilMileage = car.carLastChangeOilMileage,
+                                                      carVMOilChangeInterval = car.carOilChangeInterval,
                         carVMPlateNumber = car.carLicensePlate,
                     }).ToList();
                 }
@@ -227,7 +228,7 @@ namespace RentaRide.Controllers
                                                               ordersVMEndDate = orderListingCar.order.orderReturnDate,
                                                               ordersVMTotalCost = orderListingCar.order.orderTotalCost,
                                                               ordersVMExtraFees = orderListingCar.order.orderExtraFees,
-                                                              ordersVMStatusID = orderListingCar.order.orderStatus,
+                                                              ordersVMStatusID = orderListingCar.order.orderStatus
                                                           })
                                                     .Skip((page - 1) * pageSize)
                                                     .Take(pageSize)
@@ -396,7 +397,7 @@ namespace RentaRide.Controllers
 
             if (listing == null)
             {
-                return Json(new { success = false, message = "invalid listing"});
+                return Json(new { success = false, message = "Invalid listing"});
             }
 
             return Json(new
@@ -418,7 +419,7 @@ namespace RentaRide.Controllers
 
             if (carlistingRates == null)
             {
-                return Json(new { success = false, message = "invalid listing"});
+                return Json(new { success = false, message = "nvalid listing"});
             }
 
             // Create a ViewModel with the car details

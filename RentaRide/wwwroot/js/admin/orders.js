@@ -325,7 +325,7 @@ function openNextModal() {
         if (!data.success) {
             $('#addOrderModal').modal('hide');
             $('#addOrderCostModal').modal('hide');
-            reloadActivePartialView(data.message);
+            reloadActivePartialViewError(data.message);
             return;
         }
 
@@ -396,24 +396,24 @@ function addOrder() {
     var Notes = $('#addOrderNotes').val();
 
     if (!listingId) {
-        reloadActivePartialView("Please select a valid listing");
+        reloadActivePartialViewError("Please select a valid listing.");
         closeModalAddOrder();
         return;
     }
     if (!userId) {
-        reloadActivePartialView("Please select a user");
+        reloadActivePartialViewError("Please select a user.");
         closeModalAddOrder();
         return;
     }
 
     if (!startDate || !endDate || !paymentId || !statusId || !Cost || !LocationLimit) {
-        reloadActivePartialView("Dont leave any fields empty.");
+        reloadActivePartialViewError("Dont leave any fields empty.");
         closeModalAddOrder();
         return;
     }
 
     if (startDate >= endDate) {
-        reloadActivePartialView("Start Date cannot exceed the End Date");
+        reloadActivePartialViewError("Start Date cannot exceed the End Date");
         closeModalAddOrder();
         return;
 
@@ -445,9 +445,9 @@ function addOrder() {
         .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
         .then(data => {
             if (data.success) {
-                reloadActivePartialView("order successfully added.");
+                reloadActivePartialView("Order successfully added.");
             } else {
-                reloadActivePartialView(data.message);
+                reloadActivePartialViewError(data.message);
             }
             $('#addOrderModal').modal('hide');
             $('#addOrderCostModal').modal('hide');
@@ -456,3 +456,18 @@ function addOrder() {
         })
         .catch(error => console.error('Error:', error));
 }
+
+//END ORDER FUNCTIONS 
+function openEndOrderModal(){
+    $('#endOrderModal').modal('show');
+}
+
+function closeEndOrderModal(){
+    $('#endOrderModal').modal('hide');
+}
+
+function submitEndOrder(){
+    reloadActivePartialView("Order successfully ended.");
+    removeBackdrops();
+}
+

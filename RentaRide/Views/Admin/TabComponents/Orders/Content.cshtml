@@ -34,7 +34,7 @@
                     <td>@orders.ordersVMFormattedEndDate</td>
                     <td class="text-center">₱@orders.ordersVMTotalCost</td>
                     <td class="text-center">₱@orders.ordersVMExtraFees</td>
-                    <td class="text-center status status-ongoing"><span class="status-label text-dark">@orders.ordersVMPStatusName</span></td>
+                    <td class="text-center status status-@orders.ordersVMPStatusClassNames"><span class="status-label text-dark">@orders.ordersVMPStatusName</span></td>
                     <td class="text-center">
                         <button class="btn btn-primary btn-sm rounded-3" onclick="openModalOrderDetails('@orders.ordersVMID')">
                             View

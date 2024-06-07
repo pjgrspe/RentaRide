@@ -117,6 +117,16 @@
                 "Denied"        //5
             };
 
+        public static readonly string[] OrderStatusClassNames = 
+            { 
+                "",             //0
+                "cancelled",    //1
+                "confirmed",    //2
+                "pending",      //3
+                "ongoing",      //4
+                "denied"        //5
+            };
+
         public static readonly string[] PayStatusNames = 
             { 
                 "",             //0

@@ -13,21 +13,45 @@ function closeModalEditListing() {
 function closeModalAddListing() {
     $('#addListingModal').modal('hide');
 }
-function openModalEditListing(listingID){
+function openModalEditListing(listingID) {
+    console.log("Opening edit modal for listing ID:", listingID);
     fetch(`/Admin/GetListingDetails?listingId=${listingID}`)
-        .then(response => response.text())
+        .then(response => response.json())
         .then(data => {
-            // Check if the car was not found
-            if (data.includes('"success":false')) {
+            console.log("Response Data:", data);
+
+            if (!data.success) {
                 reloadActivePartialView(data.message);
                 return;
             }
 
-            document.getElementById('modalContainer').innerHTML = data;
+            // Populate the modal fields with the fetched data
+            $('#editListingHourlyRate').val(data.hourlyRate);
+            $('#editListingDailyRate').val(data.dailyRate);
+            $('#editListingWeeklyRate').val(data.weeklyRate);
+            $('#editListingMonthlyRate').val(data.monthlyRate);
+            $('#editListingStartDate').val(new Date(data.startdate).toISOString().slice(0, 16));
+            $('#editListingEndDate').val(data.enddate ? new Date(data.enddate).toISOString().slice(0, 16) : '');
+            $('#editListingDetails').val(data.details);
+
+            // Set the status dropdown
+            $('#editListingStatus').val(data.status);
+
+            // Update buttons with listing ID
+            $('#deleteListingBtn').attr('onclick', `deleteListing(${listingID})`);
+            $('#saveChangesBtn').attr('onclick', `editListing(${listingID})`);
+
+            // Manually initialize the modal
             $('#editListingModal').modal('show');
+            console.log("Modal should be shown now.");
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            reloadActivePartialView("An error occurred while fetching the listing details.");
+        });
 }
+
+
 
 function openModalAddListing(){
     fetch(`/Admin/GetCarList`)
@@ -92,7 +116,7 @@ function addListing() {
             if (data.success) {
                 reloadActivePartialView("Listing successfully added.");
             } else {
-                reloadActivePartialView(data.message);
+                reloadActivePartialViewError(data.message);
             }
             closeModalAddListing();
         })
@@ -109,7 +133,7 @@ function editListing(listingId) {
     var details = $('#editlistingDetails').val();
 
     if (!hourlyPrice || !dailyPrice || !weeklyPrice || !monthlyPrice) {
-        reloadActivePartialView("Dont leave any of pricing fields empty.");
+        reloadActivePartialViewError("Dont leave any of pricing fields empty.");
         return;
     }
 
@@ -133,7 +157,7 @@ function editListing(listingId) {
             if (data.success) {
                 reloadActivePartialView("Listing successfully edited.");
             } else {
-                reloadActivePartialView(data.message);
+                reloadActivePartialViewError(data.message);
             }
             closeModalEditListing();
         })
@@ -148,7 +172,7 @@ function deleteListing(listingID) {
                 closeModalEditListing();
                 reloadActivePartialView("Listing successfully deleted.");
             } else {
-                reloadActivePartialView(data.message);
+                reloadActivePartialViewError(data.message);
             }
             closeModalEditListing();
         })

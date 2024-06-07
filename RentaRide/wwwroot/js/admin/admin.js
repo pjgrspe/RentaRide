@@ -1,6 +1,5 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
     const navLinks = document.querySelectorAll('.nav-item-link');
-    const profileLinks = document.querySelectorAll('.profile-menu .dropdown-item');
     const mainContent = document.querySelector('.main-content');
     const dashboardTab = document.querySelector('.nav-item-link[href="/Admin/LoadPartial?tabName=Dashboard"]'); // Adjust the selector as needed
 
@@ -53,11 +52,6 @@
     // Add click event listener to nav links
     navLinks.forEach(link => {
         link.addEventListener('click', handleNavLinkClick);
-    });
-
-    // Add click event listener to profile links
-    profileLinks.forEach(link => {
-        link.addEventListener('click', handleProfileLinkClick);
     });
 
     // Set the active tab on page load based on local storage or default to Dashboard
