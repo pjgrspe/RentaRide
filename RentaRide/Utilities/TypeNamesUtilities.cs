@@ -113,7 +113,8 @@
                 "Cancelled",    //1
                 "Confirmed",    //2
                 "Pending",      //3
-                "OnGoing"       //4
+                "OnGoing",      //4
+                "Denied"        //5
             };
 
         public static readonly string[] PayStatusNames = 

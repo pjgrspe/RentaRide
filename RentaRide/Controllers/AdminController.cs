@@ -210,7 +210,8 @@ namespace RentaRide.Controllers
                                                             {
                                                                 ordersVMID = orderListingCar.order.orderID,
                                                                 ordersVMreceipt = orderListingCar.order.orderReservationID,
-                                                                ordersVMCustName = user.RentaRideAppUsers.userLastName + ", " + user.RentaRideAppUsers.userFirstName,
+                                                                ordersVMCustFName = user.RentaRideAppUsers.userFirstName,
+                                                                ordersVMCustLName = user.RentaRideAppUsers.userLastName,
                                                                 ordersVMCarName = orderListingCar.car.carMake + " " + orderListingCar.car.carModel + " " + "(" + orderListingCar.car.carYear + ")",
                                                                 ordersVMPlateNumber = orderListingCar.car.carLicensePlate,
                                                                 ordersVMStartDate = orderListingCar.order.orderPickupDate,
@@ -305,6 +306,45 @@ namespace RentaRide.Controllers
                 return PartialView("~/Views/Admin/TabComponents/Cars/Modals.cshtml", viewModel);
             }
             //return Json(new { success = true, data = viewModel });
+
+        }
+        public async Task<IActionResult> GetOrderDetails(int orderId)
+        {
+            // Fetch the car details from the database using the carId
+            var order = await _rardbContext.TBL_Orders.FindAsync(orderId);
+            if (order == null)
+            {
+                return Json(new { success = false });
+            }
+            var listing = await _rardbContext.TBL_Listings.FindAsync(order.listingID);
+            var car = await _rardbContext.TBL_Cars.FindAsync(listing.carID);
+            var user = await _rardbContext.TBL_UserDetails
+                                  .Include(u => u.RentaRideAppUsers)
+                                  .FirstOrDefaultAsync(u => u.UserID == order.userID);
+    
+            // Create a ViewModel with the car details
+            var viewModel = new AdminPartialViewModel
+            {
+                OrderDetails = new OrderDetailsViewModel
+                {
+                    orderdeetsVMID = order.orderID,
+                    orderdeetsVMReceipt = order.orderReservationID,
+                    orderdeetsVMCarName = $"{car.carMake} {car.carModel} ({car.carYear})",
+                    orderdeetsVMCustFName = user.RentaRideAppUsers.userFirstName,
+                    orderdeetsVMCustLName = user.RentaRideAppUsers.userLastName,
+                    orderdeetsVMPlateNumber = car.carLicensePlate,
+                    orderdeetsVMStartDate = order.orderPickupDate,
+                    orderdeetsVMEndDate = order.orderReturnDate,
+                    orderdeetsVMTotalCost = order.orderTotalCost,
+                    orderdeetsVMExtraFees = order.orderExtraFees,
+                    orderdeetsVMStatusID = order.orderStatus,
+                    orderdeetsVMPOPIMG = _fileServices.imgNullCheck(order.orderPaymentIMG,ImageCategories.imgProofOP),
+                    orderdeetsVMPOPIMGExt = order.orderPaymentExt
+                }
+            };
+
+            return PartialView("~/Views/Admin/TabComponents/Orders/Modals.cshtml", viewModel);
+
 
         }
         public async Task<IActionResult> GetLogDetails(int logId)
@@ -446,7 +486,6 @@ namespace RentaRide.Controllers
             return PartialView("~/Views/Admin/TabComponents/Orders/Modals.cshtml", adminPartialModel);
 
         }
-
         [HttpPost]
         public async Task<IActionResult> AddNewDriver([FromForm] IFormCollection form)
         {
@@ -1392,6 +1431,28 @@ namespace RentaRide.Controllers
             {
                 string errorMessage = ex.Message.ToString();
                 return new JsonResult(new { success = false, message = errorMessage });
+            }
+        }
+        public async Task<IActionResult> OrderVerify(int orderId, int statusInt)
+        {
+            try
+            {
+                var order = _rardbContext.TBL_Orders.Find(orderId);
+                if (order == null)
+                {
+                    return Json(new { success = false });
+                }
+
+                
+                order!.orderStatus = statusInt;
+
+                await _rardbContext.SaveChangesAsync();
+                return new JsonResult(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message.ToString();
+                return new JsonResult(new { success = false, message = errorMessage});
             }
         }
         [HttpGet]

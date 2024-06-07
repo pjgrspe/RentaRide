@@ -27,7 +27,7 @@
             {
                 <tr class="table-row">
                     <td>@orders.ordersVMreceipt</td>
-                    <td>@orders.ordersVMCustName</td>
+                    <td>@orders.ordersVMCustLName, @orders.ordersVMCustFName</td>
                     <td>@orders.ordersVMCarName</td>
                     <td>@orders.ordersVMPlateNumber</td>
                     <td>@orders.ordersVMFormattedStartDate</td>
@@ -36,7 +36,7 @@
                     <td class="text-center">₱@orders.ordersVMExtraFees</td>
                     <td class="text-center status status-ongoing"><span class="status-label text-dark">@orders.ordersVMPStatusName</span></td>
                     <td class="text-center">
-                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalUserDetails()">
+                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalOrderDetails('@orders.ordersVMID')">
                             View
                         </button>
                     </td>
