@@ -1,3 +1,27 @@
 ﻿#moduleLogin {
     max-width: 800px;
 }
+
+.swal2-popup {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #444;
+}
+
+.swal2-title {
+    color: #fff;
+}
+
+.swal2-content {
+    color: #bbb;
+}
+
+.swal2-actions .swal2-confirm {
+    background-color: #4caf50;
+    border-color: #4caf50;
+}
+
+.swal2-actions .swal2-cancel {
+    background-color: #f44336;
+    border-color: #f44336;
+}

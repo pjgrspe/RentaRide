@@ -2,22 +2,50 @@
     Layout = "_LandingPageLayout";
 }
 
-@{
-    if (ViewBag.SuccessMessage != null)
-    {
-        <div class="alert alert-dismissible alert-success fade show" role="alert">
-            <strong>Success!</strong> @ViewBag.SuccessMessage
-            <button type="button" class="btn-close" data-bs-dismiss="alter" aria-label="Close"></button>
-        </div>
-    }
-    if (ViewBag.ErrorMessage != null)
-    {
-        <div class="alert alert-dismissible alert-danger fade show" role="alert">
-            <strong>Error!</strong> @ViewBag.ErrorMessage
-            <button type="button" class="btn-close" data-bs-dismiss="alter" aria-label="Close"></button>
-        </div>
-    }
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <text>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: '@ViewBag.SuccessMessage',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal2-dark',
+                            title: 'swal2-dark-title',
+                            content: 'swal2-dark-content',
+                            confirmButton: 'swal2-dark-confirm',
+                            cancelButton: 'swal2-dark-cancel'
+                        }
+                    });
+            </text>
+        }
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <text>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: '@ViewBag.ErrorMessage',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal2-dark',
+                            title: 'swal2-dark-title',
+                            content: 'swal2-dark-content',
+                            confirmButton: 'swal2-dark-confirm',
+                            cancelButton: 'swal2-dark-cancel'
+                        }
+                    });
+            </text>
+        }
+                });
+    </script>
 }
+
 <section class="d-flex justify-content-center bg-dark" id="hero_page">
     <div id="loadingSpinner" class="m-auto">
         <partial name="_LoadingSpinner"></partial>
