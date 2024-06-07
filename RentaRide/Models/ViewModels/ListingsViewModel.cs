@@ -8,11 +8,45 @@ namespace RentaRide.Models.ViewModels
         public int listingVMID { get; set; }
         public int listingVMcarID { get; set; }
         public string listingVMcarName { get; set; }
+        public string listingVMcarNameNoLicense { get; set; }
         public string listingVMcarIMG { get; set; }
         public string listingVMcarIMGext { get; set; }
         public string listingVMcarIMGType => ViewModelTools.GetFormattedExtension(listingVMcarIMGext);
         public string listingVMcarPicture => ViewModelTools.GetIMGSource(listingVMcarIMG, listingVMcarIMGType);
         public string listingVMDetails { get; set; }
+        public string listingVMColor {  get; set; }
+        public bool listingVMTransmission {  get; set; }
+        public string listingVMTransType
+        {
+            get
+            {
+                if (listingVMTransmission == true)
+                {
+                    return "Automatic";
+                }
+                else
+                {
+                    return "Manual";
+                }
+            }
+        }
+        public int listingVMFuelType { get; set; }
+        public string listingVMFuel
+        {
+            get
+            {
+                return TypeNamesUtilities.fuelTypeNames[listingVMFuelType];
+            }
+        }
+        public int listingVMType { get; set; }
+        public string listingVMTypeName
+        {
+            get
+            {
+                return TypeNamesUtilities.CarTypeNames[listingVMType];
+            }
+        }
+        public int listingVMSeats { get; set; }
         public decimal? listingVMHourlyPrice { get; set; }
         public decimal listingVMDailyPrice { get; set; }
         public decimal listingVMWeeklyPrice { get; set; }

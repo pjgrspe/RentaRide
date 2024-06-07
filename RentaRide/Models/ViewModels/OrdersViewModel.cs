@@ -8,6 +8,13 @@ namespace RentaRide.Models.ViewModels
         public string ordersVMreceipt { get; set; }
         public string ordersVMCustFName { get; set; }
         public string ordersVMCustLName { get; set; }
+        public string ordersVMCustName
+        {
+            get
+            {
+                return ordersVMCustFName + " " + ordersVMCustLName;
+            }
+        }
         public string ordersVMCarName { get; set; }
         public string ordersVMPlateNumber { get; set; }
         public DateTime ordersVMStartDate { get; set; }

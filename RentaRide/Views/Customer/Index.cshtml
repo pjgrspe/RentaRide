@@ -1,4 +1,6 @@
-﻿@model IEnumerable<RentaRide.Models.ViewModels.UsersViewModel>
+﻿@* @model IEnumerable<RentaRide.Models.ViewModels.UsersViewModel> *@
+@model RentaRide.Models.ViewModels.CustomerPartialViewModel
+
 @{
     Layout = "_AdminLayout";
 }
@@ -52,14 +54,14 @@
                                 @* CARS TABLE *@
                                 <div id="tableContent" class="d-flex justify-content-center cards-table-container">
                                     <div id="contentContainer" class="w-100">
-                                        @await Html.PartialAsync("~/Views/Customer/Components/Content.cshtml")
+                                        @await Html.PartialAsync("~/Views/Customer/Components/Content.cshtml", Model)
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div id="modalContainer">
-                            @await Html.PartialAsync("~/Views/Customer/Components/Modals.cshtml")
+                            @await Html.PartialAsync("~/Views/Customer/Components/Modals.cshtml", Model)
                         </div>
 
                     </div>
