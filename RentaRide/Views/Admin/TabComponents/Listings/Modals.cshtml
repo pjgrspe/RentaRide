@@ -54,16 +54,16 @@
                     <label for="addListingStartDate" class="font-weight-bold mb-1">Availability Start Date</label>
                     <input type="datetime-local" class="form-control" id="addListingStartDate" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"  placeholder="Enter Listing's availability start date'">
                 </div>
-                 <!-- Availability End  -->
+                <!-- Availability End  -->
                 <div class="form-group mb-3">
                     <label for="addListingEndDate" class="font-weight-bold mb-1">Availability End Date (Leave null for indefinite)</label>
                     <input type="datetime-local" class="form-control" id="addListingEndDate" placeholder="Enter Listing's availability start date">
                 </div>
-            </div>
-            <!-- ACTION BUTTONS -->
-            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalAddListing()">Cancel</button>
-                <button type="button" class="btn btn-success" onclick="addListing()">Save Changes</button>
+                <!-- ACTION BUTTONS -->
+                <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalAddListing()">Cancel</button>
+                    <button type="button" class="btn btn-success" onclick="addListing()">Save Changes</button>
+                </div>
             </div>
         </div>
     </div>
@@ -115,7 +115,7 @@
                         {
                             if (Model.ListingDetails.listingdeetsVMStatus == i)
                             {
-                                <option value="@i" selected>@Model.ListingDetails.listingdeetsVMStatusName</option>
+                                    <option value="@i" selected>@TypeNamesUtilities.ListingStatusNames[i]</option>
                             }
                             else
                             {

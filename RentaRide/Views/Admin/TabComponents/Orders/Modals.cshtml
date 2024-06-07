@@ -51,16 +51,6 @@
                         <option value="" disabled selected>Select Payment Status</option>
                     </select>
                 </div>
-                <!-- CUSTOM COST -->
-                <div class="form-group mb-3">
-                    <label for="addOrderTotalCost" class="font-weight-bold mb-1">Total Cost (PHP)</label>
-                    <input type="number" class="form-control" id="addOrderTotalCost" value="0" step="100">
-                </div>
-                <!-- EXTRA FEES -->
-                <div class="form-group mb-3">
-                    <label for="addOrderExtraFees" class="font-weight-bold mb-1">Extra Fees (PHP)</label>
-                    <input type="number" class="form-control" id="addOrderExtraFees" value="0" step="100">
-                </div>
                 <!-- PROOF OF PAYMENT -->
                 <div class="form-group mb-3">
                     <label for="addOrderProofOfPayment" class="font-weight-bold mb-1">Proof Of Payment</label>
@@ -70,6 +60,55 @@
             <!-- ACTION BUTTONS -->
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalAddOrder()">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="openNextModal('4')">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Order Compute Modal -->
+<div class="modal fade" id="addOrderCostModal" tabindex="-1" aria-labelledby="addOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark-secondary p-3" id="modal-content-addOrder">
+            <!-- TITLE -->
+            <div class="modal-header text-light border-0">
+                <h5 class="modal-title" id="addOrderModalLabel">Suggested cost computation</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closeModaladdOrder()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- add Order FORM -->
+            <div class="modal-body text-light">
+                <div class="form-group mb-3">
+                    <div class="text-left font-weight-bold mb-1"><strong>Hourly [₱<span id="hourlyCost"></span> * <span id="HoursCalc"></span> Hrs]: </strong></div>
+                    <div class="text-right">Cost: <span id="HourCost"></span></div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="text-left font-weight-bold mb-1"><strong>Daily [₱<span id="dailyCost"></span> * <span id="DaysCalc"></span> Days]: </strong></div>
+                    <div class="text-right">Cost: <span id="DayCost"></span></div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="text-left font-weight-bold mb-1"><strong>Weekly [₱<span id="weeklyCost"></span> * <span id="WeeksCalc"></span> Weeks]: </strong></div>
+                    <div class="text-right">Cost: <span id="WeekCost"></span></div>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="text-left font-weight-bold mb-1"><strong>Monthly [₱<span id="monthlyCost"></span> * <span id="MonthsCalc"></span> Months]: </strong></div>
+                    <div class="text-right">Cost: <span id="MonthCost"></span></div>
+                </div>
+
+                <!-- CUSTOM COST -->
+                <div class="form-group mb-3">
+                    <label for="addOrderTotalCostToo" class="font-weight-bold mb-1">Suggested Total Cost (PHP)</label>
+                    <input type="number" class="form-control" id="addOrderTotalCostToo" value="0" step="100">
+                </div>
+                <!-- EXTRA FEES -->
+                <div class="form-group mb-3">
+                    <label for="addOrderExtraFeesToo" class="font-weight-bold mb-1">Extra Fees (PHP)</label>
+                    <input type="number" class="form-control" id="addOrderExtraFeesToo" value="0" step="100">
+                </div>
+            </div>
+            <!-- ACTION BUTTONS -->
+            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNextModal()">Cancel</button>
                 <button type="button" class="btn btn-success" onclick="addOrder()">Save Changes</button>
             </div>
         </div>

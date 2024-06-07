@@ -334,9 +334,30 @@ namespace RentaRide.Controllers
         public async Task<IActionResult> GetListingDetails(int listingId)
         {
             // Fetch the car details from the database using the carId
-            var listing = await _rardbContext.TBL_Listings.FindAsync(listingId);
+            var listing = await _rardbContext.TBL_Listings
+                                            .FirstOrDefaultAsync(l => l.listingID == listingId);
 
             if (listing == null)
+            {
+                return Json(new { success = false, message = "invalid listing"});
+            }
+
+            return Json(new
+            {
+                success = true,
+                hourlyRate = listing.listingHourlyPrice,
+                dailyRate = listing.listingDailyPrice,
+                weeklyRate = listing.listingWeeklyPrice,
+                monthlyRate = listing.listingMonthlyPrice
+            });
+
+        }
+        public async Task<IActionResult> GetListingRates(int listingId)
+        {
+            // Fetch the car details from the database using the carId
+            var carlistingRates = await _rardbContext.TBL_Listings.FindAsync(listingId);
+
+            if (carlistingRates == null)
             {
                 return Json(new { success = false, message = "invalid listing"});
             }
@@ -344,22 +365,19 @@ namespace RentaRide.Controllers
             // Create a ViewModel with the car details
             var viewModel = new AdminPartialViewModel
             {
-                ListingDetails = new ListingDetailsViewModel
+                CarRates = new CarRatesViewModel
                 {
-                    listingdeetsVMID = listing.listingID,
-                    listingdeetsVMHourlyRate = listing.listingHourlyPrice,
-                    listingdeetsVMDailyRate = listing.listingDailyPrice,
-                    listingdeetsVMWeeklyRate = listing.listingWeeklyPrice,
-                    listingdeetsVMMonthlyRate = listing.listingMonthlyPrice,
-                    listingdeetsVMDetails = listing.listingDetails,
-                    listingdeetsVMStatus = listing.listingStatus
+                    HourlyRate = carlistingRates.listingHourlyPrice,
+                    DailyRate = carlistingRates.listingDailyPrice,
+                    WeeklyRate = carlistingRates.listingWeeklyPrice,
+                    MonthlyRate = carlistingRates.listingMonthlyPrice
                 }
             };
 
             // Return the Details view with the ViewModel
             
-            return PartialView("~/Views/Admin/TabComponents/Listings/Modals.cshtml", viewModel);
-            //return Json(new { success = true, data = viewModel });
+            //return PartialView("~/Views/Admin/TabComponents/Listings/Modals.cshtml", viewModel);
+            return Json(new { success = true, data = viewModel });
 
         }
         public async Task<IActionResult> GetCarList()
