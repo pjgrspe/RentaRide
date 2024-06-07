@@ -101,7 +101,7 @@
                     }
                     <div class="text-start">
                         @Html.LabelFor(m => m.regmodelDOB, new { @class = "form-label" })
-                        <input id="inputRegistrationDOB" class="form-control flatpickr-register" placeholder="Date of Birth" data-max-date="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        <input id="inputRegistrationDOB" class="form-control" type="date" placeholder="Date of Birth" max="@minDate" />
                         <span class="validation-message">
                             @Html.ValidationMessageFor(m => m.regmodelDOB, "", new { @class = "text-danger" })
                         </span>
