@@ -18,26 +18,35 @@
     function handleNavLinkClick(event) {
         event.preventDefault();
 
+        // Disable all nav links
+        disableNavLinks();
+        showLoader();
         // Fetch the content dynamically when a nav link is clicked
         const url = event.currentTarget.getAttribute('href');
-
-        showLoader();  // Show the loader
 
         fetch(url)
             .then(response => response.text())
             .then(data => {
                 mainContent.innerHTML = data;
-                initChart();
-                loadContent();
+                initChartIfNeeded();
                 initMapBoxIfNeeded(); // Initialize Mapbox after content is loaded
-                hideLoader();  // Hide the loader
+                hideLoader();
+                enableNavLinks(); // Re-enable nav links after loading is complete
             })
             .catch(error => {
                 console.error('Error loading content:', error);
-                hideLoader();  // Hide the loader even if there's an error
+                enableNavLinks(); // Re-enable nav links even if there's an error
             });
 
         setActiveTab(event.currentTarget);
+    }
+
+    function disableNavLinks() {
+        navLinks.forEach(link => link.classList.add('disabled'));
+    }
+
+    function enableNavLinks() {
+        navLinks.forEach(link => link.classList.remove('disabled'));
     }
 
     // Add click event listener to nav links
@@ -59,21 +68,17 @@
 
         // Load the content dynamically
         const url = activeTab.getAttribute('href');
-
-        showLoader();  // Show the loader
-
+        showLoader();
         fetch(url)
             .then(response => response.text())
             .then(data => {
                 mainContent.innerHTML = data;
-                initChart();
-                loadContent();
+                hideLoader();
+                initChartIfNeeded();
                 initMapBoxIfNeeded(); // Initialize Mapbox after content is loaded
-                hideLoader();  // Hide the loader
             })
             .catch(error => {
                 console.error('Error loading content:', error);
-                hideLoader();  // Hide the loader even if there's an error
             });
     }
 
@@ -135,6 +140,12 @@ function initChart() {
             }
         }
     });
+}
+
+function initChartIfNeeded() {
+    if (document.getElementById('myChart')) {
+        initChart();
+    }
 }
 
 let map; // Declare the map variable in the outer scope
@@ -272,9 +283,8 @@ function reloadActivePartialView(message) {
             .then(response => response.text())
             .then(data => {
                 document.querySelector('.main-content').innerHTML = data;
-                initChart();
+                initChartIfNeeded();
                 initMapBoxIfNeeded(); // Initialize Mapbox after content is loaded
-                loadContent();
                 toastSuccess(message);
                 hideLoader();  // Hide the loader
             })
@@ -327,15 +337,13 @@ function showLoader() {
 }
 
 function hideLoader() {
-    setTimeout(() => {
-        const loader = document.getElementById('loader');
-        const tableContent = document.getElementById('tableContent');
+    const loader = document.getElementById('loader');
+    const tableContent = document.getElementById('tableContent');
 
-        if (loader && tableContent) {
-            loader.classList.add('d-none');
-            tableContent.classList.remove('d-none');
-        }
-    }, 300); // 300ms delay
+    if (loader && tableContent) {
+        loader.classList.add('d-none');
+        tableContent.classList.remove('d-none');
+    }
 }
 
 function loadContent() {
