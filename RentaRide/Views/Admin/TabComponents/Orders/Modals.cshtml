@@ -21,7 +21,6 @@
                         {
                             <option value="@listing.orderlistingID">@listing.orderlistingName</option>
                         })
-
                     </select>
                 </div>
                 <!-- USER -->
@@ -99,7 +98,7 @@
             <!-- ACTION BUTTONS -->
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalAddOrder()">Cancel</button>
-                <button type="button" class="btn btn-success" onclick="openNextModal('4')">Continue</button>
+                <button type="button" class="btn btn-success" onclick="openNextModal()">Continue</button>
             </div>
         </div>
     </div>
@@ -168,15 +167,17 @@
                     <div class="row">
                         <!-- LEFT COLUMN -->
                         <div class="col-md-6">
-                            <p><strong>Order ID:</strong> <span id="modalOrderId" class="mb-3"></span></p>
-                            <p><strong>Receipt ID:</strong> <span id="modalReceiptId" class="mb-3"></span></p>
-                            <p><strong>Name:</strong> <span id="modalUserName" class="mb-3"></span></p>
-                            <p><strong>Car:</strong> <span id="modalCar" class="mb-3"></span></p>
-                            <p><strong>Order Date:</strong> <span id="modalOrderDate" class="mb-3"></span></p>
-                            <p><strong>Return Date:</strong> <span id="modalReturnDate" class="mb-3"></span></p>
-                            <p><strong>Cost:</strong> <span id="modalCost" class="mb-3"></span></p>
-                            <p><strong>Extra Fees:</strong> <span id="modalExtraFees" class="mb-3"></span></p>
-                            <p><strong>Status:</strong> <span id="modalStatus" class="mb-3"></span></p>
+                            <p><strong>Order ID:</strong>@Model.OrderDetails.orderdeetsVMID</p>
+                            <p><strong>Receipt ID:</strong> @Model.OrderDetails.orderdeetsVMReceipt</p>
+                            <p><strong>Name:</strong> @Model.OrderDetails.orderdeetsVMCustName</p>
+                            <p><strong>Car:</strong> @Model.OrderDetails.orderdeetsVMCarName</p>
+                            <p><strong>Plate Number:</strong> @Model.OrderDetails.orderdeetsVMPlateNumber</p>
+                            <p><strong>Order Date:</strong> @Model.OrderDetails.orderdeetsVMFormattedStartDate</p>
+                            <p><strong>Return Date:</strong> @Model.OrderDetails.orderdeetsVMFormattedEndDate</p>
+                            <p><strong>Cost:</strong> @Model.OrderDetails.orderdeetsVMTotalCost</p>
+                            <p><strong>Extra Fees:</strong> @Model.OrderDetails.orderdeetsVMExtraFees</p>
+                            <p><strong>Status:</strong> @Model.OrderDetails.orderdeetsVMPStatusName</p>
+
                         </div>
                         <!-- RIGHT COLUMN -->
                         <div class="col-md-6">
@@ -185,7 +186,7 @@
                                 <label class="mb-2"><strong>Proof of Payment:</strong></label>
                                 <div id="modalProofOfPayment" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 330px; margin: auto;" data-bs-toggle="modal" data-bs-target="#proofOfPaymentModal">
                                     <div class="text-light position-absolute top-50 start-50 translate-middle" style="z-index: 10; padding: 5px;">SHOW</div>
-                                    <img src="" alt="Proof of Payment" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
+                                    <img src="@Model.OrderDetails.orderdeetsVMPOPIMGPicture" alt="Proof of Payment" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
                                 </div>
                             </div>
                         </div>
@@ -195,9 +196,9 @@
             <!-- ACTION BTNS -->
             <div class="modal-footer mb-3 border-top-0 d-flex justify-content-center align-content-center">
                 @* @Html.TextBoxFor(m => m.VerifyOrder.orderId, new { @class = "form-control", type = "hidden", id = "orderID-Verify" }) *@
-                <button style="min-width:100px;" type="button" class="btn btn-danger btn-lg rounded-2" onclick="setOrderVerify(false)">Deny</button>
-                <button style="min-width:100px;" type="button" class="btn btn-warning btn-lg rounded-2" onclick="setOrderVerify(null)">Pending</button>
-                <button style="min-width:100px;" type="button" class="btn btn-success btn-lg rounded-2" onclick="setOrderVerify(true)">Approve</button>
+                <button style="min-width:100px;" type="button" class="btn btn-danger btn-lg rounded-2" onclick="setOrderVerify(@Model.OrderDetails.orderdeetsVMID,'5')">Deny</button>
+                <button style="min-width:100px;" type="button" class="btn btn-warning btn-lg rounded-2" onclick="setOrderVerify(@Model.OrderDetails.orderdeetsVMID,'3')">Pending</button>
+                <button style="min-width:100px;" type="button" class="btn btn-success btn-lg rounded-2" onclick="setOrderVerify(@Model.OrderDetails.orderdeetsVMID,'2')">Approve</button>
             </div>
         </div>
     </div>
@@ -216,7 +217,7 @@
                 <!-- PROOF OF PAYMENT -->
                 <div class="row mb-3">
                     <div class="col text-center">
-                        <img id="proofOfPaymentImage" src="" alt="Proof of Payment Front" class="img-fluid">
+                        <img id="proofOfPaymentImage" src="@Model.OrderDetails.orderdeetsVMPOPIMGPicture" alt="Proof of Payment Front" class="img-fluid">
                     </div>
                 </div>
             </div>

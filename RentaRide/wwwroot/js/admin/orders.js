@@ -89,36 +89,50 @@
             $('#addOrderModal').modal('show');
         })
         .catch(error => console.error('Error:', error));
-
 }
-
-
 
 function closeModalAddOrder() {
     $('#addOrderModal').modal('hide');
+    $('#addOrderCostModal').modal('hide');
 }
 
 /* ---------------------------------------------------
     USER TAB SCRIPTS
 ----------------------------------------------------- */
-function openModalOrderDetails(orderId, receiptId, name, car, orderDate, returnDate, cost, extraFees, status, proofOfPaymentSrc) {
-    $('#modalOrderId').text(orderId);
-    $('#modalReceiptId').text(receiptId);
-    $('#modalUserName').text(name);
-    $('#modalCar').text(car);
-    $('#modalOrderDate').text(orderDate);
-    $('#modalReturnDate').text(returnDate);
-    $('#modalCost').text(cost);
-    $('#modalExtraFees').text(extraFees);
-    $('#modalStatus').text(status);
+function openModalOrderDetails(orderId) {
+    fetch(`/Admin/GetOrderDetails?orderId=${orderId}`)
+        .then(response => response.text())
+        .then(data => {
+            // Check if the car was not found
+            if (data.includes('"success":false')) {
+                reloadActivePartialView(data.message);
+                return;
+            }
 
-    // Set the src attribute for the images
-    $('#modalProofOfPayment img').attr('src', proofOfPaymentSrc);
-    $('#proofOfPaymentImage').attr('src', proofOfPaymentSrc);
-    //document.getElementById('orderID-Verify').value = orderId;
-
-    $('#orderModal').modal('show');
+            document.getElementById('modalOrderContainer').innerHTML = data;
+            $('#orderModal').modal('show');
+        })
+        .catch(error => console.error('Error:', error));
 }
+//function openModalOrderDetails(orderId, receiptId, name, car, orderDate, returnDate, cost, extraFees, status, proofOfPaymentSrc, proofOfPaymentExt) {
+//    $('#modalOrderId').text(orderId);
+//    $('#modalReceiptId').text(receiptId);
+//    $('#modalUserName').text(name);
+//    $('#modalCar').text(car);
+//    $('#modalOrderDate').text(orderDate);
+//    $('#modalReturnDate').text(returnDate);
+//    $('#modalCost').text(cost);
+//    $('#modalExtraFees').text(extraFees);
+//    $('#modalStatus').text(status);
+
+//    // Set the src attribute for the images
+//    $('#modalProofOfPayment img').attr('src', proofOfPaymentSrc);
+//    $('#proofOfPaymentImage').attr('src', proofOfPaymentSrc);
+//    //document.getElementById('orderID-Verify').value = orderId;
+//    //document.getElementById('orderID-Verify').value = orderId;
+
+//    $('#orderModal').modal('show');
+//}
 
 function closeModalOrderDetails() {
     $('#modalOrderId').text('');
@@ -140,44 +154,40 @@ function closeModalOrderDetails() {
     $('#orderModal').modal('hide');
 }
 
-function setOrderVerify(isVerified) {
-    var formData = new FormData();
-    formData.append('orderId', $('#orderID-Verify').val());
-    formData.append('orderIsVerified', isVerified);
-
-    fetch('/Admin/OrderVerify', {
-        method: 'POST',
-        body: formData
-    })
+function setOrderVerify(orderId, statusInt) {
+    fetch(`/Admin/OrderVerify?orderId=${orderId}&statusInt=${statusInt}`)
         .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
         .then(data => {
-            if (data.success) {
-                //SUCCESS
-                if (isVerified == true) {
-                    // Insert your JS code here for successful verification
-                    reloadActivePartialView("Order approved.");
-                }
-                else if (isVerified == false) {
-                    // Insert your JS code here for denial
-                    reloadActivePartialView("Order denied.");
-                }
-                else {
-                    // Insert your JS code here for pending status
-                    reloadActivePartialView("Order set to Pending.");
-                }
-            } else {
+            // Check if the car was not found
+            if (!data.success) {
                 //FAILED
                 // Use this if you want to display the message from the controller
                 // alert(data.message);
                 alert("Something went wrong");
+                closeModalOrderDetails();
+            }
+
+            //SUCCESS
+            if (statusInt == 2) {
+                // Insert your JS code here for successful verification
+                reloadActivePartialView("Order confirmed.");
+            }
+            else if (statusInt == 5) {
+                // Insert your JS code here for denial
+                reloadActivePartialView("Order denied.");
+            }
+            else {
+                // Insert your JS code here for pending status
+                reloadActivePartialView("Order set to Pending.");
             }
             closeModalOrderDetails();
         })
         .catch(error => console.error('Error:', error));
 }
 
-function openNextModal(listingID) {
-    fetch(`/Admin/GetListingDetails?listingId=${listingID}`)
+function openNextModal() {
+    var listingId = $('#addlistingCar').val();
+    fetch(`/Admin/GetListingDetails?listingId=${listingId}`)
     .then(response => response.json())
     .then(data => {
         // Check if the listing was not found
@@ -256,24 +266,24 @@ function addOrder() {
 
     if (!listingId) {
         reloadActivePartialView("Please select a valid listing");
-        closeModalAddListing();
+        closeModalAddOrder();
         return;
     }
     if (!userId) {
         reloadActivePartialView("Please select a user");
-        closeModalAddListing();
+        closeModalAddOrder();
         return;
     }
 
     if (!startDate || !endDate || !paymentId || !statusId || !Cost || !LocationLimit) {
         reloadActivePartialView("Dont leave any fields empty.");
-        closeModalAddListing();
+        closeModalAddOrder();
         return;
     }
 
     if (startDate >= endDate) {
         reloadActivePartialView("Start Date cannot exceed the End Date");
-        closeModalAddListing();
+        closeModalAddOrder();
         return;
 
     }
