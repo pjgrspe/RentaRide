@@ -27,8 +27,16 @@
 .status-available span {
     background-color: #a5f6c6;
 }
+
+.status-listed span {
+    background-color: #a5f6c6;
+}
 /*ORANGE ONES*/
 .status-pending span {
+    background-color: #fab86a;
+}
+
+.status-edited span {
     background-color: #fab86a;
 }
 
@@ -47,6 +55,8 @@
 .status-partial span {
     background-color: #fab86a;
 }
+
+
 
 
 /*RED ONES*/

@@ -61,7 +61,13 @@ namespace RentaRide.Models.ViewModels
             }
         }
 
-
+        public string carVMStatusNameClass
+        {
+            get
+            {
+                return TypeNamesUtilities.carStatusClassNames[carVMStatus];
+            }
+        }
 
         public int carVMLastChangeOilMileage { get; set; } //
         public int carVMOilChangeInterval { get; set; } //

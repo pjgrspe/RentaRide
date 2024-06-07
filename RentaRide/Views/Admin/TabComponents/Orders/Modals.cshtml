@@ -153,3 +153,81 @@
         </div>
     </div>
 </div>
+
+<!-- Orders Modal Structure -->
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg p-2">
+        <div class="modal-content bg-dark-secondary text-white p-3">
+            <!-- TITLE -->
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title" id="orderModalLabel">Order Details</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closeModalOrderDetails()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- LEFT COLUMN -->
+                        <div class="col-md-6">
+                            <p><strong>Order ID:</strong> <span id="modalOrderId" class="mb-3"></span></p>
+                            <p><strong>Receipt ID:</strong> <span id="modalReceiptId" class="mb-3"></span></p>
+                            <p><strong>Name:</strong> <span id="modalUserName" class="mb-3"></span></p>
+                            <p><strong>Car:</strong> <span id="modalCar" class="mb-3"></span></p>
+                            <p><strong>Order Date:</strong> <span id="modalOrderDate" class="mb-3"></span></p>
+                            <p><strong>Return Date:</strong> <span id="modalReturnDate" class="mb-3"></span></p>
+                            <p><strong>Cost:</strong> <span id="modalCost" class="mb-3"></span></p>
+                            <p><strong>Extra Fees:</strong> <span id="modalExtraFees" class="mb-3"></span></p>
+                            <p><strong>Status:</strong> <span id="modalStatus" class="mb-3"></span></p>
+                        </div>
+                        <!-- RIGHT COLUMN -->
+                        <div class="col-md-6">
+                            <!-- PROOF OF PAYMENT PLACEHOLDER -->
+                            <div class="mb-3">
+                                <label class="mb-2"><strong>Proof of Payment:</strong></label>
+                                <div id="modalProofOfPayment" class="clickable w-100 mb-3 border p-2 rounded d-flex justify-content-center align-items-center position-relative" style="width: 200px; height: 330px; margin: auto;" data-bs-toggle="modal" data-bs-target="#proofOfPaymentModal">
+                                    <div class="text-light position-absolute top-50 start-50 translate-middle" style="z-index: 10; padding: 5px;">SHOW</div>
+                                    <img src="" alt="Proof of Payment" style="width: 100%; height: 100%; object-fit: cover; filter: blur(5px);">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ACTION BTNS -->
+            <div class="modal-footer mb-3 border-top-0 d-flex justify-content-center align-content-center">
+                @* @Html.TextBoxFor(m => m.VerifyOrder.orderId, new { @class = "form-control", type = "hidden", id = "orderID-Verify" }) *@
+                <button style="min-width:100px;" type="button" class="btn btn-danger btn-lg rounded-2" onclick="setOrderVerify(false)">Deny</button>
+                <button style="min-width:100px;" type="button" class="btn btn-warning btn-lg rounded-2" onclick="setOrderVerify(null)">Pending</button>
+                <button style="min-width:100px;" type="button" class="btn btn-success btn-lg rounded-2" onclick="setOrderVerify(true)">Approve</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Proof of Payment Modal -->
+<div class="modal fade" id="proofOfPaymentModal" tabindex="-1" aria-labelledby="proofOfPaymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom p-2">
+        <div class="modal-content bg-glass p-3">
+            <!-- TITLE -->
+            <div class="modal-header text-light border-bottom-0">
+                <h5 class="modal-title" id="proofOfPaymentModalLabel">Proof of Payment</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- PROOF OF PAYMENT -->
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <img id="proofOfPaymentImage" src="" alt="Proof of Payment Front" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@* <script type="text/javascript">
+    $('#addOrderModal').on('shown.bs.modal', function () {
+        
+    });
+</script> *@
