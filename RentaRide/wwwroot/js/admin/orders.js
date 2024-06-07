@@ -175,7 +175,7 @@ function setOrderVerify(isVerified) {
         })
         .catch(error => console.error('Error:', error));
 }
-=======
+
 function openNextModal(listingID) {
     fetch(`/Admin/GetListingDetails?listingId=${listingID}`)
     .then(response => response.json())
