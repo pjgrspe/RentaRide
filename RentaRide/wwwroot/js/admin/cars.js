@@ -100,7 +100,7 @@ function editCar(carId) {
         .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
         .then(data => {
             if (data.success) {
-                reloadActivePartialView("Car edited added.");
+                reloadDetailsContainer("Car edited.");
             } else {
                 reloadActivePartialView("Something went wrong.");
             }
@@ -126,9 +126,9 @@ function deleteCar(carId) {
         .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
         .then(data => {
             if (data.success) {
-                reloadActivePartialView("Car deleted.");
+                reloadActivePartialViewError("Car deleted.");
             } else {
-                reloadActivePartialView("Something went wrong.");
+                reloadActivePartialViewError("Something went wrong.");
             }
             closeModalDeleteCar();
         })
@@ -377,7 +377,6 @@ function openModalDeleteLogDetails(logID) {
 function closeModalDeleteLogDetails() {
     $('#deleteLogModal').modal('hide');
     removeBackdrops();
-    $('#logDetailsModal').modal('show');
 }
 
 function deleteLog(logId) {
@@ -400,6 +399,7 @@ function deleteLog(logId) {
                 reloadDetailsContainer("Something went wrong. - " + data.message);
             }
             closeModalDeleteLogDetails();
+            closeModalLogDetails();
         })
         .catch(error => console.error('Error:', error));
 
