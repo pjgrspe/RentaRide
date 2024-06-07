@@ -61,7 +61,7 @@ namespace RentaRide.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> LoadPartial(string tabName)
+        public async Task<IActionResult> LoadPartial(string tabName, int page = 1, int pageSize = 10)
         {
             if (string.IsNullOrEmpty(tabName))
             {
@@ -71,13 +71,13 @@ namespace RentaRide.Controllers
             var adminPartialModel = new AdminPartialViewModel();
             try
             {
-                //Model logic for Application menu name
                 if (tabName == MenuTabNames.menuUsers)
                 {
                     var users = await _rardbContext.TBL_UserDetails
                                       .Include(u => u.RentaRideAppUsers)
+                                      .Skip((page - 1) * pageSize)
+                                      .Take(pageSize)
                                       .ToListAsync();
-
 
                     adminPartialModel.Users = users.Select(user => new UsersViewModel
                     {
@@ -109,12 +109,13 @@ namespace RentaRide.Controllers
                         userVMProofofBillingIMG = _fileServices.imgNullCheck(user.userProofofBilling, ImageCategories.imgPOB),
                         userVMSelfieProofIMG = _fileServices.imgNullCheck(user.userSelfieProof, ImageCategories.imgSelfie)
                     }).ToList();
-
                 }
                 else if (tabName == MenuTabNames.menuDrivers)
                 {
                     var drivers = await _rardbContext.TBL_Drivers
                                                      .Where(driver => driver.driverIsDeleted == false)
+                                                     .Skip((page - 1) * pageSize)
+                                                     .Take(pageSize)
                                                      .ToListAsync();
 
                     adminPartialModel.Drivers = drivers.Select(driver => new DriversViewModel
@@ -139,10 +140,11 @@ namespace RentaRide.Controllers
                 }
                 else if (tabName == MenuTabNames.menuCars)
                 {
-                    
                     var cars = await _rardbContext.TBL_Cars
-                                                     .Where(car => car.carIsDeleted == false)
-                                                     .ToListAsync();
+                                                  .Where(car => car.carIsDeleted == false)
+                                                  .Skip((page - 1) * pageSize)
+                                                  .Take(pageSize)
+                                                  .ToListAsync();
 
                     adminPartialModel.Cars = cars.Select(car => new CarsViewModel
                     {
@@ -165,63 +167,65 @@ namespace RentaRide.Controllers
                 }
                 else if (tabName == MenuTabNames.menuListings)
                 {
-
-                    var listing = await _rardbContext.TBL_Listings
-                                                    .Where(listing => listing.listingIsActive == true)
-                                                    .Join(
-                                                        _rardbContext.TBL_Cars,
-                                                        listing => listing.carID,
-                                                        car => car.carID,
-                                                        (listing, car) => new ListingsViewModel
-                                                        {
-                                                            listingVMID = listing.listingID,
-                                                            listingVMcarID = car.carID,
-                                                            listingVMcarName = $"{car.carMake} {car.carModel} {car.carYear} - [{car.carLicensePlate}]",
-                                                            listingVMcarIMG = _fileServices.imgNullCheck(car.carThumbnail, ImageCategories.imgCar),
-                                                            listingVMcarIMGext = car.carThumbnailExt,
-                                                            listingVMDetails = listing.listingDetails,
-                                                            listingVMHourlyPrice = listing.listingHourlyPrice,
-                                                            listingVMDailyPrice = listing.listingDailyPrice,
-                                                            listingVMWeeklyPrice = listing.listingWeeklyPrice,
-                                                            listingVMMonthlyPrice = listing.listingMonthlyPrice,
-                                                            listingVMStatus = listing.listingStatus,
-                                                            listingVMAvailabilityStart = listing.listingAvailabilityStart,
-                                                            listingVMAvailabilityEnd = listing.listingAvailabilityEnd
-                                                        }
-                                                    )
-                                                    .ToListAsync();
-                    adminPartialModel.Listings = listing;
+                    var listings = await _rardbContext.TBL_Listings
+                                                      .Where(listing => listing.listingIsActive)
+                                                      .Join(
+                                                          _rardbContext.TBL_Cars,
+                                                          listing => listing.carID,
+                                                          car => car.carID,
+                                                          (listing, car) => new ListingsViewModel
+                                                          {
+                                                              listingVMID = listing.listingID,
+                                                              listingVMcarID = car.carID,
+                                                              listingVMcarName = $"{car.carMake} {car.carModel} {car.carYear} - [{car.carLicensePlate}]",
+                                                              listingVMcarIMG = _fileServices.imgNullCheck(car.carThumbnail, ImageCategories.imgCar),
+                                                              listingVMcarIMGext = car.carThumbnailExt,
+                                                              listingVMDetails = listing.listingDetails,
+                                                              listingVMHourlyPrice = listing.listingHourlyPrice,
+                                                              listingVMDailyPrice = listing.listingDailyPrice,
+                                                              listingVMWeeklyPrice = listing.listingWeeklyPrice,
+                                                              listingVMMonthlyPrice = listing.listingMonthlyPrice,
+                                                              listingVMStatus = listing.listingStatus,
+                                                              listingVMAvailabilityStart = listing.listingAvailabilityStart,
+                                                              listingVMAvailabilityEnd = listing.listingAvailabilityEnd
+                                                          }
+                                                      )
+                                                      .Skip((page - 1) * pageSize)
+                                                      .Take(pageSize)
+                                                      .ToListAsync();
+                    adminPartialModel.Listings = listings;
                 }
                 else if (tabName == MenuTabNames.menuOrders)
                 {
-                    var order = await _rardbContext.TBL_Orders
-                                                        .Join(_rardbContext.TBL_Listings,
-                                                            order => order.listingID,
-                                                            listing => listing.listingID,
-                                                            (order, listing) => new { order, listing })
-                                                        .Join(_rardbContext.TBL_Cars,
-                                                            orderListing => orderListing.listing.carID,
-                                                            car => car.carID,
-                                                            (orderListing, car) => new { orderListing.order, orderListing.listing, car })
-                                                        .Join(_rardbContext.TBL_UserDetails,
-                                                            orderListingCar => orderListingCar.order.userID,
-                                                            user => user.UserID,
-                                                            (orderListingCar, user) => new OrdersViewModel
-                                                            {
-                                                                ordersVMID = orderListingCar.order.orderID,
-                                                                ordersVMreceipt = orderListingCar.order.orderReservationID,
-                                                                ordersVMCustFName = user.RentaRideAppUsers.userFirstName,
-                                                                ordersVMCustLName = user.RentaRideAppUsers.userLastName,
-                                                                ordersVMCarName = orderListingCar.car.carMake + " " + orderListingCar.car.carModel + " " + "(" + orderListingCar.car.carYear + ")",
-                                                                ordersVMPlateNumber = orderListingCar.car.carLicensePlate,
-                                                                ordersVMStartDate = orderListingCar.order.orderPickupDate,
-                                                                ordersVMEndDate = orderListingCar.order.orderReturnDate,
-                                                                ordersVMTotalCost = orderListingCar.order.orderTotalCost,
-                                                                ordersVMExtraFees = orderListingCar.order.orderExtraFees,
-                                                                ordersVMStatusID = orderListingCar.order.orderStatus
-                                                            })
-                                                        .ToListAsync();
-                    adminPartialModel.Orders = order;
+                    var orders = await _rardbContext.TBL_Orders
+                                                    .Join(_rardbContext.TBL_Listings,
+                                                          order => order.listingID,
+                                                          listing => listing.listingID,
+                                                          (order, listing) => new { order, listing })
+                                                    .Join(_rardbContext.TBL_Cars,
+                                                          orderListing => orderListing.listing.carID,
+                                                          car => car.carID,
+                                                          (orderListing, car) => new { orderListing.order, orderListing.listing, car })
+                                                    .Join(_rardbContext.TBL_UserDetails,
+                                                          orderListingCar => orderListingCar.order.userID,
+                                                          user => user.UserID,
+                                                          (orderListingCar, user) => new OrdersViewModel
+                                                          {
+                                                              ordersVMID = orderListingCar.order.orderID,
+                                                              ordersVMreceipt = orderListingCar.order.orderReservationID,
+                                                              ordersVMCustName = user.RentaRideAppUsers.userLastName + ", " + user.RentaRideAppUsers.userFirstName,
+                                                              ordersVMCarName = orderListingCar.car.carMake + " " + orderListingCar.car.carModel + " " + "(" + orderListingCar.car.carYear + ")",
+                                                              ordersVMPlateNumber = orderListingCar.car.carLicensePlate,
+                                                              ordersVMStartDate = orderListingCar.order.orderPickupDate,
+                                                              ordersVMEndDate = orderListingCar.order.orderReturnDate,
+                                                              ordersVMTotalCost = orderListingCar.order.orderTotalCost,
+                                                              ordersVMExtraFees = orderListingCar.order.orderExtraFees,
+                                                              ordersVMStatusID = orderListingCar.order.orderStatus,
+                                                          })
+                                                    .Skip((page - 1) * pageSize)
+                                                    .Take(pageSize)
+                                                    .ToListAsync();
+                    adminPartialModel.Orders = orders;
                 }
 
                 return PartialView($"~/Views/Admin/Tabs/{tabName}.cshtml", adminPartialModel);
@@ -232,6 +236,7 @@ namespace RentaRide.Controllers
                 return NotFound("Partial view not found.");
             }
         }
+
         public async Task<IActionResult> GetCarDetails(int carId, bool forDetailsPage)
         {
             // Fetch the car details from the database using the carId
