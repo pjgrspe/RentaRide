@@ -28,6 +28,7 @@
             .then(response => response.text())
             .then(data => {
                 mainContent.innerHTML = data;
+                initEditButtonIfNeeded(); // Initialize the edit button after content is loaded
                 initChartIfNeeded();
                 initMapBoxIfNeeded(); // Initialize Mapbox after content is loaded
                 hideLoader();
@@ -74,6 +75,7 @@
             .then(data => {
                 mainContent.innerHTML = data;
                 hideLoader();
+                initEditButtonIfNeeded(); // Initialize the edit button after content is loaded
                 initChartIfNeeded();
                 initMapBoxIfNeeded(); // Initialize Mapbox after content is loaded
             })
@@ -145,6 +147,12 @@ function initChart() {
 function initChartIfNeeded() {
     if (document.getElementById('myChart')) {
         initChart();
+    }
+}
+
+function initEditButtonIfNeeded() {
+    if (document.getElementById('editButtons')) {
+        initEditButton();
     }
 }
 
@@ -296,7 +304,59 @@ function reloadActivePartialView(message) {
     }
 }
 
+function reloadActivePartialViewError(message) {
+    const activeLink = document.querySelector('.nav-item-link.active');
+    if (activeLink) {
+        const url = activeLink.getAttribute('href');
+
+        showLoader();  // Show the loader
+
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector('.main-content').innerHTML = data;
+                initChartIfNeeded();
+                initMapBoxIfNeeded(); // Initialize Mapbox after content is loaded
+                toastError(message);
+                hideLoader();  // Hide the loader
+            })
+            .catch(error => {
+                console.error('Error loading content:', error);
+                hideLoader();  // Hide the loader even if there's an error
+                toastError(message);
+            });
+    }
+}
+
 function reloadDetailsContainer(message) {
+    const carId = $('#logCarID').val();
+    console.log('Reloading details for car ID:', carId);
+
+    showLoader();  // Show the loader
+
+    fetch(`/Admin/GetCarDetails?carId=${carId}&forDetailsPage=true`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log('Received data:', data);
+            // Insert the HTML content into the detailsContainer
+            document.querySelector('#detailsContainer').innerHTML = data;
+            document.querySelector('#detailsContainer').style.display = 'block';
+            toastSuccess(message);
+            hideLoader();  // Hide the loader
+        })
+        .catch(error => {
+            console.error('Error loading details:', error);
+            hideLoader();  // Hide the loader even if there's an error
+            toastError('Failed to load car details.');
+        });
+}
+
+function reloadDetailsContainerError(message) {
     const carId = $('#logCarID').val();
     console.log('Reloading details for car ID:', carId);
 
@@ -313,7 +373,7 @@ function reloadDetailsContainer(message) {
             console.log('Received data:', data);
             document.querySelector('#detailsContainer').innerHTML = data;
             document.querySelector('#detailsContainer').style.display = 'block';
-            toastSuccess(message);
+            toastError(message);
             hideLoader();  // Hide the loader
         })
         .catch(error => {
