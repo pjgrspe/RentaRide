@@ -1,4 +1,8 @@
-﻿<div class="w-100 d-flex justify-content-center">
+﻿@using RentaRide.Utilities
+@model RentaRide.Models.ViewModels.AdminPartialViewModel
+
+
+<div class="w-100 d-flex justify-content-center">
     <div class="container table-responsive-orders bg-dark-secondary text-white p-5">
         <div class="row justify-content-between mb-3">
             @* TITLE *@
@@ -46,4 +50,6 @@
     </div>
 </div>
 
-@await Html.PartialAsync("~/Views/Admin/TabComponents/Orders/Modals.cshtml")
+<div id="modalOrderContainer">
+    @await Html.PartialAsync("~/Views/Admin/TabComponents/Orders/Modals.cshtml")
+</div>

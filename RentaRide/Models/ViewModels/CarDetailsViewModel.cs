@@ -40,7 +40,20 @@ namespace RentaRide.Models.ViewModels
             }
         }
         public int cardeetsVMTypeID { get; set; }
-        public string cardeetsVMCarType { get; set; }
+        public string cardeetsVMCarType
+        {
+            get
+            {
+                if (cardeetsVMTypeID <= TypeNamesUtilities.CarTypeNames.Length)
+                {
+                    return TypeNamesUtilities.CarTypeNames[cardeetsVMTypeID];
+                }
+                else
+                {
+                    return "Invalid";
+                }
+            }
+        }
         public string cardeetsVMColor { get; set; }
         public string cardeetsVMLicense { get; set; }
         public int cardeetsVMMileage { get; set; }

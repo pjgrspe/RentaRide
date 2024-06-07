@@ -103,8 +103,25 @@
                 "Minivan",      //5
                 "Electric",     //6
                 "Hybrid",       //7
-                "Luxury"        //8
+                "Luxury",       //8
+                "Sports"        //9
             };
 
+        public static readonly string[] OrderStatusNames = 
+            { 
+                "",             //0
+                "Cancelled",    //1
+                "Confirmed",    //2
+                "Pending",      //3
+                "OnGoing"       //4
+            };
+
+        public static readonly string[] PayStatusNames = 
+            { 
+                "",             //0
+                "Active",       //1
+                "Inactive",     //2
+                "Banned"        //3
+            };
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentaRide.Database;
 
@@ -11,9 +12,11 @@ using RentaRide.Database;
 namespace RentaRide.Migrations
 {
     [DbContext(typeof(RARdbContext))]
-    partial class RARdbContextModelSnapshot : ModelSnapshot
+    [Migration("20240606190840_FKupdateOrderTBL")]
+    partial class FKupdateOrderTBL
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,6 +218,23 @@ namespace RentaRide.Migrations
                     b.ToTable("TBL_CarLogs");
                 });
 
+            modelBuilder.Entity("RentaRide.Database.Database_Models.CarTypesDBModel", b =>
+                {
+                    b.Property<int>("cartypeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("cartypeID"));
+
+                    b.Property<string>("cartypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("cartypeID");
+
+                    b.ToTable("TBL_CarTypes");
+                });
+
             modelBuilder.Entity("RentaRide.Database.Database_Models.CarsDBModel", b =>
                 {
                     b.Property<int>("carID")
@@ -297,6 +317,8 @@ namespace RentaRide.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("carID");
+
+                    b.HasIndex("carType");
 
                     b.ToTable("TBL_Cars");
                 });
@@ -444,7 +466,6 @@ namespace RentaRide.Migrations
                         .HasColumnType("decimal(9,2)");
 
                     b.Property<string>("orderLocationLimit")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("orderNotes")
@@ -453,30 +474,31 @@ namespace RentaRide.Migrations
                     b.Property<DateTime?>("orderPaymentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("orderPaymentExt")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("orderPaymentIMG")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("orderPaymentMethod")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("orderPickupDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("orderReservationID")
+                    b.Property<string>("orderPickupLocation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("orderReturnDate")
+                    b.Property<string>("orderReservationID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("orderReturnDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("orderReturnLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("orderReview")
                         .HasColumnType("int");
 
-                    b.Property<int>("orderStatus")
-                        .HasColumnType("int");
+                    b.Property<bool?>("orderStatus")
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("orderTotalCost")
                         .HasPrecision(9, 2)
@@ -492,9 +514,28 @@ namespace RentaRide.Migrations
 
                     b.HasIndex("listingID");
 
+                    b.HasIndex("orderPaymentMethod");
+
                     b.HasIndex("userID");
 
                     b.ToTable("TBL_Orders");
+                });
+
+            modelBuilder.Entity("RentaRide.Database.Database_Models.PayTypesDBModel", b =>
+                {
+                    b.Property<int>("paytypeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("paytypeID"));
+
+                    b.Property<string>("paytypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("paytypeID");
+
+                    b.ToTable("TBL_PayTypes");
                 });
 
             modelBuilder.Entity("RentaRide.Database.Database_Models.UserDetailsDBModel", b =>
@@ -730,6 +771,17 @@ namespace RentaRide.Migrations
                     b.Navigation("CarsDBModel");
                 });
 
+            modelBuilder.Entity("RentaRide.Database.Database_Models.CarsDBModel", b =>
+                {
+                    b.HasOne("RentaRide.Database.Database_Models.CarTypesDBModel", "carTypesDBModel")
+                        .WithMany()
+                        .HasForeignKey("carType")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("carTypesDBModel");
+                });
+
             modelBuilder.Entity("RentaRide.Database.Database_Models.ListingsDBModel", b =>
                 {
                     b.HasOne("RentaRide.Database.Database_Models.CarsDBModel", "CarsDBModel")
@@ -755,6 +807,12 @@ namespace RentaRide.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RentaRide.Database.Database_Models.PayTypesDBModel", "PayTypesDBModel")
+                        .WithMany()
+                        .HasForeignKey("orderPaymentMethod")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RentaRide.Models.Identity.RentaRideAppUsers", "RentaRideAppUsers")
                         .WithMany()
                         .HasForeignKey("userID")
@@ -764,6 +822,8 @@ namespace RentaRide.Migrations
                     b.Navigation("DriversDBModel");
 
                     b.Navigation("ListingsDBModel");
+
+                    b.Navigation("PayTypesDBModel");
 
                     b.Navigation("RentaRideAppUsers");
                 });

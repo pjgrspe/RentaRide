@@ -15,20 +15,33 @@ namespace RentaRide.Models.ViewModels
         public bool carVMTransmission { get; set; }
         public string carVMColor { get; set; }
         public int carVMTypeID { get; set; }
-        public string carVMType { get; set; }
+        public string carVMType
+        {
+            get
+            {
+                if (carVMTypeID > TypeNamesUtilities.CarTypeNames.Length)
+                {
+                    return "Invalid";
+                }
+                else
+                {
+                    return TypeNamesUtilities.CarTypeNames[carVMTypeID];
+                }
+            }
+        }
         public int carVMMileage { get; set; }
         public int carVMFuelType { get; set; }
         public string carVMFuelTypeName
         {
             get
             {
-                if (carVMFuelType <= TypeNamesUtilities.fuelTypeNames.Length)
+                if (carVMFuelType > TypeNamesUtilities.fuelTypeNames.Length)
                 {
-                    return TypeNamesUtilities.fuelTypeNames[carVMFuelType];
+                    return "Unknown type";
                 }
                 else
                 {
-                    return "Unknown type";
+                    return TypeNamesUtilities.fuelTypeNames[carVMFuelType];
                 }
             }
         }
@@ -37,13 +50,13 @@ namespace RentaRide.Models.ViewModels
         {
             get 
             {
-                if (carVMStatus <= TypeNamesUtilities.carStatusNames.Length) 
+                if (carVMStatus > TypeNamesUtilities.carStatusNames.Length) 
                 { 
-                    return TypeNamesUtilities.carStatusNames[carVMStatus];
+                    return "Unknown type";
                 }
                 else
                 {
-                    return "Unknown type";
+                    return TypeNamesUtilities.carStatusNames[carVMStatus];
                 }
             }
         }

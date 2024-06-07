@@ -1,6 +1,6 @@
 ﻿namespace RentaRide.Models.Listings
 {
-    public class ListingsAdd
+    public class ListingsAddModel
     {
         public int listingaddCarID { get; set; }
         public DateTime listingaddStartDate { get; set; }

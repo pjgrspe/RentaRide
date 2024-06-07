@@ -1,6 +1,6 @@
 ﻿namespace RentaRide.Models.Listings
 {
-    public class ListingsEdit
+    public class ListingsEditModel
     {
         public int listingeditID { get; set; }
         public decimal listingeditHourlyPrice { get; set; }

@@ -2,8 +2,18 @@
     document.getElementById(inputId).value = `P${value}`;
 }
 
+
+
 //Listings MODAL
-function openModalEditListing(listingID) {
+function closeModalEditListing() {
+    $('#editListingModal').modal('hide');
+}
+
+
+function closeModalAddListing() {
+    $('#addListingModal').modal('hide');
+}
+function openModalEditListing(listingID){
     fetch(`/Admin/GetListingDetails?listingId=${listingID}`)
         .then(response => response.text())
         .then(data => {
@@ -19,10 +29,6 @@ function openModalEditListing(listingID) {
         .catch(error => console.error('Error:', error));
 }
 
-function closeModalEditListing() {
-    $('#editListingModal').modal('hide');
-}
-
 function openModalAddListing(){
     fetch(`/Admin/GetCarList`)
         .then(response => response.text())
@@ -31,18 +37,13 @@ function openModalAddListing(){
                 reloadActivePartialView(data.message);
                 return;
             }
-
             document.getElementById('modalContainer').innerHTML = data;
 
             $('#addListingModal').modal('show');
+
         })
         .catch(error => console.error('Error:', error));
 }
-
-function closeModalAddListing() {
-    $('#addListingModal').modal('hide');
-}
-
 function addListing() {
     var carId = $('#addlistingCar').val();
     var hourlyPrice = $('#addListingHourlyRate').val();
