@@ -1,22 +1,73 @@
-﻿<section class="d-flex justify-content-center" id="hero_page">
+﻿@model IEnumerable<RentaRide.Models.ViewModels.UsersViewModel>
+@{
+    Layout = "_AdminLayout";
+}
+
+<section class="" id="hero_page">
     <div id="loadingSpinner" class="m-auto">
-        @await Html.PartialAsync("~/Views/Shared/_LoadingSpinner.cshtml")
+        <partial name="_LoadingSpinner" />
+        @* @await Html.PartialAsync("~/Views/Shared/_LoadingSpinner.cshtml")  *@
     </div>
     <div class="load-content">
-        <div class="row m-auto text-center h-100 align-items-center text-light col-12">
-            <div class="col-12 d-flex align-items-center justify-content-center mt-4">
-                <div id="moduleDeniedStatus">
-                    <div class="d-flex align-items-center justify-content-center">
-                        <div class="d-flex flex-column col-10">
-                            <h1>CUSTOMER HOME</h1>
-                            @using (Html.BeginForm("Logout", "Login", FormMethod.Post))
-                            {
-                                <li><button class="text-decoration-none dropdown-item" type="submit">Logout</button></li>
-                            }
+        <div class="wrapper w-100">
+            <!-- Page Content Holder -->
+            <div id="content" class="w-100">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid p-1">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index">
+                                <img src="~/img/logo/mainandtextlogo.svg" alt="RentaRide Logo" width="200" height="50" class="me-2">
+                             </a>
                         </div>
+                    </div>
+                </nav>
+                @* CONTENT *@
+                @* LOADER *@
+                <div class="container-fluid p-0">
+                    <div class="col main-content py-2">
+                        <div class="w-100 d-flex justify-content-center">
+                            <div class="row table-responsive table-responsive-cars bg-dark-secondary text-white">
+                                <div class="row justify-content-between mt-3 mb-3 search-filter-container">
+                                    @* TITLE *@
+                                    <div class="col-md-3 d-flex align-items-center title-div">
+                                        <h1 class="text-light ms-2 search-filter-title">Cars Available</h1>
+                                    </div>
+                                    @* SEARCH AND FILTER *@
+                                    <div class="col-md-9 d-flex justify-content-end pe-0" id="search-filter-div">
+                                        <form class="d-flex justify-content-end align-items-center rounded-3 search-filter-form" onsubmit="return false;">
+                                            <input id="searchInput" class="form-control me-2 rounded-3 search-input" type="search" placeholder="Search" aria-label="Search">
+                                            <select id="statusFilter" class="form-select me-2 filter-select">
+                                                <option value="" selected>All Statuses</option>
+                                                <option value="available">Listed</option>
+                                                <option value="rented">Unlisted</option>
+                                            </select>
+                                            <button id="searchButton" class="btn btn-outline-light rounded-3 search-filter-btn" type="button" onclick="filterTable()">Search</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                @* LOADER *@
+                                <div id="loader" class="d-flex justify-content-center align-items-center d-none" style="height:70vh; margin-bottom:100px;">
+                                    <partial name="_LoadingSimple"></partial>
+                                </div>
+                                @* CARS TABLE *@
+                                <div id="tableContent" class="d-flex justify-content-center cards-table-container">
+                                    <div id="contentContainer" class="w-100">
+                                        @await Html.PartialAsync("~/Views/Customer/Components/Content.cshtml")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="modalContainer">
+                            @await Html.PartialAsync("~/Views/Customer/Components/Modals.cshtml")
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </section>
+
+
