@@ -1,7 +1,6 @@
 ﻿function initEditButton() {
     let editButton = document.getElementById('editButton');
     let editButtons = document.getElementById('editButtons');
-    let formElements = document.getElementById('accountForm').elements;
 
     if (editButton && editButtons) {
         editButton.classList.remove('d-none');

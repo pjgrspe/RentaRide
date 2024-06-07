@@ -22,7 +22,7 @@
                         @foreach(var cars in Model.ListingsCarList)
                         {
                             <option value="@cars.listingcarID">@cars.listingcarName</option>
-                        })
+                        });
                     </select>
                 </div>
                 <!-- Hourly RATE -->
@@ -33,17 +33,17 @@
                 <!-- DAILY RATE -->
                 <div class="form-group mb-3">
                     <label for="addListingDailyRate" class="font-weight-bold mb-1">Daily Rate (PHP)</label>
-                    <input type="number" class="form-control" id="addListingDailyRate" min="0" value="@DefaultRateValuesConfig.DailyRateDefault" " step="50">
+                    <input type="number" class="form-control" id="addListingDailyRate" min="0" value="@DefaultRateValuesConfig.DailyRateDefault" step="50">
                 </div>
                 <!-- WEEKLY RATE -->
                 <div class="form-group mb-3">
                     <label for="addListingWeeklyRate" class="font-weight-bold mb-1">Weekly Rate (PHP)</label>
-                    <input type="number" class="form-control" id="addListingWeeklyRate" min="0" value="@DefaultRateValuesConfig.WeeklyRateDefault" " step="100">
+                    <input type="number" class="form-control" id="addListingWeeklyRate" min="0" value="@DefaultRateValuesConfig.WeeklyRateDefault" step="100">
                 </div>
                 <!-- MONTHLY RATE -->
                 <div class="form-group mb-3">
                     <label for="addListingMonthlyRate" class="font-weight-bold mb-1">Monthly Rate (PHP)</label>
-                    <input type="number" class="form-control" id="addListingMonthlyRate" min="0" value="@DefaultRateValuesConfig.MonthlyRateDefault" " step="500">
+                    <input type="number" class="form-control" id="addListingMonthlyRate" min="0" value="@DefaultRateValuesConfig.MonthlyRateDefault" step="500">
                 </div>
                 <!-- DETAILS -->
                 <div class="form-group mb-3">
@@ -70,8 +70,6 @@
     </div>
 </div>
 
-
-<!-- Edit Listing Modal -->
 <div class="modal fade" id="editListingModal" tabindex="-1" aria-labelledby="editListingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered p-2">
         <div class="modal-content bg-dark-secondary p-3" id="modal-content-editListing">
@@ -85,43 +83,36 @@
                 <!-- HOURLY RATE -->
                 <div class="form-group mb-3">
                     <label for="editListingHourlyRate" class="font-weight-bold mb-1">Hourly Rate (PHP)</label>
-                    <input type="number" class="form-control" id="editListingHourlyRate" min="0" value="@Model.ListingDetails.listingdeetsVMHourlyRate" step="1">
+                    <input type="number" class="form-control" id="editListingHourlyRate" min="0" step="1">
                 </div>
                 <!-- DAILY RATE -->
                 <div class="form-group mb-3">
                     <label for="editListingDailyRate" class="font-weight-bold mb-1">Daily Rate (PHP)</label>
-                    <input type="number" class="form-control" id="editListingDailyRate" min="0" value="@Model.ListingDetails.listingdeetsVMDailyRate" step="50">
+                    <input type="number" class="form-control" id="editListingDailyRate" min="0" step="50">
                 </div>
                 <!-- WEEKLY RATE -->
                 <div class="form-group mb-3">
                     <label for="editListingWeeklyRate" class="font-weight-bold mb-1">Weekly Rate (PHP)</label>
-                    <input type="number" class="form-control" id="editListingWeeklyRate" min="0" value="@Model.ListingDetails.listingdeetsVMWeeklyRate" step="100">
+                    <input type="number" class="form-control" id="editListingWeeklyRate" min="0" step="100">
                 </div>
                 <!-- MONTHLY RATE -->
                 <div class="form-group mb-3">
                     <label for="editListingMonthlyRate" class="font-weight-bold mb-1">Monthly Rate (PHP)</label>
-                    <input type="number" class="form-control" id="editListingMonthlyRate" min="0" value="@Model.ListingDetails.listingdeetsVMMonthlyRate" step="500">
+                    <input type="number" class="form-control" id="editListingMonthlyRate" min="0" step="500">
                 </div>
                 <!-- DETAILS -->
                 <div class="form-group mb-3">
-                    <label for="editlistingDetails" class="font-weight-bold mb-1">Details</label>
-                    <textarea type="text" class="form-control" id="editlistingDetails" value="" placeholder="Enter log details.">@Model.ListingDetails.listingdeetsVMDetails</textarea>
+                    <label for="editListingDetails" class="font-weight-bold mb-1">Details</label>
+                    <textarea type="text" class="form-control" id="editListingDetails" placeholder="Enter log details."></textarea>
                 </div>
                 <!-- STATUS -->
                 <div class="form-group mb-3">
-                    <label for="editlistingStatus" class="font-weight-bold mb-1">Status</label>
-                    <!-- CHANGE THIS TO Status -->
-                    <select class="form-control" id="editlistingStatus">
+                    <label for="editListingStatus" class="font-weight-bold mb-1">Status</label>
+                    <select class="form-control" id="editListingStatus">
+                        <option value="" disabled selected>Select status</option>
                         @for (int i = 1; i < TypeNamesUtilities.ListingStatusNames.Length; i++)
                         {
-                            if (Model.ListingDetails.listingdeetsVMStatus == i)
-                            {
-                                    <option value="@i" selected>@TypeNamesUtilities.ListingStatusNames[i]</option>
-                            }
-                            else
-                            {
-                                <option value="@i">@TypeNamesUtilities.ListingStatusNames[i]</option>
-                            }
+                            <option value="@i">@TypeNamesUtilities.ListingStatusNames[i]</option>
                         }
                     </select>
                 </div>
@@ -129,8 +120,8 @@
             <!-- ACTION BUTTONS -->
             <div class="modal-footer d-flex justify-content-center border-0 mb-3">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalEditListing()">Cancel</button>
-                <button type="button" class="btn btn-danger" onclick="deleteListing('@Model.ListingDetails.listingdeetsVMID')">End Listing</button>
-                <button type="button" class="btn btn-success" onclick="editListing('@Model.ListingDetails.listingdeetsVMID')">Save Changes</button>
+                <button type="button" class="btn btn-danger" id="deleteListingBtn">End Listing</button>
+                <button type="button" class="btn btn-success" id="saveChangesBtn">Save Changes</button>
             </div>
         </div>
     </div>

@@ -196,6 +196,7 @@
             <!-- ACTION BTNS -->
             <div class="modal-footer mb-3 border-top-0 d-flex justify-content-center align-content-center">
                 @* @Html.TextBoxFor(m => m.VerifyOrder.orderId, new { @class = "form-control", type = "hidden", id = "orderID-Verify" }) *@
+                <button style="min-width:100px;" type="button" class="btn btn-secondary btn-lg rounded-2" onclick="openEndOrderModal()">End Order</button>
                 <button style="min-width:100px;" type="button" class="btn btn-danger btn-lg rounded-2" onclick="setOrderVerify(@Model.OrderDetails.orderdeetsVMID,'5')">Deny</button>
                 <button style="min-width:100px;" type="button" class="btn btn-warning btn-lg rounded-2" onclick="setOrderVerify(@Model.OrderDetails.orderdeetsVMID,'3')">Pending</button>
                 <button style="min-width:100px;" type="button" class="btn btn-success btn-lg rounded-2" onclick="setOrderVerify(@Model.OrderDetails.orderdeetsVMID,'2')">Approve</button>
@@ -227,8 +228,38 @@
 
 
 
-@* <script type="text/javascript">
-    $('#addOrderModal').on('shown.bs.modal', function () {
-        
-    });
-</script> *@
+<!-- End Order Modal -->
+<div class="modal fade" id="endOrderModal" tabindex="-1" aria-labelledby="endOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered p-2">
+        <div class="modal-content bg-dark p-3" id="modal-content-endOrder">
+            <!-- TITLE -->
+            <div class="modal-header text-light border-0">
+                <h5 class="modal-title" id="endOrderModalLabel">End Order</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closeEndOrderModal()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- End Order FORM -->
+            <div class="modal-body text-light">
+                <!-- MILEAGE -->
+                <div class="form-group mb-3">
+                    <label for="endOrderMileage" class="font-weight-bold mb-1">Mileage</label>
+                    <input class="form-control" id="endOrderMileage" placeholder="Enter total mileage">
+                </div>
+                <!-- RATINGS -->
+                <div class="form-group mb-3">
+                    <label for="endOrderRating" class="font-weight-bold mb-1">Rating</label>
+                    <input class="form-control" id="endOrderRating" placeholder="Enter rating out of 5">
+                </div>
+                <!-- DETAILS -->
+                <div class="form-group mb-3">
+                    <label for="endOrderDetails" class="font-weight-bold mb-1">Details</label>
+                    <textarea class="form-control" id="endOrderDetails" placeholder="Enter additional details"></textarea>
+                </div>
+            </div>
+            <!-- ACTION BUTTONS -->
+            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalEndOrder()">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="submitEndOrder()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
