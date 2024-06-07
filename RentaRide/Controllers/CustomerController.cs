@@ -150,7 +150,7 @@ namespace RentaRide.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    
+
                     var model = new CustomerPartialViewModel
                     {
                         AddOrder = new OrderAddModel
@@ -227,4 +227,6 @@ namespace RentaRide.Controllers
                 return new JsonResult(new { success = false, message = errorMessage });
             }
         }
+
+    }
 }
