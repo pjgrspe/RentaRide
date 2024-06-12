@@ -1,116 +1,118 @@
 ﻿@using RentaRide.Utilities
 @model RentaRide.Models.ViewModels.CustomerPartialViewModel
-<!-- Order Modal -->
-<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered p-2">
-        <div class="modal-content bg-dark-secondary p-3" id="modal-content-order">
-            <!-- TITLE -->
-            <div class="modal-header text-light border-0">
-                <h5 class="modal-title" id="orderModalLabel">Place an Order</h5>
-                <button type="button" class="btn-close btn-close-white" onclick="closeModalOrder()" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <!-- ORDER FORM -->
-            <div class="modal-body text-light">
-                <input id="OrderFormListingID" value="">
-                <input id="OrderFormUserID" value="">
-                <!-- ORDER START DATE -->
-                <div class="form-group mb-3 order-start-div">
-                    <label for="OrderStartDate" class="font-weight-bold mb-1">Order Start Date</label>
-                    <input class="form-control flatpickr-orderstart" id="OrderStartDate" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" placeholder="Enter Order's start date">
+
+    <!-- Order Modal -->
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered p-2">
+            <div class="modal-content bg-dark-secondary p-3" id="modal-content-order">
+                <!-- TITLE -->
+                <div class="modal-header text-light border-0">
+                    <h5 class="modal-title" id="orderModalLabel">Place an Order</h5>
+                    <button type="button" class="btn-close btn-close-white" onclick="closeModalOrder()" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <!-- ORDER END DATE -->
-                <div class="form-group mb-3 order-end-div">
-                    <label for="OrderEndDate" class="font-weight-bold mb-1">Order End Date</label>
-                    <input class="form-control flatpickr-orderend" id="OrderEndDate" placeholder="Enter Order's end date">
-                </div>
-                <!-- ORDER NOTES -->
-                <div class="form-group mb-3">
-                    <label for="orderNotes" class="font-weight-bold mb-1">Order Notes</label>
-                    <textarea class="form-control" id="orderNotes" placeholder="Enter any special instructions or notes"></textarea>
-                </div>
-                <!-- LOCATION LIMIT -->
-                <div class="form-group mb-3">
-                    <label for="locationLimit" class="font-weight-bold mb-1">Location Limit</label>
-                    <input type="text" class="form-control" id="locationLimit" placeholder="Enter the location limit for the order">
-                </div>
+                <!-- ORDER FORM -->
+                <div class="modal-body text-light">
+                    <input id="CustomerOrderListingID" value="" hidden>
+                    <input id="CustomerOrderUserID" value="" hidden>
+                    <input id="CustomerOrderStartDate" value="" hidden>
+                    <input id="CustomerOrderEndDate" value="" hidden>
+                    <!-- ORDER DATE SELECTOR-->
+                    <div class="form-group mb-3 order-start-div">
+                        <label for="OrderDateSelect" class="font-weight-bold mb-1">Order Start Date</label>
+                        <input class="form-control" id="OrderDateSelect" placeholder="Enter Order's start date">
+                    </div>
+                    <!-- ORDER NOTES -->
+                    <div class="form-group mb-3">
+                        <label for="orderNotes" class="font-weight-bold mb-1">Order Notes</label>
+                    <textarea class="form-control" id="CustomerOrderNotes" placeholder="Enter any special instructions or notes"></textarea>
+                    </div>
+                    <!-- LOCATION LIMIT -->
+                    <div class="form-group mb-3">
+                        <label for="locationLimit" class="font-weight-bold mb-1">Location Limit</label>
+                    <input type="text" class="form-control" id="CustomerOrderLocationLimit" placeholder="Enter the location limit for the order">
+                    </div>
                 
-                <!-- WITH DRIVER / WITHOUT DRIVER -->
-                <div class="form-group mb-3">
-                    <label for="withDriver" class="font-weight-bold mb-1">With Driver/Without Driver</label>
-                    <select class="form-control" id="withDriver">
+                    <!-- WITH DRIVER / WITHOUT DRIVER -->
+                    <div class="form-group mb-3">
+                        <label for="withDriver" class="font-weight-bold mb-1">With Driver/Without Driver</label>
+                        <select class="form-control" id="CustomerOrderWithDriver">
                         <option value=true>With Driver</option>
                         @if (Model.CustomerInfo.UserIsApproved == true)
                         {
-
                             <option value=false>Without Driver</option>
                         }
-                    </select>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <!-- ACTION BUTTONS -->
-            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalOrder()">Cancel</button>
-                <button type="button" class="btn btn-success" onclick="openNextModalcustomer()">Place Order</button>
+                <!-- ACTION BUTTONS -->
+                <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModalOrder()">Cancel</button>
+                    <button type="button" class="btn btn-success" onclick="openNextModalcustomer()">Place Order</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Order Compute Modal -->
-<div class="modal fade" id="addOrderCostModalcustomer" tabindex="-1" aria-labelledby="addOrderModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered p-2">
-        <div class="modal-content bg-dark-secondary p-3" id="modal-content-addOrder">
-            <!-- TITLE -->
-            <div class="modal-header text-light border-0">
-                <h5 class="modal-title" id="addOrderModalLabel">Suggested cost computation</h5>
-                <button type="button" class="btn-close btn-close-white" onclick="closeModaladdOrder()" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <!-- add Order FORM -->
-            <div class="modal-body text-light">
-                <div class="form-group mb-3">
-                    <div class="text-left font-weight-bold mb-1"><strong>Hourly [₱<span id="hourlyCost"></span> x <span id="HoursCalc"></span> Hrs]: </strong></div>
-                    <div class="text-right">Cost: <span id="HourCost"></span></div>
+    <!-- Order Compute Modal -->
+    <div class="modal fade" id="addOrderCostModalcustomer" tabindex="-1" aria-labelledby="addOrderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered p-2">
+            <div class="modal-content bg-dark-secondary p-3" id="modal-content-addOrder">
+                <!-- TITLE -->
+                <div class="modal-header text-light border-0">
+                    <h5 class="modal-title" id="addOrderModalLabel">Suggested cost computation</h5>
+                    <button type="button" class="btn-close btn-close-white" onclick="closeModaladdOrder()" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="form-group mb-3">
-                    <div class="text-left font-weight-bold mb-1"><strong>Daily [₱<span id="dailyCost"></span> x <span id="DaysCalc"></span> Days]: </strong></div>
-                    <div class="text-right">Cost: <span id="DayCost"></span></div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="text-left font-weight-bold mb-1"><strong>Weekly [₱<span id="weeklyCost"></span> x <span id="WeeksCalc"></span> Weeks]: </strong></div>
-                    <div class="text-right">Cost: <span id="WeekCost"></span></div>
-                </div>
-                <div class="form-group mb-3">
-                    <div class="text-left font-weight-bold mb-1"><strong>Monthly [₱<span id="monthlyCost"></span> x <span id="MonthsCalc"></span> Months]: </strong></div>
-                    <div class="text-right">Cost: <span id="MonthCost"></span></div>
-                </div>
+                <!-- ORDER COMPUTATION FORM -->
+                <div class="modal-body text-light">
+                    <div class="form-group mb-3" id="HourGroup">
+                        <div class="text-left font-weight-bold mb-1"><strong>Hourly [₱<span id="hourlyCost"></span> x <span id="HoursCalc"></span> Hrs]: </strong></div>
+                        <div class="text-right">Cost: <span id="HourCost"></span></div>
+                    </div>
+                    <div class="form-group mb-3" id="DayGroup">
+                        <div class="text-left font-weight-bold mb-1"><strong>Daily [₱<span id="dailyCost"></span> x <span id="DaysCalc"></span> Days]: </strong></div>
+                        <div class="text-right">Cost: <span id="DayCost"></span></div>
+                    </div>
+                    <div class="form-group mb-3" id="WeekGroup">
+                        <div class="text-left font-weight-bold mb-1"><strong>Weekly [₱<span id="weeklyCost"></span> x <span id="WeeksCalc"></span> Weeks]: </strong></div>
+                        <div class="text-right">Cost: <span id="WeekCost"></span></div>
+                    </div>
+                    <div class="form-group mb-3" id="MonthGroup">
+                        <div class="text-left font-weight-bold mb-1"><strong>Monthly [₱<span id="monthlyCost"></span> x <span id="MonthsCalc"></span> Months]: </strong></div>
+                        <div class="text-right">Cost: <span id="MonthCost"></span></div>
+                    </div>
 
-                <!-- CUSTOM COST -->
-                <div class="form-group mb-3">
-                    <label for="addOrderTotalCost" class="font-weight-bold mb-1"> Total Cost (PHP)</label>
-                    <div class="text-right">Cost: <span id="TotalCostOrder"></span></div>
+                    <!-- CUSTOM COST -->
+                    <div class="form-group mb-3">
+                        <label for="addOrderTotalCost" class="font-weight-bold mb-1"> Total Cost (PHP)</label>
+                        <input type="text" class="form-control" id="CustomerOrderCost" readonly>
+
+                    </div>
+                    <!-- PAYMENT METHOD -->
+                    <div class="form-group mb-3">
+                        <label for="paymentMethod" class="font-weight-bold mb-1">Payment Method</label>
+                        <select class="form-control" id="CustomerOrderPaymentMethod" onchange="toggleProofOfPayment()">
+                            <option value="" disabled selected>Select Payment Method</option>
+                            @for (int i = 1; i < TypeNamesUtilities.PayTypeNames.Length; i++)
+                            {
+                                <option value="@i">@TypeNamesUtilities.PayTypeNames[i]</option>
+                            }
+                        </select>
+                    </div>
+                    <!-- PROOF OF PAYMENT -->
+                    <div class="form-group mb-3" id="proofOfPaymentGroup">
+                        <label for="proofOfPayment" class="font-weight-bold mb-1">Proof of Payment</label>
+                        <input type="file" class="form-control" id="CustomerOrderPaymentProof">
+                    </div>
                 </div>
-                <!-- PAYMENT METHOD -->
-                <div class="form-group mb-3">
-                    <label for="paymentMethod" class="font-weight-bold mb-1">Payment Method</label>
-                    <select class="form-control" id="paymentMethod" onchange="toggleProofOfPayment()">
-                        <option value="" disabled selected>Select Payment Method</option>
-                        @for (int i = 1; i < TypeNamesUtilities.PayTypeNames.Length; i++)
-                        {
-                            <option value="@i">@TypeNamesUtilities.PayTypeNames[i]</option>
-                        }
-                    </select>
+                <!-- ACTION BUTTONS -->
+                <div class="modal-footer d-flex justify-content-center border-0 mb-3">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNextModalcustomer()">Cancel</button>
+                    <button type="button" class="btn btn-success" onclick="placeOrder()">Place Order</button>
                 </div>
-                <!-- PROOF OF PAYMENT -->
-                <div class="form-group mb-3" id="proofOfPaymentGroup">
-                    <label for="proofOfPayment" class="font-weight-bold mb-1">Proof of Payment</label>
-                    <input type="file" class="form-control" id="proofOfPayment">
-                </div>
-            </div>
-            <!-- ACTION BUTTONS -->
-            <div class="modal-footer d-flex justify-content-center border-0 mb-3">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNextModalcustomer()">Cancel</button>
-                <button type="button" class="btn btn-success" onclick="placeOrder()">Place Order</button>
             </div>
         </div>
     </div>
-</div>
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

@@ -1,131 +1,100 @@
-﻿function openModalOrder(listingId, userId,) {
-    $('#OrderFormListingID').val(listingId);
-    $('#OrderFormUserID').val(userId);
+﻿function openModalOrder(listingId, userId) {
+    $('#CustomerOrderListingID').val(listingId);
+    $('#CustomerOrderUserID').val(userId);
     const today = new Date();
-    var startPicker, endPicker;
+    var datePicker;
 
-    fetch(`/Customer/GetListingDates?listingId=${listingId}`)
+    fetch(`api/API/GetListingDates/${listingId}`)
         .then(response => response.json())
         .then(data => {
+
             var disabledDates = [];
             data.orderDates.forEach(order => {
-                var startDate = new Date(order.startDate);
-                var endDate = new Date(order.endDate);
-                for (var d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+                var JSstartDeleteDate = new Date(order.startDate);
+                var JSendDeleteDate = new Date(order.endDate);
+                for (var d = new Date(JSstartDeleteDate); d <= JSendDeleteDate; d.setDate(d.getDate() + 1)) {
                     disabledDates.push(new Date(d));
                 }
                 // Disable the day before the start date
-                var dayBeforeStartDate = new Date(startDate);
-                dayBeforeStartDate.setDate(startDate.getDate() - 1);
+                var dayBeforeStartDate = new Date(order.startDate);
+                dayBeforeStartDate.setDate(dayBeforeStartDate.getDate() - 1);
                 disabledDates.push(dayBeforeStartDate);
             });
-
-            var listingStartDate = new Date(data.listingStartDate);
-            if (listingStartDate < today) {
-                listingStartDate = today;
+            
+            var DateMin = new Date(data.listingStartDate);
+            if (DateMin < today) {
+                DateMin.setDate(today.getDate());
             }
 
-            var listingEndDate = new Date(data.listingEndDate);
-
-            // Initialize Flatpickr for the "Order Start Date" field
-            startPicker = flatpickr(".flatpickr-orderstart", {
+            datePicker = flatpickr("#OrderDateSelect", {
+                mode: "range",
                 dateFormat: "Y-m-dTH:i",
                 enableTime: true,
                 altInput: true,
+                /*altFormat: "F j, Y, H:i \\(D\\)",*/
                 altFormat: "F j, Y, H:i",
-                minDate: listingStartDate,
-                maxDate: listingEndDate,
-                allowInput: true,
+                minDate: DateMin,
                 disable: disabledDates,
+                minuteIncrement: 30,
+                plugins: [new confirmDatePlugin({
+                    confirmIcon: "<i class='fa fa-check'></i>", // your icon's html, if you wish to override
+                    confirmText: "OK ",
+                    showAlways: false,
+                    theme: "light" // or "dark"
+                })],
                 onChange: function (selectedDates, dateStr, instance) {
-                    if (selectedDates.length > 0) {
-                        var selectedStartDate = selectedDates[0];
-                        var minEndDate = new Date(selectedStartDate.getTime() + 1 * 60 * 60 * 1000); // At least 1 hour ahead
-
-                        var maxEndDate = listingEndDate;
-                        for (var i = 0; i < disabledDates.length; i++) {
-                            if (disabledDates[i] > selectedStartDate) {
-                                maxEndDate = new Date(disabledDates[i].getTime() - 1 * 60 * 60 * 1000);
-                                break;
-                            }
+                    if (selectedDates.length >= 1) {
+                        var StartDate = selectedDates[0];
+                        var formattedStartDate = StartDate.toISOString().slice(0, 16);
+                        var i = selectedDates.length;
+                        $('#OrderFormEndDate').val();
+                        if (selectedDates.length > 1) {
+                            var EndDate = selectedDates[i - 1];
+                            var formattedEndDate = EndDate.toISOString().slice(0, 16);
                         }
-
-                        endPicker.set('minDate', minEndDate);
-                        endPicker.set('maxDate', maxEndDate);
-
-                        // Automatically select the earliest available date for endPicker
-                        var earliestEndDate = new Date(minEndDate);
-                        while (disabledDates.some(d => d.getTime() === earliestEndDate.getTime())) {
-                            earliestEndDate.setDate(earliestEndDate.getDate() + 1);
-                        }
-
-                        endPicker.setDate(earliestEndDate, true);
                     }
+
+                    $('#CustomerOrderStartDate').val(formattedStartDate);
+                    $('#CustomerOrderEndDate').val(formattedEndDate);
                 }
             });
 
-            // Initialize Flatpickr for the "Order End Date" field
-            endPicker = flatpickr(".flatpickr-orderend", {
-                dateFormat: "Y-m-dTH:i",
-                enableTime: true,
-                altInput: true,
-                altFormat: "F j, Y, H:i",
-                allowInput: true,
-                disable: disabledDates
-            });
-
-            var earliestAvailableDate = new Date(Math.max(startPicker.config.minDate.getTime(), today.getTime()));
-            while (disabledDates.some(d => d.getTime() === earliestAvailableDate.getTime())) {
-                earliestAvailableDate.setDate(earliestAvailableDate.getDate() + 1);
+            datePicker.clear()
+            if (data.listingEndDate != null) {
+                var DateMax = new Date(data.listingEndDate);
+                datePicker.set('maxDate', DateMax);
             }
-
-            // Set the selected dates to the earliest available date
-            startPicker.setDate(earliestAvailableDate, true);
-            startPicker.set('default', earliestAvailableDate);
-
-            var initialEndDate = new Date(earliestAvailableDate.getTime() + 1 * 60 * 60 * 1000); // Add one hour
-            while (disabledDates.some(d => d.getTime() === initialEndDate.getTime())) {
-                initialEndDate.setDate(initialEndDate.getDate() + 1);
-            }
-            endPicker.setDate(initialEndDate, true);
-
+            
+            $('#orderModal').modal('show');
         })
         .catch(error => console.error('Error:', error));
 
-    $('#orderModal').modal('show');
-}
-
-//function openModalOrder() {
-//    $('#orderModal').modal('show');
-//}
-
-function closeModalOrder() {
-    reloadActivePartialView(data.message);
-    $('#orderModal').modal('hide');
-    window.location.href = '/Customer/Index';
 }
 function closeNextModalcustomer() {
+    $('#addOrderCostModalcustomer').modal('hide');
     $('#orderModal').modal('show');
-    $('#addOrderCostModalcustomer').modal('hide')
 }
-
 function openNextModalcustomer() {
-    var listingId = $('#OrderFormListingID').val
-    var startDate = $('#OrderStartDate').val();
-    var endDate = $('#OrderEndDate').val();
-    var locationLimit = $('#locationLimit').val();
+    var FormListingId = $('#CustomerOrderListingID').val();
+    var FormStartDate = $('#CustomerOrderStartDate').val();
+    var FormEndDate = $('#CustomerOrderEndDate').val();
+    var FormLocationLimit = $('#CustomerOrderLocationLimit').val();
 
     // Check if the start date, end date, and location limit inputs are not empty
-    if (!startDate || !endDate) {
-        alert('Please select start and and dates');
+    if (!FormStartDate || !FormEndDate) {
+        alert('Please select start and end dates');
         return;
     }
-    if (!startDate || !endDate || !locationLimit) {
-        alert('Please fill in your location limit');
+    if (FormStartDate === FormEndDate) {
+        alert('End Date cannot be equal to the start date');
+        return;
+    }
+    if (!FormLocationLimit) {
+        alert('Specify your location limit');
         return;
     }
 
-    fetch(`/Customer/GetListingDetails?listingId=${listingId}`)
+    fetch(`api/API/GetListingDetails/${FormListingId}`)
         .then(response => response.json())
         .then(data => {
             // Check if the listing was not found
@@ -135,6 +104,22 @@ function openNextModalcustomer() {
                 return;
             }
 
+            if (data.hourlyRate === 0) {
+                $('#HourGroup').hide();
+            }
+
+            if (data.dailyRate === 0) {
+                $('#DayGroup').hide();
+            }
+
+            if (data.weeklyRate === 0) {
+                $('#WeekGroup').hide();
+            }
+
+            if (data.monthlyRate === 0) {
+                $('#MonthGroup').hide();
+            }
+
             // Update the cost computation modal with the rates from the listing
             $('#hourlyCost').text(data.hourlyRate);
             $('#dailyCost').text(data.dailyRate);
@@ -142,8 +127,8 @@ function openNextModalcustomer() {
             $('#monthlyCost').text(data.monthlyRate);
 
             // Calculate the difference between the start and end dates
-            var startDate = new Date($('#OrderStartDate').val());
-            var endDate = new Date($('#OrderEndDate').val());
+            var startDate = new Date(FormStartDate);
+            var endDate = new Date(FormEndDate);
             var diffInMilliseconds = endDate - startDate;
 
 
@@ -157,6 +142,7 @@ function openNextModalcustomer() {
             var remainingWeeks = Math.floor(remainingDays / 7);
             remainingDays %= 7;
             var remainingHours = totalHours % 24;
+
 
             // Update the modal with the calculated values
             $('#HoursCalc').text(Math.floor(remainingHours));
@@ -174,6 +160,7 @@ function openNextModalcustomer() {
             var totalCost = (Math.floor(remainingHours) * data.hourlyRate) + (Math.floor(remainingDays) * data.dailyRate) + (Math.floor(remainingWeeks) * data.weeklyRate) + (Math.floor(totalMonths) * data.monthlyRate);
 
             $('#TotalCostOrder').text(totalCost);
+            $('#CustomerOrderCost').val(totalCost);
 
 
             $('#orderModal').modal('hide');
@@ -181,25 +168,31 @@ function openNextModalcustomer() {
         })
         .catch(error => console.error('Error:', error));
 }
-
+function toggleProofOfPayment() {
+    var paymentMethod = $('#CustomerOrderPaymentMethod').val();
+    if (paymentMethod === '1') {
+        $('#proofOfPaymentGroup').hide();
+    } else {
+        $('#proofOfPaymentGroup').show();
+    }
+}
 
 function placeOrder() {
-    var listingId = $('#OrderFormListingID').val();
-    var userId = $('#OrderFormUserID').val();
-    var withDriver = $('#withDriver').val();
+    var fromAdmin = false;
+    var listingId = $('#CustomerOrderListingID').val();
+    var userId = $('#CustomerOrderUserID').val();
+    var startDate = $('#CustomerOrderStartDate').val();
+    var endDate = $('#CustomerOrderEndDate').val();
+    var Notes = $('#CustomerOrderNotes').val();
+    var LocationLimit = $('#CustomerOrderLocationLimit').val();
+    var withDriver = $('#CustomerOrderWithDriver').val();
     var driverId = null;
-    if (withDriver === 'true') {
-        driverId = $('#addlistingDriver').val();
-    }
-    var startDate = $('#OrderStartDate').val();
-    var endDate = $('#OrderEndDate').val();
-    var paymentId = $('#paymentMethod').val();
+
+    var Cost = $('#CustomerOrderCost').val();
+    var paymentId = $('#CustomerOrderPaymentMethod').val();
+    var ProofOfPaymentIMG = $('#CustomerOrderPaymentProof')[0].files[0];
     var statusId = 3;
-    var ProofOfPaymentIMG = $('#proofOfPayment')[0].files[0];
-    var Cost = $('#addOrderTotalCost').val();
     var ExtraCost = 0;
-    var LocationLimit = $('#locationLimit').val();
-    var Notes = $('#TotalCostOrder').text();
 
     if (!listingId) {
         reloadActivePartialView("Please select a valid listing");
@@ -226,7 +219,7 @@ function placeOrder() {
     }
 
     var formData = new FormData();
-    formData.append('orderaddFromAdmin', true);
+    formData.append('orderaddFromAdmin', fromAdmin);
     formData.append('orderaddListingID', listingId);
     formData.append('orderaddUserID', userId);
     formData.append('orderaddDriverID', driverId);
@@ -239,10 +232,11 @@ function placeOrder() {
     formData.append('orderaddExtraFee', ExtraCost);
     formData.append('orderaddLocationLimit', LocationLimit);
     formData.append('orderaddNotes', Notes);
+    formData.append('orderHasDriver', withDriver);
 
 
 
-    fetch('/Admin/AddNewOrder', {
+    fetch('/api/API/AddNewOrder', {
         method: 'POST',
         body: formData,
         processData: false,
@@ -250,15 +244,20 @@ function placeOrder() {
     })
         .then(response => response.text().then(text => text ? JSON.parse(text) : {}))
         .then(data => {
-            if (data.success) {
+            if (data.status === "Success") {
                 reloadActivePartialView("order successfully added.");
+                alert(data.message);
+                window.location.href = '/Customer/Index';
             } else {
                 reloadActivePartialView(data.message);
+                alert(data.message);
+                window.location.href = '/Customer/Index';
             }
-            $('#addOrderModal').modal('hide');
-            $('#addOrderCostModal').modal('hide');
+            $('#orderModal').modal('hide');
+            $('#addOrderCostModalcustomer').modal('hide');
             closeModalAddOrder();
             return;
         })
-        .catch(error => console.error('Error:', error));
+            .catch(error => console.error('Error:', error));
+
 }

@@ -12,6 +12,8 @@
             </div>
             <!-- add Order FORM -->
             <div class="modal-body text-light">
+                <input type="text" id="addOrderStartDate">
+                <input type="text" id="addOrderEndDate">
                 <!-- CAR -->
                 <div class="form-group mb-3">
                     <label for="addlistingCar" class="font-weight-bold mb-1">Car</label>
@@ -45,15 +47,10 @@
                         })
                     </select>
                 </div>
-                <!-- ORDER START -->
-                <div class="form-group mb-3 order-start-div">
-                    <label for="addOrderStartDate" class="font-weight-bold mb-1">Order Start Date</label>
-                    <input class="form-control flatpickr-orderstart" id="addOrderStartDate" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" placeholder="Enter Order's availability start date'">
-                </div>
-                <!-- ORDER END -->
-                <div class="form-group mb-3 order-end-div">
-                    <label for="addOrderEndDate" class="font-weight-bold mb-1">Order End Date</label>
-                    <input class="form-control flatpickr-orderend" id="addOrderEndDate" placeholder="Enter Listing's availability start date">
+                <!-- ORDER DATES -->
+                <div class="form-group mb-3 order-date-div">
+                    <label for="addOrderStartDate" class="font-weight-bold mb-1">Order Start And End Date</label>
+                    <input class="form-control flatpickr-orders" id="addOrderDates" placeholder="Enter Order's availability start date'">
                 </div>
                 <!-- LOCATION LIMIT -->
                 <div class="form-group mb-3">
