@@ -2,22 +2,6 @@
 {
     public class TypeNamesUtilities
     {
-        //public const int logTypeID1 = 1;
-        //public const string logTypeName1 = "Manual";
-        //public const int logTypeID2 = 2;
-        //public const string logTypeName2 = "Maintenance";
-        //public const int logTypeID3 = 3;
-        //public const string logTypeName3 = "Change Oil";
-        //public const int logTypeID4 = 4;
-        //public const string logTypeName4 = "Repair";
-        //public const int logTypeID5 = 5;
-        //public const string logTypeName5 = "Rented";
-        //public const int logTypeID6 = 6;
-        //public const string logTypeName6 = "Returned";
-        //public const int logTypeID7 = 7;
-        //public const string logTypeName7 = "Edited";
-        //public const int logTypeID8 = 8;
-        //public const string logTypeName8 = "Deleted";
         public static readonly string[] logTypeNames = 
             { 
                 "Initial",      //0
@@ -72,25 +56,24 @@
         public static readonly string[] ListingStatusNames = 
             { 
                 "",             //0
-                "Listed",    //1
+                "Listed",       //1
                 "Hidden",       //2
-                "Unlisted"   //3 
+                "Unlisted"      //3 
             };
         public static readonly string[] ListingStatusClassNames = 
             { 
                 "",             //0
-                "listed",    //1
+                "listed",       //1
                 "hidden",       //2
-                "unlisted"   //3 
+                "unlisted"      //3 
             };
         public static readonly string[] PayTypeNames = 
             { 
                 "",             //0
                 "Cash",         //1
-                "Credit Card",  //2
-                "Debit Card",   //3
-                "GCash",        //4
-                "Bank Transfer" //5
+                "Debit Card",   //2
+                "GCash",        //3
+                "Bank Transfer" //4
             };
 
         public static readonly string[] CarTypeNames = 

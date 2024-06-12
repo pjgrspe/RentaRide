@@ -17,8 +17,10 @@ namespace RentaRide.Models.ViewModels
         }
         public string ordersVMCarName { get; set; }
         public string ordersVMPlateNumber { get; set; }
+        public DateTime ordersVMBookDate { get; set; }
         public DateTime ordersVMStartDate { get; set; }
         public DateTime ordersVMEndDate { get; set; }
+        public string ordersVMFormattedBookDate => ordersVMBookDate.ToString("MM/dd/yyyy");
         public string ordersVMFormattedStartDate => ordersVMStartDate.ToString("MM/dd/yyyy");
         public string ordersVMFormattedEndDate => ordersVMEndDate.ToString("MM/dd/yyyy");
         public decimal ordersVMTotalCost { get; set; }

@@ -1,64 +1,68 @@
 ﻿@using RentaRide.Utilities
 @model RentaRide.Models.ViewModels.AdminPartialViewModel
 
-@* @if (Model.Users != null && Model.Users.Any())
-{ *@
+
 <div class="table-container">
-    <table class="table table-orders mt-1">
-        <!-- HEADER -->
-        <thead class="text-light">
-            <tr>
-                <th class="sortable" onclick="sortTable(0)">Receipt ID <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable" onclick="sortTable(2)">Car <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable" onclick="sortTable(2)">Plate Number<i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable" onclick="sortTable(3)">Book Date <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable" onclick="sortTable(4)">Return Date <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable text-center" onclick="sortTable(5)">Cost <i class="fas fa-sort ms-1"></i></th>
-                <th class="sortable text-center" onclick="sortTable(6)">Extra Fees <i class="fas fa-sort ms-1"></i></th>
-                <th class="text-center">Status</th>
-                <th class="text-center">Details</th>
-            </tr>
-        </thead>
-        <!-- BODY -->
-        <tbody id="usersTable" class="text-light">
-            <!-- Example data rows -->
-            @foreach (var orders in Model.Orders)
-            {
-                <tr class="table-row">
-                    <td>@orders.ordersVMreceipt</td>
-                    <td>@orders.ordersVMCustLName, @orders.ordersVMCustFName</td>
-                    <td>@orders.ordersVMCarName</td>
-                    <td>@orders.ordersVMPlateNumber</td>
-                    <td>@orders.ordersVMFormattedStartDate</td>
-                    <td>@orders.ordersVMFormattedEndDate</td>
-                    <td class="text-center">₱@orders.ordersVMTotalCost</td>
-                    <td class="text-center">₱@orders.ordersVMExtraFees</td>
-                    <td class="text-center status status-@orders.ordersVMPStatusClassNames"><span class="status-label text-dark">@orders.ordersVMPStatusName</span></td>
+    @if (Model.Orders != null && Model.Orders.Any())
+    {
+        <table class="table table-orders mt-1">
+            <!-- HEADER -->
+            <thead class="text-light">
+                <tr>
+                    <th class="sortable" onclick="sortTable(0)">Receipt ID <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(1)">Name <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(2)">Car <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(2)">Plate Number<i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(3)">Book Date <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(4)">Start Date <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable" onclick="sortTable(4)">Return Date <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable text-center" onclick="sortTable(5)">Cost <i class="fas fa-sort ms-1"></i></th>
+                    <th class="sortable text-center" onclick="sortTable(6)">Extra Fees <i class="fas fa-sort ms-1"></i></th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Details</th>
+                </tr>
+            </thead>
+            <!-- BODY -->
+            <tbody id="usersTable" class="text-light">
+                <!-- Example data rows -->
+                @foreach (var orders in Model.Orders)
+                {
+                    <tr class="table-row">
+                        <td>@orders.ordersVMreceipt</td>
+                        <td>@orders.ordersVMCustLName, @orders.ordersVMCustFName</td>
+                        <td>@orders.ordersVMCarName</td>
+                        <td>@orders.ordersVMPlateNumber</td>
+                        <td>@orders.ordersVMFormattedBookDate</td>
+                        <td>@orders.ordersVMFormattedStartDate</td>
+                        <td>@orders.ordersVMFormattedEndDate</td>
+                        <td class="text-center">₱@orders.ordersVMTotalCost</td>
+                        <td class="text-center">₱@orders.ordersVMExtraFees</td>
+                        <td class="text-center status status-@orders.ordersVMPStatusClassNames"><span class="status-label text-dark">@orders.ordersVMPStatusName</span></td>
+                        <td class="text-center">
+                            <button class="btn btn-primary btn-sm rounded-3" onclick="openModalOrderDetails('@orders.ordersVMID')">
+                                View
+                            </button>
+                        </td>
+                    </tr>
+                }
+                @* <tr class="table-row">
+                    <td>RCPT-0001</td>
+                    <td>John Doe</td>
+                    <td>Toyota Camry</td>
+                    <td>2023-05-01</td>
+                    <td>2023-05-10</td>
+                    <td class="text-center">$150.00</td>
+                    <td class="text-center">$10.00</td>
+                    <td class="text-center status status-ongoing"><span class="status-label text-dark">On Going</span></td>
                     <td class="text-center">
-                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalOrderDetails('@orders.ordersVMID')">
+                        <button class="btn btn-primary btn-sm rounded-3" onclick="openModalOrderDetails()">
                             View
                         </button>
                     </td>
-                </tr>
-            }
-            @* <tr class="table-row">
-                <td>RCPT-0001</td>
-                <td>John Doe</td>
-                <td>Toyota Camry</td>
-                <td>2023-05-01</td>
-                <td>2023-05-10</td>
-                <td class="text-center">$150.00</td>
-                <td class="text-center">$10.00</td>
-                <td class="text-center status status-ongoing"><span class="status-label text-dark">On Going</span></td>
-                <td class="text-center">
-                    <button class="btn btn-primary btn-sm rounded-3" onclick="openModalOrderDetails()">
-                        View
-                    </button>
-                </td>
-            </tr> *@
-        </tbody>
-    </table>
+                </tr> *@
+            </tbody>
+        </table>
+    }
     <div id="no-results" class="text-center no-results" style="margin-top:180px; display:none;">
         <h3>No order found.</h3>
     </div>

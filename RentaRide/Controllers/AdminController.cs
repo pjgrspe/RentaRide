@@ -224,6 +224,7 @@ namespace RentaRide.Controllers
                                                               ordersVMCustLName = user.RentaRideAppUsers.userLastName,
                                                               ordersVMCarName = orderListingCar.car.carMake + " " + orderListingCar.car.carModel + " " + "(" + orderListingCar.car.carYear + ")",
                                                               ordersVMPlateNumber = orderListingCar.car.carLicensePlate,
+                                                              ordersVMBookDate = orderListingCar.order.orderBookDate,
                                                               ordersVMStartDate = orderListingCar.order.orderPickupDate,
                                                               ordersVMEndDate = orderListingCar.order.orderReturnDate,
                                                               ordersVMTotalCost = orderListingCar.order.orderTotalCost,
@@ -1378,7 +1379,7 @@ namespace RentaRide.Controllers
                     {
                         AddOrder = new OrderAddModel
                         {
-                            orderaddFromAdmin = bool.Parse(form["orderaddFromAdmin"]),
+                            orderaddFromAdmin = true,
                             orderaddListingID = Int32.Parse(form["orderaddListingID"]),
                             orderaddUserID = form["orderaddUserID"],
                             orderaddDriverID = Int32.Parse(form["orderaddDriverID"]),

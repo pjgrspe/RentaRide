@@ -1,4 +1,99 @@
-﻿function openModalAddOrder() {
+﻿//function openModalAddOrder() {
+//    fetch(`/Admin/GetOrderChoicesList`)
+//        .then(response => response.text())
+//        .then(data => {
+//            if (data.includes('"success":false')) {
+//                reloadActivePartialView(data.message);
+//                return;
+//            }
+
+
+
+//            document.getElementById('modalOrderContainer').innerHTML = data;
+//            const today = new Date();
+//            var datePicker;
+
+//            // Hide the start and end date pickers initially
+//            const startPickerElement = document.querySelector(".flatpickr-orderstart");
+//            const startDivElement = document.querySelector(".order-start-div");
+//            const endPickerElement = document.querySelector(".flatpickr-orderend");
+//            const endDivElement = document.querySelector(".order-end-div");
+//            startPickerElement.style.display = 'none';
+//            startDivElement.style.display = 'none';
+//            endPickerElement.style.display = 'none';
+//            endDivElement.style.display = 'none';
+
+//            document.getElementById('addlistingCar').addEventListener('change', function () {
+//                var listingId = this.value;
+//                fetch(`api/API/GetListingDates/${listingId}`)
+//                    .then(response => response.json())
+//                    .then(data => {
+//                        var disabledDates = [];
+//                        data.orderDates.forEach(order => {
+//                            var JSstartDeleteDate = new Date(order.startDate);
+//                            var JSendDeleteDate = new Date(order.endDate);
+//                            for (var d = new Date(JSstartDeleteDate); d <= JSendDeleteDate; d.setDate(d.getDate() + 1)) {
+//                                disabledDates.push(new Date(d));
+//                            }
+//                            // Disable the day before the start date
+//                            var dayBeforeStartDate = new Date(order.startDate);
+//                            dayBeforeStartDate.setDate(dayBeforeStartDate.getDate() - 1);
+//                            disabledDates.push(dayBeforeStartDate);
+//                        });
+
+//                        var DateMin = new Date(data.listingStartDate);
+//                        if (DateMin < today) {
+//                            DateMin.setDate(today.getDate());
+//                        }
+
+//                        datePicker = flatpickr("#addOrderDates", {
+//                            mode: "range",
+//                            dateFormat: "Y-m-dTH:i",
+//                            enableTime: true,
+//                            altInput: true,
+//                            /*altFormat: "F j, Y, H:i \\(D\\)",*/
+//                            altFormat: "F j, Y, H:i",
+//                            minDate: DateMin,
+//                            disable: disabledDates,
+//                            minuteIncrement: 30,
+//                            plugins: [new confirmDatePlugin({
+//                                confirmIcon: "<i class='fa fa-check'></i>", // your icon's html, if you wish to override
+//                                confirmText: "OK ",
+//                                showAlways: false,
+//                                theme: "light" // or "dark"
+//                            })],
+//                            onChange: function (selectedDates, dateStr, instance) {
+//                                if (selectedDates.length >= 1) {
+//                                    var StartDate = selectedDates[0];
+//                                    var formattedStartDate = StartDate.toISOString().slice(0, 16);
+//                                    var i = selectedDates.length;
+//                                    $('#orderEnd').val();
+//                                    if (selectedDates.length > 1) {
+//                                        var EndDate = selectedDates[i - 1];
+//                                        var formattedEndDate = EndDate.toISOString().slice(0, 16);
+//                                    }
+//                                }
+
+//                                $('#orderStart').val(formattedStartDate);
+//                                $('#orderEnd').val(formattedEndDate);
+//                            }
+//                        });
+
+//                        datePicker.clear()
+//                        if (data.listingEndDate != null) {
+//                            var DateMax = new Date(data.listingEndDate);
+//                            datePicker.set('maxDate', DateMax);
+//                        }
+
+//                    })
+
+//                $('#addOrderModal').modal('show');
+
+//        })
+//        .catch(error => console.error('Error:', error));
+//}
+
+function openModalAddOrder() {
     fetch(`/Admin/GetOrderChoicesList`)
         .then(response => response.text())
         .then(data => {
@@ -13,111 +108,79 @@
             var startPicker, endPicker;
 
             // Hide the start and end date pickers initially
-            const startPickerElement = document.querySelector(".flatpickr-orderstart");
-            const startDivElement = document.querySelector(".order-start-div");
-            const endPickerElement = document.querySelector(".flatpickr-orderend");
-            const endDivElement = document.querySelector(".order-end-div");
-            startPickerElement.style.display = 'none';
-            startDivElement.style.display = 'none';
-            endPickerElement.style.display = 'none';
-            endDivElement.style.display = 'none';
-
+            const datePickerElement = document.querySelector(".flatpickr-orders");
+            const dateDivElement = document.querySelector(".order-date-div");
+            datePickerElement.style.display = 'none';
+            dateDivElement.style.display = 'none';
             document.getElementById('addlistingCar').addEventListener('change', function () {
                 var listingId = this.value;
-
-                fetch(`/Admin/GetListingDates?listingId=${listingId}`)
+                fetch(`api/API/GetListingDates/${listingId}`)
                     .then(response => response.json())
-                    .then(data => {
-                        var disabledDates = [];
-                        data.orderDates.forEach(order => {
-                            var startDate = new Date(order.startDate);
-                            var endDate = new Date(order.endDate);
-                            for (var d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-                                disabledDates.push(new Date(d));
+                        .then(data => {
+
+                            var disabledDates = [];
+                            data.orderDates.forEach(order => {
+                                var JSstartDeleteDate = new Date(order.startDate);
+                                var JSendDeleteDate = new Date(order.endDate);
+                                for (var d = new Date(JSstartDeleteDate); d <= JSendDeleteDate; d.setDate(d.getDate() + 1)) {
+                                    disabledDates.push(new Date(d));
+                                }
+                                // Disable the day before the start date
+                                var dayBeforeStartDate = new Date(order.startDate);
+                                dayBeforeStartDate.setDate(dayBeforeStartDate.getDate() - 1);
+                                disabledDates.push(dayBeforeStartDate);
+                            });
+
+                            var DateMin = new Date(data.listingStartDate);
+                            if (DateMin < today) {
+                                DateMin.setDate(today.getDate());
                             }
-                            // Disable the day before the start date
-                            var dayBeforeStartDate = new Date(startDate);
-                            dayBeforeStartDate.setDate(startDate.getDate() - 1);
-                            disabledDates.push(dayBeforeStartDate);
-                        });
 
-                        var listingStartDate = new Date(data.listingStartDate);
-                        if (listingStartDate < today) {
-                            listingStartDate = today;
-                        }
-
-                        var listingEndDate = new Date(data.listingEndDate);
-
-                        // Initialize Flatpickr for the "Order Start Date" field
-                        startPicker = flatpickr(".flatpickr-orderstart", {
-                            dateFormat: "Y-m-dTH:i",
-                            enableTime: true,
-                            altInput: true,
-                            altFormat: "F j, Y, H:i",
-                            minDate: listingStartDate,
-                            maxDate: listingEndDate,
-                            allowInput: true,
-                            disable: disabledDates,
-                            onChange: function (selectedDates, dateStr, instance) {
-                                if (selectedDates.length > 0) {
-                                    var selectedStartDate = selectedDates[0];
-                                    var minEndDate = new Date(selectedStartDate.getTime() + 1 * 60 * 60 * 1000); // At least 1 hour ahead
-
-                                    var maxEndDate = listingEndDate;
-                                    for (var i = 0; i < disabledDates.length; i++) {
-                                        if (disabledDates[i] > selectedStartDate) {
-                                            maxEndDate = new Date(disabledDates[i].getTime() - 1 * 60 * 60 * 1000);
-                                            break;
+                            datePicker = flatpickr("#addOrderDates", {
+                                mode: "range",
+                                dateFormat: "Y-m-dTH:i",
+                                enableTime: true,
+                                altInput: true,
+                                /*altFormat: "F j, Y, H:i \\(D\\)",*/
+                                altFormat: "F j, Y, H:i",
+                                minDate: DateMin,
+                                disable: disabledDates,
+                                minuteIncrement: 30,
+                                plugins: [new confirmDatePlugin({
+                                    confirmIcon: "<i class='fa fa-check'></i>", // your icon's html, if you wish to override
+                                    confirmText: "OK ",
+                                    showAlways: false,
+                                    theme: "light" // or "dark"
+                                })],
+                                onChange: function (selectedDates, dateStr, instance) {
+                                    if (selectedDates.length >= 1) {
+                                        var StartDate = selectedDates[0];
+                                        var formattedStartDate = StartDate.toISOString().slice(0, 16);
+                                        var i = selectedDates.length;
+                                        $('#orderEnd').val();
+                                        if (selectedDates.length > 1) {
+                                            var EndDate = selectedDates[i - 1];
+                                            var formattedEndDate = EndDate.toISOString().slice(0, 16);
                                         }
                                     }
 
-                                    endPicker.set('minDate', minEndDate);
-                                    endPicker.set('maxDate', maxEndDate);
-
-                                    // Automatically select the earliest available date for endPicker
-                                    var earliestEndDate = new Date(minEndDate);
-                                    while (disabledDates.some(d => d.getTime() === earliestEndDate.getTime())) {
-                                        earliestEndDate.setDate(earliestEndDate.getDate() + 1);
-                                    }
-
-                                    endPicker.setDate(earliestEndDate, true);
+                                    $('#addOrderStartDate').val(formattedStartDate);
+                                    $('#addOrderEndDate').val(formattedEndDate);
                                 }
+                            });
+
+                            datePicker.clear()
+                            if (data.listingEndDate != null) {
+                                var DateMax = new Date(data.listingEndDate);
+                                datePicker.set('maxDate', DateMax);
                             }
-                        });
 
-                        // Initialize Flatpickr for the "Order End Date" field
-                        endPicker = flatpickr(".flatpickr-orderend", {
-                            dateFormat: "Y-m-dTH:i",
-                            enableTime: true,
-                            altInput: true,
-                            altFormat: "F j, Y, H:i",
-                            allowInput: true,
-                            disable: disabledDates
-                        });
 
-                        var earliestAvailableDate = new Date(Math.max(startPicker.config.minDate.getTime(), today.getTime()));
-                        while (disabledDates.some(d => d.getTime() === earliestAvailableDate.getTime())) {
-                            earliestAvailableDate.setDate(earliestAvailableDate.getDate() + 1);
-                        }
-
-                        // Set the selected dates to the earliest available date
-                        startPicker.setDate(earliestAvailableDate, true);
-                        startPicker.set('default', earliestAvailableDate);
-
-                        var initialEndDate = new Date(earliestAvailableDate.getTime() + 1 * 60 * 60 * 1000); // Add one hour
-                        while (disabledDates.some(d => d.getTime() === initialEndDate.getTime())) {
-                            initialEndDate.setDate(initialEndDate.getDate() + 1);
-                        }
-                        endPicker.setDate(initialEndDate, true);
-
-                        // Show the start and end date pickers
-                        startPickerElement.style.display = 'block';
-                        endPickerElement.style.display = 'block';
-                        startDivElement.style.display = 'block';
-                        endDivElement.style.display = 'block';
-                    })
-                    .catch(error => console.error('Error:', error));
-            });
+                            datePickerElement.style.display = 'block';
+                            dateDivElement.style.display = 'block';
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
 
             $('#addOrderModal').modal('show');
         })
@@ -125,102 +188,7 @@
 }
 
 
-//function openModalAddOrder() {
-//    fetch(`/Admin/GetOrderChoicesList`)
-//        .then(response => response.text())
-//        .then(data => {
-//            if (data.includes('"success":false')) {
-//                reloadActivePartialView(data.message);
-//                return;
-//            }
 
-//            document.getElementById('modalOrderContainer').innerHTML = data;
-
-//            // Calculate the date 18 years ago from today
-//            const today = new Date();
-//            var tomorrow = new Date();
-//            tomorrow.setDate(tomorrow.getDate() + 1);
-//            const in30Minutes = new Date();
-//            in30Minutes.setMinutes(in30Minutes.getMinutes() + 30);
-
-
-//            var endPicker = flatpickr(".flatpickr-orderend", {
-//                dateFormat: "Y-m-dTH:i",
-//                enableTime: true,
-//                altInput: true,
-//                altFormat: "F j, Y, H:i",
-//                allowInput: true,
-//                defaultDate: tomorrow,
-//            });
-
-//            // Initialize Flatpickr for the "Order Start Date" and "Order End Date" fields
-//            var startPicker = flatpickr(".flatpickr-orderstart", {
-//                dateFormat: "Y-m-dTH:i",
-//                enableTime: true,
-//                altInput: true,
-//                altFormat: "F j, Y, H:i",
-//                minDate: "today",
-//                allowInput: true,
-//                defaultDate: in30Minutes,
-//                onChange: function (selectedDates, dateStr, instance) {
-//                    if (selectedDates.length > 0) {
-//                        endPicker.set('minDate', selectedDates[0]);
-//                        tomorrow.setDate(selectedDates[0].getDate() + 1);
-//                        endPicker.setDate(tomorrow, true);
-//                    }
-//                }
-//            });
-
-//            document.getElementById('addlistingCar').addEventListener('change', function () {
-//                var listingId = this.value;
-
-//                fetch(`/Admin/GetListingDates?listingId=${listingId}`)
-//                    .then(response => response.json())
-//                    .then(data => {
-//                        var disabledDates = [];
-//                        data.orderDates.forEach(order => {
-//                            var startDate = new Date(order.startDate);
-//                            var endDate = new Date(order.endDate);
-//                            for (var d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
-//                                disabledDates.push(new Date(d));
-//                            }
-//                        });
-
-//                        var listingStartDate = new Date(data.listingStartDate);
-//                        if (listingStartDate < today) {
-//                            listingStartDate = today;
-//                        }
-
-//                        startPicker.set('minDate', listingStartDate);
-//                        if (data.listingEndDate) {
-//                            startPicker.set('maxDate', new Date(data.listingEndDate));
-//                        }
-//                        startPicker.set('disable', disabledDates);
-
-//                        endPicker.set('minDate', listingStartDate.getDate() + 1);
-//                        if (data.listingEndDate) {
-//                            endPicker.set('maxDate', new Date(data.listingEndDate));
-//                        }
-//                        endPicker.set('disable', disabledDates);
-
-//                        var earliestAvailableDate = new Date(Math.max(startPicker.config.minDate, today));
-//                        while (disabledDates.some(d => d.getTime() === earliestAvailableDate.getTime())) {
-//                            earliestAvailableDate.setDate(earliestAvailableDate.getDate() + 1);
-//                        }
-
-
-//                        // Set the selected dates to the earliest available date
-//                        startPicker.setDate(earliestAvailableDate, true);
-//                        startPicker.set('default', earliestAvailableDate);
-//                        endPicker.setDate(new Date(earliestAvailableDate.getTime() + 24 * 60 * 60 * 1000), true); // Add one day to the earliest available date
-//                    })
-//                    .catch(error => console.error('Error:', error));
-//            });
-
-//            $('#addOrderModal').modal('show');
-//        })
-//        .catch(error => console.error('Error:', error));
-//}
 
 function closeModalAddOrder() {
     $('#addOrderModal').modal('hide');
@@ -245,25 +213,6 @@ function openModalOrderDetails(orderId) {
         })
         .catch(error => console.error('Error:', error));
 }
-//function openModalOrderDetails(orderId, receiptId, name, car, orderDate, returnDate, cost, extraFees, status, proofOfPaymentSrc, proofOfPaymentExt) {
-//    $('#modalOrderId').text(orderId);
-//    $('#modalReceiptId').text(receiptId);
-//    $('#modalUserName').text(name);
-//    $('#modalCar').text(car);
-//    $('#modalOrderDate').text(orderDate);
-//    $('#modalReturnDate').text(returnDate);
-//    $('#modalCost').text(cost);
-//    $('#modalExtraFees').text(extraFees);
-//    $('#modalStatus').text(status);
-
-//    // Set the src attribute for the images
-//    $('#modalProofOfPayment img').attr('src', proofOfPaymentSrc);
-//    $('#proofOfPaymentImage').attr('src', proofOfPaymentSrc);
-//    //document.getElementById('orderID-Verify').value = orderId;
-//    //document.getElementById('orderID-Verify').value = orderId;
-
-//    $('#orderModal').modal('show');
-//}
 
 function closeModalOrderDetails() {
     $('#modalOrderId').text('');
@@ -318,13 +267,13 @@ function setOrderVerify(orderId, statusInt) {
 
 function openNextModal() {
     var listingId = $('#addlistingCar').val();
-    fetch(`/Admin/GetListingDetails?listingId=${listingId}`)
+    fetch(`api/API/GetListingDetails/${listingId}`)
     .then(response => response.json())
     .then(data => {
         // Check if the listing was not found
         if (!data.success) {
             $('#addOrderModal').modal('hide');
-            $('#addOrderCostModal').modal('hide');
+            $('#addOrderModalLabel').modal('hide');
             reloadActivePartialViewError(data.message);
             return;
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RentaRide.Database;
 using RentaRide.Database.Database_Models;
@@ -88,7 +89,19 @@ namespace RentaRide.Controllers
             };
             customerViewModel.CustomerInfo = userInfo;
             customerViewModel.Listings = listings;
-
+            if (user.userisApproved == true)
+            {
+                customerViewModel.WithDriverSelectList = new SelectList(new List<Object>{
+                    new { value = true , text = "With Driver"  },
+                    new { value = false , text = "Without Driver" }
+                }, "value", "text");
+            }
+            else
+            {
+                customerViewModel.WithDriverSelectList = new SelectList(new List<Object>{
+                    new { value = true , text = "With Driver"}
+                }, "value", "text");
+            }
 
 
             return View(customerViewModel);
